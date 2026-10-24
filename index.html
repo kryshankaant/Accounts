@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="hi">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -94,27 +94,38 @@
 <body class="min-h-screen flex flex-col justify-between">
 
   <div>
-    <!-- Executive Sticky Header -->
+    <!-- Executive Sticky Header (Mobile Optimized - No Clutter) -->
     <header class="sticky top-0 z-40 bg-[#0b1329]/95 backdrop-blur-md border-b border-slate-800 text-white shadow-md no-print">
-      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-        <div class="flex items-center gap-3.5">
-          <img src="cool art logo.png" alt="Cool Art" class="h-8 w-auto object-contain">
-          <div class="hidden sm:block border-l border-slate-700 pl-3.5">
+      <div class="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-2">
+        
+        <!-- Logo & Branding -->
+        <div class="flex items-center gap-2.5 sm:gap-3.5 flex-shrink-0">
+          <img src="cool art logo.png" alt="Cool Art" class="h-7 sm:h-8 w-auto object-contain">
+          <div class="hidden md:block border-l border-slate-700 pl-3">
             <h1 class="text-xs font-bold uppercase tracking-wider text-slate-100">Cool Art Advertising</h1>
-            <p class="text-[11px] text-emerald-400 font-medium">Enterprise Commercial Billing & Cloud Ledger</p>
+            <p class="text-[11px] text-emerald-400 font-medium">Commercial Billing, Signage & Cloud Ledger</p>
           </div>
         </div>
 
-        <div class="flex items-center gap-2.5">
-          <button onclick="pullDataFromSheets(true)" id="btn-pull-sync" class="inline-flex items-center gap-1.5 text-xs font-bold px-3.5 py-2 rounded-xl bg-emerald-700 hover:bg-emerald-600 text-white transition shadow-sm">
-            <svg class="w-3.5 h-3.5 animate-spin hidden" id="sync-spinner" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path></svg>
-            <span id="sync-text">🔄 Sync from Sheet</span>
+        <!-- Action Controls: Icon Buttons on Mobile, Full on Desktop -->
+        <div class="flex items-center gap-1.5 sm:gap-2.5">
+          <!-- Google Sheets Sync -->
+          <button onclick="pullDataFromSheets(true)" id="btn-pull-sync" title="Sync from Sheet" class="inline-flex items-center justify-center gap-1.5 text-xs font-bold p-2 sm:px-3 sm:py-2 rounded-xl bg-emerald-700 hover:bg-emerald-600 text-white transition shadow-sm">
+            <svg class="w-4 h-4 animate-spin hidden" id="sync-spinner" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path></svg>
+            <span class="text-sm">🔄</span>
+            <span class="hidden sm:inline" id="sync-text">Sync</span>
           </button>
-          <button onclick="exportToCSV()" class="inline-flex items-center gap-1.5 text-xs font-semibold px-3.5 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 transition">
-            Export CSV
+
+          <!-- Export CSV -->
+          <button onclick="exportToCSV()" title="Export CSV" class="inline-flex items-center justify-center gap-1 text-xs font-semibold p-2 sm:px-3 sm:py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 transition">
+            <span class="text-sm">📥</span>
+            <span class="hidden sm:inline">CSV</span>
           </button>
-          <button onclick="switchTab('create-bill')" class="inline-flex items-center gap-1.5 text-xs font-bold px-4 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white shadow transition">
-            + New Invoice
+
+          <!-- New Invoice Button -->
+          <button onclick="openNewInvoiceForm()" class="inline-flex items-center gap-1 text-xs font-bold px-3 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white shadow transition">
+            <span>➕</span>
+            <span class="sm:inline">बिल बनाएँ</span>
           </button>
         </div>
       </div>
@@ -123,73 +134,86 @@
     <!-- Tab Navigation -->
     <div class="border-b border-slate-200 bg-white/80 backdrop-blur-sm no-print shadow-sm">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <nav class="flex space-x-8">
-          <button onclick="switchTab('dashboard')" id="nav-dashboard" class="py-3.5 px-1 text-xs sm:text-sm font-bold border-b-2 border-indigo-600 text-indigo-700 flex items-center gap-2 transition">
-            Directory & Ledger
+        <nav class="flex space-x-6 sm:space-x-8 overflow-x-auto py-1">
+          <button onclick="switchTab('dashboard')" id="nav-dashboard" class="py-3 px-1 text-xs sm:text-sm font-bold border-b-2 border-indigo-600 text-indigo-700 flex items-center gap-1.5 whitespace-nowrap transition">
+            📋 बहीखाता (Ledger)
           </button>
-          <button onclick="switchTab('create-bill')" id="nav-create-bill" class="py-3.5 px-1 text-xs sm:text-sm font-semibold border-b-2 border-transparent text-slate-500 hover:text-slate-900 flex items-center gap-2 transition">
-            Generate Invoice
+          <button onclick="switchTab('create-bill')" id="nav-create-bill" class="py-3 px-1 text-xs sm:text-sm font-semibold border-b-2 border-transparent text-slate-500 hover:text-slate-900 flex items-center gap-1.5 whitespace-nowrap transition">
+            ✍️ बिल एडिटर (Invoice)
           </button>
-          <button onclick="switchTab('invoice-preview')" id="nav-invoice-preview" class="py-3.5 px-1 text-xs sm:text-sm font-semibold border-b-2 border-transparent text-slate-500 hover:text-slate-900 flex items-center gap-2 transition">
-            Invoice & Statement
+          <button onclick="switchTab('invoice-preview')" id="nav-invoice-preview" class="py-3 px-1 text-xs sm:text-sm font-semibold border-b-2 border-transparent text-slate-500 hover:text-slate-900 flex items-center gap-1.5 whitespace-nowrap transition">
+            📄 बिल प्रिंट व शेयर
           </button>
         </nav>
       </div>
     </div>
 
-    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-7 w-full">
+    <main class="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 py-5 sm:py-7 w-full">
 
       <!-- 1. DASHBOARD TAB -->
       <section id="tab-sec-dashboard" class="space-y-6 no-print">
         
         <!-- Primary Metrics Row -->
-        <div class="grid grid-cols-1 sm:grid-cols-4 gap-4">
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          <!-- Total Billed -->
           <div class="stat-card p-5">
-            <p class="text-xs font-bold uppercase tracking-wider text-slate-400">Total Invoiced Amount</p>
+            <p class="text-xs font-bold uppercase tracking-wider text-slate-400">कुल बिल राशि (Invoiced)</p>
             <div class="flex items-baseline gap-2 mt-2">
-              <span id="metric-total-billed" class="text-2xl font-extrabold font-tabular text-slate-900">₹0.00</span>
+              <span id="metric-total-billed" class="text-2xl sm:text-3xl font-extrabold font-tabular text-slate-900">₹0.00</span>
             </div>
-            <p class="text-[11px] text-slate-500 mt-1">Net sales across all client ledgers</p>
+            <p class="text-[11px] text-slate-500 mt-1">सभी क्लाइंट्स का कुल नेट बिलिंग वॉल्यूम</p>
           </div>
 
+          <!-- Total Cleared -->
           <div class="stat-card p-5">
-            <p class="text-xs font-bold uppercase tracking-wider text-emerald-600">Total Payments Cleared</p>
+            <p class="text-xs font-bold uppercase tracking-wider text-emerald-600">जमा भुगतान (Received)</p>
             <div class="flex items-baseline gap-2 mt-2">
-              <span id="metric-total-received" class="text-2xl font-extrabold font-tabular text-emerald-600">₹0.00</span>
+              <span id="metric-total-received" class="text-2xl sm:text-3xl font-extrabold font-tabular text-emerald-600">₹0.00</span>
             </div>
-            <p class="text-[11px] text-slate-500 mt-1">Total verified receipts deposited</p>
+            <p class="text-[11px] text-slate-500 mt-1">खाते व कैश में जमा कुल रसीदें</p>
           </div>
 
+          <!-- Outstanding Due -->
           <div class="stat-card p-5 bg-gradient-to-br from-[#0b1329] to-[#1e293b] text-white border-slate-800">
-            <p class="text-xs font-bold uppercase tracking-wider text-emerald-400">Total Outstanding Balance</p>
+            <p class="text-xs font-bold uppercase tracking-wider text-emerald-400">कुल बकाया राशि (Balance Due)</p>
             <div class="flex items-baseline gap-2 mt-2">
-              <span id="metric-total-due" class="text-2xl font-extrabold font-tabular text-white">₹0.00</span>
+              <span id="metric-total-due" class="text-2xl sm:text-3xl font-extrabold font-tabular text-white">₹0.00</span>
             </div>
-            <p class="text-[11px] text-slate-400 mt-1">Net receivables remaining in market</p>
+            <p class="text-[11px] text-slate-400 mt-1">बाजार में शेष कुल रिसीवेबल्स</p>
           </div>
 
-          <!-- Total 10% Seva Fund Metric -->
-          <div class="stat-card p-5 bg-gradient-to-br from-amber-50 to-orange-50 border-amber-200">
-            <div class="flex items-center justify-between">
-              <p class="text-xs font-extrabold uppercase tracking-wider text-amber-900">हनुमान जी सेवा निधि (10%)</p>
-              <span class="text-base">🚩</span>
+          <!-- Hanuman Ji Ka Bank (Dashboard Card with Photo & Clickable Ledger) -->
+          <div onclick="openModal('hanuman-bank-modal')" class="stat-card p-5 bg-gradient-to-br from-amber-50 via-orange-50 to-amber-100 border-amber-300 cursor-pointer hover:border-amber-400 relative overflow-hidden" title="क्लिक करके सेवा बहीखाता देखें">
+            <div class="flex items-center justify-between gap-3">
+              <!-- Photo Frame -->
+              <div class="w-12 h-12 rounded-xl overflow-hidden flex-shrink-0 bg-amber-200 border-2 border-amber-400 shadow flex items-center justify-center">
+                <img src="hanumanji.png" alt="श्री हनुमान जी" class="w-full h-full object-cover" onerror="this.onerror=null; this.src='hanuman ji.png'; this.onerror=function(){this.style.display='none'; this.nextElementSibling.style.display='block';}">
+                <span style="display:none;" class="text-2xl">🚩</span>
+              </div>
+
+              <div class="flex-1 text-right">
+                <p class="text-xs font-black uppercase tracking-wider text-amber-900">हनुमान जी का बैंक</p>
+                <div class="flex items-baseline justify-end gap-1 mt-1">
+                  <span id="metric-hanuman-balance" class="text-2xl sm:text-3xl font-black font-tabular text-amber-800">₹0.00</span>
+                </div>
+              </div>
             </div>
-            <div class="flex items-baseline gap-2 mt-2">
-              <span id="metric-total-seva" class="text-2xl font-black font-tabular text-amber-700">₹0.00</span>
+            <div class="flex items-center justify-between text-[11px] text-amber-900/80 mt-2.5 pt-2 border-t border-amber-200">
+              <span>शुद्ध बचत से 10% संचित</span>
+              <span class="font-bold underline text-amber-800">बहीखाता / खर्च ➔</span>
             </div>
-            <p class="text-[11px] text-amber-800/80 mt-1">शुद्ध मुनाफे का 10% संचित प्रसाद अंश</p>
           </div>
         </div>
 
         <!-- Clients Directory Table -->
         <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
-          <div class="p-5 border-b border-slate-100 flex flex-wrap items-center justify-between gap-4">
+          <div class="p-4 sm:p-5 border-b border-slate-100 flex flex-wrap items-center justify-between gap-3">
             <div>
-              <h2 class="text-base font-bold text-slate-900">Registered Client Accounts</h2>
-              <p class="text-xs text-slate-500 mt-0.5">Live connected ledger, order statuses & instant WhatsApp link</p>
+              <h2 class="text-base font-bold text-slate-900">पंजीकृत ग्राहक खाते (Registered Clients)</h2>
+              <p class="text-xs text-slate-500 mt-0.5">लाइव लेज़र ट्रैकिंग, बिल संशोधन व त्वरित व्हाट्सएप संपर्क</p>
             </div>
             <button onclick="openModal('client-modal')" class="inline-flex items-center gap-1.5 text-xs font-bold px-4 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white transition shadow-sm">
-              + Register New Client
+              + नया ग्राहक जोड़ें
             </button>
           </div>
 
@@ -197,13 +221,13 @@
             <table class="w-full text-left text-xs sm:text-sm">
               <thead class="bg-slate-50 border-b border-slate-200 text-slate-500 uppercase tracking-wider text-[11px] font-bold">
                 <tr>
-                  <th class="py-3.5 px-4">Client / Company</th>
-                  <th class="py-3.5 px-4">Phone</th>
-                  <th class="py-3.5 px-4 text-center">Active Status</th>
-                  <th class="py-3.5 px-4 text-right">Net Billed (₹)</th>
-                  <th class="py-3.5 px-4 text-right">Cleared (₹)</th>
-                  <th class="py-3.5 px-4 text-right">Balance Due (₹)</th>
-                  <th class="py-3.5 px-4 text-center">Actions</th>
+                  <th class="py-3.5 px-4">ग्राहक / फर्म का नाम</th>
+                  <th class="py-3.5 px-4">मोबाइल नं.</th>
+                  <th class="py-3.5 px-4 text-center">स्थिति</th>
+                  <th class="py-3.5 px-4 text-right">नेट बिल (₹)</th>
+                  <th class="py-3.5 px-4 text-right">जमा (₹)</th>
+                  <th class="py-3.5 px-4 text-right">बकाया (₹)</th>
+                  <th class="py-3.5 px-4 text-center">कार्रवाई (Actions)</th>
                 </tr>
               </thead>
               <tbody id="clients-table-body" class="divide-y divide-slate-100 font-normal"></tbody>
@@ -212,33 +236,38 @@
         </div>
       </section>
 
-      <!-- 2. CREATE INVOICE TAB -->
+      <!-- 2. CREATE / EDIT INVOICE TAB -->
       <section id="tab-sec-create-bill" class="hidden no-print max-w-4xl mx-auto space-y-6">
-        <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 sm:p-8 space-y-6">
-          <div class="flex items-center justify-between border-b border-slate-200 pb-4">
+        <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-4 sm:p-8 space-y-6">
+          
+          <!-- Form Header with Edit Indicator -->
+          <div class="flex flex-wrap items-center justify-between border-b border-slate-200 pb-4 gap-3">
             <div>
-              <h2 class="text-xl font-bold text-slate-900">Create Tax & Commercial Invoice</h2>
-              <p class="text-xs text-slate-500 mt-1">Itemize artwork, vinyl/flex sq.ft, discount %, cost & internal margins</p>
+              <div class="flex items-center gap-2">
+                <h2 class="text-lg sm:text-xl font-bold text-slate-900" id="form-invoice-title">नया इनवॉइस तैयार करें</h2>
+                <span id="badge-edit-mode" class="hidden text-[10px] font-extrabold uppercase px-2.5 py-0.5 bg-amber-100 text-amber-800 rounded-full border border-amber-200">संशोधन मोड (Editing)</span>
+              </div>
+              <p class="text-xs text-slate-500 mt-1">फ्लेक्स, बैनर, बोर्ड, लागत और डिस्काउंट का पूर्ण विवरण भरें</p>
             </div>
             <div class="text-right">
-              <span class="text-[10px] uppercase font-bold text-slate-400 block">Invoice Reference</span>
+              <span class="text-[10px] uppercase font-bold text-slate-400 block">इनवॉइस संदर्भ सं.</span>
               <input type="text" id="inv-custom-id" class="font-tabular font-bold text-xs text-slate-800 bg-slate-50 px-3 py-1.5 rounded-lg border border-slate-300 text-right w-36 outline-none focus:ring-2 focus:ring-indigo-500">
             </div>
           </div>
 
           <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
             <div class="md:col-span-2">
-              <label class="block text-xs font-bold text-slate-700 mb-1.5">Select Client *</label>
+              <label class="block text-xs font-bold text-slate-700 mb-1.5">ग्राहक चुनें (Billed To) *</label>
               <select id="inv-client-select" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-xs sm:text-sm text-slate-800 focus:outline-none focus:ring-2 focus:ring-indigo-500">
-                <option value="">-- Choose Client --</option>
+                <option value="">-- ग्राहक चुनें --</option>
               </select>
             </div>
             <div>
-              <label class="block text-xs font-bold text-slate-700 mb-1.5">Invoice Date *</label>
+              <label class="block text-xs font-bold text-slate-700 mb-1.5">इनवॉइस तारीख *</label>
               <input type="date" id="inv-date" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-xs sm:text-sm text-slate-800 focus:outline-none focus:ring-2 focus:ring-indigo-500">
             </div>
             <div>
-              <label class="block text-xs font-bold text-slate-700 mb-1.5">Work Status</label>
+              <label class="block text-xs font-bold text-slate-700 mb-1.5">काम की स्थिति (Status)</label>
               <select id="inv-status" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-xs sm:text-sm text-slate-800 focus:outline-none focus:ring-2 focus:ring-indigo-500 font-semibold">
                 <option value="Designing">🟡 Designing</option>
                 <option value="Production">🔵 Production / Print</option>
@@ -247,24 +276,24 @@
             </div>
           </div>
 
-          <!-- Line Items -->
+          <!-- Line Items Table -->
           <div class="space-y-3 pt-2">
             <div class="flex items-center justify-between">
-              <span class="text-xs font-bold uppercase tracking-wider text-slate-600">Product & Service Line Items</span>
+              <span class="text-xs font-bold uppercase tracking-wider text-slate-600">उत्पाद / सेवा का विवरण (Items)</span>
               <button type="button" onclick="addLineItem()" class="text-xs font-bold text-indigo-600 hover:text-indigo-800 flex items-center gap-1">
-                <span>+</span> Add Item Row
+                <span>➕</span> पंक्ति जोड़ें
               </button>
             </div>
 
             <div class="overflow-x-auto border border-slate-200 rounded-xl bg-slate-50/60 p-2">
-              <table class="w-full text-left text-xs">
+              <table class="w-full text-left text-xs min-w-[550px]">
                 <thead>
                   <tr class="text-slate-500 uppercase text-[10px] font-bold border-b border-slate-200 pb-2">
-                    <th class="p-2 w-6/12">Item Description & Work Details</th>
-                    <th class="p-2 w-2/12 text-center">Dimension / Calc</th>
-                    <th class="p-2 w-1/12 text-center">Qty / Sq.Ft</th>
-                    <th class="p-2 w-2/12 text-right">Rate (₹)</th>
-                    <th class="p-2 w-2/12 text-right">Total (₹)</th>
+                    <th class="p-2 w-6/12">काम / सामग्री का नाम</th>
+                    <th class="p-2 w-2/12 text-center">साइज (W×H)</th>
+                    <th class="p-2 w-1/12 text-center">मात्रा / Sq.Ft</th>
+                    <th class="p-2 w-2/12 text-right">दर Rate (₹)</th>
+                    <th class="p-2 w-2/12 text-right">कुल Total (₹)</th>
                     <th class="p-2 w-1/12 text-center"></th>
                   </tr>
                 </thead>
@@ -277,83 +306,93 @@
           <div class="flex items-center justify-between bg-slate-50 p-3.5 rounded-xl border border-slate-200">
             <div class="flex items-center gap-2">
               <input type="checkbox" id="inv-apply-gst" onchange="calculateInvoiceDraftTotals()" class="w-4 h-4 text-indigo-600 rounded border-slate-300 focus:ring-indigo-500 cursor-pointer">
-              <label for="inv-apply-gst" class="text-xs font-bold text-slate-800 cursor-pointer">Apply GST (18% — CGST 9% + SGST 9%)</label>
+              <label for="inv-apply-gst" class="text-xs font-bold text-slate-800 cursor-pointer">GST (18% — CGST 9% + SGST 9%) जोड़ें</label>
             </div>
-            <span class="text-[11px] text-slate-500">Uncheck for regular non-tax cash invoice</span>
+            <span class="text-[11px] text-slate-500">सादे कैश बिल हेतु अनचेक रखें</span>
           </div>
 
-          <!-- Private Office Section: Cost & Hanumanji 10% Seva Allocation -->
-          <div class="bg-amber-50/70 border border-amber-200 rounded-xl p-4 space-y-3">
-            <div class="flex items-center justify-between border-b border-amber-200 pb-2">
-              <span class="text-xs font-extrabold text-amber-900 flex items-center gap-1.5">
-                🔒 Office Private Margin & 10% Seva Allocation (ग्राहक को नहीं दिखेगा)
+          <!-- Private Office Section: Cost Breakdown & Hanuman Ji Ka Bank Calculation -->
+          <div class="bg-amber-50/80 border border-amber-200 rounded-xl p-4 space-y-3">
+            <div class="flex flex-wrap items-center justify-between border-b border-amber-200 pb-2 gap-2">
+              <span class="text-xs font-extrabold text-amber-950 flex items-center gap-1.5">
+                🔒 ऑफिस लागत व "हनुमान जी का बैंक" गणना (ग्राहक बिल में अदृश्य)
               </span>
-              <span class="text-[10px] font-bold bg-amber-200/80 text-amber-900 px-2 py-0.5 rounded">Confidential</span>
+              <span class="text-[10px] font-bold bg-amber-200/80 text-amber-900 px-2 py-0.5 rounded">Office Confidential</span>
             </div>
 
-            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <!-- Cost Breakdown Inputs -->
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
               <div>
-                <label class="block text-xs font-bold text-slate-700 mb-1">Total Material / Production Cost (₹)</label>
-                <input type="number" id="inv-material-cost" min="0" placeholder="0.00" oninput="calculateInvoiceDraftTotals()" class="w-full bg-white border border-amber-300 rounded-lg px-3 py-1.5 text-xs text-slate-800 font-bold focus:outline-none focus:ring-2 focus:ring-amber-500">
-                <span class="text-[10px] text-slate-500">फ्लेक्स, फ्रेम, लेबर इत्यादि की कुल लागत</span>
+                <label class="block text-[11px] font-bold text-slate-700 mb-1">प्रिंट शीट / मीडिया लागत (₹)</label>
+                <input type="number" id="cost-media" min="0" placeholder="0.00" oninput="calculateInvoiceDraftTotals()" class="w-full bg-white border border-amber-300 rounded-lg px-2.5 py-1 text-xs text-slate-800 font-bold focus:outline-none focus:ring-1 focus:ring-amber-500 font-tabular">
               </div>
-
               <div>
-                <label class="block text-xs font-bold text-emerald-800 mb-1">Calculated Net Profit / बचत</label>
-                <div class="bg-white border border-emerald-300 rounded-lg px-3 py-1.5 text-xs font-extrabold text-emerald-700 font-tabular" id="draft-net-profit">
-                  ₹0.00
-                </div>
-                <span class="text-[10px] text-slate-500">Net Billed - Total Cost</span>
+                <label class="block text-[11px] font-bold text-slate-700 mb-1">लोहा / फ्रेम / वेल्डिंग लागत (₹)</label>
+                <input type="number" id="cost-iron" min="0" placeholder="0.00" oninput="calculateInvoiceDraftTotals()" class="w-full bg-white border border-amber-300 rounded-lg px-2.5 py-1 text-xs text-slate-800 font-bold focus:outline-none focus:ring-1 focus:ring-amber-500 font-tabular">
               </div>
-
               <div>
-                <label class="block text-xs font-bold text-amber-900 mb-1 flex items-center gap-1">
-                  🚩 श्री हनुमान जी अंश (10%)
-                </label>
-                <div class="bg-amber-100/90 border border-amber-300 rounded-lg px-3 py-1.5 text-xs font-black text-amber-800 font-tabular" id="draft-seva-fund">
-                  ₹0.00
-                </div>
-                <span class="text-[10px] text-amber-800/80">शुद्ध बचत का 10% हिस्सा</span>
+                <label class="block text-[11px] font-bold text-slate-700 mb-1">मजदूरी / फिटिंग / अन्य लागत (₹)</label>
+                <input type="number" id="cost-labor" min="0" placeholder="0.00" oninput="calculateInvoiceDraftTotals()" class="w-full bg-white border border-amber-300 rounded-lg px-2.5 py-1 text-xs text-slate-800 font-bold focus:outline-none focus:ring-1 focus:ring-amber-500 font-tabular">
+              </div>
+            </div>
+
+            <!-- Totals Overview -->
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-1 border-t border-amber-200/60 items-center">
+              <div>
+                <span class="text-[11px] text-slate-600 block">कुल लागत (Total Cost):</span>
+                <span id="draft-total-cost" class="text-sm font-extrabold text-slate-900 font-tabular">₹0.00</span>
+              </div>
+              <div>
+                <span class="text-[11px] text-emerald-800 block">शुद्ध बचत (Net Profit):</span>
+                <span id="draft-net-profit" class="text-base font-black text-emerald-700 font-tabular">₹0.00</span>
+              </div>
+              <div class="bg-amber-100/90 p-2 rounded-lg border border-amber-300">
+                <span class="text-[10px] font-black uppercase text-amber-900 block">हनुमान जी का बैंक (10% संचित):</span>
+                <span id="draft-seva-fund" class="text-base font-black text-amber-800 font-tabular">₹0.00</span>
               </div>
             </div>
           </div>
 
           <!-- Discount & Spot Settlement Box -->
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-5 bg-slate-50/80 p-5 rounded-xl border border-slate-200">
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-5 bg-slate-50/80 p-4 sm:p-5 rounded-xl border border-slate-200">
             <div class="space-y-3">
+              <!-- Discount -->
               <div class="bg-white p-3 rounded-lg border border-slate-200 space-y-1.5">
                 <div class="flex items-center justify-between">
-                  <label class="text-xs font-bold text-indigo-900">Special Discount Given (₹)</label>
+                  <label class="text-xs font-bold text-indigo-900">विशेष छूट Special Discount (₹)</label>
                   <span id="draft-discount-badge" class="text-[11px] font-extrabold text-indigo-600 bg-indigo-50 px-2 py-0.5 rounded border border-indigo-100">0% OFF</span>
                 </div>
-                <input type="number" id="inv-discount-amt" min="0" placeholder="0.00" oninput="calculateInvoiceDraftTotals()" class="w-full bg-slate-50 border border-slate-300 rounded-lg px-3 py-1.5 text-xs text-indigo-700 font-bold focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                <input type="number" id="inv-discount-amt" min="0" placeholder="0.00" oninput="calculateInvoiceDraftTotals()" class="w-full bg-slate-50 border border-slate-300 rounded-lg px-3 py-1.5 text-xs text-indigo-700 font-bold focus:outline-none focus:ring-2 focus:ring-indigo-500 font-tabular">
               </div>
 
+              <!-- Spot Cleared Payment -->
               <div>
-                <label class="block text-xs font-bold text-slate-700 mb-1">Spot Payment Cleared (₹)</label>
-                <input type="number" id="inv-immediate-paid" min="0" placeholder="0.00" oninput="calculateInvoiceDraftTotals()" class="w-full bg-white border border-slate-300 rounded-lg px-3 py-1.5 text-xs text-emerald-700 font-bold focus:outline-none focus:ring-2 focus:ring-indigo-500 mb-2">
-                <input type="text" id="inv-payment-note" placeholder="Mode / Note (e.g. PhonePe / Cash / Cheque)" class="w-full bg-white border border-slate-300 rounded-lg px-3 py-1.5 text-xs text-slate-600 focus:outline-none">
+                <label class="block text-xs font-bold text-slate-700 mb-1">हाथों-हाथ जमा भुगतान Cleared (₹)</label>
+                <input type="number" id="inv-immediate-paid" min="0" placeholder="0.00" oninput="calculateInvoiceDraftTotals()" class="w-full bg-white border border-slate-300 rounded-lg px-3 py-1.5 text-xs text-emerald-700 font-bold focus:outline-none focus:ring-2 focus:ring-indigo-500 mb-2 font-tabular">
+                <input type="text" id="inv-payment-note" placeholder="माध्यम / नोट (जैसे: PhonePe / Cash / Cheque)" class="w-full bg-white border border-slate-300 rounded-lg px-3 py-1.5 text-xs text-slate-600 focus:outline-none">
               </div>
             </div>
 
+            <!-- Financial Summary -->
             <div class="flex flex-col justify-center items-end space-y-1 text-right font-tabular">
-              <div class="text-xs text-slate-500">Gross Value: <span id="draft-subtotal" class="font-bold text-slate-800 text-sm">₹0.00</span></div>
-              <div class="text-xs text-indigo-600 font-semibold">Special Discount: <span id="draft-discount-disp" class="text-sm">(-) ₹0.00</span></div>
+              <div class="text-xs text-slate-500">सकल मूल्य (Gross): <span id="draft-subtotal" class="font-bold text-slate-800 text-sm">₹0.00</span></div>
+              <div class="text-xs text-indigo-600 font-semibold">छूट (Discount): <span id="draft-discount-disp" class="text-sm">(-) ₹0.00</span></div>
               <div id="draft-gst-row" class="text-xs text-slate-600 hidden">GST (18%): <span id="draft-gst-disp" class="font-semibold text-sm">(+) ₹0.00</span></div>
-              <div class="text-xs text-slate-900 font-bold pt-1 border-t border-slate-200 w-full">Net Invoiced: <span id="draft-net-invoiced" class="text-base text-slate-900">₹0.00</span></div>
-              <div class="text-xs text-emerald-600 font-semibold">Spot Paid: <span id="draft-paid" class="text-sm">(-) ₹0.00</span></div>
+              <div class="text-xs text-slate-900 font-bold pt-1 border-t border-slate-200 w-full">नेट बिल (Net Invoiced): <span id="draft-net-invoiced" class="text-base text-slate-900">₹0.00</span></div>
+              <div class="text-xs text-emerald-600 font-semibold">जमा भुगतान: <span id="draft-paid" class="text-sm">(-) ₹0.00</span></div>
               <div class="text-xs text-slate-800 pt-2 border-t-2 border-slate-300 w-full font-bold">
-                Added to Due: <span id="draft-due" class="text-lg font-extrabold text-red-600 ml-1">₹0.00</span>
+                बकाया (Balance Due): <span id="draft-due" class="text-lg font-extrabold text-red-600 ml-1">₹0.00</span>
               </div>
             </div>
           </div>
 
+          <!-- Action Buttons -->
           <div class="flex justify-end gap-3 pt-2">
             <button onclick="switchTab('dashboard')" class="px-5 py-2.5 rounded-xl border border-slate-300 text-slate-600 text-xs font-bold hover:bg-slate-100 transition">
-              Cancel
+              रद्द करें
             </button>
-            <button onclick="commitInvoice()" class="px-6 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-bold transition flex items-center gap-2">
-              Commit Invoice & View Final Statement
+            <button onclick="commitInvoice()" id="btn-save-invoice" class="px-6 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-bold transition flex items-center gap-2">
+              💾 इनवॉइस सेव व अपडेट करें
             </button>
           </div>
         </div>
@@ -363,36 +402,48 @@
       <section id="tab-sec-invoice-preview" class="hidden space-y-6">
         
         <!-- Top Action Toolbar -->
-        <div class="no-print max-w-4xl mx-auto bg-white p-3.5 rounded-2xl border border-slate-200 shadow-sm flex flex-wrap items-center justify-between gap-4">
-          <div class="flex items-center gap-3">
-            <label class="text-xs font-bold uppercase tracking-wider text-slate-400">Client:</label>
-            <select id="preview-client-select" onchange="renderInvoiceView()" class="border border-slate-300 rounded-xl px-3 py-1.5 text-xs font-bold bg-slate-50 text-slate-800 focus:outline-none focus:ring-2 focus:ring-indigo-500"></select>
+        <div class="no-print max-w-4xl mx-auto bg-white p-3.5 rounded-2xl border border-slate-200 shadow-sm flex flex-wrap items-center justify-between gap-3">
+          <div class="flex flex-wrap items-center gap-2.5">
+            <div>
+              <label class="text-[10px] font-bold uppercase tracking-wider text-slate-400 block">ग्राहक:</label>
+              <select id="preview-client-select" onchange="renderInvoiceView()" class="border border-slate-300 rounded-xl px-2.5 py-1 text-xs font-bold bg-slate-50 text-slate-800 focus:outline-none"></select>
+            </div>
 
-            <label class="text-xs font-bold uppercase tracking-wider text-slate-400 ml-2">Invoice #:</label>
-            <select id="preview-bill-select" onchange="renderInvoiceView()" class="border border-slate-300 rounded-xl px-3 py-1.5 text-xs font-bold bg-slate-50 text-slate-800 focus:outline-none focus:ring-2 focus:ring-indigo-500 font-tabular"></select>
+            <div>
+              <label class="text-[10px] font-bold uppercase tracking-wider text-slate-400 block">बिल चयन:</label>
+              <select id="preview-bill-select" onchange="renderInvoiceView()" class="border border-slate-300 rounded-xl px-2.5 py-1 text-xs font-bold bg-slate-50 text-slate-800 focus:outline-none font-tabular"></select>
+            </div>
+
+            <!-- Edit Current Invoice Button -->
+            <button onclick="editCurrentActiveInvoice()" id="btn-edit-active-inv" class="mt-3.5 inline-flex items-center gap-1 px-3 py-1.5 rounded-xl bg-amber-500 hover:bg-amber-600 text-white text-xs font-bold transition shadow-sm" title="इस बिल में लागत व आइटम सुधारें">
+              ✏️ बिल एडिट करें
+            </button>
           </div>
           
-          <div class="flex items-center gap-2">
-            <!-- Screen Privacy Eye Toggle -->
-            <button onclick="toggleOfficePrivacy()" class="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition">
-              👁️ <span id="toggle-privacy-text">Hide Office Margin</span>
+          <div class="flex flex-wrap items-center gap-2">
+            <!-- Friendly Reminder -->
+            <button onclick="sendFriendlyWhatsAppReminder()" class="inline-flex items-center gap-1 px-3 py-2 rounded-xl bg-teal-600 hover:bg-teal-500 text-white text-xs font-bold transition shadow-sm" title="छोटा सौम्य तकाज़ा भेजें">
+              💬 सौम्य तकाज़ा
             </button>
 
-            <button onclick="sendDirectWhatsApp()" class="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold transition shadow-sm">
-              💬 Send on WhatsApp
+            <!-- Full WhatsApp Bill -->
+            <button onclick="sendDirectWhatsApp()" class="inline-flex items-center gap-1 px-3 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold transition shadow-sm">
+              📲 पूरा बिल भेजें
             </button>
 
-            <button onclick="downloadInvoicePDF()" class="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-bold transition shadow-sm">
-              📥 Download PDF
+            <!-- Download PDF -->
+            <button onclick="downloadInvoicePDF()" class="inline-flex items-center gap-1 px-3.5 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-bold transition shadow-sm">
+              📥 PDF
             </button>
 
-            <button onclick="window.print()" class="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold transition shadow-md">
-              🖨️ Print
+            <!-- Print -->
+            <button onclick="window.print()" class="inline-flex items-center gap-1 px-3.5 py-2 rounded-xl bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold transition shadow-md">
+              🖨️ प्रिंट
             </button>
           </div>
         </div>
 
-        <!-- Printable Invoice Sheet -->
+        <!-- Printable Invoice Canvas (Strict A4 Paper) -->
         <div id="invoice-sheet" class="max-w-4xl mx-auto bg-white border border-slate-200 rounded-2xl shadow-xl overflow-hidden text-slate-800">
           
           <!-- Corporate Navy Header -->
@@ -410,7 +461,7 @@
                 COMMERCIAL INVOICE
               </span>
               <h1 class="text-lg font-black text-white font-tabular tracking-tight mt-0.5" id="doc-inv-number">INV-2026-001</h1>
-              <p class="text-[11px] text-slate-400">Date: <span id="doc-inv-date" class="font-semibold text-slate-200"></span></p>
+              <p class="text-[11px] text-slate-400">तारीख: <span id="doc-inv-date" class="font-semibold text-slate-200"></span></p>
             </div>
           </div>
 
@@ -420,7 +471,7 @@
             <div class="grid grid-cols-2 gap-5">
               <div class="bg-slate-50 p-4 rounded-xl border border-slate-200">
                 <div class="flex justify-between items-center mb-1">
-                  <span class="text-[10px] font-bold uppercase tracking-wider text-slate-400 block">Billed To (Client / Organization)</span>
+                  <span class="text-[10px] font-bold uppercase tracking-wider text-slate-400 block">Billed To (ग्राहक विवरण)</span>
                   <span id="doc-status-badge" class="text-[10px] font-extrabold px-2 py-0.5 rounded bg-emerald-100 text-emerald-800">Completed</span>
                 </div>
                 <h3 id="doc-client-name" class="text-sm font-bold text-slate-900"></h3>
@@ -435,7 +486,7 @@
                   <span class="text-[9px] bg-slate-200 text-slate-700 px-2 py-0.5 rounded font-bold uppercase">Verified Statement</span>
                 </div>
                 <div class="mt-1">
-                  <span class="text-[11px] text-slate-500 block">Current Outstanding Due</span>
+                  <span class="text-[11px] text-slate-500 block">कुल बकाया राशि (Balance Due)</span>
                   <div class="text-2xl font-black text-red-600 tracking-tight font-tabular" id="doc-client-due-badge">
                     ₹0.00
                   </div>
@@ -517,38 +568,40 @@
 
             </div>
 
-            <!-- PRIVATE OFFICE FOOTNOTE: COST, PROFIT & SHRI HANUMAN JI 10% BOX -->
-            <!-- Completely hidden from print and PDF (class: office-private-note no-print) -->
-            <div id="doc-office-private-panel" class="office-private-note no-print mt-3 p-4 rounded-2xl bg-gradient-to-r from-amber-50/90 via-orange-50/80 to-amber-50/90 border border-amber-200 text-xs">
+            <!-- PRIVATE OFFICE FOOTNOTE: COST, PROFIT & HANUMAN JI KA BANK -->
+            <!-- Completely excluded from customer PDF/Print via class: office-private-note no-print -->
+            <div id="doc-office-private-panel" class="office-private-note no-print mt-3 p-4 rounded-2xl bg-gradient-to-r from-amber-50/90 via-orange-50/80 to-amber-50/90 border border-amber-300 text-xs">
               <div class="flex items-center justify-between border-b border-amber-200/80 pb-2 mb-3">
-                <span class="font-bold text-amber-900 flex items-center gap-1.5">
-                  🔒 Internal Office Memo (Strictly Private — Not Visible on Print/PDF)
+                <span class="font-extrabold text-amber-950 flex items-center gap-1.5">
+                  🔒 आंतरिक ऑफिस मेमो (Office Confidential — ग्राहक प्रिंट व PDF में अदृश्य)
                 </span>
-                <span class="text-[10px] font-extrabold text-amber-800 bg-amber-200/60 px-2 py-0.5 rounded">Office Copy Only</span>
+                <span class="text-[10px] font-extrabold text-amber-900 bg-amber-200/70 px-2.5 py-0.5 rounded-full" id="doc-last-modified-tag">Last Updated: Fresh</span>
               </div>
 
-              <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 items-center">
-                <!-- Cost & Net Profit -->
-                <div class="bg-white/80 p-2.5 rounded-xl border border-amber-200/70">
-                  <span class="text-[10px] text-slate-500 font-bold block uppercase">Production Cost (लागत)</span>
+              <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 items-center">
+                <!-- Cost -->
+                <div class="bg-white/90 p-2.5 rounded-xl border border-amber-200 shadow-sm">
+                  <span class="text-[10px] text-slate-500 font-bold block uppercase">कुल लागत (Production Cost)</span>
                   <span class="text-sm font-extrabold text-slate-800 font-tabular" id="doc-private-cost">₹0.00</span>
+                  <span class="text-[9px] text-slate-400 block mt-0.5" id="doc-private-cost-detail">शीट + लोहा + मजदूरी</span>
                 </div>
 
-                <div class="bg-white/80 p-2.5 rounded-xl border border-amber-200/70">
-                  <span class="text-[10px] text-emerald-700 font-bold block uppercase">Total Net Profit (शुद्ध बचत)</span>
+                <!-- Profit -->
+                <div class="bg-white/90 p-2.5 rounded-xl border border-amber-200 shadow-sm">
+                  <span class="text-[10px] text-emerald-700 font-bold block uppercase">शुद्ध बचत (Net Profit)</span>
                   <span class="text-sm font-black text-emerald-700 font-tabular" id="doc-private-profit">₹0.00</span>
+                  <span class="text-[9px] text-emerald-600/80 block mt-0.5">लागत घटाकर शेष बचत</span>
                 </div>
 
-                <!-- Shri Hanuman Ji Maharaj 10% Dedicated Card -->
-                <div class="bg-gradient-to-br from-amber-100 to-orange-100 p-2.5 rounded-xl border border-amber-300 flex items-center gap-3">
-                  <!-- Custom Image Slot: Place 'hanumanji.png' in folder, or falls back to Flag Icon -->
-                  <div class="w-10 h-10 rounded-lg overflow-hidden flex-shrink-0 bg-amber-200 flex items-center justify-center border border-amber-300 shadow-sm">
-                    <img src="hanuman ji.png" alt="श्री हनुमान जी" class="w-full h-full object-cover" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                <!-- Hanuman Ji Ka Bank -->
+                <div class="bg-gradient-to-br from-amber-100 to-orange-100 p-2.5 rounded-xl border border-amber-300 flex items-center gap-3 shadow-sm">
+                  <div class="w-10 h-10 rounded-lg overflow-hidden flex-shrink-0 bg-amber-200 border border-amber-400 flex items-center justify-center">
+                    <img src="hanumanji.png" alt="श्री हनुमान जी" class="w-full h-full object-cover" onerror="this.onerror=null; this.src='hanuman ji.png'; this.onerror=function(){this.style.display='none'; this.nextElementSibling.style.display='block';}">
                     <span style="display:none;" class="text-xl">🚩</span>
                   </div>
                   <div>
-                    <span class="text-[10px] font-black uppercase tracking-wider text-amber-900 block">
-                      श्री हनुमान जी महाराज अंश (10%)
+                    <span class="text-[10px] font-black uppercase tracking-wider text-amber-950 block">
+                      हनुमान जी का बैंक (10%)
                     </span>
                     <span class="text-base font-black text-amber-800 font-tabular" id="doc-private-seva">₹0.00</span>
                   </div>
@@ -597,40 +650,99 @@
     </div>
   </footer>
 
+  <!-- MODAL: HANUMAN JI KA BANK LEDGER & EXPENSES -->
+  <div id="hanuman-bank-modal" class="hidden fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-3 sm:p-4">
+    <div class="bg-white rounded-2xl shadow-2xl border border-amber-200 max-w-lg w-full p-5 space-y-4">
+      <div class="flex justify-between items-center pb-2 border-b border-amber-200">
+        <div class="flex items-center gap-2.5">
+          <span class="text-2xl">🚩</span>
+          <div>
+            <h3 class="text-base font-black text-amber-950">हनुमान जी का बैंक (सेवा बहीखाता)</h3>
+            <p class="text-[11px] text-amber-800/80">शुद्ध मुनाफे का संचित अंश एवं सेवा/भोग खर्च</p>
+          </div>
+        </div>
+        <button onclick="closeModal('hanuman-bank-modal')" class="text-slate-400 hover:text-slate-600 font-bold text-lg">✕</button>
+      </div>
+
+      <!-- Balance Overview -->
+      <div class="grid grid-cols-3 gap-2.5 bg-amber-50/90 p-3.5 rounded-xl border border-amber-200 text-center font-tabular">
+        <div>
+          <span class="text-[10px] text-amber-900 font-bold block uppercase">कुल संचित (10%)</span>
+          <span class="text-sm font-black text-amber-800" id="h-total-collected">₹0.00</span>
+        </div>
+        <div>
+          <span class="text-[10px] text-red-600 font-bold block uppercase">सेवा / भोग खर्च</span>
+          <span class="text-sm font-black text-red-600" id="h-total-spent">₹0.00</span>
+        </div>
+        <div>
+          <span class="text-[10px] text-emerald-800 font-bold block uppercase">उपलब्ध सेवा धन</span>
+          <span class="text-base font-black text-emerald-700" id="h-net-balance">₹0.00</span>
+        </div>
+      </div>
+
+      <!-- Add Expense Form -->
+      <div class="bg-slate-50 p-3 rounded-xl border border-slate-200 space-y-2">
+        <span class="text-xs font-bold text-slate-800 block">भोग, प्रसाद, चोला या मंदिर सेवा खर्च दर्ज करें:</span>
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-2">
+          <input type="date" id="h-exp-date" class="bg-white border border-slate-300 rounded-lg px-2.5 py-1.5 text-xs text-slate-800">
+          <input type="number" id="h-exp-amt" placeholder="रकम (₹)" class="bg-white border border-slate-300 rounded-lg px-2.5 py-1.5 text-xs font-bold font-tabular">
+          <input type="text" id="h-exp-note" placeholder="विवरण (जैसे: प्रसाद/ध्वजा)" class="bg-white border border-slate-300 rounded-lg px-2.5 py-1.5 text-xs">
+        </div>
+        <div class="flex justify-end">
+          <button onclick="addHanumanExpense()" class="px-3.5 py-1.5 text-xs font-bold text-white bg-amber-600 hover:bg-amber-700 rounded-lg transition">
+            + सेवा खर्च जोड़ें
+          </button>
+        </div>
+      </div>
+
+      <!-- Past Expenses Log Table -->
+      <div class="space-y-1.5">
+        <span class="text-xs font-bold text-slate-700 block">हालिया सेवा खर्च इतिहास:</span>
+        <div class="max-h-40 overflow-y-auto border border-slate-200 rounded-xl divide-y divide-slate-100 text-xs" id="h-expenses-log">
+          <!-- Rendered dynamically -->
+        </div>
+      </div>
+
+      <div class="flex justify-end pt-1">
+        <button onclick="closeModal('hanuman-bank-modal')" class="px-4 py-1.5 text-xs font-bold text-slate-600 hover:bg-slate-100 rounded-lg">बंद करें</button>
+      </div>
+    </div>
+  </div>
+
   <!-- MODAL: ADD CLIENT -->
   <div id="client-modal" class="hidden fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
     <div class="bg-white rounded-2xl shadow-2xl border border-slate-200 max-w-md w-full p-6 space-y-4">
       <div class="flex justify-between items-center pb-2 border-b border-slate-100">
-        <h3 class="text-base font-bold text-slate-900">Register New Client Account</h3>
+        <h3 class="text-base font-bold text-slate-900">नया ग्राहक खाता जोड़ें</h3>
         <button onclick="closeModal('client-modal')" class="text-slate-400 hover:text-slate-600">✕</button>
       </div>
 
       <div class="space-y-3">
         <div>
-          <label class="block text-xs font-bold text-slate-700 mb-1">Company / Client Name *</label>
-          <input type="text" id="m-client-name" placeholder="Client Name" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-xs sm:text-sm text-slate-800 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+          <label class="block text-xs font-bold text-slate-700 mb-1">फर्म / ग्राहक का नाम *</label>
+          <input type="text" id="m-client-name" placeholder="ग्राहक का नाम" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-xs sm:text-sm text-slate-800 focus:outline-none focus:ring-2 focus:ring-indigo-500">
         </div>
         <div>
-          <label class="block text-xs font-bold text-slate-700 mb-1">WhatsApp / Phone Number *</label>
-          <input type="tel" id="m-client-phone" placeholder="9876543210 (without country code)" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-xs sm:text-sm text-slate-800 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+          <label class="block text-xs font-bold text-slate-700 mb-1">व्हाट्सएप / मोबाइल नंबर *</label>
+          <input type="tel" id="m-client-phone" placeholder="9876543210 (10 अंक)" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-xs sm:text-sm text-slate-800 focus:outline-none focus:ring-2 focus:ring-indigo-500">
         </div>
         <div>
-          <label class="block text-xs font-bold text-slate-700 mb-1">GSTIN (Optional)</label>
+          <label class="block text-xs font-bold text-slate-700 mb-1">GSTIN (ऐच्छिक)</label>
           <input type="text" id="m-client-gstin" placeholder="09AAAAA0000A1Z5" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-xs sm:text-sm text-slate-800 uppercase focus:outline-none focus:ring-2 focus:ring-indigo-500">
         </div>
         <div>
-          <label class="block text-xs font-bold text-slate-700 mb-1">Billing Address</label>
-          <input type="text" id="m-client-address" placeholder="Address, City, State" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-xs sm:text-sm text-slate-800 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+          <label class="block text-xs font-bold text-slate-700 mb-1">पता (Billing Address)</label>
+          <input type="text" id="m-client-address" placeholder="दुकान, शहर, राज्य" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-xs sm:text-sm text-slate-800 focus:outline-none focus:ring-2 focus:ring-indigo-500">
         </div>
         <div>
-          <label class="block text-xs font-bold text-slate-700 mb-1">Opening Due Balance (₹) [If any]</label>
-          <input type="number" id="m-client-opening" placeholder="0.00" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-xs sm:text-sm text-slate-800 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+          <label class="block text-xs font-bold text-slate-700 mb-1">पुराना बकाया Opening Due (₹) [यदि कोई हो]</label>
+          <input type="number" id="m-client-opening" placeholder="0.00" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-xs sm:text-sm text-slate-800 focus:outline-none focus:ring-2 focus:ring-indigo-500 font-tabular">
         </div>
       </div>
 
       <div class="flex justify-end gap-2 pt-3">
-        <button onclick="closeModal('client-modal')" class="px-4 py-2 text-xs font-bold text-slate-600 hover:bg-slate-100 rounded-xl">Cancel</button>
-        <button onclick="saveClient()" class="px-5 py-2 text-xs font-bold text-white bg-slate-900 hover:bg-slate-800 rounded-xl">Save Client</button>
+        <button onclick="closeModal('client-modal')" class="px-4 py-2 text-xs font-bold text-slate-600 hover:bg-slate-100 rounded-xl">रद्द करें</button>
+        <button onclick="saveClient()" class="px-5 py-2 text-xs font-bold text-white bg-slate-900 hover:bg-slate-800 rounded-xl">सुरक्षित करें</button>
       </div>
     </div>
   </div>
@@ -639,41 +751,41 @@
   <div id="payment-modal" class="hidden fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
     <div class="bg-white rounded-2xl shadow-2xl border border-slate-200 max-w-md w-full p-6 space-y-4">
       <div class="flex justify-between items-center pb-2 border-b border-slate-100">
-        <h3 class="text-base font-bold text-slate-900">Record Payment Deposit</h3>
+        <h3 class="text-base font-bold text-slate-900">पेमेंट जमा दर्ज करें</h3>
         <button onclick="closeModal('payment-modal')" class="text-slate-400 hover:text-slate-600">✕</button>
       </div>
 
       <input type="hidden" id="p-client-id">
       <div class="space-y-3">
         <div>
-          <label class="block text-xs font-bold text-slate-700 mb-1">Client</label>
+          <label class="block text-xs font-bold text-slate-700 mb-1">ग्राहक</label>
           <input type="text" id="p-client-name" disabled class="w-full bg-slate-100 border border-slate-200 rounded-xl px-3 py-2 text-xs sm:text-sm font-bold text-slate-800">
         </div>
         <div class="grid grid-cols-2 gap-3">
           <div>
-            <label class="block text-xs font-semibold text-slate-700 mb-1">Receipt Date *</label>
+            <label class="block text-xs font-semibold text-slate-700 mb-1">रसीद तारीख *</label>
             <input type="date" id="p-date" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-xs sm:text-sm text-slate-800 focus:outline-none focus:ring-2 focus:ring-indigo-500">
           </div>
           <div>
-            <label class="block text-xs font-semibold text-slate-700 mb-1">Amount Paid (₹) *</label>
-            <input type="number" id="p-amount" placeholder="0.00" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-xs sm:text-sm font-bold text-emerald-600 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+            <label class="block text-xs font-semibold text-slate-700 mb-1">जमा रकम (₹) *</label>
+            <input type="number" id="p-amount" placeholder="0.00" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-xs sm:text-sm font-bold text-emerald-600 focus:outline-none focus:ring-2 focus:ring-indigo-500 font-tabular">
           </div>
         </div>
         <div>
-          <label class="block text-xs font-semibold text-slate-700 mb-1">Payment Method & Reference</label>
+          <label class="block text-xs font-semibold text-slate-700 mb-1">भुगतान माध्यम व संदर्भ</label>
           <select id="p-mode" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-xs sm:text-sm text-slate-800 focus:outline-none mb-2">
             <option value="UPI / PhonePe / GPay">UPI / GPay / PhonePe</option>
             <option value="Bank Transfer (NEFT/RTGS)">Bank Transfer (NEFT / RTGS)</option>
-            <option value="Cash">Cash</option>
-            <option value="Cheque">Cheque</option>
+            <option value="Cash">नकद (Cash)</option>
+            <option value="Cheque">चेक (Cheque)</option>
           </select>
-          <input type="text" id="p-ref" placeholder="Txn Ref ID / Note" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-1.5 text-xs text-slate-800 focus:outline-none">
+          <input type="text" id="p-ref" placeholder="Txn Ref ID / नोट" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-1.5 text-xs text-slate-800 focus:outline-none">
         </div>
       </div>
 
       <div class="flex justify-end gap-2 pt-3">
-        <button onclick="closeModal('payment-modal')" class="px-4 py-2 text-xs font-bold text-slate-600 hover:bg-slate-100 rounded-xl">Cancel</button>
-        <button onclick="commitPayment()" class="px-5 py-2 text-xs font-bold text-white bg-emerald-600 hover:bg-emerald-700 rounded-xl">Commit Receipt</button>
+        <button onclick="closeModal('payment-modal')" class="px-4 py-2 text-xs font-bold text-slate-600 hover:bg-slate-100 rounded-xl">रद्द करें</button>
+        <button onclick="commitPayment()" class="px-5 py-2 text-xs font-bold text-white bg-emerald-600 hover:bg-emerald-700 rounded-xl">जमा सुरक्षित करें</button>
       </div>
     </div>
   </div>
@@ -681,32 +793,32 @@
   <!-- MODAL: SQ.FT CALCULATOR HELPER -->
   <div id="sqft-modal" class="hidden fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
     <div class="bg-white rounded-2xl shadow-2xl border border-slate-200 max-w-sm w-full p-5 space-y-4">
-      <h3 class="text-sm font-bold text-slate-900">📐 Square Feet (Sq.Ft) Calculator</h3>
-      <p class="text-xs text-slate-500">Enter banner, board, or vinyl dimensions in Feet:</p>
+      <h3 class="text-sm font-bold text-slate-900">📐 Square Feet (Sq.Ft) कैलकुलेटर</h3>
+      <p class="text-xs text-slate-500">बैनर, बोर्ड या विनाइल की माप फुट (Feet) में डालें:</p>
       
       <div class="grid grid-cols-2 gap-3">
         <div>
-          <label class="block text-xs font-semibold text-slate-700 mb-1">Width (Feet)</label>
+          <label class="block text-xs font-semibold text-slate-700 mb-1">चौड़ाई Width (Ft)</label>
           <input type="number" step="any" id="sqft-w" placeholder="10" class="w-full bg-slate-50 border border-slate-300 rounded-xl p-2 text-xs font-tabular">
         </div>
         <div>
-          <label class="block text-xs font-semibold text-slate-700 mb-1">Height (Feet)</label>
+          <label class="block text-xs font-semibold text-slate-700 mb-1">ऊँचाई Height (Ft)</label>
           <input type="number" step="any" id="sqft-h" placeholder="4" class="w-full bg-slate-50 border border-slate-300 rounded-xl p-2 text-xs font-tabular">
         </div>
       </div>
       <div>
-        <label class="block text-xs font-semibold text-slate-700 mb-1">Number of Pieces (Qty)</label>
+        <label class="block text-xs font-semibold text-slate-700 mb-1">नग / पीस की संख्या (Qty)</label>
         <input type="number" id="sqft-qty" value="1" min="1" class="w-full bg-slate-50 border border-slate-300 rounded-xl p-2 text-xs font-tabular">
       </div>
 
       <div class="flex justify-end gap-2 pt-2">
-        <button onclick="closeModal('sqft-modal')" class="px-3 py-1.5 text-xs font-bold text-slate-600 hover:bg-slate-100 rounded-lg">Cancel</button>
-        <button onclick="applySqftCalculation()" class="px-4 py-1.5 text-xs font-bold text-white bg-indigo-600 hover:bg-indigo-700 rounded-lg">Apply to Row</button>
+        <button onclick="closeModal('sqft-modal')" class="px-3 py-1.5 text-xs font-bold text-slate-600 hover:bg-slate-100 rounded-lg">रद्द करें</button>
+        <button onclick="applySqftCalculation()" class="px-4 py-1.5 text-xs font-bold text-white bg-indigo-600 hover:bg-indigo-700 rounded-lg">माप लागू करें</button>
       </div>
     </div>
   </div>
 
-  <!-- JAVASCRIPT LOGIC -->
+  <!-- JAVASCRIPT ARCHITECTURE -->
   <script>
     const DEFAULT_WEBHOOK_URL = "https://script.google.com/macros/s/AKfycbwXlXsEhAqRUho6zZr-amBL8GJ9BPXHcUI9X54ZRlEj8_vpLxM7UaEHrp_L8cuLFy3BUA/exec";
 
@@ -714,6 +826,7 @@
       clients: [],
       invoices: [],
       payments: [],
+      hanumanExpenses: [],
       config: {
         nextInvSeq: 1,
         webhookUrl: DEFAULT_WEBHOOK_URL,
@@ -722,41 +835,27 @@
     };
 
     let activeSqftTargetRow = null;
-    let isOfficePrivacyHidden = false;
+    let editingInvoiceId = null;
 
     function loadData() {
-      const saved = localStorage.getItem('coolart_finance_master_v6');
+      const saved = localStorage.getItem('coolart_finance_master_v7');
       if (saved) {
         try { store = JSON.parse(saved); } catch (e) { console.error(e); }
       }
 
       store.config.webhookUrl = DEFAULT_WEBHOOK_URL;
       store.config.upiId = '9458614610-2@ybl';
+      if (!Array.isArray(store.hanumanExpenses)) store.hanumanExpenses = [];
 
       pullDataFromSheets(false);
       refreshAllViews();
     }
 
     function persistData() {
-      localStorage.setItem('coolart_finance_master_v6', JSON.stringify(store));
+      localStorage.setItem('coolart_finance_master_v7', JSON.stringify(store));
     }
 
-    function toggleOfficePrivacy() {
-      isOfficePrivacyHidden = !isOfficePrivacyHidden;
-      const panel = document.getElementById('doc-office-private-panel');
-      const text = document.getElementById('toggle-privacy-text');
-      if (panel) {
-        if (isOfficePrivacyHidden) {
-          panel.style.display = 'none';
-          text.innerText = 'Show Office Margin';
-        } else {
-          panel.style.display = 'block';
-          text.innerText = 'Hide Office Margin';
-        }
-      }
-    }
-
-    // JSONP Cross-Origin Safe Data Puller
+    // JSONP Safe Data Puller
     function pullDataFromSheets(isManual = false) {
       const url = store.config.webhookUrl || DEFAULT_WEBHOOK_URL;
       const spinner = document.getElementById('sync-spinner');
@@ -773,13 +872,13 @@
         if (oldScript) oldScript.remove();
 
         if (spinner) spinner.classList.add('hidden');
-        if (text) text.innerText = '🔄 Sync from Sheet';
+        if (text) text.innerText = 'Sync';
 
         if (result && result.status === "success" && Array.isArray(result.data)) {
           processSheetData(result.data);
-          if (isManual) alert('Google Sheet se data successfully load ho gaya!');
+          if (isManual) alert('Google Sheet से डेटा सफलतापूर्वक सिंक हो गया!');
         } else {
-          if (isManual) alert('Sheet se empty response mila.');
+          if (isManual) alert('Google Sheet से कोई नया डेटा प्राप्त नहीं हुआ।');
         }
       };
 
@@ -790,8 +889,8 @@
         delete window[callbackName];
         script.remove();
         if (spinner) spinner.classList.add('hidden');
-        if (text) text.innerText = '🔄 Sync from Sheet';
-        if (isManual) alert('Google Sheet connect karne mein issue aaya.');
+        if (text) text.innerText = 'Sync';
+        if (isManual) alert('Google Sheet कनेक्शन में त्रुटि आई। कृपया अनुमतियाँ जाँचें।');
       };
       document.body.appendChild(script);
     }
@@ -818,28 +917,34 @@
         const rowDate = row.date ? String(row.date).split('T')[0] : new Date().toISOString().split('T')[0];
 
         if (row.type === 'Invoice Issued' || row.type === 'Opening Due' || row.type === 'Opening Balance') {
+          const matchedExisting = store.invoices.find(i => i.id === 'INV-' + (idx + 1));
+          
           newInvoices.push({
             id: 'INV-' + (idx + 1),
             clientId: clientMap[name].id,
             date: rowDate,
             dueDate: '',
-            status: 'Delivered',
-            items: [{
+            status: matchedExisting ? matchedExisting.status : 'Delivered',
+            items: matchedExisting ? matchedExisting.items : [{
               desc: row.items || 'Work Order Deliverables',
               dimension: '',
               qty: 1,
               rate: Number(row.totalAmount) || 0,
               total: Number(row.totalAmount) || 0
             }],
-            grossTotal: Number(row.totalAmount) || 0,
-            discount: 0,
-            discountPct: '0',
-            materialCost: 0,
-            netProfit: Number(row.totalAmount) || 0,
-            sevaFund: (Number(row.totalAmount) || 0) * 0.1,
-            gstApplied: false,
-            gstAmount: 0,
-            total: Number(row.totalAmount) || 0
+            grossTotal: matchedExisting ? matchedExisting.grossTotal : (Number(row.totalAmount) || 0),
+            discount: matchedExisting ? matchedExisting.discount : 0,
+            discountPct: matchedExisting ? matchedExisting.discountPct : '0',
+            costMedia: matchedExisting ? matchedExisting.costMedia : 0,
+            costIron: matchedExisting ? matchedExisting.costIron : 0,
+            costLabor: matchedExisting ? matchedExisting.costLabor : 0,
+            totalCost: matchedExisting ? matchedExisting.totalCost : 0,
+            netProfit: matchedExisting ? matchedExisting.netProfit : (Number(row.totalAmount) || 0),
+            sevaFund: matchedExisting ? matchedExisting.sevaFund : ((Number(row.totalAmount) || 0) * 0.1),
+            gstApplied: matchedExisting ? matchedExisting.gstApplied : false,
+            gstAmount: matchedExisting ? matchedExisting.gstAmount : 0,
+            total: Number(row.totalAmount) || 0,
+            lastModified: matchedExisting ? matchedExisting.lastModified : rowDate
           });
 
           if (Number(row.paidAmount) > 0) {
@@ -864,6 +969,7 @@
         }
       });
 
+      // Merge gracefully keeping user's edit priority
       store.clients = Object.values(clientMap);
       store.invoices = newInvoices;
       store.payments = newPayments;
@@ -885,20 +991,23 @@
     function switchTab(tabId) {
       ['dashboard', 'create-bill', 'invoice-preview'].forEach(t => {
         document.getElementById(`tab-sec-${t}`).classList.add('hidden');
-        document.getElementById(`nav-${t}`).className = "py-3.5 px-1 text-xs sm:text-sm font-semibold border-b-2 border-transparent text-slate-500 hover:text-slate-900 flex items-center gap-2 transition";
+        document.getElementById(`nav-${t}`).className = "py-3 px-1 text-xs sm:text-sm font-semibold border-b-2 border-transparent text-slate-500 hover:text-slate-900 flex items-center gap-1.5 whitespace-nowrap transition";
       });
 
       document.getElementById(`tab-sec-${tabId}`).classList.remove('hidden');
-      document.getElementById(`nav-${tabId}`).className = "py-3.5 px-1 text-xs sm:text-sm font-bold border-b-2 border-indigo-600 text-indigo-700 flex items-center gap-2 transition";
+      document.getElementById(`nav-${tabId}`).className = "py-3 px-1 text-xs sm:text-sm font-bold border-b-2 border-indigo-600 text-indigo-700 flex items-center gap-1.5 whitespace-nowrap transition";
 
-      if (tabId === 'create-bill') {
+      if (tabId === 'create-bill' && !editingInvoiceId) {
         prepareInvoiceStudio();
       } else if (tabId === 'invoice-preview') {
         renderInvoiceView();
       }
     }
 
-    function openModal(id) { document.getElementById(id).classList.remove('hidden'); }
+    function openModal(id) { 
+      document.getElementById(id).classList.remove('hidden');
+      if (id === 'hanuman-bank-modal') renderHanumanModal();
+    }
     function closeModal(id) { document.getElementById(id).classList.add('hidden'); }
 
     function getClientSummary(clientId) {
@@ -958,10 +1067,13 @@
       });
       const grandDue = grandBilled - grandReceived;
 
+      const totalSpent = (store.hanumanExpenses || []).reduce((s, e) => s + (Number(e.amount) || 0), 0);
+      const netHanumanBalance = Math.max(0, grandSeva - totalSpent);
+
       document.getElementById('metric-total-billed').innerText = `₹${grandBilled.toLocaleString('en-IN', {minimumFractionDigits: 2})}`;
       document.getElementById('metric-total-received').innerText = `₹${grandReceived.toLocaleString('en-IN', {minimumFractionDigits: 2})}`;
       document.getElementById('metric-total-due').innerText = `₹${grandDue.toLocaleString('en-IN', {minimumFractionDigits: 2})}`;
-      document.getElementById('metric-total-seva').innerText = `₹${grandSeva.toLocaleString('en-IN', {minimumFractionDigits: 2})}`;
+      document.getElementById('metric-hanuman-balance').innerText = `₹${netHanumanBalance.toLocaleString('en-IN', {minimumFractionDigits: 2})}`;
     }
 
     function renderClientsTable() {
@@ -969,7 +1081,7 @@
       tbody.innerHTML = '';
 
       if (store.clients.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="7" class="p-8 text-center text-slate-400">No registered clients. Click "🔄 Sync from Sheet" or "+ Register New Client".</td></tr>`;
+        tbody.innerHTML = `<tr><td colspan="7" class="p-8 text-center text-slate-400">कोई ग्राहक खाता नहीं मिला। "+ नया ग्राहक जोड़ें" या सिंक बटन पर क्लिक करें।</td></tr>`;
         return;
       }
 
@@ -995,11 +1107,11 @@
           </td>
           <td class="py-3.5 px-4 text-center">
             <div class="inline-flex items-center gap-1.5">
-              <button onclick="promptPaymentModal('${c.id}')" class="px-2.5 py-1 text-xs font-bold text-emerald-700 bg-emerald-50 hover:bg-emerald-100 rounded-lg transition border border-emerald-200">
-                + Payment
+              <button onclick="promptPaymentModal('${c.id}')" class="px-2 py-1 text-xs font-bold text-emerald-700 bg-emerald-50 hover:bg-emerald-100 rounded-lg transition border border-emerald-200">
+                + पेमेंट
               </button>
-              <button onclick="viewClientInvoice('${c.id}')" class="px-2.5 py-1 text-xs font-bold text-indigo-700 bg-indigo-50 hover:bg-indigo-100 rounded-lg transition border border-indigo-200">
-                Statement
+              <button onclick="viewClientInvoice('${c.id}')" class="px-2 py-1 text-xs font-bold text-indigo-700 bg-indigo-50 hover:bg-indigo-100 rounded-lg transition border border-indigo-200">
+                बिल / स्टेटमेंट
               </button>
             </div>
           </td>
@@ -1013,7 +1125,7 @@
       const prevSelect = document.getElementById('preview-client-select');
       
       const currentPrev = prevSelect.value;
-      invSelect.innerHTML = '<option value="">-- Choose Client --</option>';
+      invSelect.innerHTML = '<option value="">-- ग्राहक चुनें --</option>';
       prevSelect.innerHTML = '';
 
       store.clients.forEach(c => {
@@ -1033,7 +1145,7 @@
       const address = document.getElementById('m-client-address').value.trim();
       const opening = parseFloat(document.getElementById('m-client-opening').value) || 0;
 
-      if (!name) return alert('Please enter client/company name.');
+      if (!name) return alert('कृपया ग्राहक या कंपनी का नाम दर्ज करें।');
 
       const newId = 'CL_' + Date.now();
       const newClient = { id: newId, name, phone, gstin, address, openingBalance: opening, status: 'Delivered' };
@@ -1050,12 +1162,16 @@
           grossTotal: opening,
           discount: 0,
           discountPct: '0',
-          materialCost: 0,
+          costMedia: 0,
+          costIron: 0,
+          costLabor: 0,
+          totalCost: 0,
           netProfit: opening,
           sevaFund: opening * 0.1,
           gstApplied: false,
           gstAmount: 0,
-          total: opening
+          total: opening,
+          lastModified: new Date().toLocaleString('en-IN')
         };
         store.invoices.push(openingBill);
 
@@ -1082,6 +1198,16 @@
       closeModal('client-modal');
     }
 
+    // Invoice Form Handling (Create vs Edit)
+    function openNewInvoiceForm() {
+      editingInvoiceId = null;
+      document.getElementById('form-invoice-title').innerText = "नया इनवॉइस तैयार करें";
+      document.getElementById('badge-edit-mode').classList.add('hidden');
+      document.getElementById('btn-save-invoice').innerText = "💾 इनवॉइस सेव करें";
+      switchTab('create-bill');
+      prepareInvoiceStudio();
+    }
+
     function prepareInvoiceStudio() {
       const nextSeq = String(store.config.nextInvSeq || (store.invoices.length + 1)).padStart(3, '0');
       document.getElementById('inv-custom-id').value = `INV-2026-${nextSeq}`;
@@ -1090,11 +1216,58 @@
       const tbody = document.getElementById('line-items-body');
       tbody.innerHTML = '';
       addLineItem('', '', 1, '');
+
       document.getElementById('inv-discount-amt').value = '';
-      document.getElementById('inv-material-cost').value = '';
+      document.getElementById('cost-media').value = '';
+      document.getElementById('cost-iron').value = '';
+      document.getElementById('cost-labor').value = '';
       document.getElementById('inv-immediate-paid').value = '';
       document.getElementById('inv-apply-gst').checked = false;
       calculateInvoiceDraftTotals();
+    }
+
+    function editCurrentActiveInvoice() {
+      const billSelect = document.getElementById('preview-bill-select');
+      const invId = billSelect.value;
+      if (!invId || invId === 'ALL') {
+        return alert('कृपया सूची से वह खास बिल नंबर चुनें जिसे आप एडिट करना चाहते हैं।');
+      }
+
+      const invoice = store.invoices.find(i => i.id === invId);
+      if (!invoice) return alert('बिल का रिकॉर्ड नहीं मिला।');
+
+      editingInvoiceId = invoice.id;
+      document.getElementById('form-invoice-title').innerText = `बिल संशोधन: ${invoice.id}`;
+      document.getElementById('badge-edit-mode').classList.remove('hidden');
+      document.getElementById('btn-save-invoice').innerText = "💾 बदलाव सुरक्षित करें (Save Changes)";
+
+      // Load Values into form
+      document.getElementById('inv-custom-id').value = invoice.id;
+      document.getElementById('inv-client-select').value = invoice.clientId;
+      document.getElementById('inv-date').value = invoice.date;
+      document.getElementById('inv-status').value = invoice.status || 'Delivered';
+
+      // Load Items
+      const tbody = document.getElementById('line-items-body');
+      tbody.innerHTML = '';
+      if (invoice.items && invoice.items.length > 0) {
+        invoice.items.forEach(it => {
+          addLineItem(it.desc, it.dimension, it.qty, it.rate);
+        });
+      } else {
+        addLineItem('', '', 1, '');
+      }
+
+      // Load Costs & GST
+      document.getElementById('inv-discount-amt').value = invoice.discount || '';
+      document.getElementById('cost-media').value = invoice.costMedia || '';
+      document.getElementById('cost-iron').value = invoice.costIron || '';
+      document.getElementById('cost-labor').value = invoice.costLabor || '';
+      document.getElementById('inv-apply-gst').checked = !!invoice.gstApplied;
+      document.getElementById('inv-immediate-paid').value = '';
+
+      calculateInvoiceDraftTotals();
+      switchTab('create-bill');
     }
 
     function addLineItem(desc = '', dim = '', qty = 1, rate = '') {
@@ -1102,11 +1275,11 @@
       const tr = document.createElement('tr');
       tr.innerHTML = `
         <td class="p-2">
-          <input type="text" value="${desc}" placeholder="Item (e.g. Flex Board, Vinyl, Design)" class="w-full bg-white border border-slate-300 rounded-lg p-2 text-xs item-desc focus:ring-2 focus:ring-indigo-500 outline-none">
+          <input type="text" value="${desc}" placeholder="सामग्री (जैसे: फ्लेक्स बोर्ड, विनाइल, डिजाइन)" class="w-full bg-white border border-slate-300 rounded-lg p-2 text-xs item-desc focus:ring-2 focus:ring-indigo-500 outline-none">
         </td>
         <td class="p-2 text-center">
           <div class="flex items-center gap-1 justify-center">
-            <input type="text" value="${dim}" placeholder="e.g. 10x4" class="w-16 bg-white border border-slate-300 rounded-lg p-1.5 text-xs text-center item-dim outline-none">
+            <input type="text" value="${dim}" placeholder="10x4" class="w-16 bg-white border border-slate-300 rounded-lg p-1.5 text-xs text-center item-dim outline-none">
             <button type="button" onclick="openSqftModal(this)" class="px-1.5 py-1 text-[10px] font-bold bg-indigo-50 hover:bg-indigo-100 text-indigo-700 rounded border border-indigo-200">📐</button>
           </div>
         </td>
@@ -1137,7 +1310,7 @@
       const h = parseFloat(document.getElementById('sqft-h').value) || 0;
       const pieces = parseFloat(document.getElementById('sqft-qty').value) || 1;
 
-      if (w <= 0 || h <= 0) return alert('Please enter valid width and height in feet');
+      if (w <= 0 || h <= 0) return alert('कृपया चौड़ाई व ऊँचाई सही भरें।');
 
       const totalSqft = (w * h * pieces).toFixed(2);
       activeSqftTargetRow.querySelector('.item-dim').value = `${w}x${h} ft`;
@@ -1184,9 +1357,13 @@
       const immediatePaid = Math.min(netInvoiced, parseFloat(document.getElementById('inv-immediate-paid').value) || 0);
       const netDue = Math.max(0, netInvoiced - immediatePaid);
 
-      // Cost & 10% Seva Allocation Calculations
-      const materialCost = parseFloat(document.getElementById('inv-material-cost').value) || 0;
-      const netProfit = Math.max(0, afterDiscount - materialCost);
+      // Cost Breakdown Calculations
+      const cMedia = parseFloat(document.getElementById('cost-media').value) || 0;
+      const cIron = parseFloat(document.getElementById('cost-iron').value) || 0;
+      const cLabor = parseFloat(document.getElementById('cost-labor').value) || 0;
+      const totalCost = cMedia + cIron + cLabor;
+
+      const netProfit = Math.max(0, afterDiscount - totalCost);
       const sevaFund = netProfit * 0.10;
 
       document.getElementById('draft-subtotal').innerText = `₹${subtotal.toLocaleString('en-IN', {minimumFractionDigits: 2})}`;
@@ -1194,10 +1371,11 @@
       document.getElementById('draft-paid').innerText = `(-) ₹${immediatePaid.toLocaleString('en-IN', {minimumFractionDigits: 2})}`;
       document.getElementById('draft-due').innerText = `₹${netDue.toLocaleString('en-IN', {minimumFractionDigits: 2})}`;
 
+      document.getElementById('draft-total-cost').innerText = `₹${totalCost.toLocaleString('en-IN', {minimumFractionDigits: 2})}`;
       document.getElementById('draft-net-profit').innerText = `₹${netProfit.toLocaleString('en-IN', {minimumFractionDigits: 2})}`;
       document.getElementById('draft-seva-fund').innerText = `₹${sevaFund.toLocaleString('en-IN', {minimumFractionDigits: 2})}`;
 
-      return { subtotal, discountAmt, discountPct, applyGst, gstAmt, netInvoiced, immediatePaid, materialCost, netProfit, sevaFund };
+      return { subtotal, discountAmt, discountPct, applyGst, gstAmt, netInvoiced, immediatePaid, cMedia, cIron, cLabor, totalCost, netProfit, sevaFund };
     }
 
     function commitInvoice() {
@@ -1206,9 +1384,9 @@
       const date = document.getElementById('inv-date').value;
       const status = document.getElementById('inv-status').value;
 
-      if (!clientId) return alert('Please select a client.');
-      if (!invId) return alert('Please enter an invoice reference number.');
-      if (!date) return alert('Please choose an invoice date.');
+      if (!clientId) return alert('कृपया ग्राहक चुनें।');
+      if (!invId) return alert('कृपया इनवॉइस संदर्भ संख्या दर्ज करें।');
+      if (!date) return alert('कृपया इनवॉइस की तारीख चुनें।');
 
       const rows = document.querySelectorAll('#line-items-body tr');
       const items = [];
@@ -1222,48 +1400,82 @@
         }
       });
 
-      if (items.length === 0) return alert('Please add at least one line item.');
+      if (items.length === 0) return alert('कृपया कम से कम एक लाइन आइटम जोड़ें।');
 
-      const { subtotal, discountAmt, discountPct, applyGst, gstAmt, netInvoiced, immediatePaid, materialCost, netProfit, sevaFund } = calculateInvoiceDraftTotals();
+      const calc = calculateInvoiceDraftTotals();
+      const nowStr = new Date().toLocaleString('en-IN', { day: '2-digit', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' });
 
-      const invoiceObj = {
-        id: invId,
-        clientId,
-        date,
-        dueDate: '',
-        status,
-        items,
-        grossTotal: subtotal,
-        discount: discountAmt,
-        discountPct: discountPct,
-        materialCost,
-        netProfit,
-        sevaFund,
-        gstApplied: applyGst,
-        gstAmount: gstAmt,
-        total: netInvoiced
-      };
+      if (editingInvoiceId) {
+        // UPDATE EXISTING INVOICE
+        const idx = store.invoices.findIndex(i => i.id === editingInvoiceId);
+        if (idx >= 0) {
+          store.invoices[idx] = {
+            ...store.invoices[idx],
+            id: invId,
+            clientId,
+            date,
+            status,
+            items,
+            grossTotal: calc.subtotal,
+            discount: calc.discountAmt,
+            discountPct: calc.discountPct,
+            costMedia: calc.cMedia,
+            costIron: calc.cIron,
+            costLabor: calc.cLabor,
+            totalCost: calc.totalCost,
+            netProfit: calc.netProfit,
+            sevaFund: calc.sevaFund,
+            gstApplied: calc.applyGst,
+            gstAmount: calc.gstAmt,
+            total: calc.netInvoiced,
+            lastModified: nowStr
+          };
+        }
+        editingInvoiceId = null;
+      } else {
+        // NEW INVOICE
+        const invoiceObj = {
+          id: invId,
+          clientId,
+          date,
+          dueDate: '',
+          status,
+          items,
+          grossTotal: calc.subtotal,
+          discount: calc.discountAmt,
+          discountPct: calc.discountPct,
+          costMedia: calc.cMedia,
+          costIron: calc.cIron,
+          costLabor: calc.cLabor,
+          totalCost: calc.totalCost,
+          netProfit: calc.netProfit,
+          sevaFund: calc.sevaFund,
+          gstApplied: calc.applyGst,
+          gstAmount: calc.gstAmt,
+          total: calc.netInvoiced,
+          lastModified: nowStr
+        };
+        store.invoices.push(invoiceObj);
+        store.config.nextInvSeq = (store.config.nextInvSeq || store.invoices.length) + 1;
+      }
 
-      store.invoices.push(invoiceObj);
-
-      if (immediatePaid > 0) {
+      if (calc.immediatePaid > 0) {
         const refNote = document.getElementById('inv-payment-note').value.trim() || 'Spot Payment at Invoice';
         store.payments.push({
           id: 'PAY_' + Date.now(),
           clientId,
           date,
-          amount: immediatePaid,
+          amount: calc.immediatePaid,
           mode: 'Spot Payment',
           ref: refNote
         });
       }
 
-      store.config.nextInvSeq = (store.config.nextInvSeq || store.invoices.length) + 1;
       persistData();
       refreshAllViews();
 
       const client = store.clients.find(c => c.id === clientId);
-      const itemsSummary = items.map(i => `${i.desc}${i.dimension ? ` (${i.dimension})` : ''} (x${i.qty})`).join(', ') + (discountAmt > 0 ? ` [Discount: ₹${discountAmt}]` : '') + (applyGst ? ' [+GST 18%]' : '');
+      const itemsSummary = items.map(i => `${i.desc}${i.dimension ? ` (${i.dimension})` : ''} (x${i.qty})`).join(', ');
       const currentStats = getClientSummary(clientId);
 
       pushOnlineSync({
@@ -1272,8 +1484,8 @@
         partyName: client.name,
         phone: client.phone,
         items: itemsSummary,
-        totalAmount: netInvoiced,
-        paidAmount: immediatePaid,
+        totalAmount: calc.netInvoiced,
+        paidAmount: calc.immediatePaid,
         dueBalance: currentStats.balanceDue
       });
 
@@ -1300,8 +1512,8 @@
       const mode = document.getElementById('p-mode').value;
       const ref = document.getElementById('p-ref').value.trim();
 
-      if (amount <= 0) return alert('Please enter a valid deposit amount.');
-      if (!date) return alert('Please select a payment receipt date.');
+      if (amount <= 0) return alert('कृपया सही जमा रकम भरें।');
+      if (!date) return alert('कृपया भुगतान की तारीख चुनें।');
 
       const client = store.clients.find(c => c.id === clientId);
 
@@ -1367,6 +1579,13 @@
       const selectedBillId = billSelect.value;
       const isSpecificBill = selectedBillId !== 'ALL';
       const activeInv = isSpecificBill ? clientInvoices.find(i => i.id === selectedBillId) : clientInvoices[clientInvoices.length - 1];
+
+      // Enable/disable edit button based on specific selection
+      const editBtn = document.getElementById('btn-edit-active-inv');
+      if (editBtn) {
+        if (isSpecificBill) editBtn.classList.remove('opacity-50', 'pointer-events-none');
+        else editBtn.classList.add('opacity-50', 'pointer-events-none');
+      }
 
       document.getElementById('doc-inv-type-badge').innerText = (activeInv && activeInv.gstApplied) ? 'TAX INVOICE (GST 18%)' : 'COMMERCIAL INVOICE';
       document.getElementById('doc-inv-number').innerText = isSpecificBill ? activeInv.id : 'STATEMENT';
@@ -1459,14 +1678,16 @@
       document.getElementById('doc-sum-paid').innerText = `(-) ₹${stats.paidTotal.toLocaleString('en-IN', {minimumFractionDigits: 2})}`;
       document.getElementById('doc-sum-balance').innerText = `₹${stats.balanceDue.toLocaleString('en-IN', {minimumFractionDigits: 2})}`;
 
-      // Populate Confidential Private Office Section
-      const curCost = isSpecificBill ? (activeInv?.materialCost || 0) : clientInvoices.reduce((s, i) => s + (i.materialCost || 0), 0);
+      // Confidential Private Office Section Rendering
+      const curCost = isSpecificBill ? (activeInv?.totalCost || 0) : clientInvoices.reduce((s, i) => s + (i.totalCost || 0), 0);
       const curProfit = isSpecificBill ? (activeInv?.netProfit || 0) : stats.totalProfit;
       const curSeva = isSpecificBill ? (activeInv?.sevaFund || 0) : stats.totalSeva;
+      const lastMod = activeInv?.lastModified || 'Fresh Record';
 
       document.getElementById('doc-private-cost').innerText = `₹${curCost.toLocaleString('en-IN', {minimumFractionDigits: 2})}`;
       document.getElementById('doc-private-profit').innerText = `₹${curProfit.toLocaleString('en-IN', {minimumFractionDigits: 2})}`;
       document.getElementById('doc-private-seva').innerText = `₹${curSeva.toLocaleString('en-IN', {minimumFractionDigits: 2})}`;
+      document.getElementById('doc-last-modified-tag').innerText = `Last Modified: ${lastMod}`;
 
       // Dynamic UPI QR Code
       const upiId = '9458614610-2@ybl';
@@ -1476,6 +1697,60 @@
       document.getElementById('doc-upi-qr').src = qrApiUrl;
     }
 
+    // Hanuman Bank Ledger Management
+    function renderHanumanModal() {
+      let grandSeva = 0;
+      store.clients.forEach(c => {
+        const stats = getClientSummary(c.id);
+        grandSeva += stats.totalSeva;
+      });
+
+      const expenses = store.hanumanExpenses || [];
+      const totalSpent = expenses.reduce((s, e) => s + (Number(e.amount) || 0), 0);
+      const netBal = Math.max(0, grandSeva - totalSpent);
+
+      document.getElementById('h-total-collected').innerText = `₹${grandSeva.toLocaleString('en-IN', {minimumFractionDigits: 2})}`;
+      document.getElementById('h-total-spent').innerText = `₹${totalSpent.toLocaleString('en-IN', {minimumFractionDigits: 2})}`;
+      document.getElementById('h-net-balance').innerText = `₹${netBal.toLocaleString('en-IN', {minimumFractionDigits: 2})}`;
+      document.getElementById('h-exp-date').value = new Date().toISOString().split('T')[0];
+
+      const logContainer = document.getElementById('h-expenses-log');
+      logContainer.innerHTML = '';
+      if (expenses.length === 0) {
+        logContainer.innerHTML = `<p class="p-3 text-center text-slate-400 italic">अभी तक कोई सेवा/भोग खर्च दर्ज नहीं है।</p>`;
+      } else {
+        expenses.slice().reverse().forEach((exp, idx) => {
+          const div = document.createElement('div');
+          div.className = "flex justify-between items-center p-2.5 hover:bg-slate-50";
+          div.innerHTML = `
+            <div>
+              <span class="font-bold text-slate-800 block">${exp.note}</span>
+              <span class="text-[10px] text-slate-400 font-tabular">${exp.date}</span>
+            </div>
+            <span class="font-tabular font-bold text-red-600">(-) ₹${Number(exp.amount).toLocaleString('en-IN', {minimumFractionDigits: 2})}</span>
+          `;
+          logContainer.appendChild(div);
+        });
+      }
+    }
+
+    function addHanumanExpense() {
+      const date = document.getElementById('h-exp-date').value;
+      const amount = parseFloat(document.getElementById('h-exp-amt').value) || 0;
+      const note = document.getElementById('h-exp-note').value.trim() || 'प्रसाद / मंदिर सेवा';
+
+      if (amount <= 0) return alert('कृपया सही सेवा खर्च राशि भरें।');
+
+      store.hanumanExpenses.push({ id: 'HEX_' + Date.now(), date, amount, note });
+      persistData();
+      renderHanumanModal();
+      updateMetricBadges();
+
+      document.getElementById('h-exp-amt').value = '';
+      document.getElementById('h-exp-note').value = '';
+    }
+
+    // PDF Download & WhatsApp Helpers
     function downloadInvoicePDF() {
       const invNum = document.getElementById('doc-inv-number').innerText.trim() || 'INVOICE';
       const clientSelect = document.getElementById('preview-client-select');
@@ -1489,12 +1764,32 @@
       setTimeout(() => { document.title = originalTitle; }, 1000);
     }
 
-    function sendDirectWhatsApp() {
+    function sendFriendlyWhatsAppReminder() {
       const clientId = document.getElementById('preview-client-select').value;
-      if (!clientId) return alert('Pehle koi Client select karein!');
+      if (!clientId) return alert('कृपया पहले कोई ग्राहक चुनें!');
 
       const client = store.clients.find(c => c.id === clientId);
-      if (!client) return alert('Client record nahi mila!');
+      if (!client) return alert('ग्राहक का रिकॉर्ड नहीं मिला!');
+
+      const stats = getClientSummary(clientId);
+
+      let msg = `*जय श्री राम भाई साहब* 🙏\n`;
+      msg += `*कूल आर्ट (Cool Art Advertising)* से आपका विज्ञापन/बोर्ड का काम पूरा हो चुका है।\n\n`;
+      msg += `• कुल नेट बिल: ₹${stats.billedTotal.toLocaleString('en-IN', {minimumFractionDigits: 2})}\n`;
+      msg += `• जमा राशि: ₹${stats.paidTotal.toLocaleString('en-IN', {minimumFractionDigits: 2})}\n`;
+      msg += `• *शेष बकाया राशि: ₹${stats.balanceDue.toLocaleString('en-IN', {minimumFractionDigits: 2})}*\n\n`;
+      msg += `कृपया समय मिलने पर UPI ID: *9458614610-2@ybl* पर भुगतान कर दें।\n`;
+      msg += `_धन्यवाद! Cool Art Advertising — अतरौली (अलीगढ़)_`;
+
+      dispatchWhatsApp(client.phone, msg);
+    }
+
+    function sendDirectWhatsApp() {
+      const clientId = document.getElementById('preview-client-select').value;
+      if (!clientId) return alert('कृपया पहले कोई ग्राहक चुनें!');
+
+      const client = store.clients.find(c => c.id === clientId);
+      if (!client) return alert('ग्राहक का रिकॉर्ड नहीं मिला!');
 
       const stats = getClientSummary(clientId);
       const payments = store.payments.filter(p => p.clientId === clientId);
@@ -1521,12 +1816,16 @@
       msg += `_Cool Art Advertising — Atrauli (Aligarh)_\n`;
       msg += `Helpline: +91 9458614610`;
 
-      let cleanPhone = (client.phone || '').replace(/[^0-9]/g, '');
+      dispatchWhatsApp(client.phone, msg);
+    }
+
+    function dispatchWhatsApp(phone, message) {
+      let cleanPhone = (phone || '').replace(/[^0-9]/g, '');
       if (cleanPhone.length === 10) cleanPhone = '91' + cleanPhone;
 
       const waUrl = cleanPhone 
-        ? `https://api.whatsapp.com/send?phone=${cleanPhone}&text=${encodeURIComponent(msg)}`
-        : `https://api.whatsapp.com/send?text=${encodeURIComponent(msg)}`;
+        ? `https://api.whatsapp.com/send?phone=${cleanPhone}&text=${encodeURIComponent(message)}`
+        : `https://api.whatsapp.com/send?text=${encodeURIComponent(message)}`;
 
       const tempLink = document.createElement('a');
       tempLink.href = waUrl;
