@@ -5,9 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Cool Art | Enterprise Billing, Signage & Cloud Ledger</title>
   
-  <!-- Embedded Sharp Minimal Favicon (Android/Samsung Squircle Adaptive Safe) -->
-  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Crect width='512' height='512' fill='%230B1329'/%3E%3Cdefs%3E%3Cpattern id='g' width='32' height='32' patternUnits='userSpaceOnUse'%3E%3Cpath d='M 32 0 L 0 0 0 32' fill='none' stroke='%231E293B' stroke-width='1' opacity='0.6'/%3E%3C/pattern%3E%3C/defs%3E%3Crect width='512' height='512' fill='url(%23g)'/%3E%3Cpath d='M 360 148 L 204 148 A 108 108 0 0 0 96 256 A 108 108 0 0 0 204 364 L 360 364 L 360 308 L 214 308 A 52 52 0 0 1 162 256 A 52 52 0 0 1 214 204 L 360 204 Z' fill='%23FFFFFF'/%3E%3Cpath d='M 284 364 L 340 216 L 396 364 L 348 364 L 340 340 L 308 340 L 300 364 Z M 318 304 L 336 256 L 350 304 Z' fill='%234F46E5'/%3E%3Crect x='376' y='148' width='40' height='40' fill='%2310B981'/%3E%3C/svg%3E">
-  <link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Crect width='512' height='512' fill='%230B1329'/%3E%3Cdefs%3E%3Cpattern id='g' width='32' height='32' patternUnits='userSpaceOnUse'%3E%3Cpath d='M 32 0 L 0 0 0 32' fill='none' stroke='%231E293B' stroke-width='1' opacity='0.6'/%3E%3C/pattern%3E%3C/defs%3E%3Crect width='512' height='512' fill='url(%23g)'/%3E%3Cpath d='M 360 148 L 204 148 A 108 108 0 0 0 96 256 A 108 108 0 0 0 204 364 L 360 364 L 360 308 L 214 308 A 52 52 0 0 1 162 256 A 52 52 0 0 1 214 204 L 360 204 Z' fill='%23FFFFFF'/%3E%3Cpath d='M 284 364 L 340 216 L 396 364 L 348 364 L 340 340 L 308 340 L 300 364 Z M 318 304 L 336 256 L 350 304 Z' fill='%234F46E5'/%3E%3Crect x='376' y='148' width='40' height='40' fill='%2310B981'/%3E%3C/svg%3E">
+  <!-- Separate External Favicon Link -->
+  <link rel="icon" type="image/png" href="favicon.png">
+  <link rel="apple-touch-icon" href="favicon.png">
 
   <script src="https://cdn.tailwindcss.com"></script>
 
@@ -66,7 +66,6 @@
       print-color-adjust: exact !important;
     }
 
-    /* Print Formatting: Strictly hides confidential office margins */
     @media print {
       body {
         background: #ffffff !important;
@@ -95,7 +94,7 @@
 </head>
 <body class="min-h-screen flex flex-col justify-between">
 
-  <!-- ================= 0. CRYPTOGRAPHIC SECURITY GATEWAY ================= -->
+  <!-- ================= 0. SECURITY GATEWAY ================= -->
   <div id="security-gateway" class="fixed inset-0 z-50 bg-[#070d1e] flex items-center justify-center p-4">
     <div class="stat-card max-w-sm w-full p-8 border-slate-800 bg-[#0b1329]/95 text-white shadow-2xl relative overflow-hidden text-center space-y-6">
       <div class="flex justify-center">
@@ -107,23 +106,22 @@
       </div>
 
       <div class="space-y-3 text-left">
-        <label class="block text-[11px] font-bold uppercase tracking-wider text-slate-400">Master Gateway Password</label>
-        <input type="password" id="gw-pass" placeholder="Enter Security Password" onkeydown="if(event.key==='Enter') unlockGateway()" class="w-full bg-slate-900/90 border border-slate-700 rounded-xl px-3.5 py-2.5 text-xs text-white focus:outline-none focus:ring-2 focus:ring-indigo-500 font-tabular placeholder:text-slate-600">
-        <p id="gw-error" class="text-[11px] font-bold text-red-400 hidden text-center">Invalid Password. Access Denied.</p>
+        <label class="block text-[11px] font-bold uppercase tracking-wider text-slate-400">Master Password</label>
+        <input type="password" id="gw-pass" placeholder="Enter Password" onkeydown="if(event.key==='Enter') unlockGateway()" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2.5 text-xs text-white focus:outline-none focus:ring-2 focus:ring-indigo-500 font-tabular placeholder:text-slate-600">
+        <p id="gw-error" class="text-[11px] font-bold text-red-400 hidden text-center">Invalid Password. Please try again.</p>
       </div>
 
       <button onclick="unlockGateway()" class="w-full py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-bold transition shadow-lg flex items-center justify-center gap-2">
         <span>🔒</span> Unlock Application
       </button>
 
-      <p class="text-[10px] text-slate-500">SHA-256 Cryptographic Session Vault</p>
+      <p class="text-[10px] text-slate-500">Cool Art Protected Session</p>
     </div>
   </div>
 
-  <!-- MAIN APP CONTAINER (Protected Behind Gateway) -->
+  <!-- MAIN APP CONTAINER -->
   <div id="app-root" class="hidden flex-1 flex flex-col justify-between">
     <div>
-      <!-- Executive Sticky Header -->
       <header class="sticky top-0 z-40 bg-[#0b1329]/95 backdrop-blur-md border-b border-slate-800 text-white shadow-md no-print">
         <div class="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-2">
           
@@ -152,7 +150,6 @@
               <span class="sm:inline">New Invoice</span>
             </button>
 
-            <!-- Quick Logout Button -->
             <button onclick="lockGateway()" title="Lock Application" class="p-2 text-slate-400 hover:text-red-400 transition ml-1">
               🔒
             </button>
@@ -160,7 +157,6 @@
         </div>
       </header>
 
-      <!-- Tab Navigation -->
       <div class="border-b border-slate-200 bg-white/80 backdrop-blur-sm no-print shadow-sm">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <nav class="flex space-x-6 sm:space-x-8 overflow-x-auto py-1">
@@ -178,10 +174,8 @@
       </div>
 
       <main class="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 py-5 sm:py-7 w-full">
-
-        <!-- ================= 1. DASHBOARD TAB ================= -->
+        <!-- DASHBOARD TAB -->
         <section id="tab-sec-dashboard" class="space-y-6 no-print">
-          
           <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
             <div class="stat-card p-5">
               <p class="text-xs font-bold uppercase tracking-wider text-slate-400">Total Invoiced Amount</p>
@@ -207,7 +201,6 @@
               <p class="text-[11px] text-slate-400 mt-1">Total market receivables</p>
             </div>
 
-            <!-- Hanuman Ji Ka Bank Dashboard Card with Realized Logic -->
             <div onclick="openModal('hanuman-bank-modal')" class="stat-card p-5 bg-gradient-to-br from-amber-50 via-orange-50 to-amber-100 border-amber-300 cursor-pointer hover:border-amber-400 relative overflow-hidden" title="Click to view Service Fund Ledger">
               <div class="flex items-center justify-between gap-3">
                 <div class="w-12 h-12 rounded-xl overflow-hidden flex-shrink-0 bg-amber-200 border-2 border-amber-400 shadow flex items-center justify-center">
@@ -229,7 +222,6 @@
             </div>
           </div>
 
-          <!-- Clients Directory Table -->
           <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
             <div class="p-4 sm:p-5 border-b border-slate-100 flex flex-wrap items-center justify-between gap-3">
               <div>
@@ -260,10 +252,9 @@
           </div>
         </section>
 
-        <!-- ================= 2. CREATE / EDIT INVOICE TAB ================= -->
+        <!-- CREATE / EDIT INVOICE TAB -->
         <section id="tab-sec-create-bill" class="hidden no-print max-w-4xl mx-auto space-y-6">
           <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-4 sm:p-8 space-y-6">
-            
             <div class="flex flex-wrap items-center justify-between border-b border-slate-200 pb-4 gap-3">
               <div>
                 <div class="flex items-center gap-2">
@@ -299,7 +290,6 @@
               </div>
             </div>
 
-            <!-- Line Items Table -->
             <div class="space-y-3 pt-2">
               <div class="flex items-center justify-between">
                 <span class="text-xs font-bold uppercase tracking-wider text-slate-600">Product & Work Deliverables</span>
@@ -325,7 +315,6 @@
               </div>
             </div>
 
-            <!-- Optional GST Switch -->
             <div class="flex items-center justify-between bg-slate-50 p-3.5 rounded-xl border border-slate-200">
               <div class="flex items-center gap-2">
                 <input type="checkbox" id="inv-apply-gst" onchange="calculateInvoiceDraftTotals()" class="w-4 h-4 text-indigo-600 rounded border-slate-300 focus:ring-indigo-500 cursor-pointer">
@@ -334,7 +323,6 @@
               <span class="text-[11px] text-slate-500">Uncheck for regular non-tax invoice</span>
             </div>
 
-            <!-- Confidential Office Cost Breakdown & Service Logic -->
             <div class="bg-amber-50/80 border border-amber-200 rounded-xl p-4 space-y-3">
               <div class="flex flex-wrap items-center justify-between border-b border-amber-200 pb-2 gap-2">
                 <span class="text-xs font-extrabold text-amber-950 flex items-center gap-1.5">
@@ -343,7 +331,6 @@
                 <span class="text-[10px] font-bold bg-amber-200/80 text-amber-900 px-2 py-0.5 rounded">Confidential Memo</span>
               </div>
 
-              <!-- Cost Breakdown Inputs -->
               <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
                 <div>
                   <label class="block text-[11px] font-bold text-slate-700 mb-1">Media / Vinyl / Flex Cost (₹)</label>
@@ -359,7 +346,6 @@
                 </div>
               </div>
 
-              <!-- Calculation Result Cards -->
               <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-1 border-t border-amber-200/60 items-center">
                 <div>
                   <span class="text-[11px] text-slate-600 block">Total Incurred Cost:</span>
@@ -376,7 +362,6 @@
               </div>
             </div>
 
-            <!-- Discount & Spot Settlement Box -->
             <div class="grid grid-cols-1 md:grid-cols-2 gap-5 bg-slate-50/80 p-4 sm:p-5 rounded-xl border border-slate-200">
               <div class="space-y-3">
                 <div class="bg-white p-3 rounded-lg border border-slate-200 space-y-1.5">
@@ -417,10 +402,8 @@
           </div>
         </section>
 
-        <!-- ================= 3. OFFICIAL INVOICE & STATEMENT ================= -->
+        <!-- OFFICIAL INVOICE & STATEMENT -->
         <section id="tab-sec-invoice-preview" class="hidden space-y-6">
-          
-          <!-- Top Action Toolbar -->
           <div class="no-print max-w-4xl mx-auto bg-white p-3.5 rounded-2xl border border-slate-200 shadow-sm flex flex-wrap items-center justify-between gap-3">
             <div class="flex flex-wrap items-center gap-2.5">
               <div>
@@ -457,10 +440,7 @@
             </div>
           </div>
 
-          <!-- Printable Invoice Sheet (Responsive: Clean Document Flow) -->
           <div id="invoice-sheet" class="max-w-4xl mx-auto bg-white border border-slate-200 rounded-2xl shadow-xl overflow-hidden text-slate-800">
-            
-            <!-- Corporate Navy Header -->
             <div class="invoice-contrast-header px-6 sm:px-8 py-5 flex flex-row justify-between items-center border-b border-slate-800">
               <div class="flex items-center gap-3 sm:gap-4">
                 <img src="cool art logo.png" alt="Cool Art" class="h-8 sm:h-9 w-auto object-contain">
@@ -480,8 +460,6 @@
             </div>
 
             <div class="p-4 sm:p-7 space-y-5">
-              
-              <!-- Billed-To Client Card & Current Ledger Balance (Mobile Stacked Responsive) -->
               <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div class="bg-slate-50 p-4 rounded-xl border border-slate-200">
                   <div class="flex justify-between items-center mb-1">
@@ -508,7 +486,6 @@
                 </div>
               </div>
 
-              <!-- Line Items Table (Clean, Un-squished with Responsive Scroll) -->
               <div class="border border-slate-200 rounded-xl overflow-x-auto">
                 <table class="w-full text-left text-xs border-collapse min-w-[500px]">
                   <thead>
@@ -524,10 +501,7 @@
                 </table>
               </div>
 
-              <!-- Bottom Layout: Stacks naturally on mobile to avoid squishing[cite: 3] -->
               <div class="grid grid-cols-1 md:grid-cols-2 gap-5 pt-1">
-                
-                <!-- Summary Breakdown (Shown First on Mobile) -->
                 <div class="space-y-2 bg-slate-50 p-4 rounded-xl border border-slate-200 font-tabular text-xs md:order-2">
                   <div class="flex justify-between text-slate-600">
                     <span>Gross Value of Work:</span>
@@ -560,9 +534,7 @@
                   </div>
                 </div>
 
-                <!-- UPI QR Code & Deposit History (Shown Below on Mobile) -->
                 <div class="space-y-3 md:order-1">
-                  <!-- Dynamic UPI QR Scan & Pay Box -->
                   <div id="doc-upi-box" class="bg-slate-50 p-3.5 rounded-xl border border-slate-200 flex items-center gap-3.5">
                     <img id="doc-upi-qr" src="" alt="Scan to Pay" class="w-20 h-20 bg-white p-1 rounded-lg border border-slate-300 object-contain flex-shrink-0">
                     <div>
@@ -578,10 +550,8 @@
                     <div id="doc-payment-logs" class="space-y-1 text-xs"></div>
                   </div>
                 </div>
-
               </div>
 
-              <!-- Confidential Office Memo Footnote (Never Printed) -->
               <div id="doc-office-private-panel" class="office-private-note no-print mt-3 p-4 rounded-2xl bg-gradient-to-r from-amber-50/90 via-orange-50/80 to-amber-50/90 border border-amber-300 text-xs">
                 <div class="flex items-center justify-between border-b border-amber-200/80 pb-2 mb-3">
                   <span class="font-extrabold text-amber-950 flex items-center gap-1.5">
@@ -618,7 +588,6 @@
                 </div>
               </div>
 
-              <!-- Formal Signatory Footer -->
               <div class="border-t border-slate-200 pt-4 mt-1 flex justify-between items-end text-xs text-slate-500">
                 <div>
                   <p class="font-bold text-slate-700 text-[11px]">Cool Art Advertising</p>
@@ -632,14 +601,12 @@
               </div>
 
             </div>
-
           </div>
         </section>
-
       </main>
     </div>
 
-    <!-- Bottom Studio Footer (Attached Branding Requirement) -->
+    <!-- Bottom Studio Footer -->
     <footer class="no-print mt-10 py-8 px-4 border-t border-slate-200/80 bg-white/70 backdrop-blur-sm">
       <div class="max-w-xl mx-auto text-center p-6 rounded-3xl bg-white shadow-sm border border-slate-200/90 space-y-2">
         <div class="text-sm font-extrabold text-slate-800">
@@ -660,8 +627,6 @@
     </footer>
   </div>
 
-  <!-- ================= MODALS ================= -->
-
   <!-- MODAL: HANUMAN JI KA BANK CASH LEDGER -->
   <div id="hanuman-bank-modal" class="hidden fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-3 sm:p-4">
     <div class="bg-white rounded-2xl shadow-2xl border border-amber-200 max-w-lg w-full p-5 space-y-4">
@@ -676,7 +641,6 @@
         <button onclick="closeModal('hanuman-bank-modal')" class="text-slate-400 hover:text-slate-600 font-bold text-lg">✕</button>
       </div>
 
-      <!-- Real Cash Flow Analytics Grid -->
       <div class="grid grid-cols-3 gap-2 bg-amber-50/90 p-3 rounded-xl border border-amber-200 text-center font-tabular">
         <div>
           <span class="text-[9px] text-amber-900 font-bold block uppercase">Booked (10%)</span>
@@ -695,7 +659,6 @@
         </div>
       </div>
 
-      <!-- Record Seva Expense Form -->
       <div class="bg-slate-50 p-3 rounded-xl border border-slate-200 space-y-2">
         <span class="text-xs font-bold text-slate-800 block">Record Temple / Prasad / Seva Disbursement:</span>
         <div class="grid grid-cols-1 sm:grid-cols-3 gap-2">
@@ -710,7 +673,6 @@
         </div>
       </div>
 
-      <!-- Expense Log List -->
       <div class="space-y-1.5">
         <span class="text-xs font-bold text-slate-700 block">Disbursements Log:</span>
         <div class="max-h-36 overflow-y-auto border border-slate-200 rounded-xl divide-y divide-slate-100 text-xs" id="h-expenses-log"></div>
@@ -831,12 +793,12 @@
     </div>
   </div>
 
-  <!-- ================= JAVASCRIPT CORE ================= -->
+  <!-- ================= JAVASCRIPT ================= -->
   <script>
     const DEFAULT_WEBHOOK_URL = "https://script.google.com/macros/s/AKfycbwXlXsEhAqRUho6zZr-amBL8GJ9BPXHcUI9X54ZRlEj8_vpLxM7UaEHrp_L8cuLFy3BUA/exec";
     
-    // Master Password SHA-256 Hash for: "CoolArt@2026"
-    const AUTH_HASH = "f9f592d3f743df0ec17e059a4bb33ae7dc70233ea8536ec7d515a454da13fe62";
+    // Exact Master Gateway Password: CoolArt@2026
+    const MASTER_KEY = "CoolArt@2026";
 
     let store = {
       clients: [],
@@ -853,18 +815,12 @@
     let activeSqftTargetRow = null;
     let editingInvoiceId = null;
 
-    // Cryptographic Gateway Unlocker
-    async function sha256(str) {
-      const buf = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(str));
-      return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2, '0')).join('');
-    }
-
-    async function unlockGateway() {
-      const pass = document.getElementById('gw-pass').value;
+    // Direct Instant Password Unlocker
+    function unlockGateway() {
+      const pass = document.getElementById('gw-pass').value.trim();
       const err = document.getElementById('gw-error');
-      const hash = await sha256(pass);
 
-      if (hash === AUTH_HASH) {
+      if (pass === MASTER_KEY) {
         sessionStorage.setItem('coolart_authenticated', 'true');
         document.getElementById('security-gateway').classList.add('hidden');
         document.getElementById('app-root').classList.remove('hidden');
@@ -889,7 +845,7 @@
     }
 
     function loadData() {
-      const saved = localStorage.getItem('coolart_finance_master_v8');
+      const saved = localStorage.getItem('coolart_finance_master_v9');
       if (saved) {
         try { store = JSON.parse(saved); } catch (e) { console.error(e); }
       }
@@ -903,7 +859,7 @@
     }
 
     function persistData() {
-      localStorage.setItem('coolart_finance_master_v8', JSON.stringify(store));
+      localStorage.setItem('coolart_finance_master_v9', JSON.stringify(store));
     }
 
     // JSONP Safe Data Puller
@@ -1060,7 +1016,6 @@
     }
     function closeModal(id) { document.getElementById(id).classList.add('hidden'); }
 
-    // Accurate Financial Metrics with Realized Cash Logic
     function getClientSummary(clientId) {
       const billedTotal = store.invoices
         .filter(i => i.clientId === clientId)
@@ -1090,7 +1045,6 @@
         .filter(p => p.clientId === clientId)
         .reduce((sum, p) => sum + p.amount, 0);
 
-      // Realized Cash Logic: Proportion of collected payment against net profit
       const collectionRatio = billedTotal > 0 ? Math.min(1, paidTotal / billedTotal) : 0;
       const totalRealizedSeva = totalBookedSeva * collectionRatio;
 
@@ -1258,7 +1212,6 @@
       closeModal('client-modal');
     }
 
-    // Invoice Form Engine (Create vs Edit)
     function openNewInvoiceForm() {
       editingInvoiceId = null;
       document.getElementById('form-invoice-title').innerText = "Generate Commercial Invoice";
@@ -1414,7 +1367,6 @@
       const immediatePaid = Math.min(netInvoiced, parseFloat(document.getElementById('inv-immediate-paid').value) || 0);
       const netDue = Math.max(0, netInvoiced - immediatePaid);
 
-      // Cost Breakdown Calculations
       const cMedia = parseFloat(document.getElementById('cost-media').value) || 0;
       const cIron = parseFloat(document.getElementById('cost-iron').value) || 0;
       const cLabor = parseFloat(document.getElementById('cost-labor').value) || 0;
@@ -1463,7 +1415,6 @@
       const nowStr = new Date().toLocaleString('en-IN', { day: '2-digit', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' });
 
       if (editingInvoiceId) {
-        // UPDATE EXISTING INVOICE
         const idx = store.invoices.findIndex(i => i.id === editingInvoiceId);
         if (idx >= 0) {
           store.invoices[idx] = {
@@ -1490,7 +1441,6 @@
         }
         editingInvoiceId = null;
       } else {
-        // NEW INVOICE
         const invoiceObj = {
           id: invId,
           clientId,
@@ -1734,7 +1684,6 @@
       document.getElementById('doc-sum-paid').innerText = `(-) ₹${stats.paidTotal.toLocaleString('en-IN', {minimumFractionDigits: 2})}`;
       document.getElementById('doc-sum-balance').innerText = `₹${stats.balanceDue.toLocaleString('en-IN', {minimumFractionDigits: 2})}`;
 
-      // Confidential Private Office Section Rendering
       const curCost = isSpecificBill ? (activeInv?.totalCost || 0) : clientInvoices.reduce((s, i) => s + (i.totalCost || 0), 0);
       const curProfit = isSpecificBill ? (activeInv?.netProfit || 0) : stats.totalProfit;
       const curSeva = isSpecificBill ? (activeInv?.sevaFund || 0) : stats.totalBookedSeva;
@@ -1745,7 +1694,6 @@
       document.getElementById('doc-private-seva').innerText = `₹${curSeva.toLocaleString('en-IN', {minimumFractionDigits: 2})}`;
       document.getElementById('doc-last-modified-tag').innerText = `Last Modified: ${lastMod}`;
 
-      // Dynamic UPI QR Code
       const upiId = '9458614610-2@ybl';
       const payableAmt = Math.max(0, stats.balanceDue);
       const upiUri = `upi://pay?pa=${encodeURIComponent(upiId)}&pn=CoolArtAdvertising&am=${payableAmt.toFixed(2)}&cu=INR&tn=InvoiceSettlement`;
@@ -1753,7 +1701,6 @@
       document.getElementById('doc-upi-qr').src = qrApiUrl;
     }
 
-    // Hanuman Bank Real Cash Flow Modal
     function renderHanumanModal() {
       let grandBooked = 0, grandRealized = 0;
       store.clients.forEach(c => {
@@ -1807,7 +1754,6 @@
       document.getElementById('h-exp-note').value = '';
     }
 
-    // High-Res Print & Friendly WhatsApp Dispatchers
     function downloadInvoicePDF() {
       const invNum = document.getElementById('doc-inv-number').innerText.trim() || 'INVOICE';
       const clientSelect = document.getElementById('preview-client-select');
