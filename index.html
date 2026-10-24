@@ -64,13 +64,13 @@
       print-color-adjust: exact !important;
     }
 
-    /* Print Formatting */
+    /* Print Formatting: Strictly hides office private margins */
     @media print {
       body {
         background: #ffffff !important;
         color: #000000 !important;
       }
-      body::before, header, nav, footer, .no-print {
+      body::before, header, nav, footer, .no-print, .office-private-note {
         display: none !important;
       }
       #invoice-sheet {
@@ -141,11 +141,13 @@
 
       <!-- 1. DASHBOARD TAB -->
       <section id="tab-sec-dashboard" class="space-y-6 no-print">
-        <div class="grid grid-cols-1 sm:grid-cols-3 gap-5">
+        
+        <!-- Primary Metrics Row -->
+        <div class="grid grid-cols-1 sm:grid-cols-4 gap-4">
           <div class="stat-card p-5">
             <p class="text-xs font-bold uppercase tracking-wider text-slate-400">Total Invoiced Amount</p>
             <div class="flex items-baseline gap-2 mt-2">
-              <span id="metric-total-billed" class="text-2xl sm:text-3xl font-extrabold font-tabular text-slate-900">₹0.00</span>
+              <span id="metric-total-billed" class="text-2xl font-extrabold font-tabular text-slate-900">₹0.00</span>
             </div>
             <p class="text-[11px] text-slate-500 mt-1">Net sales across all client ledgers</p>
           </div>
@@ -153,7 +155,7 @@
           <div class="stat-card p-5">
             <p class="text-xs font-bold uppercase tracking-wider text-emerald-600">Total Payments Cleared</p>
             <div class="flex items-baseline gap-2 mt-2">
-              <span id="metric-total-received" class="text-2xl sm:text-3xl font-extrabold font-tabular text-emerald-600">₹0.00</span>
+              <span id="metric-total-received" class="text-2xl font-extrabold font-tabular text-emerald-600">₹0.00</span>
             </div>
             <p class="text-[11px] text-slate-500 mt-1">Total verified receipts deposited</p>
           </div>
@@ -161,9 +163,21 @@
           <div class="stat-card p-5 bg-gradient-to-br from-[#0b1329] to-[#1e293b] text-white border-slate-800">
             <p class="text-xs font-bold uppercase tracking-wider text-emerald-400">Total Outstanding Balance</p>
             <div class="flex items-baseline gap-2 mt-2">
-              <span id="metric-total-due" class="text-2xl sm:text-3xl font-extrabold font-tabular text-white">₹0.00</span>
+              <span id="metric-total-due" class="text-2xl font-extrabold font-tabular text-white">₹0.00</span>
             </div>
             <p class="text-[11px] text-slate-400 mt-1">Net receivables remaining in market</p>
+          </div>
+
+          <!-- Total 10% Seva Fund Metric -->
+          <div class="stat-card p-5 bg-gradient-to-br from-amber-50 to-orange-50 border-amber-200">
+            <div class="flex items-center justify-between">
+              <p class="text-xs font-extrabold uppercase tracking-wider text-amber-900">हनुमान जी सेवा निधि (10%)</p>
+              <span class="text-base">🚩</span>
+            </div>
+            <div class="flex items-baseline gap-2 mt-2">
+              <span id="metric-total-seva" class="text-2xl font-black font-tabular text-amber-700">₹0.00</span>
+            </div>
+            <p class="text-[11px] text-amber-800/80 mt-1">शुद्ध मुनाफे का 10% संचित प्रसाद अंश</p>
           </div>
         </div>
 
@@ -204,7 +218,7 @@
           <div class="flex items-center justify-between border-b border-slate-200 pb-4">
             <div>
               <h2 class="text-xl font-bold text-slate-900">Create Tax & Commercial Invoice</h2>
-              <p class="text-xs text-slate-500 mt-1">Itemize artwork, vinyl/flex sq.ft, discount %, optional GST & payments</p>
+              <p class="text-xs text-slate-500 mt-1">Itemize artwork, vinyl/flex sq.ft, discount %, cost & internal margins</p>
             </div>
             <div class="text-right">
               <span class="text-[10px] uppercase font-bold text-slate-400 block">Invoice Reference</span>
@@ -268,6 +282,42 @@
             <span class="text-[11px] text-slate-500">Uncheck for regular non-tax cash invoice</span>
           </div>
 
+          <!-- Private Office Section: Cost & Hanuman Ji 10% Seva Allocation -->
+          <div class="bg-amber-50/70 border border-amber-200 rounded-xl p-4 space-y-3">
+            <div class="flex items-center justify-between border-b border-amber-200 pb-2">
+              <span class="text-xs font-extrabold text-amber-900 flex items-center gap-1.5">
+                🔒 Office Private Margin & 10% Seva Allocation (ग्राहक को नहीं दिखेगा)
+              </span>
+              <span class="text-[10px] font-bold bg-amber-200/80 text-amber-900 px-2 py-0.5 rounded">Confidential</span>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+              <div>
+                <label class="block text-xs font-bold text-slate-700 mb-1">Total Material / Production Cost (₹)</label>
+                <input type="number" id="inv-material-cost" min="0" placeholder="0.00" oninput="calculateInvoiceDraftTotals()" class="w-full bg-white border border-amber-300 rounded-lg px-3 py-1.5 text-xs text-slate-800 font-bold focus:outline-none focus:ring-2 focus:ring-amber-500">
+                <span class="text-[10px] text-slate-500">फ्लेक्स, फ्रेम, लेबर इत्यादि की कुल लागत</span>
+              </div>
+
+              <div>
+                <label class="block text-xs font-bold text-emerald-800 mb-1">Calculated Net Profit / बचत</label>
+                <div class="bg-white border border-emerald-300 rounded-lg px-3 py-1.5 text-xs font-extrabold text-emerald-700 font-tabular" id="draft-net-profit">
+                  ₹0.00
+                </div>
+                <span class="text-[10px] text-slate-500">Net Billed - Total Cost</span>
+              </div>
+
+              <div>
+                <label class="block text-xs font-bold text-amber-900 mb-1 flex items-center gap-1">
+                  🚩 श्री हनुमान जी अंश (10%)
+                </label>
+                <div class="bg-amber-100/90 border border-amber-300 rounded-lg px-3 py-1.5 text-xs font-black text-amber-800 font-tabular" id="draft-seva-fund">
+                  ₹0.00
+                </div>
+                <span class="text-[10px] text-amber-800/80">शुद्ध बचत का 10% हिस्सा</span>
+              </div>
+            </div>
+          </div>
+
           <!-- Discount & Spot Settlement Box -->
           <div class="grid grid-cols-1 md:grid-cols-2 gap-5 bg-slate-50/80 p-5 rounded-xl border border-slate-200">
             <div class="space-y-3">
@@ -323,6 +373,11 @@
           </div>
           
           <div class="flex items-center gap-2">
+            <!-- Screen Privacy Eye Toggle -->
+            <button onclick="toggleOfficePrivacy()" class="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition">
+              👁️ <span id="toggle-privacy-text">Hide Office Margin</span>
+            </button>
+
             <button onclick="sendDirectWhatsApp()" class="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold transition shadow-sm">
               💬 Send on WhatsApp
             </button>
@@ -421,7 +476,7 @@
                   <div>
                     <span class="text-[10px] font-extrabold uppercase tracking-wider text-slate-600 block">Instant Scan & Pay</span>
                     <p class="text-[11px] text-slate-700 font-semibold font-tabular">GPay / PhonePe / Paytm</p>
-                    <p class="text-[10px] text-slate-500 font-tabular mt-0.5" id="doc-upi-id-label">UPI: 9458614610-2@ybl</p>
+                    <p class="text-[10px] text-slate-500 font-tabular mt-0.5">UPI: 9458614610-2@ybl</p>
                     <span class="inline-block mt-1 text-[9px] font-extrabold text-indigo-700 bg-indigo-50 px-1.5 py-0.5 rounded border border-indigo-200">Amount Pre-filled</span>
                   </div>
                 </div>
@@ -460,6 +515,45 @@
                 </div>
               </div>
 
+            </div>
+
+            <!-- PRIVATE OFFICE FOOTNOTE: COST, PROFIT & SHRI HANUMAN JI 10% BOX -->
+            <!-- Completely hidden from print and PDF (class: office-private-note no-print) -->
+            <div id="doc-office-private-panel" class="office-private-note no-print mt-3 p-4 rounded-2xl bg-gradient-to-r from-amber-50/90 via-orange-50/80 to-amber-50/90 border border-amber-200 text-xs">
+              <div class="flex items-center justify-between border-b border-amber-200/80 pb-2 mb-3">
+                <span class="font-bold text-amber-900 flex items-center gap-1.5">
+                  🔒 Internal Office Memo (Strictly Private — Not Visible on Print/PDF)
+                </span>
+                <span class="text-[10px] font-extrabold text-amber-800 bg-amber-200/60 px-2 py-0.5 rounded">Office Copy Only</span>
+              </div>
+
+              <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 items-center">
+                <!-- Cost & Net Profit -->
+                <div class="bg-white/80 p-2.5 rounded-xl border border-amber-200/70">
+                  <span class="text-[10px] text-slate-500 font-bold block uppercase">Production Cost (लागत)</span>
+                  <span class="text-sm font-extrabold text-slate-800 font-tabular" id="doc-private-cost">₹0.00</span>
+                </div>
+
+                <div class="bg-white/80 p-2.5 rounded-xl border border-amber-200/70">
+                  <span class="text-[10px] text-emerald-700 font-bold block uppercase">Total Net Profit (शुद्ध बचत)</span>
+                  <span class="text-sm font-black text-emerald-700 font-tabular" id="doc-private-profit">₹0.00</span>
+                </div>
+
+                <!-- Shri Hanuman Ji Maharaj 10% Dedicated Card -->
+                <div class="bg-gradient-to-br from-amber-100 to-orange-100 p-2.5 rounded-xl border border-amber-300 flex items-center gap-3">
+                  <!-- Custom Image Slot: Place 'hanuman ji.png' in folder, or falls back to Flag Icon -->
+                  <div class="w-10 h-10 rounded-lg overflow-hidden flex-shrink-0 bg-amber-200 flex items-center justify-center border border-amber-300 shadow-sm">
+                    <img src="hanuman ji.png" alt="श्री हनुमान जी" class="w-full h-full object-cover" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                    <span style="display:none;" class="text-xl">🚩</span>
+                  </div>
+                  <div>
+                    <span class="text-[10px] font-black uppercase tracking-wider text-amber-900 block">
+                      श्री हनुमान जी महाराज अंश (10%)
+                    </span>
+                    <span class="text-base font-black text-amber-800 font-tabular" id="doc-private-seva">₹0.00</span>
+                  </div>
+                </div>
+              </div>
             </div>
 
             <!-- Formal Signatory Footer -->
@@ -557,16 +651,16 @@
         </div>
         <div class="grid grid-cols-2 gap-3">
           <div>
-            <label class="block text-xs font-bold text-slate-700 mb-1">Receipt Date *</label>
+            <label class="block text-xs font-semibold text-slate-700 mb-1">Receipt Date *</label>
             <input type="date" id="p-date" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-xs sm:text-sm text-slate-800 focus:outline-none focus:ring-2 focus:ring-indigo-500">
           </div>
           <div>
-            <label class="block text-xs font-bold text-slate-700 mb-1">Amount Paid (₹) *</label>
+            <label class="block text-xs font-semibold text-slate-700 mb-1">Amount Paid (₹) *</label>
             <input type="number" id="p-amount" placeholder="0.00" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-xs sm:text-sm font-bold text-emerald-600 focus:outline-none focus:ring-2 focus:ring-indigo-500">
           </div>
         </div>
         <div>
-          <label class="block text-xs font-bold text-slate-700 mb-1">Payment Method & Reference</label>
+          <label class="block text-xs font-semibold text-slate-700 mb-1">Payment Method & Reference</label>
           <select id="p-mode" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-xs sm:text-sm text-slate-800 focus:outline-none mb-2">
             <option value="UPI / PhonePe / GPay">UPI / GPay / PhonePe</option>
             <option value="Bank Transfer (NEFT/RTGS)">Bank Transfer (NEFT / RTGS)</option>
@@ -612,7 +706,7 @@
     </div>
   </div>
 
-  <!-- JAVASCRIPT LOGIC WITH JSONP CLOUD SYNC -->
+  <!-- JAVASCRIPT LOGIC -->
   <script>
     const DEFAULT_WEBHOOK_URL = "https://script.google.com/macros/s/AKfycbwXlXsEhAqRUho6zZr-amBL8GJ9BPXHcUI9X54ZRlEj8_vpLxM7UaEHrp_L8cuLFy3BUA/exec";
 
@@ -628,9 +722,10 @@
     };
 
     let activeSqftTargetRow = null;
+    let isOfficePrivacyHidden = false;
 
     function loadData() {
-      const saved = localStorage.getItem('coolart_finance_master_v5');
+      const saved = localStorage.getItem('coolart_finance_master_v6');
       if (saved) {
         try { store = JSON.parse(saved); } catch (e) { console.error(e); }
       }
@@ -643,7 +738,22 @@
     }
 
     function persistData() {
-      localStorage.setItem('coolart_finance_master_v5', JSON.stringify(store));
+      localStorage.setItem('coolart_finance_master_v6', JSON.stringify(store));
+    }
+
+    function toggleOfficePrivacy() {
+      isOfficePrivacyHidden = !isOfficePrivacyHidden;
+      const panel = document.getElementById('doc-office-private-panel');
+      const text = document.getElementById('toggle-privacy-text');
+      if (panel) {
+        if (isOfficePrivacyHidden) {
+          panel.style.display = 'none';
+          text.innerText = 'Show Office Margin';
+        } else {
+          panel.style.display = 'block';
+          text.innerText = 'Hide Office Margin';
+        }
+      }
     }
 
     // JSONP Cross-Origin Safe Data Puller
@@ -657,9 +767,7 @@
 
       const callbackName = 'coolart_cb_' + Date.now();
 
-      // Setup global callback
       window[callbackName] = function(result) {
-        // Clean up DOM script tag & callback
         delete window[callbackName];
         const oldScript = document.getElementById(callbackName);
         if (oldScript) oldScript.remove();
@@ -669,15 +777,12 @@
 
         if (result && result.status === "success" && Array.isArray(result.data)) {
           processSheetData(result.data);
-          if (isManual) {
-            alert('Google Sheet se data successfully load ho gaya!');
-          }
+          if (isManual) alert('Google Sheet se data successfully load ho gaya!');
         } else {
-          if (isManual) alert('Sheet se empty response mila. Data check karein.');
+          if (isManual) alert('Sheet se empty response mila.');
         }
       };
 
-      // Append Script Tag (Bypasses all CORS blocks)
       const script = document.createElement('script');
       script.id = callbackName;
       script.src = url + (url.indexOf('?') >= 0 ? '&' : '?') + 'callback=' + callbackName;
@@ -686,7 +791,7 @@
         script.remove();
         if (spinner) spinner.classList.add('hidden');
         if (text) text.innerText = '🔄 Sync from Sheet';
-        if (isManual) alert('Google Sheet connect karne mein issue aaya. Script permission check karein.');
+        if (isManual) alert('Google Sheet connect karne mein issue aaya.');
       };
       document.body.appendChild(script);
     }
@@ -729,6 +834,9 @@
             grossTotal: Number(row.totalAmount) || 0,
             discount: 0,
             discountPct: '0',
+            materialCost: 0,
+            netProfit: Number(row.totalAmount) || 0,
+            sevaFund: (Number(row.totalAmount) || 0) * 0.1,
             gstApplied: false,
             gstAmount: 0,
             total: Number(row.totalAmount) || 0
@@ -810,6 +918,14 @@
         .filter(i => i.clientId === clientId)
         .reduce((sum, i) => sum + (i.gstAmount || 0), 0);
 
+      const totalProfit = store.invoices
+        .filter(i => i.clientId === clientId)
+        .reduce((sum, i) => sum + (i.netProfit || 0), 0);
+
+      const totalSeva = store.invoices
+        .filter(i => i.clientId === clientId)
+        .reduce((sum, i) => sum + (i.sevaFund || 0), 0);
+
       const paidTotal = store.payments
         .filter(p => p.clientId === clientId)
         .reduce((sum, p) => sum + p.amount, 0);
@@ -820,6 +936,8 @@
         gstTotal,
         billedTotal,
         paidTotal,
+        totalProfit,
+        totalSeva,
         balanceDue: billedTotal - paidTotal
       };
     }
@@ -831,17 +949,19 @@
     }
 
     function updateMetricBadges() {
-      let grandBilled = 0, grandReceived = 0;
+      let grandBilled = 0, grandReceived = 0, grandSeva = 0;
       store.clients.forEach(c => {
         const stats = getClientSummary(c.id);
         grandBilled += stats.billedTotal;
         grandReceived += stats.paidTotal;
+        grandSeva += stats.totalSeva;
       });
       const grandDue = grandBilled - grandReceived;
 
       document.getElementById('metric-total-billed').innerText = `₹${grandBilled.toLocaleString('en-IN', {minimumFractionDigits: 2})}`;
       document.getElementById('metric-total-received').innerText = `₹${grandReceived.toLocaleString('en-IN', {minimumFractionDigits: 2})}`;
       document.getElementById('metric-total-due').innerText = `₹${grandDue.toLocaleString('en-IN', {minimumFractionDigits: 2})}`;
+      document.getElementById('metric-total-seva').innerText = `₹${grandSeva.toLocaleString('en-IN', {minimumFractionDigits: 2})}`;
     }
 
     function renderClientsTable() {
@@ -930,6 +1050,9 @@
           grossTotal: opening,
           discount: 0,
           discountPct: '0',
+          materialCost: 0,
+          netProfit: opening,
+          sevaFund: opening * 0.1,
           gstApplied: false,
           gstAmount: 0,
           total: opening
@@ -968,6 +1091,7 @@
       tbody.innerHTML = '';
       addLineItem('', '', 1, '');
       document.getElementById('inv-discount-amt').value = '';
+      document.getElementById('inv-material-cost').value = '';
       document.getElementById('inv-immediate-paid').value = '';
       document.getElementById('inv-apply-gst').checked = false;
       calculateInvoiceDraftTotals();
@@ -1060,12 +1184,20 @@
       const immediatePaid = Math.min(netInvoiced, parseFloat(document.getElementById('inv-immediate-paid').value) || 0);
       const netDue = Math.max(0, netInvoiced - immediatePaid);
 
+      // Cost & 10% Seva Allocation Calculations
+      const materialCost = parseFloat(document.getElementById('inv-material-cost').value) || 0;
+      const netProfit = Math.max(0, afterDiscount - materialCost);
+      const sevaFund = netProfit * 0.10;
+
       document.getElementById('draft-subtotal').innerText = `₹${subtotal.toLocaleString('en-IN', {minimumFractionDigits: 2})}`;
       document.getElementById('draft-net-invoiced').innerText = `₹${netInvoiced.toLocaleString('en-IN', {minimumFractionDigits: 2})}`;
       document.getElementById('draft-paid').innerText = `(-) ₹${immediatePaid.toLocaleString('en-IN', {minimumFractionDigits: 2})}`;
       document.getElementById('draft-due').innerText = `₹${netDue.toLocaleString('en-IN', {minimumFractionDigits: 2})}`;
 
-      return { subtotal, discountAmt, discountPct, applyGst, gstAmt, netInvoiced, immediatePaid };
+      document.getElementById('draft-net-profit').innerText = `₹${netProfit.toLocaleString('en-IN', {minimumFractionDigits: 2})}`;
+      document.getElementById('draft-seva-fund').innerText = `₹${sevaFund.toLocaleString('en-IN', {minimumFractionDigits: 2})}`;
+
+      return { subtotal, discountAmt, discountPct, applyGst, gstAmt, netInvoiced, immediatePaid, materialCost, netProfit, sevaFund };
     }
 
     function commitInvoice() {
@@ -1092,7 +1224,7 @@
 
       if (items.length === 0) return alert('Please add at least one line item.');
 
-      const { subtotal, discountAmt, discountPct, applyGst, gstAmt, netInvoiced, immediatePaid } = calculateInvoiceDraftTotals();
+      const { subtotal, discountAmt, discountPct, applyGst, gstAmt, netInvoiced, immediatePaid, materialCost, netProfit, sevaFund } = calculateInvoiceDraftTotals();
 
       const invoiceObj = {
         id: invId,
@@ -1104,6 +1236,9 @@
         grossTotal: subtotal,
         discount: discountAmt,
         discountPct: discountPct,
+        materialCost,
+        netProfit,
+        sevaFund,
         gstApplied: applyGst,
         gstAmount: gstAmt,
         total: netInvoiced
@@ -1324,9 +1459,17 @@
       document.getElementById('doc-sum-paid').innerText = `(-) ₹${stats.paidTotal.toLocaleString('en-IN', {minimumFractionDigits: 2})}`;
       document.getElementById('doc-sum-balance').innerText = `₹${stats.balanceDue.toLocaleString('en-IN', {minimumFractionDigits: 2})}`;
 
-      // Dynamic UPI QR Code (Locked to: 9458614610-2@ybl)
+      // Populate Confidential Private Office Section
+      const curCost = isSpecificBill ? (activeInv?.materialCost || 0) : clientInvoices.reduce((s, i) => s + (i.materialCost || 0), 0);
+      const curProfit = isSpecificBill ? (activeInv?.netProfit || 0) : stats.totalProfit;
+      const curSeva = isSpecificBill ? (activeInv?.sevaFund || 0) : stats.totalSeva;
+
+      document.getElementById('doc-private-cost').innerText = `₹${curCost.toLocaleString('en-IN', {minimumFractionDigits: 2})}`;
+      document.getElementById('doc-private-profit').innerText = `₹${curProfit.toLocaleString('en-IN', {minimumFractionDigits: 2})}`;
+      document.getElementById('doc-private-seva').innerText = `₹${curSeva.toLocaleString('en-IN', {minimumFractionDigits: 2})}`;
+
+      // Dynamic UPI QR Code
       const upiId = '9458614610-2@ybl';
-      document.getElementById('doc-upi-id-label').innerText = `UPI: ${upiId}`;
       const payableAmt = Math.max(0, stats.balanceDue);
       const upiUri = `upi://pay?pa=${encodeURIComponent(upiId)}&pn=CoolArtAdvertising&am=${payableAmt.toFixed(2)}&cu=INR&tn=InvoiceSettlement`;
       const qrApiUrl = `https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=${encodeURIComponent(upiUri)}`;
@@ -1334,26 +1477,24 @@
     }
 
     function downloadInvoicePDF() {
-      const element = document.getElementById('invoice-sheet');
+      const invNum = document.getElementById('doc-inv-number').innerText.trim() || 'INVOICE';
       const clientSelect = document.getElementById('preview-client-select');
-      const clientName = clientSelect.options[clientSelect.selectedIndex].text.replace(/[^a-zA-Z0-9]/g, '_');
-      const invNum = document.getElementById('doc-inv-number').innerText;
+      const clientName = clientSelect && clientSelect.options[clientSelect.selectedIndex] 
+        ? clientSelect.options[clientSelect.selectedIndex].text.replace(/[^a-zA-Z0-9]/g, '_') 
+        : 'Client';
 
-      const opt = {
-        margin: [4, 6, 4, 6],
-        filename: `CoolArt_Invoice_${invNum}_${clientName}.pdf`,
-        image: { type: 'jpeg', quality: 0.98 },
-        html2canvas: { scale: 2, useCORS: true },
-        jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
-      };
-
-      html2pdf().set(opt).from(element).save();
+      const originalTitle = document.title;
+      document.title = `CoolArt_Invoice_${invNum}_${clientName}`;
+      window.print();
+      setTimeout(() => { document.title = originalTitle; }, 1000);
     }
 
     function sendDirectWhatsApp() {
       const clientId = document.getElementById('preview-client-select').value;
+      if (!clientId) return alert('Pehle koi Client select karein!');
+
       const client = store.clients.find(c => c.id === clientId);
-      if (!client) return;
+      if (!client) return alert('Client record nahi mila!');
 
       const stats = getClientSummary(clientId);
       const payments = store.payments.filter(p => p.clientId === clientId);
@@ -1376,19 +1517,24 @@
       }
       msg += `• Cleared Receipts: ₹${stats.paidTotal.toLocaleString('en-IN', {minimumFractionDigits: 2})}\n`;
       msg += `• *NET REMAINING BALANCE DUE: ₹${stats.balanceDue.toLocaleString('en-IN', {minimumFractionDigits: 2})}*\n\n`;
-      msg += `Kindly clear the balance using UPI: *9458614610-2@ybl* or scan the QR code on the attached PDF.\n`;
-      msg += `_Cool Art Advertising — Atrauli (Aligarh)_`;
+      msg += `UPI Payment ID: *9458614610-2@ybl*\n`;
+      msg += `_Cool Art Advertising — Atrauli (Aligarh)_\n`;
+      msg += `Helpline: +91 9458614610`;
 
-      const cleanPhone = (client.phone || '').replace(/[^0-9]/g, '');
-      const fullPhone = cleanPhone.length === 10 ? `91${cleanPhone}` : cleanPhone;
+      let cleanPhone = (client.phone || '').replace(/[^0-9]/g, '');
+      if (cleanPhone.length === 10) cleanPhone = '91' + cleanPhone;
 
-      if (fullPhone) {
-        window.open(`https://wa.me/${fullPhone}?text=${encodeURIComponent(msg)}`, '_blank');
-      } else {
-        navigator.clipboard.writeText(msg).then(() => {
-          alert('Phone number missing! Statement copied to clipboard.');
-        });
-      }
+      const waUrl = cleanPhone 
+        ? `https://api.whatsapp.com/send?phone=${cleanPhone}&text=${encodeURIComponent(msg)}`
+        : `https://api.whatsapp.com/send?text=${encodeURIComponent(msg)}`;
+
+      const tempLink = document.createElement('a');
+      tempLink.href = waUrl;
+      tempLink.target = '_blank';
+      tempLink.rel = 'noopener noreferrer';
+      document.body.appendChild(tempLink);
+      tempLink.click();
+      document.body.removeChild(tempLink);
     }
 
     function exportToCSV() {
