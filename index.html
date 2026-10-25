@@ -5,9 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Cool Art | Enterprise Billing, Signage & Cloud Ledger</title>
   
- <!-- Your Custom Favicon File -->
-<link rel="icon" type="image/png" href="fevicon.png">
-<link rel="apple-touch-icon" href="fevicon.png">
+  <!-- Custom Favicon File with Cache Versioning -->
+  <link rel="icon" type="image/png" href="fevicon.png?v=3">
+  <link rel="apple-touch-icon" href="fevicon.png?v=3">
 
   <script src="https://cdn.tailwindcss.com"></script>
 
@@ -97,9 +97,12 @@
   <!-- ================= 0. SECURITY GATEWAY ================= -->
   <div id="security-gateway" class="fixed inset-0 z-50 bg-[#070d1e] flex items-center justify-center p-4">
     <div class="stat-card max-w-sm w-full p-8 border-slate-800 bg-[#0b1329]/95 text-white shadow-2xl relative overflow-hidden text-center space-y-6">
+      
+      <!-- Dedicated Security Gateway Logo -->
       <div class="flex justify-center">
-        <img src="cool art logo.png" alt="Cool Art" class="h-10 w-auto object-contain">
+        <img src="security logo.png" alt="Security Vault" class="h-12 w-auto object-contain" onerror="this.onerror=null; this.src='cool art logo.png';">
       </div>
+
       <div>
         <h2 class="text-sm font-extrabold uppercase tracking-widest text-slate-100">Cool Art Advertising</h2>
         <p class="text-[11px] text-emerald-400 font-semibold mt-1">Authorized Executive Access Only</p>
@@ -125,8 +128,16 @@
       <header class="sticky top-0 z-40 bg-[#0b1329]/95 backdrop-blur-md border-b border-slate-800 text-white shadow-md no-print">
         <div class="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-2">
           
-          <div class="flex items-center gap-2.5 sm:gap-3.5 flex-shrink-0">
+          <!-- Logos with Vertical Separator -->
+          <div class="flex items-center gap-2 sm:gap-3 flex-shrink-0">
             <img src="cool art logo.png" alt="Cool Art" class="h-7 sm:h-8 w-auto object-contain">
+            
+            <!-- Separator -->
+            <span class="text-slate-600 font-extralight text-lg sm:text-xl">|</span>
+            
+            <!-- Security Logo in Header -->
+            <img src="security logo.png" alt="Security Emblem" class="h-6 sm:h-7 w-auto object-contain" onerror="this.style.display='none';">
+
             <div class="hidden md:block border-l border-slate-700 pl-3">
               <h1 class="text-xs font-bold uppercase tracking-wider text-slate-100">Cool Art Advertising</h1>
               <p class="text-[11px] text-emerald-400 font-medium">Enterprise Commercial Billing & Cloud Ledger</p>
@@ -140,9 +151,9 @@
               <span class="hidden sm:inline" id="sync-text">Sync</span>
             </button>
 
-            <button onclick="exportToCSV()" title="Export CSV" class="inline-flex items-center justify-center gap-1 text-xs font-semibold p-2 sm:px-3 sm:py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 transition">
-              <span class="text-sm">📥</span>
-              <span class="hidden sm:inline">CSV</span>
+            <button onclick="openModal('expense-modal')" title="Add General Expense" class="inline-flex items-center gap-1 text-xs font-bold px-3 py-2 rounded-xl bg-rose-600 hover:bg-rose-500 text-white shadow transition">
+              <span>💸</span>
+              <span class="hidden sm:inline">Add Expense</span>
             </button>
 
             <button onclick="openNewInvoiceForm()" class="inline-flex items-center gap-1 text-xs font-bold px-3 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white shadow transition">
@@ -163,6 +174,9 @@
             <button onclick="switchTab('dashboard')" id="nav-dashboard" class="py-3 px-1 text-xs sm:text-sm font-bold border-b-2 border-indigo-600 text-indigo-700 flex items-center gap-1.5 whitespace-nowrap transition">
               📋 Directory & Ledger
             </button>
+            <button onclick="switchTab('expenses')" id="nav-expenses" class="py-3 px-1 text-xs sm:text-sm font-semibold border-b-2 border-transparent text-slate-500 hover:text-slate-900 flex items-center gap-1.5 whitespace-nowrap transition">
+              🏢 Office Expenses
+            </button>
             <button onclick="switchTab('create-bill')" id="nav-create-bill" class="py-3 px-1 text-xs sm:text-sm font-semibold border-b-2 border-transparent text-slate-500 hover:text-slate-900 flex items-center gap-1.5 whitespace-nowrap transition">
               ✍️ Invoice Studio
             </button>
@@ -174,7 +188,7 @@
       </div>
 
       <main class="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 py-5 sm:py-7 w-full">
-        <!-- DASHBOARD TAB -->
+        <!-- 1. DASHBOARD TAB -->
         <section id="tab-sec-dashboard" class="space-y-6 no-print">
           <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
             <div class="stat-card p-5">
@@ -222,6 +236,26 @@
             </div>
           </div>
 
+          <!-- Profit Breakdown Sub-Row -->
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm">
+              <span class="text-xs font-bold text-slate-500 uppercase tracking-wider block">Job Production Margin (Booked)</span>
+              <span id="metric-job-profit" class="text-xl font-extrabold text-slate-800 font-tabular mt-1 block">₹0.00</span>
+              <span class="text-[10px] text-slate-400">Total Billed - Job Production Cost</span>
+            </div>
+            <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm">
+              <span class="text-xs font-bold text-rose-600 uppercase tracking-wider block">Office / Shop Expenses</span>
+              <span id="metric-office-expenses" class="text-xl font-extrabold text-rose-600 font-tabular mt-1 block">₹0.00</span>
+              <span class="text-[10px] text-slate-400">Rent, Bills, Tea, Tools, Maintenance</span>
+            </div>
+            <div class="bg-emerald-50/80 p-4 rounded-xl border border-emerald-200 shadow-sm">
+              <span class="text-xs font-black text-emerald-900 uppercase tracking-wider block">Real In-Hand Cash Profit</span>
+              <span id="metric-net-real-profit" class="text-2xl font-black text-emerald-700 font-tabular mt-1 block">₹0.00</span>
+              <span class="text-[10px] text-emerald-800/80 font-medium">Cleared Receipts - Job Cost - Office Expenses</span>
+            </div>
+          </div>
+
+          <!-- Client Accounts Table -->
           <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
             <div class="p-4 sm:p-5 border-b border-slate-100 flex flex-wrap items-center justify-between gap-3">
               <div>
@@ -252,7 +286,41 @@
           </div>
         </section>
 
-        <!-- CREATE / EDIT INVOICE TAB -->
+        <!-- 2. OFFICE EXPENSES TAB -->
+        <section id="tab-sec-expenses" class="hidden no-print space-y-6">
+          <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
+            <div class="p-4 sm:p-5 border-b border-slate-100 flex flex-wrap items-center justify-between gap-3">
+              <div>
+                <h2 class="text-base font-bold text-slate-900">Office & General Expense Records</h2>
+                <p class="text-xs text-slate-500 mt-0.5">Track vendor details, phone numbers, items, and expenditure date</p>
+              </div>
+              <button onclick="openModal('expense-modal')" class="inline-flex items-center gap-1.5 text-xs font-bold px-4 py-2.5 rounded-xl bg-rose-600 hover:bg-rose-500 text-white transition shadow-sm">
+                + Create Expense Voucher
+              </button>
+            </div>
+
+            <div class="overflow-x-auto">
+              <table class="w-full text-left text-xs sm:text-sm min-w-[650px]">
+                <thead class="bg-slate-50 border-b border-slate-200 text-slate-500 uppercase tracking-wider text-[11px] font-bold">
+                  <tr>
+                    <th class="py-3.5 px-4">Voucher #</th>
+                    <th class="py-3.5 px-4">Date</th>
+                    <th class="py-3.5 px-4">Vendor / Person</th>
+                    <th class="py-3.5 px-4">Phone</th>
+                    <th class="py-3.5 px-4">Category</th>
+                    <th class="py-3.5 px-4">What Was Purchased</th>
+                    <th class="py-3.5 px-4">Mode</th>
+                    <th class="py-3.5 px-4 text-right">Amount (₹)</th>
+                    <th class="py-3.5 px-4 text-center">Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="expenses-table-body" class="divide-y divide-slate-100 font-normal font-tabular"></tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- 3. CREATE / EDIT INVOICE TAB -->
         <section id="tab-sec-create-bill" class="hidden no-print max-w-4xl mx-auto space-y-6">
           <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-4 sm:p-8 space-y-6">
             <div class="flex flex-wrap items-center justify-between border-b border-slate-200 pb-4 gap-3">
@@ -402,7 +470,7 @@
           </div>
         </section>
 
-        <!-- OFFICIAL INVOICE & STATEMENT -->
+        <!-- 4. OFFICIAL INVOICE & STATEMENT -->
         <section id="tab-sec-invoice-preview" class="hidden space-y-6">
           <div class="no-print max-w-4xl mx-auto bg-white p-3.5 rounded-2xl border border-slate-200 shadow-sm flex flex-wrap items-center justify-between gap-3">
             <div class="flex flex-wrap items-center gap-2.5">
@@ -422,7 +490,7 @@
             </div>
             
             <div class="flex flex-wrap items-center gap-2">
-              <button onclick="sendFriendlyWhatsAppReminder()" class="inline-flex items-center gap-1 px-3 py-2 rounded-xl bg-teal-600 hover:bg-teal-500 text-white text-xs font-bold transition shadow-sm" title="Send gentle payment reminder">
+              <button onclick="sendFriendlyWhatsAppReminder()" class="inline-flex items-center gap-1 px-3 py-2 rounded-xl bg-teal-600 hover:bg-teal-500 text-white text-xs font-bold transition shadow-sm">
                 💬 Reminder
               </button>
 
@@ -552,6 +620,7 @@
                 </div>
               </div>
 
+              <!-- Confidential Office Margin (Never Printed) -->
               <div id="doc-office-private-panel" class="office-private-note no-print mt-3 p-4 rounded-2xl bg-gradient-to-r from-amber-50/90 via-orange-50/80 to-amber-50/90 border border-amber-300 text-xs">
                 <div class="flex items-center justify-between border-b border-amber-200/80 pb-2 mb-3">
                   <span class="font-extrabold text-amber-950 flex items-center gap-1.5">
@@ -588,13 +657,19 @@
                 </div>
               </div>
 
+              <!-- Formal Signatory Footer with Signature Image -->
               <div class="border-t border-slate-200 pt-4 mt-1 flex justify-between items-end text-xs text-slate-500">
                 <div>
                   <p class="font-bold text-slate-700 text-[11px]">Cool Art Advertising</p>
                   <p class="text-[10px] text-slate-400">Official Computer Generated Tax Invoice & Client Ledger</p>
                 </div>
-                <div class="text-right">
-                  <div class="w-36 border-b border-slate-400 mb-1 ml-auto"></div>
+                
+                <div class="text-right flex flex-col items-end">
+                  <!-- Attached Digital Signature -->
+                  <div class="h-14 w-36 flex items-end justify-end mb-1">
+                    <img src="kksignature.png" alt="Signature" class="max-h-full max-w-full object-contain filter contrast-125" onerror="this.onerror=null; this.src='kksignature.jpg';">
+                  </div>
+                  <div class="w-36 border-b border-slate-400 mb-1"></div>
                   <span class="text-[10px] font-bold text-slate-700 uppercase tracking-wider block">Authorized Signatory</span>
                   <span class="text-[9px] text-slate-400">Commercial Billing</span>
                 </div>
@@ -625,6 +700,79 @@
         </div>
       </div>
     </footer>
+  </div>
+
+  <!-- ================= MODALS ================= -->
+
+  <!-- MODAL: CREATE OFFICE EXPENSE VOUCHER -->
+  <div id="expense-modal" class="hidden fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl shadow-2xl border border-slate-200 max-w-md w-full p-6 space-y-4">
+      <div class="flex justify-between items-center pb-2 border-b border-slate-100">
+        <div>
+          <h3 class="text-base font-bold text-slate-900">Office Expense Voucher</h3>
+          <p class="text-[11px] text-slate-500">Record indirect shop & running expenditures</p>
+        </div>
+        <button onclick="closeModal('expense-modal')" class="text-slate-400 hover:text-slate-600 font-bold">✕</button>
+      </div>
+
+      <div class="space-y-3">
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1">Kab Liya (Date) *</label>
+            <input type="date" id="exp-date" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-xs text-slate-800">
+          </div>
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1">Category *</label>
+            <select id="exp-cat" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-xs text-slate-800 font-semibold">
+              <option value="Shop Rent">Shop Rent</option>
+              <option value="Electricity / Power">Electricity / Power</option>
+              <option value="Tea & Refreshments">Tea & Refreshments</option>
+              <option value="Machine Ink & Solvents">Machine Ink & Solvents</option>
+              <option value="Hardware Tools & Blades">Hardware Tools & Blades</option>
+              <option value="Delivery Fuel & Conveyance">Delivery Fuel & Conveyance</option>
+              <option value="Internet & Mobile Recharge">Internet & Mobile Recharge</option>
+              <option value="Other Misc Expense">Other Misc Expense</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1">Kisse Liya (Vendor Name) *</label>
+            <input type="text" id="exp-vendor" placeholder="e.g. Ramu Chai / Sharma Ji" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-xs text-slate-800 focus:outline-none focus:ring-2 focus:ring-rose-500">
+          </div>
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1">Mobile No.</label>
+            <input type="tel" id="exp-phone" placeholder="9876543210 (10 Digits)" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-xs text-slate-800 font-tabular focus:outline-none focus:ring-2 focus:ring-rose-500">
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-xs font-bold text-slate-700 mb-1">Kya Liya (Item Description) *</label>
+          <input type="text" id="exp-desc" placeholder="e.g. 5 Litre Solvent Ink / 2 Cutter Blades / Chai" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-xs text-slate-800 focus:outline-none focus:ring-2 focus:ring-rose-500">
+        </div>
+
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1">Amount Paid (₹) *</label>
+            <input type="number" id="exp-amt" placeholder="0.00" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-xs font-bold text-rose-600 font-tabular focus:outline-none focus:ring-2 focus:ring-rose-500">
+          </div>
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1">Payment Mode</label>
+            <select id="exp-mode" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-xs text-slate-800">
+              <option value="Cash">Cash</option>
+              <option value="UPI / PhonePe">UPI / PhonePe</option>
+              <option value="Bank Transfer">Bank Transfer</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div class="flex justify-end gap-2 pt-3">
+        <button onclick="closeModal('expense-modal')" class="px-4 py-2 text-xs font-bold text-slate-600 hover:bg-slate-100 rounded-xl">Cancel</button>
+        <button onclick="commitOfficeExpense()" class="px-5 py-2 text-xs font-bold text-white bg-rose-600 hover:bg-rose-700 rounded-xl">Record & Sync</button>
+      </div>
+    </div>
   </div>
 
   <!-- MODAL: HANUMAN JI KA BANK CASH LEDGER -->
@@ -796,8 +944,6 @@
   <!-- ================= JAVASCRIPT ================= -->
   <script>
     const DEFAULT_WEBHOOK_URL = "https://script.google.com/macros/s/AKfycbwXlXsEhAqRUho6zZr-amBL8GJ9BPXHcUI9X54ZRlEj8_vpLxM7UaEHrp_L8cuLFy3BUA/exec";
-    
-    // Exact Master Gateway Password: CoolArt@2026
     const MASTER_KEY = "CoolArt@2026";
 
     let store = {
@@ -805,8 +951,10 @@
       invoices: [],
       payments: [],
       hanumanExpenses: [],
+      officeExpenses: [],
       config: {
         nextInvSeq: 1,
+        nextExpSeq: 1,
         webhookUrl: DEFAULT_WEBHOOK_URL,
         upiId: '9458614610-2@ybl'
       }
@@ -815,7 +963,6 @@
     let activeSqftTargetRow = null;
     let editingInvoiceId = null;
 
-    // Direct Instant Password Unlocker
     function unlockGateway() {
       const pass = document.getElementById('gw-pass').value.trim();
       const err = document.getElementById('gw-error');
@@ -845,7 +992,7 @@
     }
 
     function loadData() {
-      const saved = localStorage.getItem('coolart_finance_master_v9');
+      const saved = localStorage.getItem('coolart_finance_master_v13');
       if (saved) {
         try { store = JSON.parse(saved); } catch (e) { console.error(e); }
       }
@@ -853,16 +1000,16 @@
       store.config.webhookUrl = DEFAULT_WEBHOOK_URL;
       store.config.upiId = '9458614610-2@ybl';
       if (!Array.isArray(store.hanumanExpenses)) store.hanumanExpenses = [];
+      if (!Array.isArray(store.officeExpenses)) store.officeExpenses = [];
 
       pullDataFromSheets(false);
       refreshAllViews();
     }
 
     function persistData() {
-      localStorage.setItem('coolart_finance_master_v9', JSON.stringify(store));
+      localStorage.setItem('coolart_finance_master_v13', JSON.stringify(store));
     }
 
-    // JSONP Safe Data Puller
     function pullDataFromSheets(isManual = false) {
       const url = store.config.webhookUrl || DEFAULT_WEBHOOK_URL;
       const spinner = document.getElementById('sync-spinner');
@@ -897,7 +1044,7 @@
         script.remove();
         if (spinner) spinner.classList.add('hidden');
         if (text) text.innerText = 'Sync';
-        if (isManual) alert('Error connecting to Google Sheets. Check Apps Script permissions.');
+        if (isManual) alert('Error connecting to Google Sheets.');
       };
       document.body.appendChild(script);
     }
@@ -906,8 +1053,25 @@
       const clientMap = {};
       const newInvoices = [];
       const newPayments = [];
+      const newExpenses = [];
 
       rows.forEach((row, idx) => {
+        const rowDate = row.date ? String(row.date).split('T')[0] : new Date().toISOString().split('T')[0];
+
+        if (row.type === 'Office Expense') {
+          newExpenses.push({
+            id: 'EXP-' + (idx + 1),
+            date: rowDate,
+            vendor: row.partyName || 'Vendor',
+            phone: row.phone || '',
+            cat: row.category || 'General Expense',
+            desc: row.items || 'Office Expense',
+            amount: Number(row.paidAmount) || 0,
+            mode: row.mode || 'Cash'
+          });
+          return;
+        }
+
         const name = (row.partyName || '').trim();
         if (!name) return;
 
@@ -920,8 +1084,6 @@
             status: 'Delivered'
           };
         }
-
-        const rowDate = row.date ? String(row.date).split('T')[0] : new Date().toISOString().split('T')[0];
 
         if (row.type === 'Invoice Issued' || row.type === 'Opening Due' || row.type === 'Opening Balance') {
           const matchedExisting = store.invoices.find(i => i.id === 'INV-' + (idx + 1));
@@ -979,6 +1141,7 @@
       store.clients = Object.values(clientMap);
       store.invoices = newInvoices;
       store.payments = newPayments;
+      if (newExpenses.length > 0) store.officeExpenses = newExpenses;
 
       persistData();
       refreshAllViews();
@@ -995,7 +1158,7 @@
     }
 
     function switchTab(tabId) {
-      ['dashboard', 'create-bill', 'invoice-preview'].forEach(t => {
+      ['dashboard', 'expenses', 'create-bill', 'invoice-preview'].forEach(t => {
         document.getElementById(`tab-sec-${t}`).classList.add('hidden');
         document.getElementById(`nav-${t}`).className = "py-3 px-1 text-xs sm:text-sm font-semibold border-b-2 border-transparent text-slate-500 hover:text-slate-900 flex items-center gap-1.5 whitespace-nowrap transition";
       });
@@ -1007,12 +1170,21 @@
         prepareInvoiceStudio();
       } else if (tabId === 'invoice-preview') {
         renderInvoiceView();
+      } else if (tabId === 'expenses') {
+        renderExpensesTable();
       }
     }
 
     function openModal(id) { 
       document.getElementById(id).classList.remove('hidden');
       if (id === 'hanuman-bank-modal') renderHanumanModal();
+      if (id === 'expense-modal') {
+        document.getElementById('exp-date').value = new Date().toISOString().split('T')[0];
+        document.getElementById('exp-vendor').value = '';
+        document.getElementById('exp-phone').value = '';
+        document.getElementById('exp-desc').value = '';
+        document.getElementById('exp-amt').value = '';
+      }
     }
     function closeModal(id) { document.getElementById(id).classList.add('hidden'); }
 
@@ -1032,6 +1204,10 @@
       const gstTotal = store.invoices
         .filter(i => i.clientId === clientId)
         .reduce((sum, i) => sum + (i.gstAmount || 0), 0);
+
+      const totalJobCost = store.invoices
+        .filter(i => i.clientId === clientId)
+        .reduce((sum, i) => sum + (i.totalCost || 0), 0);
 
       const totalProfit = store.invoices
         .filter(i => i.clientId === clientId)
@@ -1054,6 +1230,7 @@
         gstTotal,
         billedTotal,
         paidTotal,
+        totalJobCost,
         totalProfit,
         totalBookedSeva,
         totalRealizedSeva,
@@ -1063,12 +1240,13 @@
 
     function refreshAllViews() {
       renderClientsTable();
+      renderExpensesTable();
       updateMetricBadges();
       populateClientSelects();
     }
 
     function updateMetricBadges() {
-      let grandBilled = 0, grandReceived = 0, grandBookedSeva = 0, grandRealizedSeva = 0;
+      let grandBilled = 0, grandReceived = 0, grandBookedSeva = 0, grandRealizedSeva = 0, grandJobProfit = 0, grandJobCost = 0;
       
       store.clients.forEach(c => {
         const stats = getClientSummary(c.id);
@@ -1076,16 +1254,25 @@
         grandReceived += stats.paidTotal;
         grandBookedSeva += stats.totalBookedSeva;
         grandRealizedSeva += stats.totalRealizedSeva;
+        grandJobProfit += stats.totalProfit;
+        grandJobCost += stats.totalJobCost;
       });
       const grandDue = grandBilled - grandReceived;
 
-      const totalSpent = (store.hanumanExpenses || []).reduce((s, e) => s + (Number(e.amount) || 0), 0);
-      const netInHandSeva = Math.max(0, grandRealizedSeva - totalSpent);
+      const totalOfficeExp = (store.officeExpenses || []).reduce((s, e) => s + (Number(e.amount) || 0), 0);
+      const netRealInHandProfit = Math.max(0, grandReceived - grandJobCost - totalOfficeExp);
+
+      const totalSevaSpent = (store.hanumanExpenses || []).reduce((s, e) => s + (Number(e.amount) || 0), 0);
+      const netInHandSeva = Math.max(0, grandRealizedSeva - totalSevaSpent);
 
       document.getElementById('metric-total-billed').innerText = `₹${grandBilled.toLocaleString('en-IN', {minimumFractionDigits: 2})}`;
       document.getElementById('metric-total-received').innerText = `₹${grandReceived.toLocaleString('en-IN', {minimumFractionDigits: 2})}`;
       document.getElementById('metric-total-due').innerText = `₹${grandDue.toLocaleString('en-IN', {minimumFractionDigits: 2})}`;
       
+      document.getElementById('metric-job-profit').innerText = `₹${grandJobProfit.toLocaleString('en-IN', {minimumFractionDigits: 2})}`;
+      document.getElementById('metric-office-expenses').innerText = `₹${totalOfficeExp.toLocaleString('en-IN', {minimumFractionDigits: 2})}`;
+      document.getElementById('metric-net-real-profit').innerText = `₹${netRealInHandProfit.toLocaleString('en-IN', {minimumFractionDigits: 2})}`;
+
       document.getElementById('metric-hanuman-realized').innerText = `₹${netInHandSeva.toLocaleString('en-IN', {minimumFractionDigits: 2})}`;
       document.getElementById('metric-hanuman-accrued').innerText = `₹${grandBookedSeva.toLocaleString('en-IN', {minimumFractionDigits: 2})}`;
     }
@@ -1132,6 +1319,90 @@
         `;
         tbody.appendChild(tr);
       });
+    }
+
+    function renderExpensesTable() {
+      const tbody = document.getElementById('expenses-table-body');
+      if (!tbody) return;
+      tbody.innerHTML = '';
+
+      if (store.officeExpenses.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="9" class="p-8 text-center text-slate-400">No office expenses logged yet. Click "+ Create Expense Voucher".</td></tr>`;
+        return;
+      }
+
+      store.officeExpenses.slice().reverse().forEach((exp) => {
+        const tr = document.createElement('tr');
+        tr.className = "hover:bg-slate-50 transition-colors";
+        tr.innerHTML = `
+          <td class="py-3.5 px-4 font-bold text-slate-900">${exp.id}</td>
+          <td class="py-3.5 px-4 text-slate-500 text-xs">${exp.date}</td>
+          <td class="py-3.5 px-4 font-bold text-slate-800">${exp.vendor || '—'}</td>
+          <td class="py-3.5 px-4 text-slate-500 text-xs">${exp.phone || '—'}</td>
+          <td class="py-3.5 px-4"><span class="px-2 py-0.5 rounded-full bg-slate-100 text-slate-700 font-bold text-[10px]">${exp.cat}</span></td>
+          <td class="py-3.5 px-4 text-slate-800 font-medium">${exp.desc}</td>
+          <td class="py-3.5 px-4 text-slate-500 text-xs">${exp.mode}</td>
+          <td class="py-3.5 px-4 text-right font-extrabold text-rose-600">₹${Number(exp.amount).toLocaleString('en-IN', {minimumFractionDigits: 2})}</td>
+          <td class="py-3.5 px-4 text-center">
+            <button onclick="deleteOfficeExpense('${exp.id}')" class="text-slate-400 hover:text-red-500 font-bold p-1">🗑️</button>
+          </td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    function commitOfficeExpense() {
+      const date = document.getElementById('exp-date').value;
+      const cat = document.getElementById('exp-cat').value;
+      const vendor = document.getElementById('exp-vendor').value.trim() || 'Vendor / Shop';
+      const phone = document.getElementById('exp-phone').value.trim();
+      const desc = document.getElementById('exp-desc').value.trim();
+      const amt = parseFloat(document.getElementById('exp-amt').value) || 0;
+      const mode = document.getElementById('exp-mode').value;
+
+      if (!date) return alert('Please choose expense date.');
+      if (!desc) return alert('Please enter what was purchased.');
+      if (amt <= 0) return alert('Please enter valid expense amount.');
+
+      const nextSeq = String(store.config.nextExpSeq || (store.officeExpenses.length + 1)).padStart(3, '0');
+      const voucherId = `EXP-2026-${nextSeq}`;
+
+      const expObj = {
+        id: voucherId,
+        date,
+        vendor,
+        phone,
+        cat,
+        desc,
+        amount: amt,
+        mode
+      };
+
+      store.officeExpenses.push(expObj);
+      store.config.nextExpSeq = (store.config.nextExpSeq || store.officeExpenses.length) + 1;
+      persistData();
+      refreshAllViews();
+      closeModal('expense-modal');
+
+      pushOnlineSync({
+        date: date,
+        type: 'Office Expense',
+        partyName: vendor,
+        phone: phone,
+        category: cat,
+        items: `${cat} - ${desc}`,
+        totalAmount: 0,
+        paidAmount: amt,
+        dueBalance: 0,
+        mode: mode
+      });
+    }
+
+    function deleteOfficeExpense(id) {
+      if (!confirm('Are you sure you want to remove this expense voucher?')) return;
+      store.officeExpenses = store.officeExpenses.filter(e => e.id !== id);
+      persistData();
+      refreshAllViews();
     }
 
     function populateClientSelects() {
@@ -1188,27 +1459,10 @@
           lastModified: new Date().toLocaleString('en-IN')
         };
         store.invoices.push(openingBill);
-
-        pushOnlineSync({
-          date: openingBill.date,
-          type: 'Opening Balance',
-          partyName: name,
-          phone: phone,
-          items: 'Opening Due',
-          totalAmount: opening,
-          paidAmount: 0,
-          dueBalance: opening
-        });
       }
 
       persistData();
       refreshAllViews();
-
-      document.getElementById('m-client-name').value = '';
-      document.getElementById('m-client-phone').value = '';
-      document.getElementById('m-client-gstin').value = '';
-      document.getElementById('m-client-address').value = '';
-      document.getElementById('m-client-opening').value = '';
       closeModal('client-modal');
     }
 
@@ -1480,22 +1734,6 @@
 
       persistData();
       refreshAllViews();
-
-      const client = store.clients.find(c => c.id === clientId);
-      const itemsSummary = items.map(i => `${i.desc}${i.dimension ? ` (${i.dimension})` : ''} (x${i.qty})`).join(', ');
-      const currentStats = getClientSummary(clientId);
-
-      pushOnlineSync({
-        date: date,
-        type: 'Invoice Issued',
-        partyName: client.name,
-        phone: client.phone,
-        items: itemsSummary,
-        totalAmount: calc.netInvoiced,
-        paidAmount: calc.immediatePaid,
-        dueBalance: currentStats.balanceDue
-      });
-
       viewClientInvoice(clientId, invId);
     }
 
@@ -1522,8 +1760,6 @@
       if (amount <= 0) return alert('Please enter valid cleared deposit amount.');
       if (!date) return alert('Please select payment date.');
 
-      const client = store.clients.find(c => c.id === clientId);
-
       const payObj = {
         id: 'PAY_' + Date.now(),
         clientId,
@@ -1537,19 +1773,6 @@
       persistData();
       refreshAllViews();
       closeModal('payment-modal');
-
-      const currentStats = getClientSummary(clientId);
-      pushOnlineSync({
-        date: date,
-        type: 'Payment Received',
-        partyName: client.name,
-        phone: client.phone,
-        items: `${mode} - ${ref || 'Cleared'}`,
-        totalAmount: 0,
-        paidAmount: amount,
-        dueBalance: currentStats.balanceDue
-      });
-
       viewClientInvoice(clientId);
     }
 
@@ -1839,21 +2062,6 @@
       document.body.appendChild(tempLink);
       tempLink.click();
       document.body.removeChild(tempLink);
-    }
-
-    function exportToCSV() {
-      let csvContent = "Client Name,Phone,Gross Work (INR),Discount (INR),GST (INR),Net Invoiced (INR),Total Paid (INR),Balance Due (INR)\n";
-      store.clients.forEach(c => {
-        const stats = getClientSummary(c.id);
-        csvContent += `"${c.name}","${c.phone || ''}",${stats.grossBilledTotal},${stats.discountTotal},${stats.gstTotal},${stats.billedTotal},${stats.paidTotal},${stats.balanceDue}\n`;
-      });
-
-      const blob = new Blob(["\uFEFF" + csvContent], { type: 'text/csv;charset=utf-8;' });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = `CoolArt_Financial_Report_${new Date().toISOString().split('T')[0]}.csv`;
-      a.click();
     }
 
     window.onload = () => {
