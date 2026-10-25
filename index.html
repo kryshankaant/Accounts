@@ -6,8 +6,8 @@
   <title>Cool Art | Enterprise Billing & Financial Ledger</title>
   
   <!-- Custom Favicon File with Versioning -->
-  <link rel="icon" type="image/png" href="fevicon.png?v=5">
-  <link rel="apple-touch-icon" href="fevicon.png?v=5">
+  <link rel="icon" type="image/png" href="fevicon.png?v=7">
+  <link rel="apple-touch-icon" href="fevicon.png?v=7">
 
   <script src="https://cdn.tailwindcss.com"></script>
 
@@ -98,12 +98,14 @@
   <div id="security-gateway" class="fixed inset-0 z-50 bg-[#070d1e] flex items-center justify-center p-4">
     <div class="stat-card max-w-sm w-full p-8 border-slate-800 bg-[#0b1329]/95 text-white shadow-2xl relative overflow-hidden text-center space-y-6">
       
+      <!-- Big CA Favicon Logo -->
       <div class="flex justify-center">
         <div class="w-20 h-20 rounded-2xl p-2 bg-slate-900/90 border border-slate-700/80 shadow-inner flex items-center justify-center">
-          <img src="fevicon.png?v=5" alt="Cool Art" class="w-full h-full object-contain">
+          <img src="fevicon.png?v=7" alt="Cool Art" class="w-full h-full object-contain">
         </div>
       </div>
 
+      <!-- Pure Enterprise Billing Branding -->
       <div>
         <h2 class="text-base font-extrabold uppercase tracking-widest text-slate-100">Cool Art Ledger</h2>
         <p class="text-xs text-indigo-400 font-semibold mt-1">Enterprise Billing & Financial Accounts</p>
@@ -132,10 +134,11 @@
       <header class="sticky top-0 z-40 bg-[#0b1329]/95 backdrop-blur-md border-b border-slate-800 text-white shadow-md no-print">
         <div class="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-2">
           
+          <!-- Header Logos: Cool Art Logo + Separator + CA Logo -->
           <div class="flex items-center gap-2 sm:gap-3 flex-shrink-0">
             <img src="cool art logo.png" alt="Cool Art" class="h-7 sm:h-8 w-auto object-contain">
             <span class="text-slate-600 font-extralight text-lg sm:text-xl">|</span>
-            <img src="fevicon.png?v=5" alt="CA Logo" class="h-7 sm:h-8 w-auto object-contain">
+            <img src="fevicon.png?v=7" alt="CA Logo" class="h-7 sm:h-8 w-auto object-contain">
 
             <div class="hidden md:block border-l border-slate-700 pl-3">
               <h1 class="text-xs font-bold uppercase tracking-wider text-slate-100">Cool Art Invoicing</h1>
@@ -239,7 +242,7 @@
             <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm">
               <span class="text-xs font-bold text-slate-500 uppercase tracking-wider block">Job Production Margin (Booked)</span>
               <span id="metric-job-profit" class="text-xl font-extrabold text-slate-800 font-tabular mt-1 block">₹0.00</span>
-              <span class="text-[10px] text-slate-400">Total Billed - Job Production Cost</span>
+              <span class="text-[10px] text-slate-400">Total Billed - Dynamic Costs</span>
             </div>
             <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm">
               <span class="text-xs font-bold text-rose-600 uppercase tracking-wider block">Office / Shop Expenses</span>
@@ -249,7 +252,7 @@
             <div class="bg-emerald-50/80 p-4 rounded-xl border border-emerald-200 shadow-sm">
               <span class="text-xs font-black text-emerald-900 uppercase tracking-wider block">Real In-Hand Cash Profit</span>
               <span id="metric-net-real-profit" class="text-2xl font-black text-emerald-700 font-tabular mt-1 block">₹0.00</span>
-              <span class="text-[10px] text-emerald-800/80 font-medium">Cleared Receipts - Job Cost - Office Expenses</span>
+              <span class="text-[10px] text-emerald-800/80 font-medium">Cleared Receipts - Dynamic Costs - Office Exp</span>
             </div>
           </div>
 
@@ -327,7 +330,7 @@
                   <h2 class="text-lg sm:text-xl font-bold text-slate-900" id="form-invoice-title">Generate Commercial Invoice</h2>
                   <span id="badge-edit-mode" class="hidden text-[10px] font-extrabold uppercase px-2.5 py-0.5 bg-amber-100 text-amber-800 rounded-full border border-amber-200">Revision Mode</span>
                 </div>
-                <p class="text-xs text-slate-500 mt-1">Itemize artwork, dimensions, production cost breakdown & discounts</p>
+                <p class="text-xs text-slate-500 mt-1">Itemize artwork, dimensions, flexible costing breakdown & discounts</p>
               </div>
               <div class="text-right">
                 <span class="text-[10px] uppercase font-bold text-slate-400 block">Invoice Reference #</span>
@@ -347,11 +350,12 @@
                 <input type="date" id="inv-date" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-xs sm:text-sm text-slate-800 focus:outline-none focus:ring-2 focus:ring-indigo-500">
               </div>
               <div>
-                <label class="block text-xs font-bold text-slate-700 mb-1.5">Work Status</label>
+                <label class="block text-xs font-bold text-slate-700 mb-1.5">Work Stage (Status)</label>
                 <select id="inv-status" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-xs sm:text-sm text-slate-800 focus:outline-none focus:ring-2 focus:ring-indigo-500 font-semibold">
-                  <option value="Designing">🟡 Designing</option>
-                  <option value="Production">🔵 Production / Print</option>
-                  <option value="Delivered" selected>🟢 Completed / Delivered</option>
+                  <option value="Order Received">🟡 Order Received</option>
+                  <option value="In Process / Production">🔵 In Process / Production</option>
+                  <option value="Ready for Delivery">🟣 Ready for Delivery</option>
+                  <option value="Delivered / Completed" selected>🟢 Delivered / Completed</option>
                 </select>
               </div>
             </div>
@@ -389,30 +393,21 @@
               <span class="text-[11px] text-slate-500">Uncheck for regular non-tax invoice</span>
             </div>
 
+            <!-- DYNAMIC COSTING: OPTION 2 -->
             <div class="bg-amber-50/80 border border-amber-200 rounded-xl p-4 space-y-3">
               <div class="flex flex-wrap items-center justify-between border-b border-amber-200 pb-2 gap-2">
                 <span class="text-xs font-extrabold text-amber-950 flex items-center gap-1.5">
-                  🔒 Internal Production Costing & Hanuman Ji Ka Bank (Excluded from Print/PDF)
+                  🔒 Internal Job Costing & Hanuman Ji Ka Bank (Excluded from Print/PDF)
                 </span>
-                <span class="text-[10px] font-bold bg-amber-200/80 text-amber-900 px-2 py-0.5 rounded">Confidential Memo</span>
+                <button type="button" onclick="addCostRow()" class="text-xs font-bold text-amber-900 bg-amber-200/80 hover:bg-amber-300 px-2.5 py-1 rounded-lg transition border border-amber-300">
+                  + Add Cost Row
+                </button>
               </div>
 
-              <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
-                <div>
-                  <label class="block text-[11px] font-bold text-slate-700 mb-1">Media / Vinyl / Flex Cost (₹)</label>
-                  <input type="number" id="cost-media" min="0" placeholder="0.00" oninput="calculateInvoiceDraftTotals()" class="w-full bg-white border border-amber-300 rounded-lg px-2.5 py-1 text-xs text-slate-800 font-bold focus:outline-none focus:ring-1 focus:ring-amber-500 font-tabular">
-                </div>
-                <div>
-                  <label class="block text-[11px] font-bold text-slate-700 mb-1">Iron / Frame / Welding Cost (₹)</label>
-                  <input type="number" id="cost-iron" min="0" placeholder="0.00" oninput="calculateInvoiceDraftTotals()" class="w-full bg-white border border-amber-300 rounded-lg px-2.5 py-1 text-xs text-slate-800 font-bold focus:outline-none focus:ring-1 focus:ring-amber-500 font-tabular">
-                </div>
-                <div>
-                  <label class="block text-[11px] font-bold text-slate-700 mb-1">Labor / Fitting / Setup Cost (₹)</label>
-                  <input type="number" id="cost-labor" min="0" placeholder="0.00" oninput="calculateInvoiceDraftTotals()" class="w-full bg-white border border-amber-300 rounded-lg px-2.5 py-1 text-xs text-slate-800 font-bold focus:outline-none focus:ring-1 focus:ring-amber-500 font-tabular">
-                </div>
-              </div>
+              <!-- Container for flexible cost heads -->
+              <div id="cost-rows-container" class="space-y-2"></div>
 
-              <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-1 border-t border-amber-200/60 items-center">
+              <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-2 border-t border-amber-200/80 items-center">
                 <div>
                   <span class="text-[11px] text-slate-600 block">Total Incurred Cost:</span>
                   <span id="draft-total-cost" class="text-sm font-extrabold text-slate-900 font-tabular">₹0.00</span>
@@ -452,7 +447,7 @@
                 <div class="text-xs text-slate-900 font-bold pt-1 border-t border-slate-200 w-full">Net Invoiced: <span id="draft-net-invoiced" class="text-base text-slate-900">₹0.00</span></div>
                 <div class="text-xs text-emerald-600 font-semibold">Immediate Cleared: <span id="draft-paid" class="text-sm">(-) ₹0.00</span></div>
                 <div class="text-xs text-slate-800 pt-2 border-t-2 border-slate-300 w-full font-bold">
-                  Remaining Due: <span id="draft-due" class="text-lg font-extrabold text-red-600 ml-1">₹0.00</span>
+                  Remaining Due on This Bill: <span id="draft-due" class="text-lg font-extrabold text-red-600 ml-1">₹0.00</span>
                 </div>
               </div>
             </div>
@@ -478,7 +473,7 @@
               </div>
 
               <div>
-                <label class="text-[10px] font-bold uppercase tracking-wider text-slate-400 block">Invoice #:</label>
+                <label class="text-[10px] font-bold uppercase tracking-wider text-slate-400 block">Statement View / Bill #:</label>
                 <select id="preview-bill-select" onchange="renderInvoiceView()" class="border border-slate-300 rounded-xl px-2.5 py-1 text-xs font-bold bg-slate-50 text-slate-800 focus:outline-none font-tabular"></select>
               </div>
 
@@ -530,7 +525,7 @@
                 <div class="bg-slate-50 p-4 rounded-xl border border-slate-200">
                   <div class="flex justify-between items-center mb-1">
                     <span class="text-[10px] font-bold uppercase tracking-wider text-slate-400 block">Billed To (Client / Entity)</span>
-                    <span id="doc-status-badge" class="text-[10px] font-extrabold px-2 py-0.5 rounded bg-emerald-100 text-emerald-800">Completed</span>
+                    <span id="doc-status-badge" class="text-[10px] font-extrabold px-2 py-0.5 rounded bg-emerald-100 text-emerald-800">Delivered</span>
                   </div>
                   <h3 id="doc-client-name" class="text-sm font-bold text-slate-900"></h3>
                   <p id="doc-client-phone" class="text-xs text-slate-600 mt-0.5 font-tabular"></p>
@@ -538,15 +533,24 @@
                   <p id="doc-client-gstin" class="text-[11px] text-indigo-700 font-bold font-tabular mt-1 hidden"></p>
                 </div>
 
+                <!-- DOUBLE STATEMENT BALANCES (This Bill vs Total Market Due) -->
                 <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 flex flex-col justify-between">
                   <div class="flex justify-between items-start">
-                    <span class="text-[10px] font-bold uppercase tracking-wider text-slate-400">Ledger Balance Status</span>
+                    <span class="text-[10px] font-bold uppercase tracking-wider text-slate-400">Ledger Balance Standing</span>
                     <span class="text-[9px] bg-slate-200 text-slate-700 px-2 py-0.5 rounded font-bold uppercase">Verified Statement</span>
                   </div>
-                  <div class="mt-2 md:mt-0">
-                    <span class="text-[11px] text-slate-500 block">Total Outstanding Balance</span>
-                    <div class="text-2xl font-black text-red-600 tracking-tight font-tabular" id="doc-client-due-badge">
-                      ₹0.00
+                  <div class="grid grid-cols-2 gap-2 mt-2">
+                    <div class="border-r border-slate-200 pr-2">
+                      <span class="text-[10px] text-slate-500 block">This Invoice Due:</span>
+                      <div class="text-lg font-black text-rose-600 tracking-tight font-tabular" id="doc-inv-specific-due">
+                        ₹0.00
+                      </div>
+                    </div>
+                    <div class="pl-1">
+                      <span class="text-[10px] text-slate-500 block">Overall Account Due:</span>
+                      <div class="text-lg font-black text-slate-900 tracking-tight font-tabular" id="doc-client-due-badge">
+                        ₹0.00
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -570,7 +574,7 @@
               <div class="grid grid-cols-1 md:grid-cols-2 gap-5 pt-1">
                 <div class="space-y-2 bg-slate-50 p-4 rounded-xl border border-slate-200 font-tabular text-xs md:order-2">
                   <div class="flex justify-between text-slate-600">
-                    <span>Gross Value of Work:</span>
+                    <span id="doc-lbl-gross">Gross Value of Work:</span>
                     <span id="doc-sum-gross" class="font-bold text-slate-900">₹0.00</span>
                   </div>
                   
@@ -585,17 +589,17 @@
                   </div>
 
                   <div class="flex justify-between text-slate-800 font-bold border-t border-slate-200 pt-1">
-                    <span>Net Invoiced Value:</span>
+                    <span id="doc-lbl-net">Net Invoiced Value:</span>
                     <span id="doc-sum-net">₹0.00</span>
                   </div>
 
                   <div class="flex justify-between text-emerald-700 font-semibold">
-                    <span>Total Cleared Receipts:</span>
+                    <span id="doc-lbl-paid">Deposited on This Document:</span>
                     <span id="doc-sum-paid">(-) ₹0.00</span>
                   </div>
 
                   <div class="border-t-2 border-slate-300 pt-2 flex justify-between text-sm font-extrabold text-red-600">
-                    <span>NET PAYABLE BALANCE:</span>
+                    <span id="doc-lbl-balance">NET BALANCE ON THIS BILL:</span>
                     <span id="doc-sum-balance">₹0.00</span>
                   </div>
                 </div>
@@ -611,9 +615,13 @@
                     </div>
                   </div>
 
+                  <!-- EDITABLE & DELETABLE RECEIPTS LOG -->
                   <div class="border-t border-slate-200 pt-2">
-                    <span class="text-[10px] font-bold text-slate-500 uppercase tracking-wider block mb-1.5">Cleared Receipts Log</span>
-                    <div id="doc-payment-logs" class="space-y-1 text-xs"></div>
+                    <div class="flex items-center justify-between mb-1.5">
+                      <span class="text-[10px] font-bold text-slate-500 uppercase tracking-wider block">Cleared Receipts Log</span>
+                      <span class="text-[10px] text-slate-400">Click ✏️ to edit or 🗑️ to delete</span>
+                    </div>
+                    <div id="doc-payment-logs" class="space-y-1.5 text-xs"></div>
                   </div>
                 </div>
               </div>
@@ -631,7 +639,7 @@
                   <div class="bg-white/90 p-2.5 rounded-xl border border-amber-200 shadow-sm">
                     <span class="text-[10px] text-slate-500 font-bold block uppercase">Production Costing</span>
                     <span class="text-sm font-extrabold text-slate-800 font-tabular" id="doc-private-cost">₹0.00</span>
-                    <span class="text-[9px] text-slate-400 block mt-0.5" id="doc-private-cost-detail">Media + Frame + Labor</span>
+                    <span class="text-[9px] text-slate-400 block mt-0.5" id="doc-private-cost-detail">Dynamic Raw Costs</span>
                   </div>
 
                   <div class="bg-white/90 p-2.5 rounded-xl border border-amber-200 shadow-sm">
@@ -697,6 +705,64 @@
         </div>
       </div>
     </footer>
+  </div>
+
+  <!-- ================= MODALS ================= -->
+
+  <!-- MODAL: RECORD OR EDIT PAYMENT WITH INVOICE SELECTION -->
+  <div id="payment-modal" class="hidden fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl shadow-2xl border border-slate-200 max-w-md w-full p-6 space-y-4">
+      <div class="flex justify-between items-center pb-2 border-b border-slate-100">
+        <div>
+          <h3 class="text-base font-bold text-slate-900" id="payment-modal-title">Record Payment Deposit</h3>
+          <p class="text-[11px] text-slate-500">Deposit against a specific invoice or general account</p>
+        </div>
+        <button onclick="closeModal('payment-modal')" class="text-slate-400 hover:text-slate-600 font-bold">✕</button>
+      </div>
+
+      <input type="hidden" id="p-client-id">
+      <input type="hidden" id="p-payment-id">
+
+      <div class="space-y-3">
+        <div>
+          <label class="block text-xs font-bold text-slate-700 mb-1">Client Account</label>
+          <input type="text" id="p-client-name" disabled class="w-full bg-slate-100 border border-slate-200 rounded-xl px-3 py-2 text-xs sm:text-sm font-bold text-slate-800">
+        </div>
+
+        <!-- TARGET INVOICE ALLOCATION DROPDOWN -->
+        <div>
+          <label class="block text-xs font-bold text-slate-700 mb-1">Deposit Against Invoice / Khata</label>
+          <select id="p-target-invoice" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-xs sm:text-sm text-slate-800 focus:outline-none focus:ring-2 focus:ring-indigo-500 font-semibold"></select>
+        </div>
+
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block text-xs font-semibold text-slate-700 mb-1">Receipt Date *</label>
+            <input type="date" id="p-date" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-xs sm:text-sm text-slate-800 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-slate-700 mb-1">Amount Paid (₹) *</label>
+            <input type="number" id="p-amount" placeholder="0.00" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-xs sm:text-sm font-bold text-emerald-600 focus:outline-none focus:ring-2 focus:ring-indigo-500 font-tabular">
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-xs font-semibold text-slate-700 mb-1">Payment Method & Reference</label>
+          <select id="p-mode" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-xs sm:text-sm text-slate-800 focus:outline-none mb-2">
+            <option value="UPI / PhonePe / GPay">UPI / GPay / PhonePe</option>
+            <option value="Bank Transfer (NEFT/RTGS)">Bank Transfer (NEFT / RTGS)</option>
+            <option value="Cash">Cash</option>
+            <option value="Cheque">Cheque</option>
+          </select>
+          <input type="text" id="p-ref" placeholder="Txn Ref ID / Note (e.g. Cleared full)" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-1.5 text-xs text-slate-800 focus:outline-none">
+        </div>
+      </div>
+
+      <div class="flex justify-end gap-2 pt-3">
+        <button onclick="closeModal('payment-modal')" class="px-4 py-2 text-xs font-bold text-slate-600 hover:bg-slate-100 rounded-xl">Cancel</button>
+        <button onclick="commitPayment()" class="px-5 py-2 text-xs font-bold text-white bg-emerald-600 hover:bg-emerald-700 rounded-xl">Commit Payment</button>
+      </div>
+    </div>
   </div>
 
   <!-- MODAL: CREATE OFFICE EXPENSE VOUCHER -->
@@ -865,49 +931,6 @@
     </div>
   </div>
 
-  <!-- MODAL: RECORD PAYMENT -->
-  <div id="payment-modal" class="hidden fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
-    <div class="bg-white rounded-2xl shadow-2xl border border-slate-200 max-w-md w-full p-6 space-y-4">
-      <div class="flex justify-between items-center pb-2 border-b border-slate-100">
-        <h3 class="text-base font-bold text-slate-900">Record Payment Deposit</h3>
-        <button onclick="closeModal('payment-modal')" class="text-slate-400 hover:text-slate-600 font-bold">✕</button>
-      </div>
-
-      <input type="hidden" id="p-client-id">
-      <div class="space-y-3">
-        <div>
-          <label class="block text-xs font-bold text-slate-700 mb-1">Client</label>
-          <input type="text" id="p-client-name" disabled class="w-full bg-slate-100 border border-slate-200 rounded-xl px-3 py-2 text-xs sm:text-sm font-bold text-slate-800">
-        </div>
-        <div class="grid grid-cols-2 gap-3">
-          <div>
-            <label class="block text-xs font-semibold text-slate-700 mb-1">Receipt Date *</label>
-            <input type="date" id="p-date" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-xs sm:text-sm text-slate-800 focus:outline-none focus:ring-2 focus:ring-indigo-500">
-          </div>
-          <div>
-            <label class="block text-xs font-semibold text-slate-700 mb-1">Amount Paid (₹) *</label>
-            <input type="number" id="p-amount" placeholder="0.00" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-xs sm:text-sm font-bold text-emerald-600 focus:outline-none focus:ring-2 focus:ring-indigo-500 font-tabular">
-          </div>
-        </div>
-        <div>
-          <label class="block text-xs font-semibold text-slate-700 mb-1">Payment Method & Reference</label>
-          <select id="p-mode" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-xs sm:text-sm text-slate-800 focus:outline-none mb-2">
-            <option value="UPI / PhonePe / GPay">UPI / GPay / PhonePe</option>
-            <option value="Bank Transfer (NEFT/RTGS)">Bank Transfer (NEFT / RTGS)</option>
-            <option value="Cash">Cash</option>
-            <option value="Cheque">Cheque</option>
-          </select>
-          <input type="text" id="p-ref" placeholder="Txn Ref ID / Note" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-1.5 text-xs text-slate-800 focus:outline-none">
-        </div>
-      </div>
-
-      <div class="flex justify-end gap-2 pt-3">
-        <button onclick="closeModal('payment-modal')" class="px-4 py-2 text-xs font-bold text-slate-600 hover:bg-slate-100 rounded-xl">Cancel</button>
-        <button onclick="commitPayment()" class="px-5 py-2 text-xs font-bold text-white bg-emerald-600 hover:bg-emerald-700 rounded-xl">Commit Payment</button>
-      </div>
-    </div>
-  </div>
-
   <!-- MODAL: SQ.FT CALCULATOR HELPER -->
   <div id="sqft-modal" class="hidden fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
     <div class="bg-white rounded-2xl shadow-2xl border border-slate-200 max-w-sm w-full p-5 space-y-4">
@@ -987,7 +1010,7 @@
     }
 
     function loadData() {
-      const saved = localStorage.getItem('coolart_finance_master_v15');
+      const saved = localStorage.getItem('coolart_finance_master_v16');
       if (saved) {
         try { 
           const parsed = JSON.parse(saved);
@@ -1010,7 +1033,7 @@
     }
 
     function persistData() {
-      localStorage.setItem('coolart_finance_master_v15', JSON.stringify(store));
+      localStorage.setItem('coolart_finance_master_v16', JSON.stringify(store));
     }
 
     function pullDataFromSheets(isManual = false) {
@@ -1086,7 +1109,7 @@
             name: name,
             phone: row.phone || '',
             address: 'Registered Account',
-            status: 'Delivered'
+            status: 'Delivered / Completed'
           };
         }
 
@@ -1098,7 +1121,7 @@
             clientId: clientMap[name].id,
             date: rowDate,
             dueDate: '',
-            status: matchedExisting ? matchedExisting.status : 'Delivered',
+            status: matchedExisting ? matchedExisting.status : 'Delivered / Completed',
             items: matchedExisting ? matchedExisting.items : [{
               desc: row.items || 'Work Order Deliverables',
               dimension: '',
@@ -1109,10 +1132,8 @@
             grossTotal: matchedExisting ? matchedExisting.grossTotal : (Number(row.totalAmount) || 0),
             discount: matchedExisting ? matchedExisting.discount : 0,
             discountPct: matchedExisting ? matchedExisting.discountPct : '0',
-            costMedia: matchedExisting ? matchedExisting.costMedia : 0,
-            costIron: matchedExisting ? matchedExisting.costIron : 0,
-            costLabor: matchedExisting ? matchedExisting.costLabor : 0,
-            totalCost: matchedExisting ? matchedExisting.totalCost : 0,
+            costRows: matchedExisting ? (matchedExisting.costRows || []) : [],
+            totalCost: matchedExisting ? (matchedExisting.totalCost || 0) : 0,
             netProfit: matchedExisting ? matchedExisting.netProfit : (Number(row.totalAmount) || 0),
             sevaFund: matchedExisting ? matchedExisting.sevaFund : ((Number(row.totalAmount) || 0) * 0.1),
             gstApplied: matchedExisting ? matchedExisting.gstApplied : false,
@@ -1125,6 +1146,7 @@
             newPayments.push({
               id: 'PAY_' + idx,
               clientId: clientMap[name].id,
+              invoiceId: 'INV-' + (idx + 1),
               date: rowDate,
               amount: Number(row.paidAmount),
               mode: 'Spot Payment',
@@ -1132,13 +1154,20 @@
             });
           }
         } else if (row.type === 'Payment Received') {
+          // Identify if payment contains tagged invoice
+          const itemText = row.items || '';
+          let taggedInvId = '';
+          const match = itemText.match(/INV-[\w-]+/);
+          if (match) taggedInvId = match[0];
+
           newPayments.push({
             id: 'PAY_' + idx,
             clientId: clientMap[name].id,
+            invoiceId: taggedInvId || '',
             date: rowDate,
             amount: Number(row.paidAmount),
-            mode: 'Direct Payment',
-            ref: row.items || 'Settlement'
+            mode: row.mode || 'Direct Payment',
+            ref: itemText
           });
         }
       });
@@ -1193,38 +1222,31 @@
     }
     function closeModal(id) { document.getElementById(id).classList.add('hidden'); }
 
+    function getInvoiceSpecificDetails(invoiceId) {
+      const inv = store.invoices.find(i => i.id === invoiceId);
+      if (!inv) return { billed: 0, paid: 0, due: 0 };
+
+      // Payments specifically tagged to this invoice
+      const payments = store.payments.filter(p => p.invoiceId === invoiceId);
+      const paid = payments.reduce((sum, p) => sum + (Number(p.amount) || 0), 0);
+      const due = Math.max(0, inv.total - paid);
+
+      return { billed: inv.total, paid, due, payments };
+    }
+
     function getClientSummary(clientId) {
-      const billedTotal = store.invoices
-        .filter(i => i.clientId === clientId)
-        .reduce((sum, i) => sum + i.total, 0);
+      const clientInvoices = store.invoices.filter(i => i.clientId === clientId);
+      const billedTotal = clientInvoices.reduce((sum, i) => sum + i.total, 0);
 
-      const grossBilledTotal = store.invoices
-        .filter(i => i.clientId === clientId)
-        .reduce((sum, i) => sum + (i.grossTotal || i.total), 0);
+      const grossBilledTotal = clientInvoices.reduce((sum, i) => sum + (i.grossTotal || i.total), 0);
+      const discountTotal = clientInvoices.reduce((sum, i) => sum + (i.discount || 0), 0);
+      const gstTotal = clientInvoices.reduce((sum, i) => sum + (i.gstAmount || 0), 0);
+      const totalJobCost = clientInvoices.reduce((sum, i) => sum + (i.totalCost || 0), 0);
+      const totalProfit = clientInvoices.reduce((sum, i) => sum + (i.netProfit || 0), 0);
+      const totalBookedSeva = clientInvoices.reduce((sum, i) => sum + (i.sevaFund || 0), 0);
 
-      const discountTotal = store.invoices
-        .filter(i => i.clientId === clientId)
-        .reduce((sum, i) => sum + (i.discount || 0), 0);
-
-      const gstTotal = store.invoices
-        .filter(i => i.clientId === clientId)
-        .reduce((sum, i) => sum + (i.gstAmount || 0), 0);
-
-      const totalJobCost = store.invoices
-        .filter(i => i.clientId === clientId)
-        .reduce((sum, i) => sum + (i.totalCost || 0), 0);
-
-      const totalProfit = store.invoices
-        .filter(i => i.clientId === clientId)
-        .reduce((sum, i) => sum + (i.netProfit || 0), 0);
-
-      const totalBookedSeva = store.invoices
-        .filter(i => i.clientId === clientId)
-        .reduce((sum, i) => sum + (i.sevaFund || 0), 0);
-
-      const paidTotal = store.payments
-        .filter(p => p.clientId === clientId)
-        .reduce((sum, p) => sum + p.amount, 0);
+      const clientPayments = store.payments.filter(p => p.clientId === clientId);
+      const paidTotal = clientPayments.reduce((sum, p) => sum + (Number(p.amount) || 0), 0);
 
       const collectionRatio = billedTotal > 0 ? Math.min(1, paidTotal / billedTotal) : 0;
       const totalRealizedSeva = totalBookedSeva * collectionRatio;
@@ -1294,11 +1316,12 @@
       store.clients.forEach(c => {
         const stats = getClientSummary(c.id);
         const lastInv = store.invoices.filter(i => i.clientId === c.id).slice(-1)[0];
-        const status = lastInv ? lastInv.status : (c.status || 'Delivered');
+        const status = lastInv ? lastInv.status : (c.status || 'Delivered / Completed');
 
         let statusBadge = '<span class="text-[10px] font-extrabold px-2 py-0.5 rounded bg-emerald-100 text-emerald-800">Delivered</span>';
-        if (status === 'Designing') statusBadge = '<span class="text-[10px] font-extrabold px-2 py-0.5 rounded bg-amber-100 text-amber-800">Designing</span>';
-        if (status === 'Production') statusBadge = '<span class="text-[10px] font-extrabold px-2 py-0.5 rounded bg-blue-100 text-blue-800">Production</span>';
+        if (status === 'Order Received') statusBadge = '<span class="text-[10px] font-extrabold px-2 py-0.5 rounded bg-amber-100 text-amber-800">Order Received</span>';
+        else if (status === 'In Process / Production') statusBadge = '<span class="text-[10px] font-extrabold px-2 py-0.5 rounded bg-blue-100 text-blue-800">In Process</span>';
+        else if (status === 'Ready for Delivery') statusBadge = '<span class="text-[10px] font-extrabold px-2 py-0.5 rounded bg-purple-100 text-purple-800">Ready</span>';
 
         const tr = document.createElement('tr');
         tr.className = "hover:bg-slate-50 transition-colors";
@@ -1372,17 +1395,7 @@
       const nextSeq = String(store.config.nextExpSeq || (store.officeExpenses.length + 1)).padStart(3, '0');
       const voucherId = `EXP-2026-${nextSeq}`;
 
-      const expObj = {
-        id: voucherId,
-        date,
-        vendor,
-        phone,
-        cat,
-        desc,
-        amount: amt,
-        mode
-      };
-
+      const expObj = { id: voucherId, date, vendor, phone, cat, desc, amount: amt, mode };
       store.officeExpenses.push(expObj);
       store.config.nextExpSeq = (store.config.nextExpSeq || store.officeExpenses.length) + 1;
       persistData();
@@ -1438,7 +1451,7 @@
       if (!name) return alert('Please enter client or company name.');
 
       const newId = 'CL_' + Date.now();
-      const newClient = { id: newId, name, phone, gstin, address, openingBalance: opening, status: 'Delivered' };
+      const newClient = { id: newId, name, phone, gstin, address, openingBalance: opening, status: 'Delivered / Completed' };
       store.clients.push(newClient);
 
       if (opening > 0) {
@@ -1447,14 +1460,12 @@
           clientId: newId,
           date: new Date().toISOString().split('T')[0],
           dueDate: '',
-          status: 'Delivered',
+          status: 'Delivered / Completed',
           items: [{ desc: 'Opening Ledger Balance Brought Forward', dimension: '', qty: 1, rate: opening, total: opening }],
           grossTotal: opening,
           discount: 0,
           discountPct: '0',
-          costMedia: 0,
-          costIron: 0,
-          costLabor: 0,
+          costRows: [],
           totalCost: 0,
           netProfit: opening,
           sevaFund: opening * 0.1,
@@ -1476,7 +1487,6 @@
           dueBalance: opening
         });
       } else {
-        // Direct Sync when Client is added even with 0 opening balance
         pushOnlineSync({
           date: new Date().toISOString().split('T')[0],
           type: 'Client Account',
@@ -1512,10 +1522,12 @@
       tbody.innerHTML = '';
       addLineItem('', '', 1, '');
 
+      // Reset dynamic cost rows
+      document.getElementById('cost-rows-container').innerHTML = '';
+      addCostRow('Material / Raw Stock', '');
+      addCostRow('Fabrication / Making', '');
+
       document.getElementById('inv-discount-amt').value = '';
-      document.getElementById('cost-media').value = '';
-      document.getElementById('cost-iron').value = '';
-      document.getElementById('cost-labor').value = '';
       document.getElementById('inv-immediate-paid').value = '';
       document.getElementById('inv-apply-gst').checked = false;
       calculateInvoiceDraftTotals();
@@ -1539,7 +1551,7 @@
       document.getElementById('inv-custom-id').value = invoice.id;
       document.getElementById('inv-client-select').value = invoice.clientId;
       document.getElementById('inv-date').value = invoice.date;
-      document.getElementById('inv-status').value = invoice.status || 'Delivered';
+      document.getElementById('inv-status').value = invoice.status || 'Delivered / Completed';
 
       const tbody = document.getElementById('line-items-body');
       tbody.innerHTML = '';
@@ -1551,10 +1563,17 @@
         addLineItem('', '', 1, '');
       }
 
+      // Populate Dynamic Costs
+      const costContainer = document.getElementById('cost-rows-container');
+      costContainer.innerHTML = '';
+      if (invoice.costRows && invoice.costRows.length > 0) {
+        invoice.costRows.forEach(cr => addCostRow(cr.title, cr.amount));
+      } else {
+        addCostRow('Material / Raw Stock', invoice.costMedia || '');
+        addCostRow('Making / Labor', (invoice.costIron || 0) + (invoice.costLabor || 0) || '');
+      }
+
       document.getElementById('inv-discount-amt').value = invoice.discount || '';
-      document.getElementById('cost-media').value = invoice.costMedia || '';
-      document.getElementById('cost-iron').value = invoice.costIron || '';
-      document.getElementById('cost-labor').value = invoice.costLabor || '';
       document.getElementById('inv-apply-gst').checked = !!invoice.gstApplied;
       document.getElementById('inv-immediate-paid').value = '';
 
@@ -1585,6 +1604,23 @@
         <td class="p-2 text-center"><button type="button" onclick="this.closest('tr').remove(); calculateInvoiceDraftTotals();" class="text-slate-400 hover:text-red-500 font-bold">✕</button></td>
       `;
       tbody.appendChild(tr);
+      calculateInvoiceDraftTotals();
+    }
+
+    // DYNAMIC COSTING ROW: OPTION 2
+    function addCostRow(title = '', amount = '') {
+      const container = document.getElementById('cost-rows-container');
+      const div = document.createElement('div');
+      div.className = "flex items-center gap-2 cost-entry-row";
+      div.innerHTML = `
+        <input type="text" value="${title}" placeholder="Cost Description (e.g. Paper, Flex, Iron, Delivery)" class="flex-1 bg-white border border-amber-300 rounded-lg px-2.5 py-1 text-xs text-slate-800 font-medium focus:outline-none cost-title">
+        <div class="relative w-36">
+          <span class="absolute left-2.5 top-1 text-slate-400 text-xs">₹</span>
+          <input type="number" min="0" step="any" value="${amount}" oninput="calculateInvoiceDraftTotals()" placeholder="0.00" class="w-full bg-white border border-amber-300 rounded-lg pl-6 pr-2.5 py-1 text-xs text-slate-800 font-bold focus:outline-none font-tabular cost-amount">
+        </div>
+        <button type="button" onclick="this.closest('.cost-entry-row').remove(); calculateInvoiceDraftTotals();" class="text-slate-400 hover:text-red-500 font-bold text-xs p-1">✕</button>
+      `;
+      container.appendChild(div);
       calculateInvoiceDraftTotals();
     }
 
@@ -1649,10 +1685,17 @@
       const immediatePaid = Math.min(netInvoiced, parseFloat(document.getElementById('inv-immediate-paid').value) || 0);
       const netDue = Math.max(0, netInvoiced - immediatePaid);
 
-      const cMedia = parseFloat(document.getElementById('cost-media').value) || 0;
-      const cIron = parseFloat(document.getElementById('cost-iron').value) || 0;
-      const cLabor = parseFloat(document.getElementById('cost-labor').value) || 0;
-      const totalCost = cMedia + cIron + cLabor;
+      // Sum Dynamic Costs
+      let totalCost = 0;
+      const costRows = [];
+      document.querySelectorAll('#cost-rows-container .cost-entry-row').forEach(cr => {
+        const title = cr.querySelector('.cost-title').value.trim() || 'Job Cost';
+        const amt = parseFloat(cr.querySelector('.cost-amount').value) || 0;
+        if (amt > 0) {
+          totalCost += amt;
+          costRows.push({ title, amount: amt });
+        }
+      });
 
       const netProfit = Math.max(0, afterDiscount - totalCost);
       const sevaFund = netProfit * 0.10;
@@ -1666,7 +1709,7 @@
       document.getElementById('draft-net-profit').innerText = `₹${netProfit.toLocaleString('en-IN', {minimumFractionDigits: 2})}`;
       document.getElementById('draft-seva-fund').innerText = `₹${sevaFund.toLocaleString('en-IN', {minimumFractionDigits: 2})}`;
 
-      return { subtotal, discountAmt, discountPct, applyGst, gstAmt, netInvoiced, immediatePaid, cMedia, cIron, cLabor, totalCost, netProfit, sevaFund };
+      return { subtotal, discountAmt, discountPct, applyGst, gstAmt, netInvoiced, immediatePaid, totalCost, costRows, netProfit, sevaFund };
     }
 
     function commitInvoice() {
@@ -1709,9 +1752,7 @@
             grossTotal: calc.subtotal,
             discount: calc.discountAmt,
             discountPct: calc.discountPct,
-            costMedia: calc.cMedia,
-            costIron: calc.cIron,
-            costLabor: calc.cLabor,
+            costRows: calc.costRows,
             totalCost: calc.totalCost,
             netProfit: calc.netProfit,
             sevaFund: calc.sevaFund,
@@ -1733,9 +1774,7 @@
           grossTotal: calc.subtotal,
           discount: calc.discountAmt,
           discountPct: calc.discountPct,
-          costMedia: calc.cMedia,
-          costIron: calc.cIron,
-          costLabor: calc.cLabor,
+          costRows: calc.costRows,
           totalCost: calc.totalCost,
           netProfit: calc.netProfit,
           sevaFund: calc.sevaFund,
@@ -1753,6 +1792,7 @@
         store.payments.push({
           id: 'PAY_' + Date.now(),
           clientId,
+          invoiceId: invId, // Explicitly tagged to this bill
           date,
           amount: calc.immediatePaid,
           mode: 'Spot Payment',
@@ -1781,21 +1821,76 @@
       viewClientInvoice(clientId, invId);
     }
 
-    function promptPaymentModal(clientId) {
+    // PROMPT PAYMENT MODAL WITH INVOICE ALLOCATION DROPDOWN
+    function promptPaymentModal(clientId, preselectInvoiceId = '') {
       const client = store.clients.find(c => c.id === clientId);
       if (!client) return;
 
+      document.getElementById('payment-modal-title').innerText = "Record Payment Deposit";
+      document.getElementById('p-payment-id').value = '';
       document.getElementById('p-client-id').value = client.id;
       document.getElementById('p-client-name').value = client.name;
       document.getElementById('p-date').value = new Date().toISOString().split('T')[0];
       document.getElementById('p-amount').value = '';
       document.getElementById('p-ref').value = '';
 
+      const targetSelect = document.getElementById('p-target-invoice');
+      targetSelect.innerHTML = '<option value="">-- General Account Deposit (On Account) --</option>';
+
+      const clientInvoices = store.invoices.filter(i => i.clientId === clientId);
+      clientInvoices.forEach(inv => {
+        const invDue = getInvoiceSpecificDetails(inv.id).due;
+        targetSelect.innerHTML += `<option value="${inv.id}">${inv.id} (${inv.date}) — Bill: ₹${inv.total} (Due: ₹${inv.due})</option>`;
+      });
+
+      if (preselectInvoiceId) {
+        targetSelect.value = preselectInvoiceId;
+      }
+
       openModal('payment-modal');
     }
 
+    // EDIT EXISTING PAYMENT
+    function editPayment(paymentId) {
+      const p = store.payments.find(pay => pay.id === paymentId);
+      if (!p) return alert('Payment record not found.');
+
+      const client = store.clients.find(c => c.id === p.clientId);
+
+      document.getElementById('payment-modal-title').innerText = "Edit Payment Record";
+      document.getElementById('p-payment-id').value = p.id;
+      document.getElementById('p-client-id').value = p.clientId;
+      document.getElementById('p-client-name').value = client ? client.name : 'Client';
+      document.getElementById('p-date').value = p.date;
+      document.getElementById('p-amount').value = p.amount;
+      document.getElementById('p-mode').value = p.mode || 'Cash';
+      document.getElementById('p-ref').value = p.ref || '';
+
+      const targetSelect = document.getElementById('p-target-invoice');
+      targetSelect.innerHTML = '<option value="">-- General Account Deposit (On Account) --</option>';
+
+      const clientInvoices = store.invoices.filter(i => i.clientId === p.clientId);
+      clientInvoices.forEach(inv => {
+        targetSelect.innerHTML += `<option value="${inv.id}">${inv.id} (${inv.date}) — Bill: ₹${inv.total}</option>`;
+      });
+
+      targetSelect.value = p.invoiceId || '';
+      openModal('payment-modal');
+    }
+
+    // DELETE PAYMENT WITH RESTORATION
+    function deletePayment(paymentId) {
+      if (!confirm('Are you sure you want to delete this payment record? Balance will be adjusted accordingly.')) return;
+      store.payments = store.payments.filter(p => p.id !== paymentId);
+      persistData();
+      refreshAllViews();
+      renderInvoiceView();
+    }
+
     function commitPayment() {
+      const paymentId = document.getElementById('p-payment-id').value;
       const clientId = document.getElementById('p-client-id').value;
+      const targetInvId = document.getElementById('p-target-invoice').value;
       const date = document.getElementById('p-date').value;
       const amount = parseFloat(document.getElementById('p-amount').value) || 0;
       const mode = document.getElementById('p-mode').value;
@@ -1806,33 +1901,52 @@
 
       const client = store.clients.find(c => c.id === clientId);
 
-      const payObj = {
-        id: 'PAY_' + Date.now(),
-        clientId,
-        date,
-        amount,
-        mode,
-        ref: ref || 'Payment Deposit'
-      };
+      if (paymentId) {
+        // Revision
+        const idx = store.payments.findIndex(p => p.id === paymentId);
+        if (idx >= 0) {
+          store.payments[idx] = {
+            ...store.payments[idx],
+            date,
+            amount,
+            mode,
+            invoiceId: targetInvId,
+            ref: ref || 'Payment Deposit (Updated)'
+          };
+        }
+      } else {
+        // New Deposit
+        const payObj = {
+          id: 'PAY_' + Date.now(),
+          clientId,
+          invoiceId: targetInvId,
+          date,
+          amount,
+          mode,
+          ref: ref || 'Payment Deposit'
+        };
+        store.payments.push(payObj);
+      }
 
-      store.payments.push(payObj);
       persistData();
       refreshAllViews();
       closeModal('payment-modal');
 
       const currentStats = getClientSummary(clientId);
+      const tagDesc = targetInvId ? `Payment for ${targetInvId} (${mode})` : `General Deposit (${mode})`;
+
       pushOnlineSync({
         date: date,
         type: 'Payment Received',
         partyName: client.name,
         phone: client.phone,
-        items: `${mode} - ${ref || 'Cleared'}`,
+        items: `${tagDesc} - ${ref || 'Cleared'}`,
         totalAmount: 0,
         paidAmount: amount,
         dueBalance: currentStats.balanceDue
       });
 
-      viewClientInvoice(clientId);
+      viewClientInvoice(clientId, targetInvId);
     }
 
     function viewClientInvoice(clientId, targetInvId = null) {
@@ -1850,7 +1964,7 @@
 
       const clientInvoices = store.invoices.filter(i => i.clientId === clientId);
       const clientPayments = store.payments.filter(p => p.clientId === clientId);
-      const stats = getClientSummary(clientId);
+      const overallStats = getClientSummary(clientId);
 
       const billSelect = document.getElementById('preview-bill-select');
       const curBillVal = targetInvId || billSelect.value;
@@ -1876,7 +1990,7 @@
       }
 
       document.getElementById('doc-inv-type-badge').innerText = (activeInv && activeInv.gstApplied) ? 'TAX INVOICE (GST 18%)' : 'COMMERCIAL INVOICE';
-      document.getElementById('doc-inv-number').innerText = isSpecificBill ? activeInv.id : 'STATEMENT';
+      document.getElementById('doc-inv-number').innerText = isSpecificBill ? activeInv.id : 'CONSOLIDATED STATEMENT';
       document.getElementById('doc-inv-date').innerText = activeInv ? activeInv.date : new Date().toISOString().split('T')[0];
 
       document.getElementById('doc-client-name').innerText = client.name;
@@ -1891,13 +2005,17 @@
         gstinLabel.classList.add('hidden');
       }
 
-      document.getElementById('doc-client-due-badge').innerText = `₹${stats.balanceDue.toLocaleString('en-IN', {minimumFractionDigits: 2})}`;
+      // DOUBLE STATEMENT STATUS
+      const invSpecific = isSpecificBill ? getInvoiceSpecificDetails(activeInv.id) : { billed: overallStats.billedTotal, paid: overallStats.paidTotal, due: overallStats.balanceDue };
+      document.getElementById('doc-inv-specific-due').innerText = `₹${invSpecific.due.toLocaleString('en-IN', {minimumFractionDigits: 2})}`;
+      document.getElementById('doc-client-due-badge').innerText = `₹${overallStats.balanceDue.toLocaleString('en-IN', {minimumFractionDigits: 2})}`;
 
       const statusBadge = document.getElementById('doc-status-badge');
-      const curStatus = activeInv ? (activeInv.status || 'Delivered') : 'Completed';
+      const curStatus = activeInv ? (activeInv.status || 'Delivered / Completed') : 'Completed';
       statusBadge.innerText = curStatus;
-      if (curStatus === 'Designing') statusBadge.className = 'text-[10px] font-extrabold px-2 py-0.5 rounded bg-amber-100 text-amber-800';
-      else if (curStatus === 'Production') statusBadge.className = 'text-[10px] font-extrabold px-2 py-0.5 rounded bg-blue-100 text-blue-800';
+      if (curStatus === 'Order Received') statusBadge.className = 'text-[10px] font-extrabold px-2 py-0.5 rounded bg-amber-100 text-amber-800';
+      else if (curStatus === 'In Process / Production') statusBadge.className = 'text-[10px] font-extrabold px-2 py-0.5 rounded bg-blue-100 text-blue-800';
+      else if (curStatus === 'Ready for Delivery') statusBadge.className = 'text-[10px] font-extrabold px-2 py-0.5 rounded bg-purple-100 text-purple-800';
       else statusBadge.className = 'text-[10px] font-extrabold px-2 py-0.5 rounded bg-emerald-100 text-emerald-800';
 
       const tbody = document.getElementById('doc-items-table');
@@ -1923,52 +2041,80 @@
         });
       });
 
+      // EDITABLE RECEIPTS LOG
       const logsContainer = document.getElementById('doc-payment-logs');
       logsContainer.innerHTML = '';
-      if (clientPayments.length === 0) {
-        logsContainer.innerHTML = `<p class="text-slate-400 italic text-[11px]">No deposits logged to date.</p>`;
+
+      const relevantPayments = isSpecificBill 
+        ? clientPayments.filter(p => p.invoiceId === activeInv.id || !p.invoiceId)
+        : clientPayments;
+
+      if (relevantPayments.length === 0) {
+        logsContainer.innerHTML = `<p class="text-slate-400 italic text-[11px]">No deposits allocated to this document yet.</p>`;
       } else {
-        clientPayments.forEach(p => {
+        relevantPayments.forEach(p => {
           const div = document.createElement('div');
           div.className = "flex justify-between items-center bg-white p-2 rounded-lg border border-slate-200 shadow-sm";
           div.innerHTML = `
-            <div>
-              <span class="font-bold text-slate-800 block text-[11px]">Payment (${p.mode})</span>
+            <div class="flex-1 pr-2">
+              <span class="font-bold text-slate-800 block text-[11px]">
+                ${p.mode} ${p.invoiceId ? `<span class="text-[9px] font-extrabold text-indigo-600 bg-indigo-50 px-1.5 py-0.2 rounded border border-indigo-200">[${p.invoiceId}]</span>` : '<span class="text-[9px] text-slate-400">[General]</span>'}
+              </span>
               <span class="text-[10px] text-slate-400 font-tabular">Date: ${p.date} • ${p.ref || 'Cleared'}</span>
             </div>
-            <span class="font-tabular font-bold text-emerald-600 text-xs">₹${p.amount.toLocaleString('en-IN', {minimumFractionDigits: 2})}</span>
+            <div class="flex items-center gap-2 font-tabular">
+              <span class="font-bold text-emerald-600 text-xs">₹${Number(p.amount).toLocaleString('en-IN', {minimumFractionDigits: 2})}</span>
+              <button onclick="editPayment('${p.id}')" class="no-print text-slate-400 hover:text-indigo-600 p-1" title="Edit Payment">✏️</button>
+              <button onclick="deletePayment('${p.id}')" class="no-print text-slate-400 hover:text-red-600 p-1" title="Delete Payment">🗑️</button>
+            </div>
           `;
           logsContainer.appendChild(div);
         });
       }
 
-      document.getElementById('doc-sum-gross').innerText = `₹${stats.grossBilledTotal.toLocaleString('en-IN', {minimumFractionDigits: 2})}`;
+      // Calculations for Invoice vs Total Statement
+      const activeGross = isSpecificBill ? (activeInv?.grossTotal || activeInv?.total || 0) : overallStats.grossBilledTotal;
+      const activeDiscount = isSpecificBill ? (activeInv?.discount || 0) : overallStats.discountTotal;
+      const activeGst = isSpecificBill ? (activeInv?.gstAmount || 0) : overallStats.gstTotal;
+      const activeNet = isSpecificBill ? (activeInv?.total || 0) : overallStats.billedTotal;
+      const activePaid = isSpecificBill ? invSpecific.paid : overallStats.paidTotal;
+      const activeBalance = isSpecificBill ? invSpecific.due : overallStats.balanceDue;
+
+      document.getElementById('doc-sum-gross').innerText = `₹${activeGross.toLocaleString('en-IN', {minimumFractionDigits: 2})}`;
       
       const discountRow = document.getElementById('doc-discount-row');
-      if (stats.discountTotal > 0) {
+      if (activeDiscount > 0) {
         discountRow.classList.remove('hidden');
-        const overallPct = stats.grossBilledTotal > 0 ? ((stats.discountTotal / stats.grossBilledTotal) * 100).toFixed(1) : 0;
+        const overallPct = activeGross > 0 ? ((activeDiscount / activeGross) * 100).toFixed(1) : 0;
         document.getElementById('doc-discount-label').innerText = `Special Discount (${overallPct}% OFF):`;
-        document.getElementById('doc-sum-discount').innerText = `(-) ₹${stats.discountTotal.toLocaleString('en-IN', {minimumFractionDigits: 2})}`;
+        document.getElementById('doc-sum-discount').innerText = `(-) ₹${activeDiscount.toLocaleString('en-IN', {minimumFractionDigits: 2})}`;
       } else {
         discountRow.classList.add('hidden');
       }
 
       const gstRow = document.getElementById('doc-gst-row');
-      if (stats.gstTotal > 0) {
+      if (activeGst > 0) {
         gstRow.classList.remove('hidden');
-        document.getElementById('doc-sum-gst').innerText = `(+) ₹${stats.gstTotal.toLocaleString('en-IN', {minimumFractionDigits: 2})}`;
+        document.getElementById('doc-sum-gst').innerText = `(+) ₹${activeGst.toLocaleString('en-IN', {minimumFractionDigits: 2})}`;
       } else {
         gstRow.classList.add('hidden');
       }
 
-      document.getElementById('doc-sum-net').innerText = `₹${stats.billedTotal.toLocaleString('en-IN', {minimumFractionDigits: 2})}`;
-      document.getElementById('doc-sum-paid').innerText = `(-) ₹${stats.paidTotal.toLocaleString('en-IN', {minimumFractionDigits: 2})}`;
-      document.getElementById('doc-sum-balance').innerText = `₹${stats.balanceDue.toLocaleString('en-IN', {minimumFractionDigits: 2})}`;
+      document.getElementById('doc-sum-net').innerText = `₹${activeNet.toLocaleString('en-IN', {minimumFractionDigits: 2})}`;
+      document.getElementById('doc-sum-paid').innerText = `(-) ₹${activePaid.toLocaleString('en-IN', {minimumFractionDigits: 2})}`;
+      document.getElementById('doc-sum-balance').innerText = `₹${activeBalance.toLocaleString('en-IN', {minimumFractionDigits: 2})}`;
 
-      const curCost = isSpecificBill ? (activeInv?.totalCost || 0) : clientInvoices.reduce((s, i) => s + (i.totalCost || 0), 0);
-      const curProfit = isSpecificBill ? (activeInv?.netProfit || 0) : stats.totalProfit;
-      const curSeva = isSpecificBill ? (activeInv?.sevaFund || 0) : stats.totalBookedSeva;
+      if (isSpecificBill) {
+        document.getElementById('doc-lbl-balance').innerText = "NET BALANCE ON THIS BILL:";
+        document.getElementById('doc-lbl-paid').innerText = "Deposited on This Bill:";
+      } else {
+        document.getElementById('doc-lbl-balance').innerText = "TOTAL OUTSTANDING BALANCE:";
+        document.getElementById('doc-lbl-paid').innerText = "Total Cleared Receipts:";
+      }
+
+      const curCost = isSpecificBill ? (activeInv?.totalCost || 0) : overallStats.totalJobCost;
+      const curProfit = isSpecificBill ? (activeInv?.netProfit || 0) : overallStats.totalProfit;
+      const curSeva = isSpecificBill ? (activeInv?.sevaFund || 0) : overallStats.totalBookedSeva;
       const lastMod = activeInv?.lastModified || 'Fresh Record';
 
       document.getElementById('doc-private-cost').innerText = `₹${curCost.toLocaleString('en-IN', {minimumFractionDigits: 2})}`;
@@ -1976,9 +2122,10 @@
       document.getElementById('doc-private-seva').innerText = `₹${curSeva.toLocaleString('en-IN', {minimumFractionDigits: 2})}`;
       document.getElementById('doc-last-modified-tag').innerText = `Last Modified: ${lastMod}`;
 
+      // Dynamic QR Code Pre-filling Specific Bill Balance
       const upiId = '9458614610-2@ybl';
-      const payableAmt = Math.max(0, stats.balanceDue);
-      const upiUri = `upi://pay?pa=${encodeURIComponent(upiId)}&pn=CoolArtAdvertising&am=${payableAmt.toFixed(2)}&cu=INR&tn=InvoiceSettlement`;
+      const payableAmt = Math.max(0, activeBalance);
+      const upiUri = `upi://pay?pa=${encodeURIComponent(upiId)}&pn=CoolArtAdvertising&am=${payableAmt.toFixed(2)}&cu=INR&tn=Invoice_${isSpecificBill ? activeInv.id : 'Statement'}`;
       const qrApiUrl = `https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=${encodeURIComponent(upiUri)}`;
       document.getElementById('doc-upi-qr').src = qrApiUrl;
     }
@@ -2078,28 +2225,30 @@
       const client = store.clients.find(c => c.id === clientId);
       if (!client) return alert('Client record not found.');
 
-      const stats = getClientSummary(clientId);
-      const payments = store.payments.filter(p => p.clientId === clientId);
-      const lastPayment = payments[payments.length - 1];
+      const billSelect = document.getElementById('preview-bill-select');
+      const selectedBillId = billSelect.value;
+      const isSpecificBill = selectedBillId !== 'ALL';
+
+      const overallStats = getClientSummary(clientId);
+      const invSpecific = isSpecificBill ? getInvoiceSpecificDetails(selectedBillId) : null;
 
       let msg = `*COMMERCIAL TAX INVOICE — COOL ART ADVERTISING*\n`;
       msg += `────────────────────────────\n`;
-      msg += `Client: *${client.name}*\n\n`;
-      msg += `Statement Summary:\n`;
-      msg += `• Gross Value: ₹${stats.grossBilledTotal.toLocaleString('en-IN', {minimumFractionDigits: 2})}\n`;
-      if (stats.discountTotal > 0) {
-        msg += `• Special Discount: ₹${stats.discountTotal.toLocaleString('en-IN', {minimumFractionDigits: 2})}\n`;
+      msg += `Client: *${client.name}*\n`;
+      if (isSpecificBill) {
+        msg += `Invoice Reference: *${selectedBillId}*\n\n`;
+        msg += `*Invoice Standing:*\n`;
+        msg += `• Invoice Amount: ₹${invSpecific.billed.toLocaleString('en-IN', {minimumFractionDigits: 2})}\n`;
+        msg += `• Cleared on this Bill: ₹${invSpecific.paid.toLocaleString('en-IN', {minimumFractionDigits: 2})}\n`;
+        msg += `• *Bill Balance Due: ₹${invSpecific.due.toLocaleString('en-IN', {minimumFractionDigits: 2})}*\n\n`;
+        msg += `• Total Market Standing (All Bills): ₹${overallStats.balanceDue.toLocaleString('en-IN', {minimumFractionDigits: 2})}\n`;
+      } else {
+        msg += `Consolidated Client Statement:\n`;
+        msg += `• Net Invoiced: ₹${overallStats.billedTotal.toLocaleString('en-IN', {minimumFractionDigits: 2})}\n`;
+        msg += `• Cleared Receipts: ₹${overallStats.paidTotal.toLocaleString('en-IN', {minimumFractionDigits: 2})}\n`;
+        msg += `• *Total Balance Due: ₹${overallStats.balanceDue.toLocaleString('en-IN', {minimumFractionDigits: 2})}*\n`;
       }
-      if (stats.gstTotal > 0) {
-        msg += `• GST (18%): ₹${stats.gstTotal.toLocaleString('en-IN', {minimumFractionDigits: 2})}\n`;
-      }
-      msg += `• Total Billed: ₹${stats.billedTotal.toLocaleString('en-IN', {minimumFractionDigits: 2})}\n`;
-      if (lastPayment) {
-        msg += `• Last Cleared: ₹${lastPayment.amount.toLocaleString('en-IN', {minimumFractionDigits: 2})} on ${lastPayment.date} (${lastPayment.mode})\n`;
-      }
-      msg += `• Cleared Receipts: ₹${stats.paidTotal.toLocaleString('en-IN', {minimumFractionDigits: 2})}\n`;
-      msg += `• *NET REMAINING BALANCE DUE: ₹${stats.balanceDue.toLocaleString('en-IN', {minimumFractionDigits: 2})}*\n\n`;
-      msg += `UPI Payment ID: *9458614610-2@ybl*\n`;
+      msg += `\nUPI Payment ID: *9458614610-2@ybl*\n`;
       msg += `_Cool Art Advertising — Atrauli (Aligarh)_\n`;
       msg += `Helpline: +91 9458614610`;
 
