@@ -3,11 +3,11 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Cool Art | Enterprise Billing, Signage & Cloud Ledger</title>
+  <title>Cool Art | Enterprise Billing & Financial Ledger</title>
   
-  <!-- Custom Favicon File with Cache Versioning -->
-  <link rel="icon" type="image/png" href="fevicon.png?v=3">
-  <link rel="apple-touch-icon" href="fevicon.png?v=3">
+  <!-- Custom Favicon File with Versioning -->
+  <link rel="icon" type="image/png" href="fevicon.png?v=4">
+  <link rel="apple-touch-icon" href="fevicon.png?v=4">
 
   <script src="https://cdn.tailwindcss.com"></script>
 
@@ -95,17 +95,24 @@
 <body class="min-h-screen flex flex-col justify-between">
 
   <!-- ================= 0. SECURITY GATEWAY ================= -->
+  <!-- Premium Minimalist Lock Screen with CA Logo & Billing Text -->
   <div id="security-gateway" class="fixed inset-0 z-50 bg-[#070d1e] flex items-center justify-center p-4">
     <div class="stat-card max-w-sm w-full p-8 border-slate-800 bg-[#0b1329]/95 text-white shadow-2xl relative overflow-hidden text-center space-y-6">
       
-      <!-- Dedicated Security Gateway Logo -->
+      <!-- Big CA Favicon Emblem -->
       <div class="flex justify-center">
-        <img src="security logo.png" alt="Security Vault" class="h-12 w-auto object-contain" onerror="this.onerror=null; this.src='cool art logo.png';">
+        <div class="w-20 h-20 rounded-2xl p-2 bg-slate-900/90 border border-slate-700/80 shadow-inner flex items-center justify-center">
+          <img src="fevicon.png?v=4" alt="Cool Art" class="w-full h-full object-contain">
+        </div>
       </div>
 
+      <!-- Pure Enterprise Billing Branding (No Advertising Keywords) -->
       <div>
-        <h2 class="text-sm font-extrabold uppercase tracking-widest text-slate-100">Cool Art Advertising</h2>
-        <p class="text-[11px] text-emerald-400 font-semibold mt-1">Authorized Executive Access Only</p>
+        <h2 class="text-base font-extrabold uppercase tracking-widest text-slate-100">Cool Art Ledger</h2>
+        <p class="text-xs text-indigo-400 font-semibold mt-1">Enterprise Billing & Financial Accounts</p>
+        <span class="inline-block mt-2 text-[10px] font-bold text-emerald-400 bg-emerald-950/60 border border-emerald-800/80 px-2.5 py-0.5 rounded-full uppercase tracking-wider">
+          Authorized Terminal
+        </span>
       </div>
 
       <div class="space-y-3 text-left">
@@ -118,7 +125,7 @@
         <span>🔒</span> Unlock Application
       </button>
 
-      <p class="text-[10px] text-slate-500">Cool Art Protected Session</p>
+      <p class="text-[10px] text-slate-500">Commercial Billing & Ledger Suite</p>
     </div>
   </div>
 
@@ -128,18 +135,18 @@
       <header class="sticky top-0 z-40 bg-[#0b1329]/95 backdrop-blur-md border-b border-slate-800 text-white shadow-md no-print">
         <div class="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-2">
           
-          <!-- Logos with Vertical Separator -->
+          <!-- Header Logos: Cool Art Logo + Separator + CA Logo -->
           <div class="flex items-center gap-2 sm:gap-3 flex-shrink-0">
             <img src="cool art logo.png" alt="Cool Art" class="h-7 sm:h-8 w-auto object-contain">
             
             <!-- Separator -->
             <span class="text-slate-600 font-extralight text-lg sm:text-xl">|</span>
             
-            <!-- Security Logo in Header -->
-            <img src="security logo.png" alt="Security Emblem" class="h-6 sm:h-7 w-auto object-contain" onerror="this.style.display='none';">
+            <!-- CA Favicon Logo in Header -->
+            <img src="fevicon.png?v=4" alt="CA Logo" class="h-7 sm:h-8 w-auto object-contain">
 
             <div class="hidden md:block border-l border-slate-700 pl-3">
-              <h1 class="text-xs font-bold uppercase tracking-wider text-slate-100">Cool Art Advertising</h1>
+              <h1 class="text-xs font-bold uppercase tracking-wider text-slate-100">Cool Art Invoicing</h1>
               <p class="text-[11px] text-emerald-400 font-medium">Enterprise Commercial Billing & Cloud Ledger</p>
             </div>
           </div>
@@ -665,7 +672,6 @@
                 </div>
                 
                 <div class="text-right flex flex-col items-end">
-                  <!-- Attached Digital Signature -->
                   <div class="h-14 w-36 flex items-end justify-end mb-1">
                     <img src="kksignature.png" alt="Signature" class="max-h-full max-w-full object-contain filter contrast-125" onerror="this.onerror=null; this.src='kksignature.jpg';">
                   </div>
@@ -992,7 +998,7 @@
     }
 
     function loadData() {
-      const saved = localStorage.getItem('coolart_finance_master_v13');
+      const saved = localStorage.getItem('coolart_finance_master_v14');
       if (saved) {
         try { store = JSON.parse(saved); } catch (e) { console.error(e); }
       }
@@ -1007,7 +1013,7 @@
     }
 
     function persistData() {
-      localStorage.setItem('coolart_finance_master_v13', JSON.stringify(store));
+      localStorage.setItem('coolart_finance_master_v14', JSON.stringify(store));
     }
 
     function pullDataFromSheets(isManual = false) {
@@ -1459,6 +1465,17 @@
           lastModified: new Date().toLocaleString('en-IN')
         };
         store.invoices.push(openingBill);
+
+        pushOnlineSync({
+          date: openingBill.date,
+          type: 'Opening Balance',
+          partyName: name,
+          phone: phone,
+          items: 'Opening Due',
+          totalAmount: opening,
+          paidAmount: 0,
+          dueBalance: opening
+        });
       }
 
       persistData();
@@ -1734,6 +1751,22 @@
 
       persistData();
       refreshAllViews();
+
+      const client = store.clients.find(c => c.id === clientId);
+      const itemsSummary = items.map(i => `${i.desc}${i.dimension ? ` (${i.dimension})` : ''} (x${i.qty})`).join(', ');
+      const currentStats = getClientSummary(clientId);
+
+      pushOnlineSync({
+        date: date,
+        type: 'Invoice Issued',
+        partyName: client.name,
+        phone: client.phone,
+        items: itemsSummary,
+        totalAmount: calc.netInvoiced,
+        paidAmount: calc.immediatePaid,
+        dueBalance: currentStats.balanceDue
+      });
+
       viewClientInvoice(clientId, invId);
     }
 
@@ -1760,6 +1793,8 @@
       if (amount <= 0) return alert('Please enter valid cleared deposit amount.');
       if (!date) return alert('Please select payment date.');
 
+      const client = store.clients.find(c => c.id === clientId);
+
       const payObj = {
         id: 'PAY_' + Date.now(),
         clientId,
@@ -1773,6 +1808,19 @@
       persistData();
       refreshAllViews();
       closeModal('payment-modal');
+
+      const currentStats = getClientSummary(clientId);
+      pushOnlineSync({
+        date: date,
+        type: 'Payment Received',
+        partyName: client.name,
+        phone: client.phone,
+        items: `${mode} - ${ref || 'Cleared'}`,
+        totalAmount: 0,
+        paidAmount: amount,
+        dueBalance: currentStats.balanceDue
+      });
+
       viewClientInvoice(clientId);
     }
 
