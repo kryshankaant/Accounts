@@ -5,18 +5,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Cool Art | Enterprise Billing & Financial Ledger</title>
   
-  <!-- Custom Favicon File with Versioning -->
-  <link rel="icon" type="image/png" href="fevicon.png?v=8">
-  <link rel="apple-touch-icon" href="fevicon.png?v=8">
+  <link rel="icon" type="image/png" href="fevicon.png?v=10">
+  <link rel="apple-touch-icon" href="fevicon.png?v=10">
 
   <script src="https://cdn.tailwindcss.com"></script>
-
-  <!-- HTML2PDF CDN for Direct Clean A4 PDF Downloads -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
-  <!-- Typography: Plus Jakarta Sans -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://fonts.gstatic.com">
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
   <style>
@@ -97,18 +93,15 @@
 </head>
 <body class="min-h-screen flex flex-col justify-between">
 
-  <!-- ================= 0. SECURITY GATEWAY ================= -->
+  <!-- SECURITY GATEWAY -->
   <div id="security-gateway" class="fixed inset-0 z-50 bg-[#070d1e] flex items-center justify-center p-4">
     <div class="stat-card max-w-sm w-full p-8 border-slate-800 bg-[#0b1329]/95 text-white shadow-2xl relative overflow-hidden text-center space-y-6">
-      
-      <!-- Big CA Favicon Emblem -->
       <div class="flex justify-center">
         <div class="w-20 h-20 rounded-2xl p-2 bg-slate-900/90 border border-slate-700/80 shadow-inner flex items-center justify-center">
-          <img src="fevicon.png?v=8" alt="Cool Art" class="w-full h-full object-contain">
+          <img src="fevicon.png?v=10" alt="Cool Art" class="w-full h-full object-contain">
         </div>
       </div>
 
-      <!-- Pure Enterprise Billing Branding -->
       <div>
         <h2 class="text-base font-extrabold uppercase tracking-widest text-slate-100">Cool Art Ledger</h2>
         <p class="text-xs text-indigo-400 font-semibold mt-1">Enterprise Billing & Financial Accounts</p>
@@ -136,11 +129,10 @@
     <div>
       <header class="sticky top-0 z-40 bg-[#0b1329]/95 backdrop-blur-md border-b border-slate-800 text-white shadow-md no-print">
         <div class="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-2">
-          
           <div class="flex items-center gap-2 sm:gap-3 flex-shrink-0">
             <img src="cool art logo.png" alt="Cool Art" class="h-7 sm:h-8 w-auto object-contain">
             <span class="text-slate-600 font-extralight text-lg sm:text-xl">|</span>
-            <img src="fevicon.png?v=8" alt="CA Logo" class="h-7 sm:h-8 w-auto object-contain">
+            <img src="fevicon.png?v=10" alt="CA Logo" class="h-7 sm:h-8 w-auto object-contain">
 
             <div class="hidden md:block border-l border-slate-700 pl-3">
               <h1 class="text-xs font-bold uppercase tracking-wider text-slate-100">Cool Art Invoicing</h1>
@@ -258,7 +250,6 @@
             </div>
           </div>
 
-          <!-- Client Accounts Table -->
           <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
             <div class="p-4 sm:p-5 border-b border-slate-100 flex flex-wrap items-center justify-between gap-3">
               <div>
@@ -357,7 +348,7 @@
                   <option value="Order Received">🟡 Order Received</option>
                   <option value="In Process / Production">🔵 In Process / Production</option>
                   <option value="Ready for Delivery">🟣 Ready for Delivery</option>
-                  <option value="Delivered / Completed" selected>🟢 Delivered / Completed</option>
+                  <option value="Delivered / Completed">🟢 Delivered / Completed</option>
                 </select>
               </div>
             </div>
@@ -395,7 +386,7 @@
               <span class="text-[11px] text-slate-500">Uncheck for regular non-tax invoice</span>
             </div>
 
-            <!-- DYNAMIC COSTING: OPTION 2 -->
+            <!-- DYNAMIC COSTING -->
             <div class="bg-amber-50/80 border border-amber-200 rounded-xl p-4 space-y-3">
               <div class="flex flex-wrap items-center justify-between border-b border-amber-200 pb-2 gap-2">
                 <span class="text-xs font-extrabold text-amber-950 flex items-center gap-1.5">
@@ -406,7 +397,6 @@
                 </button>
               </div>
 
-              <!-- Container for flexible cost heads -->
               <div id="cost-rows-container" class="space-y-2"></div>
 
               <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-2 border-t border-amber-200/80 items-center">
@@ -482,6 +472,11 @@
               <button onclick="editCurrentActiveInvoice()" id="btn-edit-active-inv" class="mt-3.5 inline-flex items-center gap-1 px-3 py-1.5 rounded-xl bg-amber-500 hover:bg-amber-600 text-white text-xs font-bold transition shadow-sm" title="Edit line items and costings">
                 ✏️ Edit Invoice
               </button>
+
+              <!-- AUTO-DELETE FROM APP & GOOGLE SHEET BUTTON -->
+              <button onclick="deleteCurrentActiveInvoice()" id="btn-delete-active-inv" class="mt-3.5 inline-flex items-center gap-1 px-3 py-1.5 rounded-xl bg-rose-600 hover:bg-rose-700 text-white text-xs font-bold transition shadow-sm" title="Delete this invoice and remove from Excel automatically">
+                🗑️ Delete Invoice
+              </button>
             </div>
             
             <div class="flex flex-wrap items-center gap-2">
@@ -527,7 +522,7 @@
                 <div class="bg-slate-50 p-4 rounded-xl border border-slate-200">
                   <div class="flex justify-between items-center mb-1">
                     <span class="text-[10px] font-bold uppercase tracking-wider text-slate-400 block">Billed To (Client / Entity)</span>
-                    <span id="doc-status-badge" class="text-[10px] font-extrabold px-2 py-0.5 rounded bg-emerald-100 text-emerald-800">Delivered</span>
+                    <span id="doc-status-badge" class="text-[10px] font-extrabold px-2 py-0.5 rounded bg-emerald-100 text-emerald-800">Delivered / Completed</span>
                   </div>
                   <h3 id="doc-client-name" class="text-sm font-bold text-slate-900"></h3>
                   <p id="doc-client-phone" class="text-xs text-slate-600 mt-0.5 font-tabular"></p>
@@ -535,7 +530,6 @@
                   <p id="doc-client-gstin" class="text-[11px] text-indigo-700 font-bold font-tabular mt-1 hidden"></p>
                 </div>
 
-                <!-- DOUBLE STATEMENT BALANCES -->
                 <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 flex flex-col justify-between">
                   <div class="flex justify-between items-start">
                     <span class="text-[10px] font-bold uppercase tracking-wider text-slate-400">Ledger Balance Standing</span>
@@ -558,7 +552,7 @@
                 </div>
               </div>
 
-              <!-- ITEMS TABLE: CLEAN SEPARATED ROWS -->
+              <!-- ITEMS TABLE: NO RATE MIXING -->
               <div class="border border-slate-200 rounded-xl overflow-x-auto">
                 <table class="w-full text-left text-xs border-collapse min-w-[500px]">
                   <thead>
@@ -618,7 +612,6 @@
                     </div>
                   </div>
 
-                  <!-- RECEIPTS LOG WITH EDIT & DELETE -->
                   <div class="border-t border-slate-200 pt-2">
                     <div class="flex items-center justify-between mb-1.5">
                       <span class="text-[10px] font-bold text-slate-500 uppercase tracking-wider block">Cleared Receipts Log</span>
@@ -710,9 +703,7 @@
     </footer>
   </div>
 
-  <!-- ================= MODALS ================= -->
-
-  <!-- MODAL: RECORD OR EDIT PAYMENT WITH INVOICE SELECTION -->
+  <!-- MODAL: RECORD/EDIT PAYMENT -->
   <div id="payment-modal" class="hidden fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
     <div class="bg-white rounded-2xl shadow-2xl border border-slate-200 max-w-md w-full p-6 space-y-4">
       <div class="flex justify-between items-center pb-2 border-b border-slate-100">
@@ -767,7 +758,7 @@
     </div>
   </div>
 
-  <!-- MODAL: CREATE OFFICE EXPENSE VOUCHER -->
+  <!-- MODAL: OFFICE EXPENSE -->
   <div id="expense-modal" class="hidden fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
     <div class="bg-white rounded-2xl shadow-2xl border border-slate-200 max-w-md w-full p-6 space-y-4">
       <div class="flex justify-between items-center pb-2 border-b border-slate-100">
@@ -838,7 +829,7 @@
     </div>
   </div>
 
-  <!-- MODAL: HANUMAN JI KA BANK CASH LEDGER -->
+  <!-- MODAL: HANUMAN BANK -->
   <div id="hanuman-bank-modal" class="hidden fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-3 sm:p-4">
     <div class="bg-white rounded-2xl shadow-2xl border border-amber-200 max-w-lg w-full p-5 space-y-4">
       <div class="flex justify-between items-center pb-2 border-b border-amber-200">
@@ -933,7 +924,7 @@
     </div>
   </div>
 
-  <!-- MODAL: SQ.FT CALCULATOR HELPER -->
+  <!-- MODAL: SQFT CALCULATOR -->
   <div id="sqft-modal" class="hidden fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
     <div class="bg-white rounded-2xl shadow-2xl border border-slate-200 max-w-sm w-full p-5 space-y-4">
       <h3 class="text-sm font-bold text-slate-900">📐 Square Feet (Sq.Ft) Calculator</h3>
@@ -961,7 +952,7 @@
     </div>
   </div>
 
-  <!-- ================= JAVASCRIPT ================= -->
+  <!-- JAVASCRIPT LOGIC -->
   <script>
     const DEFAULT_WEBHOOK_URL = "https://script.google.com/macros/s/AKfycbwXlXsEhAqRUho6zZr-amBL8GJ9BPXHcUI9X54ZRlEj8_vpLxM7UaEHrp_L8cuLFy3BUA/exec";
     const MASTER_KEY = "CoolArt@2026";
@@ -1012,7 +1003,8 @@
     }
 
     function loadData() {
-      const saved = localStorage.getItem('coolart_finance_master_v17');
+      // V20 version to clean up any old split caches completely
+      const saved = localStorage.getItem('coolart_finance_master_v20');
       if (saved) {
         try { 
           const parsed = JSON.parse(saved);
@@ -1035,7 +1027,7 @@
     }
 
     function persistData() {
-      localStorage.setItem('coolart_finance_master_v17', JSON.stringify(store));
+      localStorage.setItem('coolart_finance_master_v20', JSON.stringify(store));
     }
 
     function pullDataFromSheets(isManual = false) {
@@ -1077,7 +1069,7 @@
       document.body.appendChild(script);
     }
 
-    // ROBUST DATA PARSER: SEPARATES ITEMS & SERVICES WITHOUT MIXING
+    // PROCESS SHEET DATA WITHOUT DIVIDING OR DISTORTING RATES
     function processSheetData(rows) {
       if (!rows || rows.length === 0) return;
 
@@ -1123,28 +1115,14 @@
           if (matchedExisting && matchedExisting.items && matchedExisting.items.length > 0) {
             parsedItems = matchedExisting.items;
           } else {
-            // Unpack multiple items if stored as comma-separated string
-            const rawItemsString = String(row.items || 'Work Order Deliverables');
-            const itemTokens = rawItemsString.split(',').map(s => s.trim()).filter(Boolean);
-            
-            if (itemTokens.length > 1) {
-              const evenRate = ((Number(row.totalAmount) || 0) / itemTokens.length);
-              parsedItems = itemTokens.map(it => ({
-                desc: it.replace(/\s*\(x\d+\)/g, ''),
-                dimension: '',
-                qty: 1,
-                rate: evenRate,
-                total: evenRate
-              }));
-            } else {
-              parsedItems = [{
-                desc: rawItemsString,
-                dimension: '',
-                qty: 1,
-                rate: Number(row.totalAmount) || 0,
-                total: Number(row.totalAmount) || 0
-              }];
-            }
+            // NEVER SPLIT RATES: Keep exact whole total
+            parsedItems = [{
+              desc: String(row.items || 'Work Order Deliverables'),
+              dimension: '',
+              qty: 1,
+              rate: Number(row.totalAmount) || 0,
+              total: Number(row.totalAmount) || 0
+            }];
           }
 
           newInvoices.push({
@@ -1339,7 +1317,7 @@
       store.clients.forEach(c => {
         const stats = getClientSummary(c.id);
         const lastInv = store.invoices.filter(i => i.clientId === c.id).slice(-1)[0];
-        const status = lastInv ? lastInv.status : (c.status || 'Delivered / Completed');
+        const status = lastInv ? (lastInv.status || 'Delivered / Completed') : (c.status || 'Delivered / Completed');
 
         let statusBadge = '<span class="text-[10px] font-extrabold px-2 py-0.5 rounded bg-emerald-100 text-emerald-800">Delivered</span>';
         if (status === 'Order Received') statusBadge = '<span class="text-[10px] font-extrabold px-2 py-0.5 rounded bg-amber-100 text-amber-800">Order Received</span>';
@@ -1540,6 +1518,7 @@
       const nextSeq = String(store.config.nextInvSeq || (store.invoices.length + 1)).padStart(3, '0');
       document.getElementById('inv-custom-id').value = `INV-2026-${nextSeq}`;
       document.getElementById('inv-date').value = new Date().toISOString().split('T')[0];
+      document.getElementById('inv-status').value = "Order Received";
       
       const tbody = document.getElementById('line-items-body');
       tbody.innerHTML = '';
@@ -1573,7 +1552,7 @@
       document.getElementById('inv-custom-id').value = invoice.id;
       document.getElementById('inv-client-select').value = invoice.clientId;
       document.getElementById('inv-date').value = invoice.date;
-      document.getElementById('inv-status').value = invoice.status || 'Delivered / Completed';
+      document.getElementById('inv-status').value = invoice.status || 'Order Received';
 
       const tbody = document.getElementById('line-items-body');
       tbody.innerHTML = '';
@@ -1602,12 +1581,47 @@
       switchTab('create-bill');
     }
 
+    // AUTOMATIC DELETE FROM WEB APP & EXCEL SHEET
+    function deleteCurrentActiveInvoice() {
+      const billSelect = document.getElementById('preview-bill-select');
+      const invId = billSelect.value;
+      if (!invId || invId === 'ALL') {
+        return alert('Please select a specific Invoice number to delete.');
+      }
+
+      if (!confirm(`Are you sure you want to delete Invoice ${invId}? It will be removed from your ledger and also deleted from your Google Sheet (Excel) automatically.`)) {
+        return;
+      }
+
+      const invoice = store.invoices.find(i => i.id === invId);
+      const clientId = invoice ? invoice.clientId : document.getElementById('preview-client-select').value;
+
+      // 1. Remove from local store
+      store.invoices = store.invoices.filter(i => i.id !== invId);
+      // Un-tag payments linked to deleted invoice
+      store.payments.forEach(p => {
+        if (p.invoiceId === invId) p.invoiceId = '';
+      });
+
+      persistData();
+      refreshAllViews();
+
+      // 2. Command Google Sheet to remove the row
+      pushOnlineSync({
+        action: "DELETE_INVOICE",
+        invoiceId: invId
+      });
+
+      alert(`Invoice ${invId} successfully deleted! Excel sheet has been updated.`);
+      viewClientInvoice(clientId, 'ALL');
+    }
+
     function addLineItem(desc = '', dim = '', qty = 1, rate = '') {
       const tbody = document.getElementById('line-items-body');
       const tr = document.createElement('tr');
       tr.innerHTML = `
         <td class="p-2">
-          <input type="text" value="${desc}" placeholder="Item (e.g. Flex Board, Vinyl, Frame)" class="w-full bg-white border border-slate-300 rounded-lg p-2 text-xs item-desc focus:ring-2 focus:ring-indigo-500 outline-none">
+          <input type="text" value="${desc}" placeholder="Item (e.g. Wedding Card, Flex, Board)" class="w-full bg-white border border-slate-300 rounded-lg p-2 text-xs item-desc focus:ring-2 focus:ring-indigo-500 outline-none">
         </td>
         <td class="p-2 text-center">
           <div class="flex items-center gap-1 justify-center">
@@ -1731,6 +1745,7 @@
       return { subtotal, discountAmt, discountPct, applyGst, gstAmt, netInvoiced, immediatePaid, totalCost, costRows, netProfit, sevaFund };
     }
 
+    // STRICT UNIQUE COMMIT: NO DUPLICATE CREATION
     function commitInvoice() {
       const clientId = document.getElementById('inv-client-select').value;
       const invId = document.getElementById('inv-custom-id').value.trim();
@@ -1758,37 +1773,47 @@
       const calc = calculateInvoiceDraftTotals();
       const nowStr = new Date().toLocaleString('en-IN', { day: '2-digit', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' });
 
-      if (editingInvoiceId) {
-        const idx = store.invoices.findIndex(i => i.id === editingInvoiceId);
-        if (idx >= 0) {
-          store.invoices[idx] = {
-            ...store.invoices[idx],
-            id: invId,
-            clientId,
-            date,
-            status,
-            items,
-            grossTotal: calc.subtotal,
-            discount: calc.discountAmt,
-            discountPct: calc.discountPct,
-            costRows: calc.costRows,
-            totalCost: calc.totalCost,
-            netProfit: calc.netProfit,
-            sevaFund: calc.sevaFund,
-            gstApplied: calc.applyGst,
-            gstAmount: calc.gstAmt,
-            total: calc.netInvoiced,
-            lastModified: nowStr
-          };
+      const existingIdx = editingInvoiceId 
+        ? store.invoices.findIndex(i => i.id === editingInvoiceId)
+        : store.invoices.findIndex(i => i.id === invId);
+
+      if (existingIdx >= 0) {
+        // OVERWRITE EXISTING INVOICE ONLY
+        const oldInv = store.invoices[existingIdx];
+        store.invoices[existingIdx] = {
+          ...oldInv,
+          id: invId,
+          clientId,
+          date,
+          status: status,
+          items,
+          grossTotal: calc.subtotal,
+          discount: calc.discountAmt,
+          discountPct: calc.discountPct,
+          costRows: calc.costRows,
+          totalCost: calc.totalCost,
+          netProfit: calc.netProfit,
+          sevaFund: calc.sevaFund,
+          gstApplied: calc.applyGst,
+          gstAmount: calc.gstAmt,
+          total: calc.netInvoiced,
+          lastModified: nowStr
+        };
+
+        if (oldInv.id !== invId) {
+          store.payments.forEach(p => {
+            if (p.invoiceId === oldInv.id) p.invoiceId = invId;
+          });
         }
         editingInvoiceId = null;
       } else {
+        // CREATE ONCE
         const invoiceObj = {
           id: invId,
           clientId,
           date,
           dueDate: '',
-          status,
+          status: status,
           items,
           grossTotal: calc.subtotal,
           discount: calc.discountAmt,
@@ -1823,7 +1848,7 @@
       refreshAllViews();
 
       const client = store.clients.find(c => c.id === clientId);
-      const itemsSummary = items.map(i => `${i.desc}${i.dimension ? ` (${i.dimension})` : ''} (x${i.qty})`).join(', ');
+      const itemsSummary = items.map(i => `${i.desc} (x${i.qty})`).join(' + ');
       const currentStats = getClientSummary(clientId);
 
       pushOnlineSync({
@@ -1831,7 +1856,7 @@
         type: 'Invoice Issued',
         partyName: client.name,
         phone: client.phone,
-        items: itemsSummary,
+        items: itemsSummary + ` [${invId}]`,
         totalAmount: calc.netInvoiced,
         paidAmount: calc.immediatePaid,
         dueBalance: currentStats.balanceDue
@@ -1998,9 +2023,15 @@
       const activeInv = isSpecificBill ? clientInvoices.find(i => i.id === selectedBillId) : clientInvoices[clientInvoices.length - 1];
 
       const editBtn = document.getElementById('btn-edit-active-inv');
+      const delBtn = document.getElementById('btn-delete-active-inv');
       if (editBtn) {
-        if (isSpecificBill) editBtn.classList.remove('opacity-50', 'pointer-events-none');
-        else editBtn.classList.add('opacity-50', 'pointer-events-none');
+        if (isSpecificBill) {
+          editBtn.classList.remove('opacity-50', 'pointer-events-none');
+          if (delBtn) delBtn.classList.remove('opacity-50', 'pointer-events-none');
+        } else {
+          editBtn.classList.add('opacity-50', 'pointer-events-none');
+          if (delBtn) delBtn.classList.add('opacity-50', 'pointer-events-none');
+        }
       }
 
       document.getElementById('doc-inv-type-badge').innerText = (activeInv && activeInv.gstApplied) ? 'TAX INVOICE (GST 18%)' : 'COMMERCIAL INVOICE';
@@ -2024,14 +2055,19 @@
       document.getElementById('doc-client-due-badge').innerText = `₹${overallStats.balanceDue.toLocaleString('en-IN', {minimumFractionDigits: 2})}`;
 
       const statusBadge = document.getElementById('doc-status-badge');
-      const curStatus = activeInv ? (activeInv.status || 'Delivered / Completed') : 'Completed';
+      const curStatus = activeInv ? (activeInv.status || 'Delivered / Completed') : 'Delivered / Completed';
       statusBadge.innerText = curStatus;
-      if (curStatus === 'Order Received') statusBadge.className = 'text-[10px] font-extrabold px-2 py-0.5 rounded bg-amber-100 text-amber-800';
-      else if (curStatus === 'In Process / Production') statusBadge.className = 'text-[10px] font-extrabold px-2 py-0.5 rounded bg-blue-100 text-blue-800';
-      else if (curStatus === 'Ready for Delivery') statusBadge.className = 'text-[10px] font-extrabold px-2 py-0.5 rounded bg-purple-100 text-purple-800';
-      else statusBadge.className = 'text-[10px] font-extrabold px-2 py-0.5 rounded bg-emerald-100 text-emerald-800';
+      if (curStatus === 'Order Received') {
+        statusBadge.className = 'text-[10px] font-extrabold px-2 py-0.5 rounded bg-amber-100 text-amber-800';
+      } else if (curStatus === 'In Process / Production') {
+        statusBadge.className = 'text-[10px] font-extrabold px-2 py-0.5 rounded bg-blue-100 text-blue-800';
+      } else if (curStatus === 'Ready for Delivery') {
+        statusBadge.className = 'text-[10px] font-extrabold px-2 py-0.5 rounded bg-purple-100 text-purple-800';
+      } else {
+        statusBadge.className = 'text-[10px] font-extrabold px-2 py-0.5 rounded bg-emerald-100 text-emerald-800';
+      }
 
-      // RENDER ITEM ROWS CLEANLY WITHOUT COMBINING
+      // RENDER ITEMS TABLE WITHOUT COMBINING OR DIVIDING
       const tbody = document.getElementById('doc-items-table');
       tbody.innerHTML = '';
       const displayInvoices = isSpecificBill ? [activeInv] : clientInvoices;
@@ -2194,7 +2230,6 @@
       document.getElementById('h-exp-note').value = '';
     }
 
-    // DIRECT A4 FIT PDF DOWNLOAD
     function downloadCleanPDF() {
       const element = document.getElementById('invoice-sheet');
       const invNum = document.getElementById('doc-inv-number').innerText.trim() || 'INVOICE';
@@ -2211,7 +2246,6 @@
         jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
       };
 
-      // Temporarily hide private memo during direct PDF save
       const memo = document.getElementById('doc-office-private-panel');
       if (memo) memo.style.display = 'none';
 
@@ -2228,7 +2262,6 @@
       window.print();
     }
 
-    // ROBUST DIRECT WHATSAPP DISPATCH
     function sendFriendlyWhatsAppReminder() {
       const clientId = document.getElementById('preview-client-select').value;
       if (!clientId) return alert('Please select a client account.');
