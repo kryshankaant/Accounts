@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Cool Art | Enterprise Billing & Financial Ledger</title>
   
-  <link rel="icon" type="image/png" href="fevicon.png?v=10">
-  <link rel="apple-touch-icon" href="fevicon.png?v=10">
+  <link rel="icon" type="image/png" href="fevicon.png?v=21">
+  <link rel="apple-touch-icon" href="fevicon.png?v=21">
 
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
@@ -98,7 +98,7 @@
     <div class="stat-card max-w-sm w-full p-8 border-slate-800 bg-[#0b1329]/95 text-white shadow-2xl relative overflow-hidden text-center space-y-6">
       <div class="flex justify-center">
         <div class="w-20 h-20 rounded-2xl p-2 bg-slate-900/90 border border-slate-700/80 shadow-inner flex items-center justify-center">
-          <img src="fevicon.png?v=10" alt="Cool Art" class="w-full h-full object-contain">
+          <img src="fevicon.png?v=21" alt="Cool Art" class="w-full h-full object-contain">
         </div>
       </div>
 
@@ -132,7 +132,7 @@
           <div class="flex items-center gap-2 sm:gap-3 flex-shrink-0">
             <img src="cool art logo.png" alt="Cool Art" class="h-7 sm:h-8 w-auto object-contain">
             <span class="text-slate-600 font-extralight text-lg sm:text-xl">|</span>
-            <img src="fevicon.png?v=10" alt="CA Logo" class="h-7 sm:h-8 w-auto object-contain">
+            <img src="fevicon.png?v=21" alt="CA Logo" class="h-7 sm:h-8 w-auto object-contain">
 
             <div class="hidden md:block border-l border-slate-700 pl-3">
               <h1 class="text-xs font-bold uppercase tracking-wider text-slate-100">Cool Art Invoicing</h1>
@@ -473,7 +473,6 @@
                 ✏️ Edit Invoice
               </button>
 
-              <!-- AUTO-DELETE FROM APP & GOOGLE SHEET BUTTON -->
               <button onclick="deleteCurrentActiveInvoice()" id="btn-delete-active-inv" class="mt-3.5 inline-flex items-center gap-1 px-3 py-1.5 rounded-xl bg-rose-600 hover:bg-rose-700 text-white text-xs font-bold transition shadow-sm" title="Delete this invoice and remove from Excel automatically">
                 🗑️ Delete Invoice
               </button>
@@ -659,7 +658,7 @@
                 </div>
               </div>
 
-              <!-- Formal Signatory Footer with Signature Image -->
+              <!-- Signatory Footer -->
               <div class="border-t border-slate-200 pt-4 mt-1 flex justify-between items-end text-xs text-slate-500">
                 <div>
                   <p class="font-bold text-slate-700 text-[11px]">Cool Art Advertising</p>
@@ -682,7 +681,7 @@
       </main>
     </div>
 
-    <!-- Bottom Studio Footer -->
+    <!-- Studio Footer -->
     <footer class="no-print mt-10 py-8 px-4 border-t border-slate-200/80 bg-white/70 backdrop-blur-sm">
       <div class="max-w-xl mx-auto text-center p-6 rounded-3xl bg-white shadow-sm border border-slate-200/90 space-y-2">
         <div class="text-sm font-extrabold text-slate-800">
@@ -1003,8 +1002,8 @@
     }
 
     function loadData() {
-      // V20 version to clean up any old split caches completely
-      const saved = localStorage.getItem('coolart_finance_master_v20');
+      // V21 cache namespace for permanent clean data
+      const saved = localStorage.getItem('coolart_finance_master_v21');
       if (saved) {
         try { 
           const parsed = JSON.parse(saved);
@@ -1027,7 +1026,7 @@
     }
 
     function persistData() {
-      localStorage.setItem('coolart_finance_master_v20', JSON.stringify(store));
+      localStorage.setItem('coolart_finance_master_v21', JSON.stringify(store));
     }
 
     function pullDataFromSheets(isManual = false) {
@@ -1069,7 +1068,7 @@
       document.body.appendChild(script);
     }
 
-    // PROCESS SHEET DATA WITHOUT DIVIDING OR DISTORTING RATES
+    // PROCESS SHEET DATA WITHOUT DIVIDING OR DUPLICATING
     function processSheetData(rows) {
       if (!rows || rows.length === 0) return;
 
@@ -1098,9 +1097,10 @@
         const name = (row.partyName || '').trim();
         if (!name) return;
 
+        const cleanClientId = 'CL_' + name.toLowerCase().replace(/[^a-z0-9]/g, '_');
         if (!clientMap[name]) {
           clientMap[name] = {
-            id: 'CL_' + idx,
+            id: cleanClientId,
             name: name,
             phone: row.phone || '',
             address: 'Registered Account',
@@ -1109,15 +1109,28 @@
         }
 
         if (row.type === 'Invoice Issued' || row.type === 'Opening Due' || row.type === 'Opening Balance') {
-          const matchedExisting = store.invoices.find(i => i.id === 'INV-' + (idx + 1));
+          const itemText = String(row.items || '');
           
+          let actualInvId = '';
+          const match = itemText.match(/\[(INV-[\w-]+)\]/i) || itemText.match(/(INV-[\w-]+)/i);
+          if (match) {
+            actualInvId = match[1];
+          } else {
+            actualInvId = 'INV-3';
+          }
+
+          const alreadyAdded = newInvoices.some(i => i.id === actualInvId);
+          if (alreadyAdded) return;
+
+          const matchedExisting = store.invoices.find(i => i.id === actualInvId);
+
           let parsedItems = [];
           if (matchedExisting && matchedExisting.items && matchedExisting.items.length > 0) {
             parsedItems = matchedExisting.items;
           } else {
-            // NEVER SPLIT RATES: Keep exact whole total
+            const cleanDesc = itemText.replace(/\s*\[INV-[\w-]+\]/gi, '').trim() || 'Work Order Deliverables';
             parsedItems = [{
-              desc: String(row.items || 'Work Order Deliverables'),
+              desc: cleanDesc,
               dimension: '',
               qty: 1,
               rate: Number(row.totalAmount) || 0,
@@ -1126,8 +1139,8 @@
           }
 
           newInvoices.push({
-            id: 'INV-' + (idx + 1),
-            clientId: clientMap[name].id,
+            id: actualInvId,
+            clientId: cleanClientId,
             date: rowDate,
             dueDate: '',
             status: matchedExisting ? matchedExisting.status : 'Delivered / Completed',
@@ -1148,8 +1161,8 @@
           if (Number(row.paidAmount) > 0) {
             newPayments.push({
               id: 'PAY_' + idx,
-              clientId: clientMap[name].id,
-              invoiceId: 'INV-' + (idx + 1),
+              clientId: cleanClientId,
+              invoiceId: actualInvId,
               date: rowDate,
               amount: Number(row.paidAmount),
               mode: 'Spot Payment',
@@ -1164,7 +1177,7 @@
 
           newPayments.push({
             id: 'PAY_' + idx,
-            clientId: clientMap[name].id,
+            clientId: cleanClientId,
             invoiceId: taggedInvId || '',
             date: rowDate,
             amount: Number(row.paidAmount),
@@ -1451,14 +1464,14 @@
 
       if (!name) return alert('Please enter client or company name.');
 
-      const newId = 'CL_' + Date.now();
-      const newClient = { id: newId, name, phone, gstin, address, openingBalance: opening, status: 'Delivered / Completed' };
+      const cleanClientId = 'CL_' + name.toLowerCase().replace(/[^a-z0-9]/g, '_');
+      const newClient = { id: cleanClientId, name, phone, gstin, address, openingBalance: opening, status: 'Delivered / Completed' };
       store.clients.push(newClient);
 
       if (opening > 0) {
         const openingBill = {
           id: 'OPN-' + Date.now().toString().slice(-4),
-          clientId: newId,
+          clientId: cleanClientId,
           date: new Date().toISOString().split('T')[0],
           dueDate: '',
           status: 'Delivered / Completed',
@@ -1581,7 +1594,6 @@
       switchTab('create-bill');
     }
 
-    // AUTOMATIC DELETE FROM WEB APP & EXCEL SHEET
     function deleteCurrentActiveInvoice() {
       const billSelect = document.getElementById('preview-bill-select');
       const invId = billSelect.value;
@@ -1596,9 +1608,7 @@
       const invoice = store.invoices.find(i => i.id === invId);
       const clientId = invoice ? invoice.clientId : document.getElementById('preview-client-select').value;
 
-      // 1. Remove from local store
       store.invoices = store.invoices.filter(i => i.id !== invId);
-      // Un-tag payments linked to deleted invoice
       store.payments.forEach(p => {
         if (p.invoiceId === invId) p.invoiceId = '';
       });
@@ -1606,7 +1616,6 @@
       persistData();
       refreshAllViews();
 
-      // 2. Command Google Sheet to remove the row
       pushOnlineSync({
         action: "DELETE_INVOICE",
         invoiceId: invId
@@ -1745,7 +1754,6 @@
       return { subtotal, discountAmt, discountPct, applyGst, gstAmt, netInvoiced, immediatePaid, totalCost, costRows, netProfit, sevaFund };
     }
 
-    // STRICT UNIQUE COMMIT: NO DUPLICATE CREATION
     function commitInvoice() {
       const clientId = document.getElementById('inv-client-select').value;
       const invId = document.getElementById('inv-custom-id').value.trim();
@@ -1778,7 +1786,6 @@
         : store.invoices.findIndex(i => i.id === invId);
 
       if (existingIdx >= 0) {
-        // OVERWRITE EXISTING INVOICE ONLY
         const oldInv = store.invoices[existingIdx];
         store.invoices[existingIdx] = {
           ...oldInv,
@@ -1807,7 +1814,6 @@
         }
         editingInvoiceId = null;
       } else {
-        // CREATE ONCE
         const invoiceObj = {
           id: invId,
           clientId,
@@ -2067,7 +2073,6 @@
         statusBadge.className = 'text-[10px] font-extrabold px-2 py-0.5 rounded bg-emerald-100 text-emerald-800';
       }
 
-      // RENDER ITEMS TABLE WITHOUT COMBINING OR DIVIDING
       const tbody = document.getElementById('doc-items-table');
       tbody.innerHTML = '';
       const displayInvoices = isSpecificBill ? [activeInv] : clientInvoices;
