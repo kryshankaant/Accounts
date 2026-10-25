@@ -6,8 +6,8 @@
   <title>Cool Art | Enterprise Billing & Financial Ledger</title>
   
   <!-- Custom Favicon File with Versioning -->
-  <link rel="icon" type="image/png" href="fevicon.png?v=4">
-  <link rel="apple-touch-icon" href="fevicon.png?v=4">
+  <link rel="icon" type="image/png" href="fevicon.png?v=5">
+  <link rel="apple-touch-icon" href="fevicon.png?v=5">
 
   <script src="https://cdn.tailwindcss.com"></script>
 
@@ -95,18 +95,15 @@
 <body class="min-h-screen flex flex-col justify-between">
 
   <!-- ================= 0. SECURITY GATEWAY ================= -->
-  <!-- Premium Minimalist Lock Screen with CA Logo & Billing Text -->
   <div id="security-gateway" class="fixed inset-0 z-50 bg-[#070d1e] flex items-center justify-center p-4">
     <div class="stat-card max-w-sm w-full p-8 border-slate-800 bg-[#0b1329]/95 text-white shadow-2xl relative overflow-hidden text-center space-y-6">
       
-      <!-- Big CA Favicon Emblem -->
       <div class="flex justify-center">
         <div class="w-20 h-20 rounded-2xl p-2 bg-slate-900/90 border border-slate-700/80 shadow-inner flex items-center justify-center">
-          <img src="fevicon.png?v=4" alt="Cool Art" class="w-full h-full object-contain">
+          <img src="fevicon.png?v=5" alt="Cool Art" class="w-full h-full object-contain">
         </div>
       </div>
 
-      <!-- Pure Enterprise Billing Branding (No Advertising Keywords) -->
       <div>
         <h2 class="text-base font-extrabold uppercase tracking-widest text-slate-100">Cool Art Ledger</h2>
         <p class="text-xs text-indigo-400 font-semibold mt-1">Enterprise Billing & Financial Accounts</p>
@@ -135,15 +132,10 @@
       <header class="sticky top-0 z-40 bg-[#0b1329]/95 backdrop-blur-md border-b border-slate-800 text-white shadow-md no-print">
         <div class="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-2">
           
-          <!-- Header Logos: Cool Art Logo + Separator + CA Logo -->
           <div class="flex items-center gap-2 sm:gap-3 flex-shrink-0">
             <img src="cool art logo.png" alt="Cool Art" class="h-7 sm:h-8 w-auto object-contain">
-            
-            <!-- Separator -->
             <span class="text-slate-600 font-extralight text-lg sm:text-xl">|</span>
-            
-            <!-- CA Favicon Logo in Header -->
-            <img src="fevicon.png?v=4" alt="CA Logo" class="h-7 sm:h-8 w-auto object-contain">
+            <img src="fevicon.png?v=5" alt="CA Logo" class="h-7 sm:h-8 w-auto object-contain">
 
             <div class="hidden md:block border-l border-slate-700 pl-3">
               <h1 class="text-xs font-bold uppercase tracking-wider text-slate-100">Cool Art Invoicing</h1>
@@ -243,7 +235,6 @@
             </div>
           </div>
 
-          <!-- Profit Breakdown Sub-Row -->
           <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
             <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm">
               <span class="text-xs font-bold text-slate-500 uppercase tracking-wider block">Job Production Margin (Booked)</span>
@@ -627,7 +618,7 @@
                 </div>
               </div>
 
-              <!-- Confidential Office Margin (Never Printed) -->
+              <!-- Confidential Office Margin -->
               <div id="doc-office-private-panel" class="office-private-note no-print mt-3 p-4 rounded-2xl bg-gradient-to-r from-amber-50/90 via-orange-50/80 to-amber-50/90 border border-amber-300 text-xs">
                 <div class="flex items-center justify-between border-b border-amber-200/80 pb-2 mb-3">
                   <span class="font-extrabold text-amber-950 flex items-center gap-1.5">
@@ -707,8 +698,6 @@
       </div>
     </footer>
   </div>
-
-  <!-- ================= MODALS ================= -->
 
   <!-- MODAL: CREATE OFFICE EXPENSE VOUCHER -->
   <div id="expense-modal" class="hidden fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
@@ -998,9 +987,17 @@
     }
 
     function loadData() {
-      const saved = localStorage.getItem('coolart_finance_master_v14');
+      const saved = localStorage.getItem('coolart_finance_master_v15');
       if (saved) {
-        try { store = JSON.parse(saved); } catch (e) { console.error(e); }
+        try { 
+          const parsed = JSON.parse(saved);
+          if (Array.isArray(parsed.clients)) store.clients = parsed.clients;
+          if (Array.isArray(parsed.invoices)) store.invoices = parsed.invoices;
+          if (Array.isArray(parsed.payments)) store.payments = parsed.payments;
+          if (Array.isArray(parsed.hanumanExpenses)) store.hanumanExpenses = parsed.hanumanExpenses;
+          if (Array.isArray(parsed.officeExpenses)) store.officeExpenses = parsed.officeExpenses;
+          if (parsed.config) store.config = Object.assign(store.config, parsed.config);
+        } catch (e) { console.error(e); }
       }
 
       store.config.webhookUrl = DEFAULT_WEBHOOK_URL;
@@ -1013,7 +1010,7 @@
     }
 
     function persistData() {
-      localStorage.setItem('coolart_finance_master_v14', JSON.stringify(store));
+      localStorage.setItem('coolart_finance_master_v15', JSON.stringify(store));
     }
 
     function pullDataFromSheets(isManual = false) {
@@ -1034,11 +1031,11 @@
         if (spinner) spinner.classList.add('hidden');
         if (text) text.innerText = 'Sync';
 
-        if (result && result.status === "success" && Array.isArray(result.data)) {
+        if (result && result.status === "success" && Array.isArray(result.data) && result.data.length > 0) {
           processSheetData(result.data);
           if (isManual) alert('Google Sheet data synchronized successfully!');
         } else {
-          if (isManual) alert('No new data found on connected sheet.');
+          if (isManual) alert('Connected sheet is currently empty or has no new records.');
         }
       };
 
@@ -1056,6 +1053,8 @@
     }
 
     function processSheetData(rows) {
+      if (!rows || rows.length === 0) return;
+
       const clientMap = {};
       const newInvoices = [];
       const newPayments = [];
@@ -1144,9 +1143,9 @@
         }
       });
 
-      store.clients = Object.values(clientMap);
-      store.invoices = newInvoices;
-      store.payments = newPayments;
+      if (Object.keys(clientMap).length > 0) store.clients = Object.values(clientMap);
+      if (newInvoices.length > 0) store.invoices = newInvoices;
+      if (newPayments.length > 0) store.payments = newPayments;
       if (newExpenses.length > 0) store.officeExpenses = newExpenses;
 
       persistData();
@@ -1288,7 +1287,7 @@
       tbody.innerHTML = '';
 
       if (store.clients.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="7" class="p-8 text-center text-slate-400">No client accounts found. Click "Sync" or "+ Register Client".</td></tr>`;
+        tbody.innerHTML = `<tr><td colspan="7" class="p-8 text-center text-slate-400">No client accounts registered. Click "+ Register Client".</td></tr>`;
         return;
       }
 
@@ -1475,6 +1474,18 @@
           totalAmount: opening,
           paidAmount: 0,
           dueBalance: opening
+        });
+      } else {
+        // Direct Sync when Client is added even with 0 opening balance
+        pushOnlineSync({
+          date: new Date().toISOString().split('T')[0],
+          type: 'Client Account',
+          partyName: name,
+          phone: phone,
+          items: address || 'New Account Created',
+          totalAmount: 0,
+          paidAmount: 0,
+          dueBalance: 0
         });
       }
 
