@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Cool Art | Enterprise Billing & Financial Ledger</title>
   
-  <link rel="icon" type="image/png" href="fevicon.png?v=30">
-  <link rel="apple-touch-icon" href="fevicon.png?v=30">
+  <link rel="icon" type="image/png" href="fevicon.png?v=35">
+  <link rel="apple-touch-icon" href="fevicon.png?v=35">
 
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
@@ -92,7 +92,7 @@
     <div class="stat-card max-w-sm w-full p-8 border-slate-800 bg-[#0b1329]/95 text-white shadow-2xl relative overflow-hidden text-center space-y-6">
       <div class="flex justify-center">
         <div class="w-20 h-20 rounded-2xl p-2 bg-slate-900/90 border border-slate-700/80 shadow-inner flex items-center justify-center">
-          <img src="fevicon.png?v=30" alt="Cool Art" class="w-full h-full object-contain">
+          <img src="fevicon.png?v=35" alt="Cool Art" class="w-full h-full object-contain">
         </div>
       </div>
 
@@ -127,7 +127,7 @@
           <div class="flex items-center gap-2 sm:gap-3 flex-shrink-0">
             <img src="cool art logo.png" alt="Cool Art" class="h-6 sm:h-8 w-auto object-contain">
             <span class="text-slate-600 font-extralight text-sm sm:text-lg">|</span>
-            <img src="fevicon.png?v=30" alt="CA Logo" class="h-6 sm:h-8 w-auto object-contain">
+            <img src="fevicon.png?v=35" alt="CA Logo" class="h-6 sm:h-8 w-auto object-contain">
 
             <div class="hidden md:block border-l border-slate-700 pl-3">
               <h1 class="text-xs font-bold uppercase tracking-wider text-slate-100">Cool Art Invoicing</h1>
@@ -309,7 +309,7 @@
           </div>
         </section>
 
-        <!-- 3. CREATE / EDIT INVOICE TAB -->
+        <!-- 3. CREATE / EDIT INVOICE TAB (INVOICE STUDIO) -->
         <section id="tab-sec-create-bill" class="hidden no-print max-w-4xl mx-auto space-y-6">
           <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-4 sm:p-8 space-y-6">
             <div class="flex flex-wrap items-center justify-between border-b border-slate-200 pb-4 gap-3">
@@ -329,7 +329,7 @@
             <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
               <div class="md:col-span-2">
                 <label class="block text-xs font-bold text-slate-700 mb-1.5">Billed To (Client) *</label>
-                <select id="inv-client-select" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-xs sm:text-sm text-slate-800 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                <select id="inv-client-select" onchange="onClientSelectionChange()" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-xs sm:text-sm text-slate-800 focus:outline-none focus:ring-2 focus:ring-indigo-500">
                   <option value="">-- Choose Client --</option>
                 </select>
               </div>
@@ -381,17 +381,18 @@
               <span class="text-[11px] text-slate-500">Uncheck for regular non-tax invoice</span>
             </div>
 
-            <!-- DYNAMIC COSTING -->
+            <!-- DYNAMIC & FULLY EDITABLE COSTING -->
             <div class="bg-amber-50/80 border border-amber-200 rounded-xl p-4 space-y-3">
               <div class="flex flex-wrap items-center justify-between border-b border-amber-200 pb-2 gap-2">
                 <span class="text-xs font-extrabold text-amber-950 flex items-center gap-1.5">
                   🔒 Internal Job Costing & Hanuman Ji Ka Bank (Excluded from Print/PDF)
                 </span>
-                <button type="button" onclick="addCostRow()" class="text-xs font-bold text-amber-900 bg-amber-200/80 hover:bg-amber-300 px-2.5 py-1 rounded-lg transition border border-amber-300">
+                <button type="button" onclick="addCostRow('', '')" class="text-xs font-bold text-amber-900 bg-amber-200/80 hover:bg-amber-300 px-2.5 py-1 rounded-lg transition border border-amber-300">
                   + Add Cost Row
                 </button>
               </div>
 
+              <!-- Editable rows always render here -->
               <div id="cost-rows-container" class="space-y-2"></div>
 
               <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-2 border-t border-amber-200/80 items-center">
@@ -450,7 +451,7 @@
           </div>
         </section>
 
-        <!-- 4. OFFICIAL INVOICE & STATEMENT -->
+        <!-- 4. OFFICIAL STATEMENT & INVOICE PREVIEW -->
         <section id="tab-sec-invoice-preview" class="hidden space-y-6">
           <div class="no-print max-w-4xl mx-auto bg-white p-3.5 rounded-2xl border border-slate-200 shadow-sm flex flex-wrap items-center justify-between gap-3">
             <div class="flex flex-wrap items-center gap-2.5">
@@ -546,7 +547,7 @@
                 </div>
               </div>
 
-              <!-- ITEMS TABLE: INDEPENDENT ROWS (FROM INVOICE_ITEMS TAB) -->
+              <!-- ITEMS TABLE: INDEPENDENT ROWS -->
               <div class="border border-slate-200 rounded-xl overflow-x-auto">
                 <table class="w-full text-left text-xs border-collapse min-w-[500px]">
                   <thead>
@@ -662,7 +663,7 @@
                 
                 <div class="text-right flex flex-col items-end">
                   <div class="h-14 w-36 flex items-end justify-end mb-1">
-                    <img src="kksignature.png" alt="Signature" class="max-h-full max-w-full object-contain filter contrast-125" onerror="this.onerror=null; this.src='kksignature.jpg';">
+                    <img src="kksignature.png" alt="Signature" class="max-h-full max-w-full object-contain filter contrast-125" onerror="this.onerror=null; this.src='kksignature.jpg';">[cite: 3]
                   </div>
                   <div class="w-36 border-b border-slate-400 mb-1"></div>
                   <span class="text-[10px] font-bold text-slate-700 uppercase tracking-wider block">Authorized Signatory</span>
@@ -946,7 +947,7 @@
     </div>
   </div>
 
-  <!-- JAVASCRIPT LOGIC (5-TAB NORMALIZED RELATIONAL MODEL) -->
+  <!-- JAVASCRIPT LOGIC -->
   <script>
     const DEFAULT_WEBHOOK_URL = "https://script.google.com/macros/s/AKfycbwXlXsEhAqRUho6zZr-amBL8GJ9BPXHcUI9X54ZRlEj8_vpLxM7UaEHrp_L8cuLFy3BUA/exec";
     const MASTER_KEY = "CoolArt@2026";
@@ -997,7 +998,7 @@
     }
 
     function loadData() {
-      const saved = localStorage.getItem('coolart_finance_master_v30');
+      const saved = localStorage.getItem('coolart_finance_master_v35');
       if (saved) {
         try { 
           const parsed = JSON.parse(saved);
@@ -1020,10 +1021,9 @@
     }
 
     function persistData() {
-      localStorage.setItem('coolart_finance_master_v30', JSON.stringify(store));
+      localStorage.setItem('coolart_finance_master_v35', JSON.stringify(store));
     }
 
-    // PULL DATA DIRECTLY FROM 5 CLEAN TABS
     function pullDataFromSheets(isManual = false) {
       const url = store.config.webhookUrl || DEFAULT_WEBHOOK_URL;
       const spinner = document.getElementById('sync-spinner');
@@ -1064,7 +1064,6 @@
     }
 
     function process5TabSheetData(payload) {
-      // 1. Clients
       if (Array.isArray(payload.clients) && payload.clients.length > 0) {
         store.clients = payload.clients.map(c => ({
           id: String(c.Client_ID || ('CL_' + c.Client_Name)),
@@ -1077,7 +1076,6 @@
         }));
       }
 
-      // 2. Invoices & Items Relational Join
       const rawInvoices = Array.isArray(payload.invoices) ? payload.invoices : [];
       const rawItems = Array.isArray(payload.items) ? payload.items : [];
 
@@ -1092,9 +1090,12 @@
             total: Number(it.Total_Amount) || 0
           }));
 
+          const matchedExisting = store.invoices.find(i => i.id === invId);
+
           return {
             id: invId,
             clientId: String(inv.Client_ID),
+            clientName: String(inv.Client_Name || ''),
             date: String(inv.Date || '').split('T')[0],
             status: String(inv.Work_Status || 'Delivered / Completed'),
             items: lineItems.length > 0 ? lineItems : [{ desc: 'Work Order', dimension: '', qty: 1, rate: Number(inv.Net_Total)||0, total: Number(inv.Net_Total)||0 }],
@@ -1102,6 +1103,9 @@
             discount: Number(inv.Discount_Amount) || 0,
             gstAmount: Number(inv.GST_Amount) || 0,
             total: Number(inv.Net_Total) || 0,
+            costRows: (matchedExisting && matchedExisting.costRows) ? matchedExisting.costRows : [
+              { title: 'Material / Raw Stock', amount: (Number(inv.Job_Cost) || 0) }
+            ],
             totalCost: Number(inv.Job_Cost) || 0,
             netProfit: Number(inv.Net_Profit) || 0,
             sevaFund: Number(inv.Seva_Fund) || 0,
@@ -1110,11 +1114,11 @@
         });
       }
 
-      // 3. Payments
       if (Array.isArray(payload.payments)) {
         store.payments = payload.payments.map(p => ({
           id: String(p.Receipt_ID || ('PAY_' + Math.random())),
           clientId: String(p.Client_ID || ''),
+          clientName: String(p.Client_Name || ''),
           invoiceId: String(p.Invoice_ID || ''),
           date: String(p.Date || '').split('T')[0],
           amount: Number(p.Amount_Paid) || 0,
@@ -1123,7 +1127,6 @@
         }));
       }
 
-      // 4. Expenses
       if (Array.isArray(payload.expenses)) {
         store.officeExpenses = payload.expenses.map(e => ({
           id: String(e.Voucher_ID || ('EXP_' + Math.random())),
@@ -1447,14 +1450,24 @@
       tbody.innerHTML = '';
       addLineItem('', '', 1, '');
 
-      document.getElementById('cost-rows-container').innerHTML = '';
+      // Load editable costing inputs by default
+      const costContainer = document.getElementById('cost-rows-container');
+      costContainer.innerHTML = '';
       addCostRow('Material / Raw Stock', '');
-      addCostRow('Fabrication / Making', '');
+      addCostRow('Fabrication / Labor', '');
 
       document.getElementById('inv-discount-amt').value = '';
       document.getElementById('inv-immediate-paid').value = '';
       document.getElementById('inv-apply-gst').checked = false;
       calculateInvoiceDraftTotals();
+    }
+
+    // Handles Client Dropdown Change in Invoice Studio
+    function onClientSelectionChange() {
+      if (!editingInvoiceId) {
+        const nextSeq = String(store.config.nextInvSeq || (store.invoices.length + 1)).padStart(3, '0');
+        document.getElementById('inv-custom-id').value = `INV-2026-${nextSeq}`;
+      }
     }
 
     function editCurrentActiveInvoice() {
@@ -1477,6 +1490,7 @@
       document.getElementById('inv-date').value = invoice.date;
       document.getElementById('inv-status').value = invoice.status || 'Order Received';
 
+      // Load line items
       const tbody = document.getElementById('line-items-body');
       tbody.innerHTML = '';
       if (invoice.items && invoice.items.length > 0) {
@@ -1485,6 +1499,15 @@
         });
       } else {
         addLineItem('', '', 1, '');
+      }
+
+      // Populate editable costing rows
+      const costContainer = document.getElementById('cost-rows-container');
+      costContainer.innerHTML = '';
+      if (invoice.costRows && invoice.costRows.length > 0) {
+        invoice.costRows.forEach(cr => addCostRow(cr.title, cr.amount));
+      } else {
+        addCostRow('Material / Raw Stock', invoice.totalCost || '');
       }
 
       document.getElementById('inv-discount-amt').value = invoice.discount || '';
@@ -1551,15 +1574,16 @@
       calculateInvoiceDraftTotals();
     }
 
+    // Editable Costing Rows (Can add, edit, or delete at any time)
     function addCostRow(title = '', amount = '') {
       const container = document.getElementById('cost-rows-container');
       const div = document.createElement('div');
       div.className = "flex items-center gap-2 cost-entry-row";
       div.innerHTML = `
-        <input type="text" value="${title}" placeholder="Cost Description (e.g. Paper, Flex, Iron, Delivery)" class="flex-1 bg-white border border-amber-300 rounded-lg px-2.5 py-1 text-xs text-slate-800 font-medium focus:outline-none cost-title">
+        <input type="text" value="${title}" placeholder="Cost Head (e.g. Paper, Flex, Iron, Ink, Fuel)" class="flex-1 bg-white border border-amber-300 rounded-lg px-2.5 py-1.5 text-xs text-slate-800 font-medium focus:outline-none cost-title">
         <div class="relative w-36">
-          <span class="absolute left-2.5 top-1 text-slate-400 text-xs">₹</span>
-          <input type="number" min="0" step="any" value="${amount}" oninput="calculateInvoiceDraftTotals()" placeholder="0.00" class="w-full bg-white border border-amber-300 rounded-lg pl-6 pr-2.5 py-1 text-xs text-slate-800 font-bold focus:outline-none font-tabular cost-amount">
+          <span class="absolute left-2.5 top-1.5 text-slate-400 text-xs">₹</span>
+          <input type="number" min="0" step="any" value="${amount}" oninput="calculateInvoiceDraftTotals()" placeholder="0.00" class="w-full bg-white border border-amber-300 rounded-lg pl-6 pr-2.5 py-1.5 text-xs text-slate-800 font-bold focus:outline-none font-tabular cost-amount">
         </div>
         <button type="button" onclick="this.closest('.cost-entry-row').remove(); calculateInvoiceDraftTotals();" class="text-slate-400 hover:text-red-500 font-bold text-xs p-1">✕</button>
       `;
@@ -1628,6 +1652,7 @@
       const immediatePaid = Math.min(netInvoiced, parseFloat(document.getElementById('inv-immediate-paid').value) || 0);
       const netDue = Math.max(0, netInvoiced - immediatePaid);
 
+      // Calculates total cost from all editable cost rows
       let totalCost = 0;
       const costRows = [];
       document.querySelectorAll('#cost-rows-container .cost-entry-row').forEach(cr => {
@@ -1737,7 +1762,6 @@
       persistData();
       refreshAllViews();
 
-      // PUSH TO GOOGLE SHEET (Summary tab + Items tab)
       pushOnlineSync({
         action: "SAVE_INVOICE",
         invoice: invoiceObj,
