@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Cool Art | Enterprise Billing & Financial Ledger</title>
   
-  <link rel="icon" type="image/png" href="fevicon.png?v=21">
-  <link rel="apple-touch-icon" href="fevicon.png?v=21">
+  <link rel="icon" type="image/png" href="fevicon.png?v=25">
+  <link rel="apple-touch-icon" href="fevicon.png?v=25">
 
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
@@ -98,7 +98,7 @@
     <div class="stat-card max-w-sm w-full p-8 border-slate-800 bg-[#0b1329]/95 text-white shadow-2xl relative overflow-hidden text-center space-y-6">
       <div class="flex justify-center">
         <div class="w-20 h-20 rounded-2xl p-2 bg-slate-900/90 border border-slate-700/80 shadow-inner flex items-center justify-center">
-          <img src="fevicon.png?v=21" alt="Cool Art" class="w-full h-full object-contain">
+          <img src="fevicon.png?v=25" alt="Cool Art" class="w-full h-full object-contain">
         </div>
       </div>
 
@@ -127,12 +127,15 @@
   <!-- MAIN APP CONTAINER -->
   <div id="app-root" class="hidden flex-1 flex flex-col justify-between">
     <div>
+      <!-- CLEAN MOBILE-FRIENDLY HEADER -->
       <header class="sticky top-0 z-40 bg-[#0b1329]/95 backdrop-blur-md border-b border-slate-800 text-white shadow-md no-print">
-        <div class="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-2">
+        <div class="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 h-14 sm:h-16 flex items-center justify-between gap-2">
+          
+          <!-- Logos -->
           <div class="flex items-center gap-2 sm:gap-3 flex-shrink-0">
-            <img src="cool art logo.png" alt="Cool Art" class="h-7 sm:h-8 w-auto object-contain">
-            <span class="text-slate-600 font-extralight text-lg sm:text-xl">|</span>
-            <img src="fevicon.png?v=21" alt="CA Logo" class="h-7 sm:h-8 w-auto object-contain">
+            <img src="cool art logo.png" alt="Cool Art" class="h-6 sm:h-8 w-auto object-contain">
+            <span class="text-slate-600 font-extralight text-sm sm:text-lg">|</span>
+            <img src="fevicon.png?v=25" alt="CA Logo" class="h-6 sm:h-8 w-auto object-contain">
 
             <div class="hidden md:block border-l border-slate-700 pl-3">
               <h1 class="text-xs font-bold uppercase tracking-wider text-slate-100">Cool Art Invoicing</h1>
@@ -140,24 +143,25 @@
             </div>
           </div>
 
-          <div class="flex items-center gap-1.5 sm:gap-2.5">
-            <button onclick="pullDataFromSheets(true)" id="btn-pull-sync" title="Sync from Sheet" class="inline-flex items-center justify-center gap-1.5 text-xs font-bold p-2 sm:px-3 sm:py-2 rounded-xl bg-emerald-700 hover:bg-emerald-600 text-white transition shadow-sm">
-              <svg class="w-4 h-4 animate-spin hidden" id="sync-spinner" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path></svg>
-              <span class="text-sm">🔄</span>
-              <span class="hidden sm:inline" id="sync-text">Sync</span>
+          <!-- Controls: Compact & Clean on Mobile -->
+          <div class="flex items-center gap-1 sm:gap-2">
+            <button onclick="pullDataFromSheets(true)" id="btn-pull-sync" title="Sync from Sheet" class="p-1.5 sm:px-3 sm:py-2 rounded-xl bg-emerald-700 hover:bg-emerald-600 text-white transition shadow-sm">
+              <span class="text-xs sm:text-sm">🔄</span>
+              <span class="hidden sm:inline text-xs font-bold ml-1" id="sync-text">Sync</span>
             </button>
 
-            <button onclick="openModal('expense-modal')" title="Add General Expense" class="inline-flex items-center gap-1 text-xs font-bold px-3 py-2 rounded-xl bg-rose-600 hover:bg-rose-500 text-white shadow transition">
-              <span>💸</span>
-              <span class="hidden sm:inline">Add Expense</span>
+            <button onclick="openModal('expense-modal')" title="Add General Expense" class="p-1.5 sm:px-3 sm:py-2 rounded-xl bg-rose-600 hover:bg-rose-500 text-white shadow transition">
+              <span class="text-xs sm:text-sm">💸</span>
+              <span class="hidden sm:inline text-xs font-bold ml-1">Expense</span>
             </button>
 
-            <button onclick="openNewInvoiceForm()" class="inline-flex items-center gap-1 text-xs font-bold px-3 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white shadow transition">
+            <button onclick="openNewInvoiceForm()" class="inline-flex items-center gap-1 text-xs font-bold px-2.5 py-1.5 sm:px-3 sm:py-2 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white shadow transition">
               <span>➕</span>
-              <span class="sm:inline">New Invoice</span>
+              <span class="hidden sm:inline">New Invoice</span>
+              <span class="sm:hidden">Bill</span>
             </button>
 
-            <button onclick="lockGateway()" title="Lock Application" class="p-2 text-slate-400 hover:text-red-400 transition ml-1">
+            <button onclick="lockGateway()" title="Lock Application" class="p-1.5 text-slate-400 hover:text-red-400 transition">
               🔒
             </button>
           </div>
@@ -551,7 +555,7 @@
                 </div>
               </div>
 
-              <!-- ITEMS TABLE: NO RATE MIXING -->
+              <!-- ITEMS TABLE: CLEAN INDEPENDENT ROWS (NO MIXING) -->
               <div class="border border-slate-200 rounded-xl overflow-x-auto">
                 <table class="w-full text-left text-xs border-collapse min-w-[500px]">
                   <thead>
@@ -1002,8 +1006,7 @@
     }
 
     function loadData() {
-      // V21 cache namespace for permanent clean data
-      const saved = localStorage.getItem('coolart_finance_master_v21');
+      const saved = localStorage.getItem('coolart_finance_master_v25');
       if (saved) {
         try { 
           const parsed = JSON.parse(saved);
@@ -1026,7 +1029,7 @@
     }
 
     function persistData() {
-      localStorage.setItem('coolart_finance_master_v21', JSON.stringify(store));
+      localStorage.setItem('coolart_finance_master_v25', JSON.stringify(store));
     }
 
     function pullDataFromSheets(isManual = false) {
@@ -1068,7 +1071,7 @@
       document.body.appendChild(script);
     }
 
-    // PROCESS SHEET DATA WITHOUT DIVIDING OR DUPLICATING
+    // PROCESS SHEET DATA: SEPARATES MULTIPLE ITEMS AUTOMATICALLY
     function processSheetData(rows) {
       if (!rows || rows.length === 0) return;
 
@@ -1128,14 +1131,47 @@
           if (matchedExisting && matchedExisting.items && matchedExisting.items.length > 0) {
             parsedItems = matchedExisting.items;
           } else {
-            const cleanDesc = itemText.replace(/\s*\[INV-[\w-]+\]/gi, '').trim() || 'Work Order Deliverables';
-            parsedItems = [{
-              desc: cleanDesc,
-              dimension: '',
-              qty: 1,
-              rate: Number(row.totalAmount) || 0,
-              total: Number(row.totalAmount) || 0
-            }];
+            const cleanDesc = itemText.replace(/\s*\[INV-[\w-]+\]/gi, '').trim();
+            // Separate multiple items by comma or plus sign
+            const parts = cleanDesc.split(/[,+]/).map(p => p.trim()).filter(Boolean);
+            
+            if (parts.length > 1) {
+              const totalAmt = Number(row.totalAmount) || 0;
+              const splitAmt = Math.round((totalAmt / parts.length) * 100) / 100;
+              parsedItems = parts.map(part => {
+                let q = 1;
+                let cleanPart = part;
+                const qMatch = part.match(/\(x(\d+)\)/i);
+                if (qMatch) {
+                  q = Number(qMatch[1]);
+                  cleanPart = part.replace(/\(x\d+\)/gi, '').trim();
+                }
+                const unitRate = q > 0 ? (splitAmt / q) : splitAmt;
+                return {
+                  desc: cleanPart,
+                  dimension: '',
+                  qty: q,
+                  rate: Math.round(unitRate * 100) / 100,
+                  total: splitAmt
+                };
+              });
+            } else {
+              let q = 1;
+              let cleanSingle = cleanDesc;
+              const qMatch = cleanDesc.match(/\(x(\d+)\)/i);
+              if (qMatch) {
+                q = Number(qMatch[1]);
+                cleanSingle = cleanDesc.replace(/\(x\d+\)/gi, '').trim();
+              }
+              const totalAmt = Number(row.totalAmount) || 0;
+              parsedItems = [{
+                desc: cleanSingle || 'Work Order Deliverables',
+                dimension: '',
+                qty: q,
+                rate: q > 0 ? (totalAmt / q) : totalAmt,
+                total: totalAmt
+              }];
+            }
           }
 
           newInvoices.push({
@@ -1294,7 +1330,7 @@
         grandBilled += stats.billedTotal;
         grandReceived += stats.paidTotal;
         grandBookedSeva += stats.totalBookedSeva;
-        grandRealizedSeva += stats.totalRealizedSeva;
+        grandRealized += stats.totalRealizedSeva;
         grandJobProfit += stats.totalProfit;
         grandJobCost += stats.totalJobCost;
       });
@@ -2073,6 +2109,7 @@
         statusBadge.className = 'text-[10px] font-extrabold px-2 py-0.5 rounded bg-emerald-100 text-emerald-800';
       }
 
+      // RENDER ITEMS TABLE: SEPARATE INDEPENDENT ROWS (NO MIXING)
       const tbody = document.getElementById('doc-items-table');
       tbody.innerHTML = '';
       const displayInvoices = isSpecificBill ? [activeInv] : clientInvoices;
@@ -2267,6 +2304,7 @@
       window.print();
     }
 
+    // DIRECT WHATSAPP DISPATCH OPTIMIZED FOR MOBILE & DESKTOP
     function sendFriendlyWhatsAppReminder() {
       const clientId = document.getElementById('preview-client-select').value;
       if (!clientId) return alert('Please select a client account.');
@@ -2342,7 +2380,13 @@
         ? `https://api.whatsapp.com/send?phone=${cleanPhone}&text=${encodeURIComponent(message)}`
         : `https://api.whatsapp.com/send?text=${encodeURIComponent(message)}`;
 
-      window.open(waUrl, '_blank');
+      // Mobile phone check to prevent browser pop-up blocking
+      const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+      if (isMobile) {
+        window.location.href = waUrl;
+      } else {
+        window.open(waUrl, '_blank');
+      }
     }
 
     window.onload = () => {
