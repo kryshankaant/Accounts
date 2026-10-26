@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Cool Art | Enterprise Billing & Financial Ledger</title>
   
-  <link rel="icon" type="image/png" href="fevicon.png?v=25">
-  <link rel="apple-touch-icon" href="fevicon.png?v=25">
+  <link rel="icon" type="image/png" href="fevicon.png?v=30">
+  <link rel="apple-touch-icon" href="fevicon.png?v=30">
 
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
@@ -21,7 +21,6 @@
       box-sizing: border-box;
       letter-spacing: -0.01em;
     }
-
     body {
       background: radial-gradient(ellipse at 10% 0%, rgba(219, 234, 254, 0.7), transparent 40%),
                   radial-gradient(ellipse at 90% 10%, rgba(209, 250, 229, 0.6), transparent 35%),
@@ -30,7 +29,6 @@
       min-height: 100vh;
       -webkit-font-smoothing: antialiased;
     }
-
     body::before {
       content: "";
       position: fixed;
@@ -41,11 +39,9 @@
       background-size: 18px 18px;
       z-index: -1;
     }
-
     .font-tabular {
       font-variant-numeric: tabular-nums;
     }
-
     .stat-card {
       border: 1px solid #e2e8f0;
       border-radius: 18px;
@@ -57,14 +53,12 @@
       transform: translateY(-2px);
       box-shadow: 0 18px 35px -8px rgba(15, 23, 42, 0.1);
     }
-
     .invoice-contrast-header {
       background-color: #0b1329 !important;
       color: #ffffff !important;
       -webkit-print-color-adjust: exact !important;
       print-color-adjust: exact !important;
     }
-
     @media print {
       body {
         background: #ffffff !important;
@@ -98,7 +92,7 @@
     <div class="stat-card max-w-sm w-full p-8 border-slate-800 bg-[#0b1329]/95 text-white shadow-2xl relative overflow-hidden text-center space-y-6">
       <div class="flex justify-center">
         <div class="w-20 h-20 rounded-2xl p-2 bg-slate-900/90 border border-slate-700/80 shadow-inner flex items-center justify-center">
-          <img src="fevicon.png?v=25" alt="Cool Art" class="w-full h-full object-contain">
+          <img src="fevicon.png?v=30" alt="Cool Art" class="w-full h-full object-contain">
         </div>
       </div>
 
@@ -127,15 +121,13 @@
   <!-- MAIN APP CONTAINER -->
   <div id="app-root" class="hidden flex-1 flex flex-col justify-between">
     <div>
-      <!-- CLEAN MOBILE-FRIENDLY HEADER -->
       <header class="sticky top-0 z-40 bg-[#0b1329]/95 backdrop-blur-md border-b border-slate-800 text-white shadow-md no-print">
         <div class="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 h-14 sm:h-16 flex items-center justify-between gap-2">
           
-          <!-- Logos -->
           <div class="flex items-center gap-2 sm:gap-3 flex-shrink-0">
             <img src="cool art logo.png" alt="Cool Art" class="h-6 sm:h-8 w-auto object-contain">
             <span class="text-slate-600 font-extralight text-sm sm:text-lg">|</span>
-            <img src="fevicon.png?v=25" alt="CA Logo" class="h-6 sm:h-8 w-auto object-contain">
+            <img src="fevicon.png?v=30" alt="CA Logo" class="h-6 sm:h-8 w-auto object-contain">
 
             <div class="hidden md:block border-l border-slate-700 pl-3">
               <h1 class="text-xs font-bold uppercase tracking-wider text-slate-100">Cool Art Invoicing</h1>
@@ -143,7 +135,6 @@
             </div>
           </div>
 
-          <!-- Controls: Compact & Clean on Mobile -->
           <div class="flex items-center gap-1 sm:gap-2">
             <button onclick="pullDataFromSheets(true)" id="btn-pull-sync" title="Sync from Sheet" class="p-1.5 sm:px-3 sm:py-2 rounded-xl bg-emerald-700 hover:bg-emerald-600 text-white transition shadow-sm">
               <span class="text-xs sm:text-sm">🔄</span>
@@ -290,7 +281,7 @@
             <div class="p-4 sm:p-5 border-b border-slate-100 flex flex-wrap items-center justify-between gap-3">
               <div>
                 <h2 class="text-base font-bold text-slate-900">Office & General Expense Records</h2>
-                <p class="text-xs text-slate-500 mt-0.5">Track vendor details, phone numbers, items, and expenditure date</p>
+                <p class="text-xs text-slate-500 mt-0.5">Separate tab: track shop expenditures without mixing with clients</p>
               </div>
               <button onclick="openModal('expense-modal')" class="inline-flex items-center gap-1.5 text-xs font-bold px-4 py-2.5 rounded-xl bg-rose-600 hover:bg-rose-500 text-white transition shadow-sm">
                 + Create Expense Voucher
@@ -555,7 +546,7 @@
                 </div>
               </div>
 
-              <!-- ITEMS TABLE: CLEAN INDEPENDENT ROWS (NO MIXING) -->
+              <!-- ITEMS TABLE: INDEPENDENT ROWS (FROM INVOICE_ITEMS TAB) -->
               <div class="border border-slate-200 rounded-xl overflow-x-auto">
                 <table class="w-full text-left text-xs border-collapse min-w-[500px]">
                   <thead>
@@ -671,7 +662,7 @@
                 
                 <div class="text-right flex flex-col items-end">
                   <div class="h-14 w-36 flex items-end justify-end mb-1">
-                    <img src="kksignature.png" alt="Signature" class="max-h-full max-w-full object-contain filter contrast-125" onerror="this.onerror=null; this.src='kksignature.jpg';">[cite: 3]
+                    <img src="kksignature.png" alt="Signature" class="max-h-full max-w-full object-contain filter contrast-125" onerror="this.onerror=null; this.src='kksignature.jpg';">
                   </div>
                   <div class="w-36 border-b border-slate-400 mb-1"></div>
                   <span class="text-[10px] font-bold text-slate-700 uppercase tracking-wider block">Authorized Signatory</span>
@@ -955,7 +946,7 @@
     </div>
   </div>
 
-  <!-- JAVASCRIPT LOGIC -->
+  <!-- JAVASCRIPT LOGIC (5-TAB NORMALIZED RELATIONAL MODEL) -->
   <script>
     const DEFAULT_WEBHOOK_URL = "https://script.google.com/macros/s/AKfycbwXlXsEhAqRUho6zZr-amBL8GJ9BPXHcUI9X54ZRlEj8_vpLxM7UaEHrp_L8cuLFy3BUA/exec";
     const MASTER_KEY = "CoolArt@2026";
@@ -1006,7 +997,7 @@
     }
 
     function loadData() {
-      const saved = localStorage.getItem('coolart_finance_master_v25');
+      const saved = localStorage.getItem('coolart_finance_master_v30');
       if (saved) {
         try { 
           const parsed = JSON.parse(saved);
@@ -1029,9 +1020,10 @@
     }
 
     function persistData() {
-      localStorage.setItem('coolart_finance_master_v25', JSON.stringify(store));
+      localStorage.setItem('coolart_finance_master_v30', JSON.stringify(store));
     }
 
+    // PULL DATA DIRECTLY FROM 5 CLEAN TABS
     function pullDataFromSheets(isManual = false) {
       const url = store.config.webhookUrl || DEFAULT_WEBHOOK_URL;
       const spinner = document.getElementById('sync-spinner');
@@ -1050,11 +1042,11 @@
         if (spinner) spinner.classList.add('hidden');
         if (text) text.innerText = 'Sync';
 
-        if (result && result.status === "success" && Array.isArray(result.data) && result.data.length > 0) {
-          processSheetData(result.data);
-          if (isManual) alert('Google Sheet data synchronized successfully!');
+        if (result && result.status === "success") {
+          process5TabSheetData(result);
+          if (isManual) alert('5-Tab Google Sheet synchronized successfully!');
         } else {
-          if (isManual) alert('Connected sheet is currently empty or has no new records.');
+          if (isManual) alert('No records found in sheets.');
         }
       };
 
@@ -1071,162 +1063,79 @@
       document.body.appendChild(script);
     }
 
-    // PROCESS SHEET DATA: SEPARATES MULTIPLE ITEMS AUTOMATICALLY
-    function processSheetData(rows) {
-      if (!rows || rows.length === 0) return;
+    function process5TabSheetData(payload) {
+      // 1. Clients
+      if (Array.isArray(payload.clients) && payload.clients.length > 0) {
+        store.clients = payload.clients.map(c => ({
+          id: String(c.Client_ID || ('CL_' + c.Client_Name)),
+          name: String(c.Client_Name || ''),
+          phone: String(c.Phone || ''),
+          gstin: String(c.GSTIN || ''),
+          address: String(c.Address || 'Registered Account'),
+          openingBalance: Number(c.Opening_Balance) || 0,
+          createdDate: String(c.Created_Date || '')
+        }));
+      }
 
-      const clientMap = {};
-      const newInvoices = [];
-      const newPayments = [];
-      const newExpenses = [];
+      // 2. Invoices & Items Relational Join
+      const rawInvoices = Array.isArray(payload.invoices) ? payload.invoices : [];
+      const rawItems = Array.isArray(payload.items) ? payload.items : [];
 
-      rows.forEach((row, idx) => {
-        const rowDate = row.date ? String(row.date).split('T')[0] : new Date().toISOString().split('T')[0];
+      if (rawInvoices.length > 0) {
+        store.invoices = rawInvoices.map(inv => {
+          const invId = String(inv.Invoice_ID);
+          const lineItems = rawItems.filter(it => String(it.Invoice_ID) === invId).map(it => ({
+            desc: String(it.Description || 'Deliverable'),
+            dimension: String(it.Dimension || ''),
+            qty: Number(it.Quantity) || 1,
+            rate: Number(it.Unit_Rate) || 0,
+            total: Number(it.Total_Amount) || 0
+          }));
 
-        if (row.type === 'Office Expense') {
-          newExpenses.push({
-            id: 'EXP-' + (idx + 1),
-            date: rowDate,
-            vendor: row.partyName || 'Vendor',
-            phone: row.phone || '',
-            cat: row.category || 'General Expense',
-            desc: row.items || 'Office Expense',
-            amount: Number(row.paidAmount) || 0,
-            mode: row.mode || 'Cash'
-          });
-          return;
-        }
-
-        const name = (row.partyName || '').trim();
-        if (!name) return;
-
-        const cleanClientId = 'CL_' + name.toLowerCase().replace(/[^a-z0-9]/g, '_');
-        if (!clientMap[name]) {
-          clientMap[name] = {
-            id: cleanClientId,
-            name: name,
-            phone: row.phone || '',
-            address: 'Registered Account',
-            status: 'Delivered / Completed'
+          return {
+            id: invId,
+            clientId: String(inv.Client_ID),
+            date: String(inv.Date || '').split('T')[0],
+            status: String(inv.Work_Status || 'Delivered / Completed'),
+            items: lineItems.length > 0 ? lineItems : [{ desc: 'Work Order', dimension: '', qty: 1, rate: Number(inv.Net_Total)||0, total: Number(inv.Net_Total)||0 }],
+            grossTotal: Number(inv.Gross_Amount) || Number(inv.Net_Total) || 0,
+            discount: Number(inv.Discount_Amount) || 0,
+            gstAmount: Number(inv.GST_Amount) || 0,
+            total: Number(inv.Net_Total) || 0,
+            totalCost: Number(inv.Job_Cost) || 0,
+            netProfit: Number(inv.Net_Profit) || 0,
+            sevaFund: Number(inv.Seva_Fund) || 0,
+            lastModified: String(inv.Date || '')
           };
-        }
+        });
+      }
 
-        if (row.type === 'Invoice Issued' || row.type === 'Opening Due' || row.type === 'Opening Balance') {
-          const itemText = String(row.items || '');
-          
-          let actualInvId = '';
-          const match = itemText.match(/\[(INV-[\w-]+)\]/i) || itemText.match(/(INV-[\w-]+)/i);
-          if (match) {
-            actualInvId = match[1];
-          } else {
-            actualInvId = 'INV-3';
-          }
+      // 3. Payments
+      if (Array.isArray(payload.payments)) {
+        store.payments = payload.payments.map(p => ({
+          id: String(p.Receipt_ID || ('PAY_' + Math.random())),
+          clientId: String(p.Client_ID || ''),
+          invoiceId: String(p.Invoice_ID || ''),
+          date: String(p.Date || '').split('T')[0],
+          amount: Number(p.Amount_Paid) || 0,
+          mode: String(p.Payment_Mode || 'Cash'),
+          ref: String(p.Reference_Note || '')
+        }));
+      }
 
-          const alreadyAdded = newInvoices.some(i => i.id === actualInvId);
-          if (alreadyAdded) return;
-
-          const matchedExisting = store.invoices.find(i => i.id === actualInvId);
-
-          let parsedItems = [];
-          if (matchedExisting && matchedExisting.items && matchedExisting.items.length > 0) {
-            parsedItems = matchedExisting.items;
-          } else {
-            const cleanDesc = itemText.replace(/\s*\[INV-[\w-]+\]/gi, '').trim();
-            // Separate multiple items by comma or plus sign
-            const parts = cleanDesc.split(/[,+]/).map(p => p.trim()).filter(Boolean);
-            
-            if (parts.length > 1) {
-              const totalAmt = Number(row.totalAmount) || 0;
-              const splitAmt = Math.round((totalAmt / parts.length) * 100) / 100;
-              parsedItems = parts.map(part => {
-                let q = 1;
-                let cleanPart = part;
-                const qMatch = part.match(/\(x(\d+)\)/i);
-                if (qMatch) {
-                  q = Number(qMatch[1]);
-                  cleanPart = part.replace(/\(x\d+\)/gi, '').trim();
-                }
-                const unitRate = q > 0 ? (splitAmt / q) : splitAmt;
-                return {
-                  desc: cleanPart,
-                  dimension: '',
-                  qty: q,
-                  rate: Math.round(unitRate * 100) / 100,
-                  total: splitAmt
-                };
-              });
-            } else {
-              let q = 1;
-              let cleanSingle = cleanDesc;
-              const qMatch = cleanDesc.match(/\(x(\d+)\)/i);
-              if (qMatch) {
-                q = Number(qMatch[1]);
-                cleanSingle = cleanDesc.replace(/\(x\d+\)/gi, '').trim();
-              }
-              const totalAmt = Number(row.totalAmount) || 0;
-              parsedItems = [{
-                desc: cleanSingle || 'Work Order Deliverables',
-                dimension: '',
-                qty: q,
-                rate: q > 0 ? (totalAmt / q) : totalAmt,
-                total: totalAmt
-              }];
-            }
-          }
-
-          newInvoices.push({
-            id: actualInvId,
-            clientId: cleanClientId,
-            date: rowDate,
-            dueDate: '',
-            status: matchedExisting ? matchedExisting.status : 'Delivered / Completed',
-            items: parsedItems,
-            grossTotal: matchedExisting ? matchedExisting.grossTotal : (Number(row.totalAmount) || 0),
-            discount: matchedExisting ? matchedExisting.discount : 0,
-            discountPct: matchedExisting ? matchedExisting.discountPct : '0',
-            costRows: matchedExisting ? (matchedExisting.costRows || []) : [],
-            totalCost: matchedExisting ? (matchedExisting.totalCost || 0) : 0,
-            netProfit: matchedExisting ? matchedExisting.netProfit : (Number(row.totalAmount) || 0),
-            sevaFund: matchedExisting ? matchedExisting.sevaFund : ((Number(row.totalAmount) || 0) * 0.1),
-            gstApplied: matchedExisting ? matchedExisting.gstApplied : false,
-            gstAmount: matchedExisting ? matchedExisting.gstAmount : 0,
-            total: Number(row.totalAmount) || 0,
-            lastModified: matchedExisting ? matchedExisting.lastModified : rowDate
-          });
-
-          if (Number(row.paidAmount) > 0) {
-            newPayments.push({
-              id: 'PAY_' + idx,
-              clientId: cleanClientId,
-              invoiceId: actualInvId,
-              date: rowDate,
-              amount: Number(row.paidAmount),
-              mode: 'Spot Payment',
-              ref: 'Cleared at Invoice'
-            });
-          }
-        } else if (row.type === 'Payment Received') {
-          const itemText = row.items || '';
-          let taggedInvId = '';
-          const match = itemText.match(/INV-[\w-]+/);
-          if (match) taggedInvId = match[0];
-
-          newPayments.push({
-            id: 'PAY_' + idx,
-            clientId: cleanClientId,
-            invoiceId: taggedInvId || '',
-            date: rowDate,
-            amount: Number(row.paidAmount),
-            mode: row.mode || 'Direct Payment',
-            ref: itemText
-          });
-        }
-      });
-
-      if (Object.keys(clientMap).length > 0) store.clients = Object.values(clientMap);
-      if (newInvoices.length > 0) store.invoices = newInvoices;
-      if (newPayments.length > 0) store.payments = newPayments;
-      if (newExpenses.length > 0) store.officeExpenses = newExpenses;
+      // 4. Expenses
+      if (Array.isArray(payload.expenses)) {
+        store.officeExpenses = payload.expenses.map(e => ({
+          id: String(e.Voucher_ID || ('EXP_' + Math.random())),
+          date: String(e.Date || '').split('T')[0],
+          vendor: String(e.Vendor_Name || ''),
+          phone: String(e.Phone || ''),
+          cat: String(e.Category || 'General'),
+          desc: String(e.Item_Purchased || ''),
+          amount: Number(e.Amount) || 0,
+          mode: String(e.Mode || 'Cash')
+        }));
+      }
 
       persistData();
       refreshAllViews();
@@ -1275,7 +1184,7 @@
 
     function getInvoiceSpecificDetails(invoiceId) {
       const inv = store.invoices.find(i => i.id === invoiceId);
-      if (!inv) return { billed: 0, paid: 0, due: 0 };
+      if (!inv) return { billed: 0, paid: 0, due: 0, payments: [] };
 
       const payments = store.payments.filter(p => p.invoiceId === invoiceId);
       const paid = payments.reduce((sum, p) => sum + (Number(p.amount) || 0), 0);
@@ -1330,7 +1239,7 @@
         grandBilled += stats.billedTotal;
         grandReceived += stats.paidTotal;
         grandBookedSeva += stats.totalBookedSeva;
-        grandRealized += stats.totalRealizedSeva;
+        grandRealizedSeva += stats.totalRealizedSeva;
         grandJobProfit += stats.totalProfit;
         grandJobCost += stats.totalJobCost;
       });
@@ -1366,7 +1275,7 @@
       store.clients.forEach(c => {
         const stats = getClientSummary(c.id);
         const lastInv = store.invoices.filter(i => i.clientId === c.id).slice(-1)[0];
-        const status = lastInv ? (lastInv.status || 'Delivered / Completed') : (c.status || 'Delivered / Completed');
+        const status = lastInv ? (lastInv.status || 'Delivered / Completed') : 'Delivered / Completed';
 
         let statusBadge = '<span class="text-[10px] font-extrabold px-2 py-0.5 rounded bg-emerald-100 text-emerald-800">Delivered</span>';
         if (status === 'Order Received') statusBadge = '<span class="text-[10px] font-extrabold px-2 py-0.5 rounded bg-amber-100 text-amber-800">Order Received</span>';
@@ -1453,16 +1362,8 @@
       closeModal('expense-modal');
 
       pushOnlineSync({
-        date: date,
-        type: 'Office Expense',
-        partyName: vendor,
-        phone: phone,
-        category: cat,
-        items: `${cat} - ${desc}`,
-        totalAmount: 0,
-        paidAmount: amt,
-        dueBalance: 0,
-        mode: mode
+        action: "SAVE_EXPENSE",
+        expense: expObj
       });
     }
 
@@ -1471,6 +1372,11 @@
       store.officeExpenses = store.officeExpenses.filter(e => e.id !== id);
       persistData();
       refreshAllViews();
+
+      pushOnlineSync({
+        action: "DELETE_EXPENSE",
+        expenseId: id
+      });
     }
 
     function populateClientSelects() {
@@ -1501,57 +1407,25 @@
       if (!name) return alert('Please enter client or company name.');
 
       const cleanClientId = 'CL_' + name.toLowerCase().replace(/[^a-z0-9]/g, '_');
-      const newClient = { id: cleanClientId, name, phone, gstin, address, openingBalance: opening, status: 'Delivered / Completed' };
+      const newClient = { 
+        id: cleanClientId, 
+        name, 
+        phone, 
+        gstin, 
+        address, 
+        openingBalance: opening, 
+        createdDate: new Date().toISOString().split('T')[0] 
+      };
+
       store.clients.push(newClient);
-
-      if (opening > 0) {
-        const openingBill = {
-          id: 'OPN-' + Date.now().toString().slice(-4),
-          clientId: cleanClientId,
-          date: new Date().toISOString().split('T')[0],
-          dueDate: '',
-          status: 'Delivered / Completed',
-          items: [{ desc: 'Opening Ledger Balance Brought Forward', dimension: '', qty: 1, rate: opening, total: opening }],
-          grossTotal: opening,
-          discount: 0,
-          discountPct: '0',
-          costRows: [],
-          totalCost: 0,
-          netProfit: opening,
-          sevaFund: opening * 0.1,
-          gstApplied: false,
-          gstAmount: 0,
-          total: opening,
-          lastModified: new Date().toLocaleString('en-IN')
-        };
-        store.invoices.push(openingBill);
-
-        pushOnlineSync({
-          date: openingBill.date,
-          type: 'Opening Balance',
-          partyName: name,
-          phone: phone,
-          items: 'Opening Due',
-          totalAmount: opening,
-          paidAmount: 0,
-          dueBalance: opening
-        });
-      } else {
-        pushOnlineSync({
-          date: new Date().toISOString().split('T')[0],
-          type: 'Client Account',
-          partyName: name,
-          phone: phone,
-          items: address || 'New Account Created',
-          totalAmount: 0,
-          paidAmount: 0,
-          dueBalance: 0
-        });
-      }
-
       persistData();
       refreshAllViews();
       closeModal('client-modal');
+
+      pushOnlineSync({
+        action: "SAVE_CLIENT",
+        client: newClient
+      });
     }
 
     function openNewInvoiceForm() {
@@ -1613,17 +1487,7 @@
         addLineItem('', '', 1, '');
       }
 
-      const costContainer = document.getElementById('cost-rows-container');
-      costContainer.innerHTML = '';
-      if (invoice.costRows && invoice.costRows.length > 0) {
-        invoice.costRows.forEach(cr => addCostRow(cr.title, cr.amount));
-      } else {
-        addCostRow('Material / Raw Stock', invoice.costMedia || '');
-        addCostRow('Making / Labor', (invoice.costIron || 0) + (invoice.costLabor || 0) || '');
-      }
-
       document.getElementById('inv-discount-amt').value = invoice.discount || '';
-      document.getElementById('inv-apply-gst').checked = !!invoice.gstApplied;
       document.getElementById('inv-immediate-paid').value = '';
 
       calculateInvoiceDraftTotals();
@@ -1637,7 +1501,7 @@
         return alert('Please select a specific Invoice number to delete.');
       }
 
-      if (!confirm(`Are you sure you want to delete Invoice ${invId}? It will be removed from your ledger and also deleted from your Google Sheet (Excel) automatically.`)) {
+      if (!confirm(`Are you sure you want to delete Invoice ${invId}? It will be removed from your ledger and also deleted from your Google Sheet automatically.`)) {
         return;
       }
 
@@ -1800,6 +1664,7 @@
       if (!invId) return alert('Please enter invoice reference number.');
       if (!date) return alert('Please choose invoice date.');
 
+      const client = store.clients.find(c => c.id === clientId);
       const rows = document.querySelectorAll('#line-items-body tr');
       const items = [];
       rows.forEach(r => {
@@ -1821,87 +1686,62 @@
         ? store.invoices.findIndex(i => i.id === editingInvoiceId)
         : store.invoices.findIndex(i => i.id === invId);
 
-      if (existingIdx >= 0) {
-        const oldInv = store.invoices[existingIdx];
-        store.invoices[existingIdx] = {
-          ...oldInv,
-          id: invId,
-          clientId,
-          date,
-          status: status,
-          items,
-          grossTotal: calc.subtotal,
-          discount: calc.discountAmt,
-          discountPct: calc.discountPct,
-          costRows: calc.costRows,
-          totalCost: calc.totalCost,
-          netProfit: calc.netProfit,
-          sevaFund: calc.sevaFund,
-          gstApplied: calc.applyGst,
-          gstAmount: calc.gstAmt,
-          total: calc.netInvoiced,
-          lastModified: nowStr
-        };
+      const invoiceObj = {
+        id: invId,
+        clientId,
+        clientName: client ? client.name : '',
+        date,
+        dueDate: '',
+        status: status,
+        items,
+        grossTotal: calc.subtotal,
+        discount: calc.discountAmt,
+        discountPct: calc.discountPct,
+        costRows: calc.costRows,
+        totalCost: calc.totalCost,
+        netProfit: calc.netProfit,
+        sevaFund: calc.sevaFund,
+        gstApplied: calc.applyGst,
+        gstAmount: calc.gstAmt,
+        total: calc.netInvoiced,
+        lastModified: nowStr
+      };
 
-        if (oldInv.id !== invId) {
-          store.payments.forEach(p => {
-            if (p.invoiceId === oldInv.id) p.invoiceId = invId;
-          });
-        }
+      if (existingIdx >= 0) {
+        store.invoices[existingIdx] = invoiceObj;
         editingInvoiceId = null;
       } else {
-        const invoiceObj = {
-          id: invId,
-          clientId,
-          date,
-          dueDate: '',
-          status: status,
-          items,
-          grossTotal: calc.subtotal,
-          discount: calc.discountAmt,
-          discountPct: calc.discountPct,
-          costRows: calc.costRows,
-          totalCost: calc.totalCost,
-          netProfit: calc.netProfit,
-          sevaFund: calc.sevaFund,
-          gstApplied: calc.applyGst,
-          gstAmount: calc.gstAmt,
-          total: calc.netInvoiced,
-          lastModified: nowStr
-        };
         store.invoices.push(invoiceObj);
         store.config.nextInvSeq = (store.config.nextInvSeq || store.invoices.length) + 1;
       }
 
       if (calc.immediatePaid > 0) {
         const refNote = document.getElementById('inv-payment-note').value.trim() || 'Spot Payment at Invoice';
-        store.payments.push({
+        const payObj = {
           id: 'PAY_' + Date.now(),
           clientId,
+          clientName: client ? client.name : '',
           invoiceId: invId,
           date,
           amount: calc.immediatePaid,
           mode: 'Spot Payment',
           ref: refNote
+        };
+        store.payments.push(payObj);
+        pushOnlineSync({
+          action: "SAVE_PAYMENT",
+          payment: payObj
         });
       }
 
       persistData();
       refreshAllViews();
 
-      const client = store.clients.find(c => c.id === clientId);
-      const itemsSummary = items.map(i => `${i.desc} (x${i.qty})`).join(' + ');
-      const currentStats = getClientSummary(clientId);
-
+      // PUSH TO GOOGLE SHEET (Summary tab + Items tab)
       pushOnlineSync({
-        date: date,
-        type: 'Invoice Issued',
-        partyName: client.name,
-        phone: client.phone,
-        items: itemsSummary + ` [${invId}]`,
-        totalAmount: calc.netInvoiced,
-        paidAmount: calc.immediatePaid,
-        dueBalance: currentStats.balanceDue
+        action: "SAVE_INVOICE",
+        invoice: invoiceObj,
+        items: items
       });
 
       viewClientInvoice(clientId, invId);
@@ -1968,6 +1808,11 @@
       persistData();
       refreshAllViews();
       renderInvoiceView();
+
+      pushOnlineSync({
+        action: "DELETE_PAYMENT",
+        paymentId: paymentId
+      });
     }
 
     function commitPayment() {
@@ -1984,28 +1829,21 @@
 
       const client = store.clients.find(c => c.id === clientId);
 
+      const payObj = {
+        id: paymentId || ('PAY_' + Date.now()),
+        clientId,
+        clientName: client ? client.name : '',
+        invoiceId: targetInvId,
+        date,
+        amount,
+        mode,
+        ref: ref || 'Payment Deposit'
+      };
+
       if (paymentId) {
         const idx = store.payments.findIndex(p => p.id === paymentId);
-        if (idx >= 0) {
-          store.payments[idx] = {
-            ...store.payments[idx],
-            date,
-            amount,
-            mode,
-            invoiceId: targetInvId,
-            ref: ref || 'Payment Deposit (Updated)'
-          };
-        }
+        if (idx >= 0) store.payments[idx] = payObj;
       } else {
-        const payObj = {
-          id: 'PAY_' + Date.now(),
-          clientId,
-          invoiceId: targetInvId,
-          date,
-          amount,
-          mode,
-          ref: ref || 'Payment Deposit'
-        };
         store.payments.push(payObj);
       }
 
@@ -2013,18 +1851,9 @@
       refreshAllViews();
       closeModal('payment-modal');
 
-      const currentStats = getClientSummary(clientId);
-      const tagDesc = targetInvId ? `Payment for ${targetInvId} (${mode})` : `General Deposit (${mode})`;
-
       pushOnlineSync({
-        date: date,
-        type: 'Payment Received',
-        partyName: client.name,
-        phone: client.phone,
-        items: `${tagDesc} - ${ref || 'Cleared'}`,
-        totalAmount: 0,
-        paidAmount: amount,
-        dueBalance: currentStats.balanceDue
+        action: "SAVE_PAYMENT",
+        payment: payObj
       });
 
       viewClientInvoice(clientId, targetInvId);
@@ -2109,7 +1938,7 @@
         statusBadge.className = 'text-[10px] font-extrabold px-2 py-0.5 rounded bg-emerald-100 text-emerald-800';
       }
 
-      // RENDER ITEMS TABLE: SEPARATE INDEPENDENT ROWS (NO MIXING)
+      // RENDER ITEMS DIRECTLY FROM INDEPENDENT ITEMS
       const tbody = document.getElementById('doc-items-table');
       tbody.innerHTML = '';
       const displayInvoices = isSpecificBill ? [activeInv] : clientInvoices;
@@ -2304,7 +2133,6 @@
       window.print();
     }
 
-    // DIRECT WHATSAPP DISPATCH OPTIMIZED FOR MOBILE & DESKTOP
     function sendFriendlyWhatsAppReminder() {
       const clientId = document.getElementById('preview-client-select').value;
       if (!clientId) return alert('Please select a client account.');
@@ -2380,7 +2208,6 @@
         ? `https://api.whatsapp.com/send?phone=${cleanPhone}&text=${encodeURIComponent(message)}`
         : `https://api.whatsapp.com/send?text=${encodeURIComponent(message)}`;
 
-      // Mobile phone check to prevent browser pop-up blocking
       const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
       if (isMobile) {
         window.location.href = waUrl;
