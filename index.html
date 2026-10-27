@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Cool Art | Enterprise Billing & Financial Ledger</title>
   
-  <link rel="icon" type="image/png" href="fevicon.png?v=35">
-  <link rel="apple-touch-icon" href="fevicon.png?v=35">
+  <link rel="icon" type="image/png" href="fevicon.png?v=40">
+  <link rel="apple-touch-icon" href="fevicon.png?v=40">
 
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
@@ -92,7 +92,7 @@
     <div class="stat-card max-w-sm w-full p-8 border-slate-800 bg-[#0b1329]/95 text-white shadow-2xl relative overflow-hidden text-center space-y-6">
       <div class="flex justify-center">
         <div class="w-20 h-20 rounded-2xl p-2 bg-slate-900/90 border border-slate-700/80 shadow-inner flex items-center justify-center">
-          <img src="fevicon.png?v=35" alt="Cool Art" class="w-full h-full object-contain">
+          <img src="fevicon.png?v=40" alt="Cool Art" class="w-full h-full object-contain">
         </div>
       </div>
 
@@ -127,7 +127,7 @@
           <div class="flex items-center gap-2 sm:gap-3 flex-shrink-0">
             <img src="cool art logo.png" alt="Cool Art" class="h-6 sm:h-8 w-auto object-contain">
             <span class="text-slate-600 font-extralight text-sm sm:text-lg">|</span>
-            <img src="fevicon.png?v=35" alt="CA Logo" class="h-6 sm:h-8 w-auto object-contain">
+            <img src="fevicon.png?v=40" alt="CA Logo" class="h-6 sm:h-8 w-auto object-contain">
 
             <div class="hidden md:block border-l border-slate-700 pl-3">
               <h1 class="text-xs font-bold uppercase tracking-wider text-slate-100">Cool Art Invoicing</h1>
@@ -181,6 +181,7 @@
       <main class="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 py-5 sm:py-7 w-full">
         <!-- 1. DASHBOARD TAB -->
         <section id="tab-sec-dashboard" class="space-y-6 no-print">
+          <!-- Top Row Cards -->
           <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
             <div class="stat-card p-5">
               <p class="text-xs font-bold uppercase tracking-wider text-slate-400">Total Invoiced Amount</p>
@@ -227,24 +228,35 @@
             </div>
           </div>
 
-          <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+          <!-- Bottom Row Cards: Ab 4 Cards Complete Financial View Ke Liye -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            <!-- NAYA CARD: DIRECT JOB COST (COGS) -->
+            <div class="bg-white p-4 rounded-xl border border-amber-300 shadow-sm">
+              <span class="text-xs font-bold text-amber-900 uppercase tracking-wider block">Total Job Cost (COGS)</span>
+              <span id="metric-total-cogs" class="text-xl font-extrabold text-amber-950 font-tabular mt-1 block">₹0.00</span>
+              <span class="text-[10px] text-slate-500">Raw Stock + Labor + Delivery Fuel</span>
+            </div>
+
             <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm">
               <span class="text-xs font-bold text-slate-500 uppercase tracking-wider block">Job Production Margin (Booked)</span>
               <span id="metric-job-profit" class="text-xl font-extrabold text-slate-800 font-tabular mt-1 block">₹0.00</span>
-              <span class="text-[10px] text-slate-400">Total Billed - Dynamic Costs</span>
+              <span class="text-[10px] text-slate-400">Total Billed - Direct Job Costs</span>
             </div>
+
             <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm">
               <span class="text-xs font-bold text-rose-600 uppercase tracking-wider block">Office / Shop Expenses</span>
               <span id="metric-office-expenses" class="text-xl font-extrabold text-rose-600 font-tabular mt-1 block">₹0.00</span>
               <span class="text-[10px] text-slate-400">Rent, Bills, Tea, Tools, Maintenance</span>
             </div>
+
             <div class="bg-emerald-50/80 p-4 rounded-xl border border-emerald-200 shadow-sm">
               <span class="text-xs font-black text-emerald-900 uppercase tracking-wider block">Real In-Hand Cash Profit</span>
               <span id="metric-net-real-profit" class="text-2xl font-black text-emerald-700 font-tabular mt-1 block">₹0.00</span>
-              <span class="text-[10px] text-emerald-800/80 font-medium">Cleared Receipts - Dynamic Costs - Office Exp</span>
+              <span class="text-[10px] text-emerald-800/80 font-medium">Cleared Receipts - Job Costs - Office Exp</span>
             </div>
           </div>
 
+          <!-- Clients Table -->
           <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
             <div class="p-4 sm:p-5 border-b border-slate-100 flex flex-wrap items-center justify-between gap-3">
               <div>
@@ -663,7 +675,7 @@
                 
                 <div class="text-right flex flex-col items-end">
                   <div class="h-14 w-36 flex items-end justify-end mb-1">
-                    <img src="kksignature.png" alt="Signature" class="max-h-full max-w-full object-contain filter contrast-125" onerror="this.onerror=null; this.src='kksignature.jpg';">[cite: 3]
+                    <img src="kksignature.png" alt="Signature" class="max-h-full max-w-full object-contain filter contrast-125" onerror="this.onerror=null; this.src='kksignature.jpg';">
                   </div>
                   <div class="w-36 border-b border-slate-400 mb-1"></div>
                   <span class="text-[10px] font-bold text-slate-700 uppercase tracking-wider block">Authorized Signatory</span>
@@ -947,7 +959,7 @@
     </div>
   </div>
 
-  <!-- JAVASCRIPT LOGIC -->
+  <!-- JAVASCRIPT LOGIC (WITH FULL COGS & MULTI-TAB LIVE SYNC) -->
   <script>
     const DEFAULT_WEBHOOK_URL = "https://script.google.com/macros/s/AKfycbwXlXsEhAqRUho6zZr-amBL8GJ9BPXHcUI9X54ZRlEj8_vpLxM7UaEHrp_L8cuLFy3BUA/exec";
     const MASTER_KEY = "CoolArt@2026";
@@ -998,7 +1010,7 @@
     }
 
     function loadData() {
-      const saved = localStorage.getItem('coolart_finance_master_v35');
+      const saved = localStorage.getItem('coolart_finance_master_v40');
       if (saved) {
         try { 
           const parsed = JSON.parse(saved);
@@ -1021,7 +1033,7 @@
     }
 
     function persistData() {
-      localStorage.setItem('coolart_finance_master_v35', JSON.stringify(store));
+      localStorage.setItem('coolart_finance_master_v40', JSON.stringify(store));
     }
 
     function pullDataFromSheets(isManual = false) {
@@ -1242,7 +1254,7 @@
         grandBilled += stats.billedTotal;
         grandReceived += stats.paidTotal;
         grandBookedSeva += stats.totalBookedSeva;
-        grandRealizedSeva += stats.totalRealizedSeva;
+        grandRealized += stats.totalRealizedSeva;
         grandJobProfit += stats.totalProfit;
         grandJobCost += stats.totalJobCost;
       });
@@ -1258,6 +1270,10 @@
       document.getElementById('metric-total-received').innerText = `₹${grandReceived.toLocaleString('en-IN', {minimumFractionDigits: 2})}`;
       document.getElementById('metric-total-due').innerText = `₹${grandDue.toLocaleString('en-IN', {minimumFractionDigits: 2})}`;
       
+      // COGS Card Value Set
+      const cogsElem = document.getElementById('metric-total-cogs');
+      if (cogsElem) cogsElem.innerText = `₹${grandJobCost.toLocaleString('en-IN', {minimumFractionDigits: 2})}`;
+
       document.getElementById('metric-job-profit').innerText = `₹${grandJobProfit.toLocaleString('en-IN', {minimumFractionDigits: 2})}`;
       document.getElementById('metric-office-expenses').innerText = `₹${totalOfficeExp.toLocaleString('en-IN', {minimumFractionDigits: 2})}`;
       document.getElementById('metric-net-real-profit').innerText = `₹${netRealInHandProfit.toLocaleString('en-IN', {minimumFractionDigits: 2})}`;
@@ -1278,7 +1294,7 @@
       store.clients.forEach(c => {
         const stats = getClientSummary(c.id);
         const lastInv = store.invoices.filter(i => i.clientId === c.id).slice(-1)[0];
-        const status = lastInv ? (lastInv.status || 'Delivered / Completed') : 'Delivered / Completed';
+        const status = lastInv ? (lastInv.status || 'Delivered / Completed') : (c.status || 'Delivered / Completed');
 
         let statusBadge = '<span class="text-[10px] font-extrabold px-2 py-0.5 rounded bg-emerald-100 text-emerald-800">Delivered</span>';
         if (status === 'Order Received') statusBadge = '<span class="text-[10px] font-extrabold px-2 py-0.5 rounded bg-amber-100 text-amber-800">Order Received</span>';
@@ -1455,6 +1471,7 @@
       costContainer.innerHTML = '';
       addCostRow('Material / Raw Stock', '');
       addCostRow('Fabrication / Labor', '');
+      addCostRow('Delivery / Bike Fuel', '');
 
       document.getElementById('inv-discount-amt').value = '';
       document.getElementById('inv-immediate-paid').value = '';
@@ -1462,7 +1479,6 @@
       calculateInvoiceDraftTotals();
     }
 
-    // Handles Client Dropdown Change in Invoice Studio
     function onClientSelectionChange() {
       if (!editingInvoiceId) {
         const nextSeq = String(store.config.nextInvSeq || (store.invoices.length + 1)).padStart(3, '0');
@@ -1508,6 +1524,7 @@
         invoice.costRows.forEach(cr => addCostRow(cr.title, cr.amount));
       } else {
         addCostRow('Material / Raw Stock', invoice.totalCost || '');
+        addCostRow('Delivery / Bike Fuel', '');
       }
 
       document.getElementById('inv-discount-amt').value = invoice.discount || '';
@@ -1580,7 +1597,7 @@
       const div = document.createElement('div');
       div.className = "flex items-center gap-2 cost-entry-row";
       div.innerHTML = `
-        <input type="text" value="${title}" placeholder="Cost Head (e.g. Paper, Flex, Iron, Ink, Fuel)" class="flex-1 bg-white border border-amber-300 rounded-lg px-2.5 py-1.5 text-xs text-slate-800 font-medium focus:outline-none cost-title">
+        <input type="text" value="${title}" placeholder="Cost Head (e.g. Paper, Flex, Iron, Ink, Bike Fuel)" class="flex-1 bg-white border border-amber-300 rounded-lg px-2.5 py-1.5 text-xs text-slate-800 font-medium focus:outline-none cost-title">
         <div class="relative w-36">
           <span class="absolute left-2.5 top-1.5 text-slate-400 text-xs">₹</span>
           <input type="number" min="0" step="any" value="${amount}" oninput="calculateInvoiceDraftTotals()" placeholder="0.00" class="w-full bg-white border border-amber-300 rounded-lg pl-6 pr-2.5 py-1.5 text-xs text-slate-800 font-bold focus:outline-none font-tabular cost-amount">
