@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Cool Art | Enterprise Billing & Financial Ledger</title>
   
-  <link rel="icon" type="image/png" href="fevicon.png?v=40">
-  <link rel="apple-touch-icon" href="fevicon.png?v=40">
+  <link rel="icon" type="image/png" href="fevicon.png?v=45">
+  <link rel="apple-touch-icon" href="fevicon.png?v=45">
 
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
@@ -92,7 +92,7 @@
     <div class="stat-card max-w-sm w-full p-8 border-slate-800 bg-[#0b1329]/95 text-white shadow-2xl relative overflow-hidden text-center space-y-6">
       <div class="flex justify-center">
         <div class="w-20 h-20 rounded-2xl p-2 bg-slate-900/90 border border-slate-700/80 shadow-inner flex items-center justify-center">
-          <img src="fevicon.png?v=40" alt="Cool Art" class="w-full h-full object-contain">
+          <img src="fevicon.png?v=45" alt="Cool Art" class="w-full h-full object-contain">
         </div>
       </div>
 
@@ -127,7 +127,7 @@
           <div class="flex items-center gap-2 sm:gap-3 flex-shrink-0">
             <img src="cool art logo.png" alt="Cool Art" class="h-6 sm:h-8 w-auto object-contain">
             <span class="text-slate-600 font-extralight text-sm sm:text-lg">|</span>
-            <img src="fevicon.png?v=40" alt="CA Logo" class="h-6 sm:h-8 w-auto object-contain">
+            <img src="fevicon.png?v=45" alt="CA Logo" class="h-6 sm:h-8 w-auto object-contain">
 
             <div class="hidden md:block border-l border-slate-700 pl-3">
               <h1 class="text-xs font-bold uppercase tracking-wider text-slate-100">Cool Art Invoicing</h1>
@@ -181,7 +181,7 @@
       <main class="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 py-5 sm:py-7 w-full">
         <!-- 1. DASHBOARD TAB -->
         <section id="tab-sec-dashboard" class="space-y-6 no-print">
-          <!-- Top Row Cards -->
+          <!-- Top Row Financial Cards -->
           <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
             <div class="stat-card p-5">
               <p class="text-xs font-bold uppercase tracking-wider text-slate-400">Total Invoiced Amount</p>
@@ -228,9 +228,9 @@
             </div>
           </div>
 
-          <!-- Bottom Row Cards: Ab 4 Cards Complete Financial View Ke Liye -->
+          <!-- Bottom Row Financial Cards -->
           <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            <!-- NAYA CARD: DIRECT JOB COST (COGS) -->
+            <!-- DIRECT JOB COST (COGS) -->
             <div class="bg-white p-4 rounded-xl border border-amber-300 shadow-sm">
               <span class="text-xs font-bold text-amber-900 uppercase tracking-wider block">Total Job Cost (COGS)</span>
               <span id="metric-total-cogs" class="text-xl font-extrabold text-amber-950 font-tabular mt-1 block">₹0.00</span>
@@ -959,7 +959,7 @@
     </div>
   </div>
 
-  <!-- JAVASCRIPT LOGIC (WITH FULL COGS & MULTI-TAB LIVE SYNC) -->
+  <!-- JAVASCRIPT LOGIC (PERFECT METRICS & RESILIENT MAPPING) -->
   <script>
     const DEFAULT_WEBHOOK_URL = "https://script.google.com/macros/s/AKfycbwXlXsEhAqRUho6zZr-amBL8GJ9BPXHcUI9X54ZRlEj8_vpLxM7UaEHrp_L8cuLFy3BUA/exec";
     const MASTER_KEY = "CoolArt@2026";
@@ -1010,7 +1010,7 @@
     }
 
     function loadData() {
-      const saved = localStorage.getItem('coolart_finance_master_v40');
+      const saved = localStorage.getItem('coolart_finance_master_v45');
       if (saved) {
         try { 
           const parsed = JSON.parse(saved);
@@ -1033,7 +1033,7 @@
     }
 
     function persistData() {
-      localStorage.setItem('coolart_finance_master_v40', JSON.stringify(store));
+      localStorage.setItem('coolart_finance_master_v45', JSON.stringify(store));
     }
 
     function pullDataFromSheets(isManual = false) {
@@ -1106,7 +1106,7 @@
 
           return {
             id: invId,
-            clientId: String(inv.Client_ID),
+            clientId: String(inv.Client_ID || ('CL_' + inv.Client_Name)),
             clientName: String(inv.Client_Name || ''),
             date: String(inv.Date || '').split('T')[0],
             status: String(inv.Work_Status || 'Delivered / Completed'),
@@ -1129,7 +1129,7 @@
       if (Array.isArray(payload.payments)) {
         store.payments = payload.payments.map(p => ({
           id: String(p.Receipt_ID || ('PAY_' + Math.random())),
-          clientId: String(p.Client_ID || ''),
+          clientId: String(p.Client_ID || ('CL_' + p.Client_Name)),
           clientName: String(p.Client_Name || ''),
           invoiceId: String(p.Invoice_ID || ''),
           date: String(p.Date || '').split('T')[0],
@@ -1209,17 +1209,26 @@
     }
 
     function getClientSummary(clientId) {
-      const clientInvoices = store.invoices.filter(i => i.clientId === clientId);
-      const billedTotal = clientInvoices.reduce((sum, i) => sum + i.total, 0);
+      const client = store.clients.find(c => c.id === clientId || c.name === clientId);
+      const cName = client ? client.name.trim().toLowerCase() : '';
 
-      const grossBilledTotal = clientInvoices.reduce((sum, i) => sum + (i.grossTotal || i.total), 0);
-      const discountTotal = clientInvoices.reduce((sum, i) => sum + (i.discount || 0), 0);
-      const gstTotal = clientInvoices.reduce((sum, i) => sum + (i.gstAmount || 0), 0);
-      const totalJobCost = clientInvoices.reduce((sum, i) => sum + (i.totalCost || 0), 0);
-      const totalProfit = clientInvoices.reduce((sum, i) => sum + (i.netProfit || 0), 0);
-      const totalBookedSeva = clientInvoices.reduce((sum, i) => sum + (i.sevaFund || 0), 0);
+      const clientInvoices = store.invoices.filter(i => 
+        i.clientId === clientId || 
+        (i.clientName && i.clientName.trim().toLowerCase() === cName)
+      );
 
-      const clientPayments = store.payments.filter(p => p.clientId === clientId);
+      const billedTotal = clientInvoices.reduce((sum, i) => sum + (Number(i.total) || 0), 0);
+      const grossBilledTotal = clientInvoices.reduce((sum, i) => sum + (Number(i.grossTotal) || Number(i.total) || 0), 0);
+      const discountTotal = clientInvoices.reduce((sum, i) => sum + (Number(i.discount) || 0), 0);
+      const gstTotal = clientInvoices.reduce((sum, i) => sum + (Number(i.gstAmount) || 0), 0);
+      const totalJobCost = clientInvoices.reduce((sum, i) => sum + (Number(i.totalCost) || 0), 0);
+      const totalProfit = clientInvoices.reduce((sum, i) => sum + (Number(i.netProfit) || 0), 0);
+      const totalBookedSeva = clientInvoices.reduce((sum, i) => sum + (Number(i.sevaFund) || 0), 0);
+
+      const clientPayments = store.payments.filter(p => 
+        p.clientId === clientId || 
+        (p.clientName && p.clientName.trim().toLowerCase() === cName)
+      );
       const paidTotal = clientPayments.reduce((sum, p) => sum + (Number(p.amount) || 0), 0);
 
       const collectionRatio = billedTotal > 0 ? Math.min(1, paidTotal / billedTotal) : 0;
@@ -1248,38 +1257,61 @@
 
     function updateMetricBadges() {
       let grandBilled = 0, grandReceived = 0, grandBookedSeva = 0, grandRealizedSeva = 0, grandJobProfit = 0, grandJobCost = 0;
-      
-      store.clients.forEach(c => {
-        const stats = getClientSummary(c.id);
-        grandBilled += stats.billedTotal;
-        grandReceived += stats.paidTotal;
-        grandBookedSeva += stats.totalBookedSeva;
-        grandRealized += stats.totalRealizedSeva;
-        grandJobProfit += stats.totalProfit;
-        grandJobCost += stats.totalJobCost;
-      });
-      const grandDue = grandBilled - grandReceived;
+
+      if (store.invoices && store.invoices.length > 0) {
+        grandBilled = store.invoices.reduce((s, i) => s + (Number(i.total) || 0), 0);
+        grandJobCost = store.invoices.reduce((s, i) => s + (Number(i.totalCost) || 0), 0);
+        grandJobProfit = store.invoices.reduce((s, i) => s + (Number(i.netProfit) || 0), 0);
+        grandBookedSeva = store.invoices.reduce((s, i) => s + (Number(i.sevaFund) || 0), 0);
+      } else {
+        store.clients.forEach(c => {
+          const stats = getClientSummary(c.id);
+          grandBilled += stats.billedTotal;
+          grandJobCost += stats.totalJobCost;
+          grandJobProfit += stats.totalProfit;
+          grandBookedSeva += stats.totalBookedSeva;
+        });
+      }
+
+      if (store.payments && store.payments.length > 0) {
+        grandReceived = store.payments.reduce((s, p) => s + (Number(p.amount) || 0), 0);
+      } else {
+        store.clients.forEach(c => {
+          const stats = getClientSummary(c.id);
+          grandReceived += stats.paidTotal;
+        });
+      }
+
+      const grandDue = Math.max(0, grandBilled - grandReceived);
+      const collectionRatio = grandBilled > 0 ? Math.min(1, grandReceived / grandBilled) : 0;
+      grandRealizedSeva = grandBookedSeva * collectionRatio;
 
       const totalOfficeExp = (store.officeExpenses || []).reduce((s, e) => s + (Number(e.amount) || 0), 0);
       const netRealInHandProfit = Math.max(0, grandReceived - grandJobCost - totalOfficeExp);
-
       const totalSevaSpent = (store.hanumanExpenses || []).reduce((s, e) => s + (Number(e.amount) || 0), 0);
       const netInHandSeva = Math.max(0, grandRealizedSeva - totalSevaSpent);
 
-      document.getElementById('metric-total-billed').innerText = `₹${grandBilled.toLocaleString('en-IN', {minimumFractionDigits: 2})}`;
-      document.getElementById('metric-total-received').innerText = `₹${grandReceived.toLocaleString('en-IN', {minimumFractionDigits: 2})}`;
-      document.getElementById('metric-total-due').innerText = `₹${grandDue.toLocaleString('en-IN', {minimumFractionDigits: 2})}`;
-      
-      // COGS Card Value Set
-      const cogsElem = document.getElementById('metric-total-cogs');
-      if (cogsElem) cogsElem.innerText = `₹${grandJobCost.toLocaleString('en-IN', {minimumFractionDigits: 2})}`;
+      // DOM Elements Update
+      if (document.getElementById('metric-total-billed'))
+        document.getElementById('metric-total-billed').innerText = `₹${grandBilled.toLocaleString('en-IN', {minimumFractionDigits: 2})}`;
+      if (document.getElementById('metric-total-received'))
+        document.getElementById('metric-total-received').innerText = `₹${grandReceived.toLocaleString('en-IN', {minimumFractionDigits: 2})}`;
+      if (document.getElementById('metric-total-due'))
+        document.getElementById('metric-total-due').innerText = `₹${grandDue.toLocaleString('en-IN', {minimumFractionDigits: 2})}`;
 
-      document.getElementById('metric-job-profit').innerText = `₹${grandJobProfit.toLocaleString('en-IN', {minimumFractionDigits: 2})}`;
-      document.getElementById('metric-office-expenses').innerText = `₹${totalOfficeExp.toLocaleString('en-IN', {minimumFractionDigits: 2})}`;
-      document.getElementById('metric-net-real-profit').innerText = `₹${netRealInHandProfit.toLocaleString('en-IN', {minimumFractionDigits: 2})}`;
+      if (document.getElementById('metric-total-cogs'))
+        document.getElementById('metric-total-cogs').innerText = `₹${grandJobCost.toLocaleString('en-IN', {minimumFractionDigits: 2})}`;
+      if (document.getElementById('metric-job-profit'))
+        document.getElementById('metric-job-profit').innerText = `₹${grandJobProfit.toLocaleString('en-IN', {minimumFractionDigits: 2})}`;
+      if (document.getElementById('metric-office-expenses'))
+        document.getElementById('metric-office-expenses').innerText = `₹${totalOfficeExp.toLocaleString('en-IN', {minimumFractionDigits: 2})}`;
+      if (document.getElementById('metric-net-real-profit'))
+        document.getElementById('metric-net-real-profit').innerText = `₹${netRealInHandProfit.toLocaleString('en-IN', {minimumFractionDigits: 2})}`;
 
-      document.getElementById('metric-hanuman-realized').innerText = `₹${netInHandSeva.toLocaleString('en-IN', {minimumFractionDigits: 2})}`;
-      document.getElementById('metric-hanuman-accrued').innerText = `₹${grandBookedSeva.toLocaleString('en-IN', {minimumFractionDigits: 2})}`;
+      if (document.getElementById('metric-hanuman-realized'))
+        document.getElementById('metric-hanuman-realized').innerText = `₹${netInHandSeva.toLocaleString('en-IN', {minimumFractionDigits: 2})}`;
+      if (document.getElementById('metric-hanuman-accrued'))
+        document.getElementById('metric-hanuman-accrued').innerText = `₹${grandBookedSeva.toLocaleString('en-IN', {minimumFractionDigits: 2})}`;
     }
 
     function renderClientsTable() {
@@ -1293,7 +1325,7 @@
 
       store.clients.forEach(c => {
         const stats = getClientSummary(c.id);
-        const lastInv = store.invoices.filter(i => i.clientId === c.id).slice(-1)[0];
+        const lastInv = store.invoices.filter(i => i.clientId === c.id || (i.clientName && i.clientName.trim().toLowerCase() === c.name.trim().toLowerCase())).slice(-1)[0];
         const status = lastInv ? (lastInv.status || 'Delivered / Completed') : (c.status || 'Delivered / Completed');
 
         let statusBadge = '<span class="text-[10px] font-extrabold px-2 py-0.5 rounded bg-emerald-100 text-emerald-800">Delivered</span>';
@@ -1466,7 +1498,6 @@
       tbody.innerHTML = '';
       addLineItem('', '', 1, '');
 
-      // Load editable costing inputs by default
       const costContainer = document.getElementById('cost-rows-container');
       costContainer.innerHTML = '';
       addCostRow('Material / Raw Stock', '');
@@ -1506,7 +1537,6 @@
       document.getElementById('inv-date').value = invoice.date;
       document.getElementById('inv-status').value = invoice.status || 'Order Received';
 
-      // Load line items
       const tbody = document.getElementById('line-items-body');
       tbody.innerHTML = '';
       if (invoice.items && invoice.items.length > 0) {
@@ -1517,7 +1547,6 @@
         addLineItem('', '', 1, '');
       }
 
-      // Populate editable costing rows
       const costContainer = document.getElementById('cost-rows-container');
       costContainer.innerHTML = '';
       if (invoice.costRows && invoice.costRows.length > 0) {
@@ -1591,7 +1620,6 @@
       calculateInvoiceDraftTotals();
     }
 
-    // Editable Costing Rows (Can add, edit, or delete at any time)
     function addCostRow(title = '', amount = '') {
       const container = document.getElementById('cost-rows-container');
       const div = document.createElement('div');
@@ -1669,7 +1697,6 @@
       const immediatePaid = Math.min(netInvoiced, parseFloat(document.getElementById('inv-immediate-paid').value) || 0);
       const netDue = Math.max(0, netInvoiced - immediatePaid);
 
-      // Calculates total cost from all editable cost rows
       let totalCost = 0;
       const costRows = [];
       document.querySelectorAll('#cost-rows-container .cost-entry-row').forEach(cr => {
@@ -1803,7 +1830,7 @@
       const targetSelect = document.getElementById('p-target-invoice');
       targetSelect.innerHTML = '<option value="">-- General Account Deposit (On Account) --</option>';
 
-      const clientInvoices = store.invoices.filter(i => i.clientId === clientId);
+      const clientInvoices = store.invoices.filter(i => i.clientId === clientId || (i.clientName && i.clientName.trim().toLowerCase() === client.name.trim().toLowerCase()));
       clientInvoices.forEach(inv => {
         const invDue = getInvoiceSpecificDetails(inv.id).due;
         targetSelect.innerHTML += `<option value="${inv.id}">${inv.id} (${inv.date}) — Bill: ₹${inv.total} (Due: ₹${invDue})</option>`;
@@ -1820,7 +1847,7 @@
       const p = store.payments.find(pay => pay.id === paymentId);
       if (!p) return alert('Payment record not found.');
 
-      const client = store.clients.find(c => c.id === p.clientId);
+      const client = store.clients.find(c => c.id === p.clientId || (c.name && p.clientName && c.name.trim().toLowerCase() === p.clientName.trim().toLowerCase()));
 
       document.getElementById('payment-modal-title').innerText = "Edit Payment Record";
       document.getElementById('p-payment-id').value = p.id;
@@ -1834,7 +1861,7 @@
       const targetSelect = document.getElementById('p-target-invoice');
       targetSelect.innerHTML = '<option value="">-- General Account Deposit (On Account) --</option>';
 
-      const clientInvoices = store.invoices.filter(i => i.clientId === p.clientId);
+      const clientInvoices = store.invoices.filter(i => i.clientId === p.clientId || (client && i.clientName && i.clientName.trim().toLowerCase() === client.name.trim().toLowerCase()));
       clientInvoices.forEach(inv => {
         targetSelect.innerHTML += `<option value="${inv.id}">${inv.id} (${inv.date}) — Bill: ₹${inv.total}</option>`;
       });
@@ -1910,11 +1937,12 @@
       const clientId = document.getElementById('preview-client-select').value;
       if (!clientId) return;
 
-      const client = store.clients.find(c => c.id === clientId);
+      const client = store.clients.find(c => c.id === clientId || c.name === clientId);
       if (!client) return;
 
-      const clientInvoices = store.invoices.filter(i => i.clientId === clientId);
-      const clientPayments = store.payments.filter(p => p.clientId === clientId);
+      const cName = client.name.trim().toLowerCase();
+      const clientInvoices = store.invoices.filter(i => i.clientId === clientId || (i.clientName && i.clientName.trim().toLowerCase() === cName));
+      const clientPayments = store.payments.filter(p => p.clientId === clientId || (p.clientName && p.clientName.trim().toLowerCase() === cName));
       const overallStats = getClientSummary(clientId);
 
       const billSelect = document.getElementById('preview-bill-select');
@@ -1979,7 +2007,6 @@
         statusBadge.className = 'text-[10px] font-extrabold px-2 py-0.5 rounded bg-emerald-100 text-emerald-800';
       }
 
-      // RENDER ITEMS DIRECTLY FROM INDEPENDENT ITEMS
       const tbody = document.getElementById('doc-items-table');
       tbody.innerHTML = '';
       const displayInvoices = isSpecificBill ? [activeInv] : clientInvoices;
@@ -2178,7 +2205,7 @@
       const clientId = document.getElementById('preview-client-select').value;
       if (!clientId) return alert('Please select a client account.');
 
-      const client = store.clients.find(c => c.id === clientId);
+      const client = store.clients.find(c => c.id === clientId || c.name === clientId);
       if (!client) return alert('Client record not found.');
 
       if (!client.phone || client.phone.trim() === '') {
@@ -2204,7 +2231,7 @@
       const clientId = document.getElementById('preview-client-select').value;
       if (!clientId) return alert('Please select a client account.');
 
-      const client = store.clients.find(c => c.id === clientId);
+      const client = store.clients.find(c => c.id === clientId || c.name === clientId);
       if (!client) return alert('Client record not found.');
 
       if (!client.phone || client.phone.trim() === '') {
