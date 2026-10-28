@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Cool Art | Enterprise Billing & Financial Ledger</title>
   
-  <link rel="icon" type="image/png" href="fevicon.png?v=45">
-  <link rel="apple-touch-icon" href="fevicon.png?v=45">
+  <link rel="icon" type="image/png" href="fevicon.png?v=55">
+  <link rel="apple-touch-icon" href="fevicon.png?v=55">
 
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
@@ -92,7 +92,7 @@
     <div class="stat-card max-w-sm w-full p-8 border-slate-800 bg-[#0b1329]/95 text-white shadow-2xl relative overflow-hidden text-center space-y-6">
       <div class="flex justify-center">
         <div class="w-20 h-20 rounded-2xl p-2 bg-slate-900/90 border border-slate-700/80 shadow-inner flex items-center justify-center">
-          <img src="fevicon.png?v=45" alt="Cool Art" class="w-full h-full object-contain">
+          <img src="fevicon.png?v=55" alt="Cool Art" class="w-full h-full object-contain">
         </div>
       </div>
 
@@ -127,7 +127,7 @@
           <div class="flex items-center gap-2 sm:gap-3 flex-shrink-0">
             <img src="cool art logo.png" alt="Cool Art" class="h-6 sm:h-8 w-auto object-contain">
             <span class="text-slate-600 font-extralight text-sm sm:text-lg">|</span>
-            <img src="fevicon.png?v=45" alt="CA Logo" class="h-6 sm:h-8 w-auto object-contain">
+            <img src="fevicon.png?v=55" alt="CA Logo" class="h-6 sm:h-8 w-auto object-contain">
 
             <div class="hidden md:block border-l border-slate-700 pl-3">
               <h1 class="text-xs font-bold uppercase tracking-wider text-slate-100">Cool Art Invoicing</h1>
@@ -181,7 +181,6 @@
       <main class="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 py-5 sm:py-7 w-full">
         <!-- 1. DASHBOARD TAB -->
         <section id="tab-sec-dashboard" class="space-y-6 no-print">
-          <!-- Top Row Financial Cards -->
           <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
             <div class="stat-card p-5">
               <p class="text-xs font-bold uppercase tracking-wider text-slate-400">Total Invoiced Amount</p>
@@ -228,9 +227,7 @@
             </div>
           </div>
 
-          <!-- Bottom Row Financial Cards -->
           <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            <!-- DIRECT JOB COST (COGS) -->
             <div class="bg-white p-4 rounded-xl border border-amber-300 shadow-sm">
               <span class="text-xs font-bold text-amber-900 uppercase tracking-wider block">Total Job Cost (COGS)</span>
               <span id="metric-total-cogs" class="text-xl font-extrabold text-amber-950 font-tabular mt-1 block">₹0.00</span>
@@ -256,7 +253,6 @@
             </div>
           </div>
 
-          <!-- Clients Table -->
           <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
             <div class="p-4 sm:p-5 border-b border-slate-100 flex flex-wrap items-center justify-between gap-3">
               <div>
@@ -404,7 +400,6 @@
                 </button>
               </div>
 
-              <!-- Editable rows always render here -->
               <div id="cost-rows-container" class="space-y-2"></div>
 
               <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-2 border-t border-amber-200/80 items-center">
@@ -675,7 +670,7 @@
                 
                 <div class="text-right flex flex-col items-end">
                   <div class="h-14 w-36 flex items-end justify-end mb-1">
-                    <img src="kksignature.png" alt="Signature" class="max-h-full max-w-full object-contain filter contrast-125" onerror="this.onerror=null; this.src='kksignature.jpg';">
+                    <img src="kksignature.png" alt="Signature" class="max-h-full max-w-full object-contain filter contrast-125" onerror="this.onerror=null; this.src='kksignature.jpg';">[cite: 3]
                   </div>
                   <div class="w-36 border-b border-slate-400 mb-1"></div>
                   <span class="text-[10px] font-bold text-slate-700 uppercase tracking-wider block">Authorized Signatory</span>
@@ -959,7 +954,7 @@
     </div>
   </div>
 
-  <!-- JAVASCRIPT LOGIC (PERFECT METRICS & RESILIENT MAPPING) -->
+  <!-- JAVASCRIPT LOGIC -->
   <script>
     const DEFAULT_WEBHOOK_URL = "https://script.google.com/macros/s/AKfycbwXlXsEhAqRUho6zZr-amBL8GJ9BPXHcUI9X54ZRlEj8_vpLxM7UaEHrp_L8cuLFy3BUA/exec";
     const MASTER_KEY = "CoolArt@2026";
@@ -1010,7 +1005,7 @@
     }
 
     function loadData() {
-      const saved = localStorage.getItem('coolart_finance_master_v45');
+      const saved = localStorage.getItem('coolart_finance_master_v55');
       if (saved) {
         try { 
           const parsed = JSON.parse(saved);
@@ -1033,7 +1028,30 @@
     }
 
     function persistData() {
-      localStorage.setItem('coolart_finance_master_v45', JSON.stringify(store));
+      localStorage.setItem('coolart_finance_master_v55', JSON.stringify(store));
+    }
+
+    // ACCURATE MAX INVOICE NUMBER SCANNER
+    function getNextInvoiceNumber() {
+      let maxNum = 0;
+      const currentYear = new Date().getFullYear();
+
+      if (Array.isArray(store.invoices)) {
+        store.invoices.forEach(inv => {
+          if (inv && inv.id) {
+            const match = String(inv.id).match(/(\d+)$/);
+            if (match) {
+              const num = parseInt(match[1], 10);
+              if (!isNaN(num) && num > maxNum) {
+                maxNum = num;
+              }
+            }
+          }
+        });
+      }
+
+      const nextNum = maxNum + 1;
+      return `INV-${currentYear}-${String(nextNum).padStart(3, '0')}`;
     }
 
     function pullDataFromSheets(isManual = false) {
@@ -1197,11 +1215,27 @@
     }
     function closeModal(id) { document.getElementById(id).classList.add('hidden'); }
 
+    // DOUBLE-LOCK PAYMENT CHECK: STRICT CLIENT MATCH ONLY
     function getInvoiceSpecificDetails(invoiceId) {
       const inv = store.invoices.find(i => i.id === invoiceId);
       if (!inv) return { billed: 0, paid: 0, due: 0, payments: [] };
 
-      const payments = store.payments.filter(p => p.invoiceId === invoiceId);
+      const invClientName = (inv.clientName || '').trim().toLowerCase();
+      const invClientId = inv.clientId;
+
+      const payments = store.payments.filter(p => {
+        if (p.invoiceId !== invoiceId) return false;
+        
+        // Safety: Ensure payment belongs to THIS client only
+        const payClientName = (p.clientName || '').trim().toLowerCase();
+        const payClientId = p.clientId;
+
+        if (invClientId && payClientId && invClientId === payClientId) return true;
+        if (invClientName && payClientName && invClientName === payClientName) return true;
+        
+        return false;
+      });
+
       const paid = payments.reduce((sum, p) => sum + (Number(p.amount) || 0), 0);
       const due = Math.max(0, inv.total - paid);
 
@@ -1291,7 +1325,6 @@
       const totalSevaSpent = (store.hanumanExpenses || []).reduce((s, e) => s + (Number(e.amount) || 0), 0);
       const netInHandSeva = Math.max(0, grandRealizedSeva - totalSevaSpent);
 
-      // DOM Elements Update
       if (document.getElementById('metric-total-billed'))
         document.getElementById('metric-total-billed').innerText = `₹${grandBilled.toLocaleString('en-IN', {minimumFractionDigits: 2})}`;
       if (document.getElementById('metric-total-received'))
@@ -1489,8 +1522,7 @@
     }
 
     function prepareInvoiceStudio() {
-      const nextSeq = String(store.config.nextInvSeq || (store.invoices.length + 1)).padStart(3, '0');
-      document.getElementById('inv-custom-id').value = `INV-2026-${nextSeq}`;
+      document.getElementById('inv-custom-id').value = getNextInvoiceNumber();
       document.getElementById('inv-date').value = new Date().toISOString().split('T')[0];
       document.getElementById('inv-status').value = "Order Received";
       
@@ -1512,8 +1544,7 @@
 
     function onClientSelectionChange() {
       if (!editingInvoiceId) {
-        const nextSeq = String(store.config.nextInvSeq || (store.invoices.length + 1)).padStart(3, '0');
-        document.getElementById('inv-custom-id').value = `INV-2026-${nextSeq}`;
+        document.getElementById('inv-custom-id').value = getNextInvoiceNumber();
       }
     }
 
@@ -1781,7 +1812,6 @@
         editingInvoiceId = null;
       } else {
         store.invoices.push(invoiceObj);
-        store.config.nextInvSeq = (store.config.nextInvSeq || store.invoices.length) + 1;
       }
 
       if (calc.immediatePaid > 0) {
@@ -2033,8 +2063,9 @@
       const logsContainer = document.getElementById('doc-payment-logs');
       logsContainer.innerHTML = '';
 
+      // DOUBLE-CHECK ONLY MATCHED CLIENT PAYMENTS
       const relevantPayments = isSpecificBill 
-        ? clientPayments.filter(p => p.invoiceId === activeInv.id || !p.invoiceId)
+        ? clientPayments.filter(p => p.invoiceId === activeInv.id)
         : clientPayments;
 
       if (relevantPayments.length === 0) {
@@ -2046,7 +2077,7 @@
           div.innerHTML = `
             <div class="flex-1 pr-2">
               <span class="font-bold text-slate-800 block text-[11px]">
-                ${p.mode} ${p.invoiceId ? `<span class="text-[9px] font-extrabold text-indigo-600 bg-indigo-50 px-1.5 py-0.2 rounded border border-indigo-200">[${p.invoiceId}]</span>` : '<span class="text-[9px] text-slate-400">[General]</span>'}
+                ${p.mode} <span class="text-[9px] font-extrabold text-indigo-600 bg-indigo-50 px-1.5 py-0.2 rounded border border-indigo-200">[${p.invoiceId}]</span>
               </span>
               <span class="text-[10px] text-slate-400 font-tabular">Date: ${p.date} • ${p.ref || 'Cleared'}</span>
             </div>
