@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Cool Art | Enterprise Billing & Financial Ledger</title>
   
-  <link rel="icon" type="image/png" href="fevicon.png?v=55">
-  <link rel="apple-touch-icon" href="fevicon.png?v=55">
+  <link rel="icon" type="image/png" href="fevicon.png?v=60">
+  <link rel="apple-touch-icon" href="fevicon.png?v=60">
 
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
@@ -59,6 +59,14 @@
       -webkit-print-color-adjust: exact !important;
       print-color-adjust: exact !important;
     }
+    @keyframes gentlePulse {
+      0%, 100% { background-color: rgba(254, 242, 242, 0.9); }
+      50% { background-color: rgba(254, 226, 226, 0.5); }
+    }
+    .oldest-overdue-row {
+      animation: gentlePulse 2.5s infinite ease-in-out;
+      border-left: 4px solid #ef4444 !important;
+    }
     @media print {
       body {
         background: #ffffff !important;
@@ -92,7 +100,7 @@
     <div class="stat-card max-w-sm w-full p-8 border-slate-800 bg-[#0b1329]/95 text-white shadow-2xl relative overflow-hidden text-center space-y-6">
       <div class="flex justify-center">
         <div class="w-20 h-20 rounded-2xl p-2 bg-slate-900/90 border border-slate-700/80 shadow-inner flex items-center justify-center">
-          <img src="fevicon.png?v=55" alt="Cool Art" class="w-full h-full object-contain">
+          <img src="fevicon.png?v=60" alt="Cool Art" class="w-full h-full object-contain">
         </div>
       </div>
 
@@ -124,10 +132,10 @@
       <header class="sticky top-0 z-40 bg-[#0b1329]/95 backdrop-blur-md border-b border-slate-800 text-white shadow-md no-print">
         <div class="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 h-14 sm:h-16 flex items-center justify-between gap-2">
           
-          <div class="flex items-center gap-2 sm:gap-3 flex-shrink-0">
+          <div class="flex items-center gap-2 sm:gap-3 flex-shrink-0 cursor-pointer" onclick="switchTab('dashboard')" title="Go to Dashboard">
             <img src="cool art logo.png" alt="Cool Art" class="h-6 sm:h-8 w-auto object-contain">
             <span class="text-slate-600 font-extralight text-sm sm:text-lg">|</span>
-            <img src="fevicon.png?v=55" alt="CA Logo" class="h-6 sm:h-8 w-auto object-contain">
+            <img src="fevicon.png?v=60" alt="CA Logo" class="h-6 sm:h-8 w-auto object-contain">
 
             <div class="hidden md:block border-l border-slate-700 pl-3">
               <h1 class="text-xs font-bold uppercase tracking-wider text-slate-100">Cool Art Invoicing</h1>
@@ -136,12 +144,17 @@
           </div>
 
           <div class="flex items-center gap-1 sm:gap-2">
+            <button onclick="switchTab('dashboard')" title="Home / Dashboard" class="p-1.5 sm:px-3 sm:py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-white transition shadow-sm border border-slate-700">
+              <span class="text-xs sm:text-sm">🏠</span>
+              <span class="hidden sm:inline text-xs font-bold ml-1">Home</span>
+            </button>
+
             <button onclick="pullDataFromSheets(true)" id="btn-pull-sync" title="Sync from Sheet" class="p-1.5 sm:px-3 sm:py-2 rounded-xl bg-emerald-700 hover:bg-emerald-600 text-white transition shadow-sm">
               <span class="text-xs sm:text-sm">🔄</span>
               <span class="hidden sm:inline text-xs font-bold ml-1" id="sync-text">Sync</span>
             </button>
 
-            <button onclick="openModal('expense-modal')" title="Add General Expense" class="p-1.5 sm:px-3 sm:py-2 rounded-xl bg-rose-600 hover:bg-rose-500 text-white shadow transition">
+            <button onclick="openCreateExpenseModal()" title="Add General Expense" class="p-1.5 sm:px-3 sm:py-2 rounded-xl bg-rose-600 hover:bg-rose-500 text-white shadow transition">
               <span class="text-xs sm:text-sm">💸</span>
               <span class="hidden sm:inline text-xs font-bold ml-1">Expense</span>
             </button>
@@ -181,6 +194,33 @@
       <main class="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 py-5 sm:py-7 w-full">
         <!-- 1. DASHBOARD TAB -->
         <section id="tab-sec-dashboard" class="space-y-6 no-print">
+          <!-- Live Project & Client Overview Bar -->
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div class="stat-card p-4 flex items-center justify-between border-indigo-100 bg-indigo-50/40">
+              <div>
+                <span class="text-xs font-bold uppercase tracking-wider text-indigo-900">Registered Commercial Accounts</span>
+                <div class="flex items-baseline gap-2 mt-1">
+                  <span id="metric-total-clients" class="text-2xl font-black font-tabular text-indigo-700">0</span>
+                  <span class="text-xs text-slate-500">Active Clients in Khata</span>
+                </div>
+              </div>
+              <span class="text-3xl">👥</span>
+            </div>
+
+            <div class="stat-card p-4 flex items-center justify-between border-emerald-100 bg-emerald-50/40">
+              <div>
+                <span class="text-xs font-bold uppercase tracking-wider text-emerald-900">Work Orders Status Overview</span>
+                <div id="metric-project-stages" class="flex flex-wrap items-center gap-2 mt-1.5 text-xs font-bold font-tabular">
+                  <span class="px-2 py-0.5 rounded bg-emerald-100 text-emerald-800">Delivered: 0</span>
+                  <span class="px-2 py-0.5 rounded bg-amber-100 text-amber-800">Received: 0</span>
+                  <span class="px-2 py-0.5 rounded bg-blue-100 text-blue-800">In Process: 0</span>
+                </div>
+              </div>
+              <span class="text-3xl">📦</span>
+            </div>
+          </div>
+
+          <!-- Top Row Financial Cards -->
           <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
             <div class="stat-card p-5">
               <p class="text-xs font-bold uppercase tracking-wider text-slate-400">Total Invoiced Amount</p>
@@ -227,6 +267,7 @@
             </div>
           </div>
 
+          <!-- Bottom Row Financial Cards -->
           <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
             <div class="bg-white p-4 rounded-xl border border-amber-300 shadow-sm">
               <span class="text-xs font-bold text-amber-900 uppercase tracking-wider block">Total Job Cost (COGS)</span>
@@ -253,15 +294,28 @@
             </div>
           </div>
 
+          <!-- Clients Table & Pagination Toolbar -->
           <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
             <div class="p-4 sm:p-5 border-b border-slate-100 flex flex-wrap items-center justify-between gap-3">
               <div>
                 <h2 class="text-base font-bold text-slate-900">Commercial Client Accounts</h2>
-                <p class="text-xs text-slate-500 mt-0.5">Live connected ledger, order statuses & WhatsApp direct link</p>
+                <p class="text-xs text-slate-500 mt-0.5">Auto-sorted by recent interaction • Oldest pending balances highlighted</p>
               </div>
-              <button onclick="openModal('client-modal')" class="inline-flex items-center gap-1.5 text-xs font-bold px-4 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white transition shadow-sm">
-                + Register Client
-              </button>
+
+              <div class="flex flex-wrap items-center gap-2">
+                <input type="text" id="client-search-input" oninput="renderClientsTable()" placeholder="🔍 Quick search client..." class="bg-slate-50 border border-slate-300 rounded-xl px-3 py-1.5 text-xs text-slate-800 focus:outline-none focus:ring-2 focus:ring-indigo-500 w-44">
+                
+                <select id="client-row-limit" onchange="renderClientsTable()" class="bg-slate-50 border border-slate-300 rounded-xl px-2.5 py-1.5 text-xs font-bold text-slate-700 focus:outline-none">
+                  <option value="10">Show 10</option>
+                  <option value="25" selected>Show 25</option>
+                  <option value="50">Show 50</option>
+                  <option value="ALL">Show All</option>
+                </select>
+
+                <button onclick="openModal('client-modal')" class="inline-flex items-center gap-1.5 text-xs font-bold px-3.5 py-2 rounded-xl bg-slate-900 hover:bg-slate-800 text-white transition shadow-sm">
+                  + Register Client
+                </button>
+              </div>
             </div>
 
             <div class="overflow-x-auto">
@@ -280,20 +334,37 @@
                 <tbody id="clients-table-body" class="divide-y divide-slate-100 font-normal"></tbody>
               </table>
             </div>
+
+            <!-- Table Rows Counter & Hidden Rows Status -->
+            <div id="clients-pagination-info" class="p-3 bg-slate-50/70 border-t border-slate-100 text-xs text-slate-500 font-medium flex justify-between items-center px-4"></div>
           </div>
         </section>
 
-        <!-- 2. OFFICE EXPENSES TAB -->
+        <!-- 2. OFFICE EXPENSES TAB WITH MONTHLY DROPDOWN -->
         <section id="tab-sec-expenses" class="hidden no-print space-y-6">
           <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
             <div class="p-4 sm:p-5 border-b border-slate-100 flex flex-wrap items-center justify-between gap-3">
               <div>
                 <h2 class="text-base font-bold text-slate-900">Office & General Expense Records</h2>
-                <p class="text-xs text-slate-500 mt-0.5">Separate tab: track shop expenditures without mixing with clients</p>
+                <p class="text-xs text-slate-500 mt-0.5">Chronologically auto-sorted by date • Month-wise audit filters</p>
               </div>
-              <button onclick="openModal('expense-modal')" class="inline-flex items-center gap-1.5 text-xs font-bold px-4 py-2.5 rounded-xl bg-rose-600 hover:bg-rose-500 text-white transition shadow-sm">
-                + Create Expense Voucher
-              </button>
+
+              <div class="flex items-center gap-2.5">
+                <div class="flex items-center gap-1.5">
+                  <span class="text-xs font-bold text-slate-500">Filter Month:</span>
+                  <select id="expense-month-filter" onchange="renderExpensesTable()" class="bg-slate-50 border border-slate-300 rounded-xl px-3 py-1.5 text-xs font-bold text-slate-800 focus:outline-none"></select>
+                </div>
+
+                <button onclick="openCreateExpenseModal()" class="inline-flex items-center gap-1.5 text-xs font-bold px-4 py-2 rounded-xl bg-rose-600 hover:bg-rose-500 text-white transition shadow-sm">
+                  + Create Expense Voucher
+                </button>
+              </div>
+            </div>
+
+            <!-- Monthly Expense Highlight -->
+            <div class="bg-rose-50/60 px-4 py-2.5 border-b border-rose-100 flex justify-between items-center text-xs">
+              <span class="font-bold text-rose-900" id="expense-filtered-label">Showing Expenses</span>
+              <span class="font-extrabold text-rose-700 font-tabular text-sm">Filtered Total: <span id="expense-filtered-total">₹0.00</span></span>
             </div>
 
             <div class="overflow-x-auto">
@@ -326,11 +397,11 @@
                   <h2 class="text-lg sm:text-xl font-bold text-slate-900" id="form-invoice-title">Generate Commercial Invoice</h2>
                   <span id="badge-edit-mode" class="hidden text-[10px] font-extrabold uppercase px-2.5 py-0.5 bg-amber-100 text-amber-800 rounded-full border border-amber-200">Revision Mode</span>
                 </div>
-                <p class="text-xs text-slate-500 mt-1">Itemize artwork, dimensions, flexible costing breakdown & discounts</p>
+                <p class="text-xs text-slate-500 mt-1">Itemize artwork, pure quantities, flexible costing breakdown & discounts</p>
               </div>
               <div class="text-right">
                 <span class="text-[10px] uppercase font-bold text-slate-400 block">Invoice Reference #</span>
-                <input type="text" id="inv-custom-id" class="font-tabular font-bold text-xs text-slate-800 bg-slate-50 px-3 py-1.5 rounded-lg border border-slate-300 text-right w-36 outline-none focus:ring-2 focus:ring-indigo-500">
+                <input type="text" id="inv-custom-id" readonly class="font-tabular font-bold text-xs text-slate-800 bg-slate-100 px-3 py-1.5 rounded-lg border border-slate-300 text-right w-36 outline-none cursor-not-allowed">
               </div>
             </div>
 
@@ -356,6 +427,7 @@
               </div>
             </div>
 
+            <!-- PRODUCT LINE ITEMS (PURE QUANTITY - SQUARE FEET REMOVED) -->
             <div class="space-y-3 pt-2">
               <div class="flex items-center justify-between">
                 <span class="text-xs font-bold uppercase tracking-wider text-slate-600">Product & Work Deliverables</span>
@@ -365,13 +437,12 @@
               </div>
 
               <div class="overflow-x-auto border border-slate-200 rounded-xl bg-slate-50/60 p-2">
-                <table class="w-full text-left text-xs min-w-[550px]">
+                <table class="w-full text-left text-xs min-w-[500px]">
                   <thead>
                     <tr class="text-slate-500 uppercase text-[10px] font-bold border-b border-slate-200 pb-2">
-                      <th class="p-2 w-6/12">Item Description / Details</th>
-                      <th class="p-2 w-2/12 text-center">Dimension (W×H)</th>
-                      <th class="p-2 w-1/12 text-center">Qty / Sq.Ft</th>
-                      <th class="p-2 w-2/12 text-right">Rate (₹)</th>
+                      <th class="p-2 w-7/12">Item Description / Details</th>
+                      <th class="p-2 w-2/12 text-center">Quantity (Qty)</th>
+                      <th class="p-2 w-2/12 text-right">Unit Rate (₹)</th>
                       <th class="p-2 w-2/12 text-right">Total (₹)</th>
                       <th class="p-2 w-1/12 text-center"></th>
                     </tr>
@@ -554,16 +625,16 @@
                 </div>
               </div>
 
-              <!-- ITEMS TABLE: INDEPENDENT ROWS -->
+              <!-- ITEMS TABLE: INDEPENDENT ROWS (PURE QUANTITY FORMAT) -->
               <div class="border border-slate-200 rounded-xl overflow-x-auto">
                 <table class="w-full text-left text-xs border-collapse min-w-[500px]">
                   <thead>
                     <tr class="bg-slate-100 text-slate-700 text-[10px] uppercase tracking-wider font-bold border-b border-slate-200">
                       <th class="py-2.5 px-3 w-10 text-center">#</th>
                       <th class="py-2.5 px-3">Description of Work / Deliverables</th>
-                      <th class="py-2.5 px-3 w-24 text-center">Qty / Sq.Ft</th>
-                      <th class="py-2.5 px-3 w-24 text-right">Unit Rate (₹)</th>
-                      <th class="py-2.5 px-3 w-28 text-right">Amount (₹)</th>
+                      <th class="py-2.5 px-3 w-28 text-center">Quantity (Qty)</th>
+                      <th class="py-2.5 px-3 w-28 text-right">Unit Rate (₹)</th>
+                      <th class="py-2.5 px-3 w-32 text-right">Amount (₹)</th>
                     </tr>
                   </thead>
                   <tbody id="doc-items-table" class="divide-y divide-slate-100 font-tabular text-xs"></tbody>
@@ -617,7 +688,7 @@
                   <div class="border-t border-slate-200 pt-2">
                     <div class="flex items-center justify-between mb-1.5">
                       <span class="text-[10px] font-bold text-slate-500 uppercase tracking-wider block">Cleared Receipts Log</span>
-                      <span class="text-[10px] text-slate-400">Click ✏️ to edit or 🗑️ to delete</span>
+                      <span class="text-[10px] text-slate-400 no-print">Click ✏️ to edit or 🗑️ to delete</span>
                     </div>
                     <div id="doc-payment-logs" class="space-y-1.5 text-xs"></div>
                   </div>
@@ -661,7 +732,7 @@
                 </div>
               </div>
 
-              <!-- Signatory Footer -->
+              <!-- Signatory Footer (Clean Without stray text) -->
               <div class="border-t border-slate-200 pt-4 mt-1 flex justify-between items-end text-xs text-slate-500">
                 <div>
                   <p class="font-bold text-slate-700 text-[11px]">Cool Art Advertising</p>
@@ -670,7 +741,7 @@
                 
                 <div class="text-right flex flex-col items-end">
                   <div class="h-14 w-36 flex items-end justify-end mb-1">
-                    <img src="kksignature.png" alt="Signature" class="max-h-full max-w-full object-contain filter contrast-125" onerror="this.onerror=null; this.src='kksignature.jpg';">[cite: 3]
+                    <img src="kksignature.png" alt="Signature" class="max-h-full max-w-full object-contain filter contrast-125" onerror="this.onerror=null; this.src='kksignature.jpg';">
                   </div>
                   <div class="w-36 border-b border-slate-400 mb-1"></div>
                   <span class="text-[10px] font-bold text-slate-700 uppercase tracking-wider block">Authorized Signatory</span>
@@ -760,16 +831,18 @@
     </div>
   </div>
 
-  <!-- MODAL: OFFICE EXPENSE -->
+  <!-- MODAL: OFFICE EXPENSE (CREATE / EDIT) -->
   <div id="expense-modal" class="hidden fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
     <div class="bg-white rounded-2xl shadow-2xl border border-slate-200 max-w-md w-full p-6 space-y-4">
       <div class="flex justify-between items-center pb-2 border-b border-slate-100">
         <div>
-          <h3 class="text-base font-bold text-slate-900">Office Expense Voucher</h3>
-          <p class="text-[11px] text-slate-500">Record indirect shop & running expenditures</p>
+          <h3 class="text-base font-bold text-slate-900" id="expense-modal-title">Office Expense Voucher</h3>
+          <p class="text-[11px] text-slate-500">Record or edit indirect shop & running expenditures</p>
         </div>
         <button onclick="closeModal('expense-modal')" class="text-slate-400 hover:text-slate-600 font-bold">✕</button>
       </div>
+
+      <input type="hidden" id="exp-edit-id">
 
       <div class="space-y-3">
         <div class="grid grid-cols-2 gap-3">
@@ -826,7 +899,7 @@
 
       <div class="flex justify-end gap-2 pt-3">
         <button onclick="closeModal('expense-modal')" class="px-4 py-2 text-xs font-bold text-slate-600 hover:bg-slate-100 rounded-xl">Cancel</button>
-        <button onclick="commitOfficeExpense()" class="px-5 py-2 text-xs font-bold text-white bg-rose-600 hover:bg-rose-700 rounded-xl">Record & Sync</button>
+        <button onclick="commitOfficeExpense()" id="btn-save-expense" class="px-5 py-2 text-xs font-bold text-white bg-rose-600 hover:bg-rose-700 rounded-xl">Record & Sync</button>
       </div>
     </div>
   </div>
@@ -926,34 +999,6 @@
     </div>
   </div>
 
-  <!-- MODAL: SQFT CALCULATOR -->
-  <div id="sqft-modal" class="hidden fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
-    <div class="bg-white rounded-2xl shadow-2xl border border-slate-200 max-w-sm w-full p-5 space-y-4">
-      <h3 class="text-sm font-bold text-slate-900">📐 Square Feet (Sq.Ft) Calculator</h3>
-      <p class="text-xs text-slate-500">Enter dimensions in Feet (Width × Height):</p>
-      
-      <div class="grid grid-cols-2 gap-3">
-        <div>
-          <label class="block text-xs font-semibold text-slate-700 mb-1">Width (Ft)</label>
-          <input type="number" step="any" id="sqft-w" placeholder="10" class="w-full bg-slate-50 border border-slate-300 rounded-xl p-2 text-xs font-tabular">
-        </div>
-        <div>
-          <label class="block text-xs font-semibold text-slate-700 mb-1">Height (Ft)</label>
-          <input type="number" step="any" id="sqft-h" placeholder="4" class="w-full bg-slate-50 border border-slate-300 rounded-xl p-2 text-xs font-tabular">
-        </div>
-      </div>
-      <div>
-        <label class="block text-xs font-semibold text-slate-700 mb-1">Quantity (Pieces)</label>
-        <input type="number" id="sqft-qty" value="1" min="1" class="w-full bg-slate-50 border border-slate-300 rounded-xl p-2 text-xs font-tabular">
-      </div>
-
-      <div class="flex justify-end gap-2 pt-2">
-        <button onclick="closeModal('sqft-modal')" class="px-3 py-1.5 text-xs font-bold text-slate-600 hover:bg-slate-100 rounded-lg">Cancel</button>
-        <button onclick="applySqftCalculation()" class="px-4 py-1.5 text-xs font-bold text-white bg-indigo-600 hover:bg-indigo-700 rounded-lg">Apply Sq.Ft</button>
-      </div>
-    </div>
-  </div>
-
   <!-- JAVASCRIPT LOGIC -->
   <script>
     const DEFAULT_WEBHOOK_URL = "https://script.google.com/macros/s/AKfycbwXlXsEhAqRUho6zZr-amBL8GJ9BPXHcUI9X54ZRlEj8_vpLxM7UaEHrp_L8cuLFy3BUA/exec";
@@ -973,7 +1018,6 @@
       }
     };
 
-    let activeSqftTargetRow = null;
     let editingInvoiceId = null;
 
     function unlockGateway() {
@@ -1005,7 +1049,7 @@
     }
 
     function loadData() {
-      const saved = localStorage.getItem('coolart_finance_master_v55');
+      const saved = localStorage.getItem('coolart_finance_master_v60');
       if (saved) {
         try { 
           const parsed = JSON.parse(saved);
@@ -1028,7 +1072,7 @@
     }
 
     function persistData() {
-      localStorage.setItem('coolart_finance_master_v55', JSON.stringify(store));
+      localStorage.setItem('coolart_finance_master_v60', JSON.stringify(store));
     }
 
     // ACCURATE MAX INVOICE NUMBER SCANNER
@@ -1054,12 +1098,32 @@
       return `INV-${currentYear}-${String(nextNum).padStart(3, '0')}`;
     }
 
+    // ACCURATE MAX EXPENSE VOUCHER SCANNER
+    function getNextExpenseNumber() {
+      let maxNum = 0;
+      const currentYear = new Date().getFullYear();
+
+      if (Array.isArray(store.officeExpenses)) {
+        store.officeExpenses.forEach(exp => {
+          if (exp && exp.id) {
+            const match = String(exp.id).match(/(\d+)$/);
+            if (match) {
+              const num = parseInt(match[1], 10);
+              if (!isNaN(num) && num > maxNum) {
+                maxNum = num;
+              }
+            }
+          }
+        });
+      }
+
+      const nextNum = maxNum + 1;
+      return `EXP-${currentYear}-${String(nextNum).padStart(3, '0')}`;
+    }
+
     function pullDataFromSheets(isManual = false) {
       const url = store.config.webhookUrl || DEFAULT_WEBHOOK_URL;
-      const spinner = document.getElementById('sync-spinner');
       const text = document.getElementById('sync-text');
-
-      if (spinner) spinner.classList.remove('hidden');
       if (text) text.innerText = 'Syncing...';
 
       const callbackName = 'coolart_cb_' + Date.now();
@@ -1069,12 +1133,11 @@
         const oldScript = document.getElementById(callbackName);
         if (oldScript) oldScript.remove();
 
-        if (spinner) spinner.classList.add('hidden');
         if (text) text.innerText = 'Sync';
 
         if (result && result.status === "success") {
           process5TabSheetData(result);
-          if (isManual) alert('5-Tab Google Sheet synchronized successfully!');
+          if (isManual) alert('Google Sheet synchronized successfully!');
         } else {
           if (isManual) alert('No records found in sheets.');
         }
@@ -1086,7 +1149,6 @@
       script.onerror = function() {
         delete window[callbackName];
         script.remove();
-        if (spinner) spinner.classList.add('hidden');
         if (text) text.innerText = 'Sync';
         if (isManual) alert('Error connecting to Google Sheets.');
       };
@@ -1114,7 +1176,6 @@
           const invId = String(inv.Invoice_ID);
           const lineItems = rawItems.filter(it => String(it.Invoice_ID) === invId).map(it => ({
             desc: String(it.Description || 'Deliverable'),
-            dimension: String(it.Dimension || ''),
             qty: Number(it.Quantity) || 1,
             rate: Number(it.Unit_Rate) || 0,
             total: Number(it.Total_Amount) || 0
@@ -1128,7 +1189,7 @@
             clientName: String(inv.Client_Name || ''),
             date: String(inv.Date || '').split('T')[0],
             status: String(inv.Work_Status || 'Delivered / Completed'),
-            items: lineItems.length > 0 ? lineItems : [{ desc: 'Work Order', dimension: '', qty: 1, rate: Number(inv.Net_Total)||0, total: Number(inv.Net_Total)||0 }],
+            items: lineItems.length > 0 ? lineItems : [{ desc: 'Work Order', qty: 1, rate: Number(inv.Net_Total)||0, total: Number(inv.Net_Total)||0 }],
             grossTotal: Number(inv.Gross_Amount) || Number(inv.Net_Total) || 0,
             discount: Number(inv.Discount_Amount) || 0,
             gstAmount: Number(inv.GST_Amount) || 0,
@@ -1198,6 +1259,7 @@
       } else if (tabId === 'invoice-preview') {
         renderInvoiceView();
       } else if (tabId === 'expenses') {
+        populateExpenseMonthsDropdown();
         renderExpensesTable();
       }
     }
@@ -1205,13 +1267,6 @@
     function openModal(id) { 
       document.getElementById(id).classList.remove('hidden');
       if (id === 'hanuman-bank-modal') renderHanumanModal();
-      if (id === 'expense-modal') {
-        document.getElementById('exp-date').value = new Date().toISOString().split('T')[0];
-        document.getElementById('exp-vendor').value = '';
-        document.getElementById('exp-phone').value = '';
-        document.getElementById('exp-desc').value = '';
-        document.getElementById('exp-amt').value = '';
-      }
     }
     function closeModal(id) { document.getElementById(id).classList.add('hidden'); }
 
@@ -1226,7 +1281,6 @@
       const payments = store.payments.filter(p => {
         if (p.invoiceId !== invoiceId) return false;
         
-        // Safety: Ensure payment belongs to THIS client only
         const payClientName = (p.clientName || '').trim().toLowerCase();
         const payClientId = p.clientId;
 
@@ -1268,6 +1322,20 @@
       const collectionRatio = billedTotal > 0 ? Math.min(1, paidTotal / billedTotal) : 0;
       const totalRealizedSeva = totalBookedSeva * collectionRatio;
 
+      // Track last interaction timestamp for recent sorting
+      let lastTouch = client?.createdDate || '2026-01-01';
+      clientInvoices.forEach(inv => { if (inv.date > lastTouch) lastTouch = inv.date; });
+      clientPayments.forEach(p => { if (p.date > lastTouch) lastTouch = p.date; });
+
+      // Track oldest invoice date with unpaid balance
+      let oldestPendingDate = null;
+      if (billedTotal > paidTotal && clientInvoices.length > 0) {
+        oldestPendingDate = clientInvoices[0].date;
+        clientInvoices.forEach(inv => {
+          if (inv.date < oldestPendingDate) oldestPendingDate = inv.date;
+        });
+      }
+
       return {
         grossBilledTotal,
         discountTotal,
@@ -1278,12 +1346,15 @@
         totalProfit,
         totalBookedSeva,
         totalRealizedSeva,
-        balanceDue: Math.max(0, billedTotal - paidTotal)
+        balanceDue: Math.max(0, billedTotal - paidTotal),
+        lastTouch,
+        oldestPendingDate
       };
     }
 
     function refreshAllViews() {
       renderClientsTable();
+      populateExpenseMonthsDropdown();
       renderExpensesTable();
       updateMetricBadges();
       populateClientSelects();
@@ -1325,6 +1396,30 @@
       const totalSevaSpent = (store.hanumanExpenses || []).reduce((s, e) => s + (Number(e.amount) || 0), 0);
       const netInHandSeva = Math.max(0, grandRealizedSeva - totalSevaSpent);
 
+      // Update counters (Total Clients & Live Stages)
+      if (document.getElementById('metric-total-clients')) {
+        document.getElementById('metric-total-clients').innerText = store.clients.length;
+      }
+
+      let deliveredCount = 0, receivedCount = 0, inProcessCount = 0, readyCount = 0;
+      store.invoices.forEach(inv => {
+        const st = inv.status || 'Delivered / Completed';
+        if (st.includes('Delivered')) deliveredCount++;
+        else if (st.includes('Received')) receivedCount++;
+        else if (st.includes('Process')) inProcessCount++;
+        else if (st.includes('Ready')) readyCount++;
+      });
+
+      const stagesContainer = document.getElementById('metric-project-stages');
+      if (stagesContainer) {
+        stagesContainer.innerHTML = `
+          <span class="px-2 py-0.5 rounded bg-emerald-100 text-emerald-800">Delivered: ${deliveredCount}</span>
+          <span class="px-2 py-0.5 rounded bg-amber-100 text-amber-800">Received: ${receivedCount}</span>
+          <span class="px-2 py-0.5 rounded bg-blue-100 text-blue-800">In Process: ${inProcessCount}</span>
+          ${readyCount > 0 ? `<span class="px-2 py-0.5 rounded bg-purple-100 text-purple-800">Ready: ${readyCount}</span>` : ''}
+        `;
+      }
+
       if (document.getElementById('metric-total-billed'))
         document.getElementById('metric-total-billed').innerText = `₹${grandBilled.toLocaleString('en-IN', {minimumFractionDigits: 2})}`;
       if (document.getElementById('metric-total-received'))
@@ -1347,29 +1442,75 @@
         document.getElementById('metric-hanuman-accrued').innerText = `₹${grandBookedSeva.toLocaleString('en-IN', {minimumFractionDigits: 2})}`;
     }
 
+    // CLIENTS TABLE WITH AUTO TOUCH SORT, OLDEST PENDING BLINK & PAGINATION
     function renderClientsTable() {
       const tbody = document.getElementById('clients-table-body');
       tbody.innerHTML = '';
 
       if (store.clients.length === 0) {
         tbody.innerHTML = `<tr><td colspan="7" class="p-8 text-center text-slate-400">No client accounts registered. Click "+ Register Client".</td></tr>`;
+        document.getElementById('clients-pagination-info').innerText = '0 clients total.';
         return;
       }
 
-      store.clients.forEach(c => {
+      const searchVal = (document.getElementById('client-search-input')?.value || '').trim().toLowerCase();
+      const limitVal = document.getElementById('client-row-limit')?.value || '25';
+
+      // Attach client stats and sort by latest interaction (Most Recent on Top)
+      let list = store.clients.map(c => {
         const stats = getClientSummary(c.id);
         const lastInv = store.invoices.filter(i => i.clientId === c.id || (i.clientName && i.clientName.trim().toLowerCase() === c.name.trim().toLowerCase())).slice(-1)[0];
-        const status = lastInv ? (lastInv.status || 'Delivered / Completed') : (c.status || 'Delivered / Completed');
+        const status = lastInv ? (lastInv.status || 'Delivered / Completed') : 'Delivered / Completed';
+        return { client: c, stats, status };
+      });
+
+      // Filter by quick search
+      if (searchVal) {
+        list = list.filter(item => 
+          item.client.name.toLowerCase().includes(searchVal) ||
+          item.client.phone.includes(searchVal)
+        );
+      }
+
+      // Sort: Most recently active client on top
+      list.sort((a, b) => (b.stats.lastTouch || '').localeCompare(a.stats.lastTouch || ''));
+
+      // Find client with oldest unpaid balance to highlight/blink
+      let oldestClientObj = null;
+      let oldestDate = '9999-99-99';
+      list.forEach(item => {
+        if (item.stats.balanceDue > 0 && item.stats.oldestPendingDate) {
+          if (item.stats.oldestPendingDate < oldestDate) {
+            oldestDate = item.stats.oldestPendingDate;
+            oldestClientObj = item;
+          }
+        }
+      });
+
+      const totalCount = list.length;
+      const limit = limitVal === 'ALL' ? totalCount : parseInt(limitVal, 10);
+      const displayList = list.slice(0, limit);
+      const hiddenCount = Math.max(0, totalCount - limit);
+
+      displayList.forEach(item => {
+        const c = item.client;
+        const stats = item.stats;
+        const status = item.status;
 
         let statusBadge = '<span class="text-[10px] font-extrabold px-2 py-0.5 rounded bg-emerald-100 text-emerald-800">Delivered</span>';
         if (status === 'Order Received') statusBadge = '<span class="text-[10px] font-extrabold px-2 py-0.5 rounded bg-amber-100 text-amber-800">Order Received</span>';
         else if (status === 'In Process / Production') statusBadge = '<span class="text-[10px] font-extrabold px-2 py-0.5 rounded bg-blue-100 text-blue-800">In Process</span>';
         else if (status === 'Ready for Delivery') statusBadge = '<span class="text-[10px] font-extrabold px-2 py-0.5 rounded bg-purple-100 text-purple-800">Ready</span>';
 
+        const isOldestOverdue = (oldestClientObj && oldestClientObj.client.id === c.id);
+
         const tr = document.createElement('tr');
-        tr.className = "hover:bg-slate-50 transition-colors";
+        tr.className = `transition-colors ${isOldestOverdue ? 'oldest-overdue-row' : 'hover:bg-slate-50'}`;
         tr.innerHTML = `
-          <td class="py-3.5 px-4 font-bold text-slate-900">${c.name}</td>
+          <td class="py-3.5 px-4 font-bold text-slate-900">
+            ${c.name}
+            ${isOldestOverdue ? '<span class="ml-1.5 text-[9px] font-extrabold uppercase bg-red-600 text-white px-1.5 py-0.5 rounded">Oldest Overdue</span>' : ''}
+          </td>
           <td class="py-3.5 px-4 text-slate-500 font-tabular text-xs">${c.phone || '—'}</td>
           <td class="py-3.5 px-4 text-center">${statusBadge}</td>
           <td class="py-3.5 px-4 text-right font-semibold font-tabular text-slate-800">₹${stats.billedTotal.toLocaleString('en-IN', {minimumFractionDigits: 2})}</td>
@@ -1390,8 +1531,43 @@
         `;
         tbody.appendChild(tr);
       });
+
+      document.getElementById('clients-pagination-info').innerHTML = `
+        <span>Showing <strong>${displayList.length}</strong> of <strong>${totalCount}</strong> clients</span>
+        <span>${hiddenCount > 0 ? `<strong class="text-amber-700">${hiddenCount} clients hidden.</strong> Increase limit to see all.` : 'All clients visible.'}</span>
+      `;
     }
 
+    // EXPENSES MONTH-WISE POPULATOR
+    function populateExpenseMonthsDropdown() {
+      const select = document.getElementById('expense-month-filter');
+      if (!select) return;
+      const currentVal = select.value;
+      const monthsSet = new Set();
+
+      store.officeExpenses.forEach(exp => {
+        if (exp.date) {
+          const ym = exp.date.substring(0, 7); // e.g. 2026-10
+          monthsSet.add(ym);
+        }
+      });
+
+      const sortedMonths = Array.from(monthsSet).sort().reverse();
+      select.innerHTML = '<option value="ALL">All Months</option>';
+
+      sortedMonths.forEach(ym => {
+        const [year, month] = ym.split('-');
+        const dateObj = new Date(year, parseInt(month, 10) - 1, 1);
+        const label = dateObj.toLocaleString('en-IN', { month: 'long', year: 'numeric' });
+        select.innerHTML += `<option value="${ym}">${label}</option>`;
+      });
+
+      if (currentVal && (currentVal === 'ALL' || monthsSet.has(currentVal))) {
+        select.value = currentVal;
+      }
+    }
+
+    // EXPENSES TABLE (AUTO-SORTED BY DATE & EDITABLE MODAL)
     function renderExpensesTable() {
       const tbody = document.getElementById('expenses-table-body');
       if (!tbody) return;
@@ -1399,10 +1575,34 @@
 
       if (store.officeExpenses.length === 0) {
         tbody.innerHTML = `<tr><td colspan="9" class="p-8 text-center text-slate-400">No office expenses logged yet. Click "+ Create Expense Voucher".</td></tr>`;
+        document.getElementById('expense-filtered-total').innerText = '₹0.00';
         return;
       }
 
-      store.officeExpenses.slice().reverse().forEach((exp) => {
+      // Sort strictly by Date (Latest Date on Top, auto-shift old dates down)
+      const sorted = [...store.officeExpenses].sort((a, b) => (b.date || '').localeCompare(a.date || ''));
+
+      const monthFilter = document.getElementById('expense-month-filter')?.value || 'ALL';
+      let filtered = sorted;
+
+      if (monthFilter !== 'ALL') {
+        filtered = sorted.filter(e => (e.date || '').startsWith(monthFilter));
+        const [year, month] = monthFilter.split('-');
+        const mLabel = new Date(year, parseInt(month, 10) - 1, 1).toLocaleString('en-IN', { month: 'long', year: 'numeric' });
+        document.getElementById('expense-filtered-label').innerText = `Showing Expenses for ${mLabel}`;
+      } else {
+        document.getElementById('expense-filtered-label').innerText = `Showing All Cumulative Expenses`;
+      }
+
+      const totalFilteredAmt = filtered.reduce((sum, e) => sum + (Number(e.amount) || 0), 0);
+      document.getElementById('expense-filtered-total').innerText = `₹${totalFilteredAmt.toLocaleString('en-IN', {minimumFractionDigits: 2})}`;
+
+      if (filtered.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="9" class="p-8 text-center text-slate-400">No expenses found for selected month.</td></tr>`;
+        return;
+      }
+
+      filtered.forEach((exp) => {
         const tr = document.createElement('tr');
         tr.className = "hover:bg-slate-50 transition-colors";
         tr.innerHTML = `
@@ -1415,14 +1615,47 @@
           <td class="py-3.5 px-4 text-slate-500 text-xs">${exp.mode}</td>
           <td class="py-3.5 px-4 text-right font-extrabold text-rose-600">₹${Number(exp.amount).toLocaleString('en-IN', {minimumFractionDigits: 2})}</td>
           <td class="py-3.5 px-4 text-center">
-            <button onclick="deleteOfficeExpense('${exp.id}')" class="text-slate-400 hover:text-red-500 font-bold p-1">🗑️</button>
+            <div class="inline-flex items-center gap-1.5">
+              <button onclick="editOfficeExpense('${exp.id}')" class="text-indigo-600 hover:text-indigo-800 font-bold p-1 text-xs" title="Edit Expense">✏️</button>
+              <button onclick="deleteOfficeExpense('${exp.id}')" class="text-slate-400 hover:text-red-500 font-bold p-1 text-xs" title="Delete Expense">🗑️</button>
+            </div>
           </td>
         `;
         tbody.appendChild(tr);
       });
     }
 
+    function openCreateExpenseModal() {
+      document.getElementById('expense-modal-title').innerText = "Office Expense Voucher";
+      document.getElementById('exp-edit-id').value = '';
+      document.getElementById('exp-date').value = new Date().toISOString().split('T')[0];
+      document.getElementById('exp-vendor').value = '';
+      document.getElementById('exp-phone').value = '';
+      document.getElementById('exp-desc').value = '';
+      document.getElementById('exp-amt').value = '';
+      document.getElementById('btn-save-expense').innerText = "Record & Sync";
+      openModal('expense-modal');
+    }
+
+    function editOfficeExpense(expId) {
+      const exp = store.officeExpenses.find(e => e.id === expId);
+      if (!exp) return alert('Expense record not found.');
+
+      document.getElementById('expense-modal-title').innerText = `Edit Expense: ${exp.id}`;
+      document.getElementById('exp-edit-id').value = exp.id;
+      document.getElementById('exp-date').value = exp.date;
+      document.getElementById('exp-cat').value = exp.cat || 'General';
+      document.getElementById('exp-vendor').value = exp.vendor || '';
+      document.getElementById('exp-phone').value = exp.phone || '';
+      document.getElementById('exp-desc').value = exp.desc || '';
+      document.getElementById('exp-amt').value = exp.amount || '';
+      document.getElementById('exp-mode').value = exp.mode || 'Cash';
+      document.getElementById('btn-save-expense').innerText = "Update Voucher";
+      openModal('expense-modal');
+    }
+
     function commitOfficeExpense() {
+      const editId = document.getElementById('exp-edit-id').value;
       const date = document.getElementById('exp-date').value;
       const cat = document.getElementById('exp-cat').value;
       const vendor = document.getElementById('exp-vendor').value.trim() || 'Vendor / Shop';
@@ -1435,18 +1668,22 @@
       if (!desc) return alert('Please enter what was purchased.');
       if (amt <= 0) return alert('Please enter valid expense amount.');
 
-      const nextSeq = String(store.config.nextExpSeq || (store.officeExpenses.length + 1)).padStart(3, '0');
-      const voucherId = `EXP-2026-${nextSeq}`;
-
+      const voucherId = editId || getNextExpenseNumber();
       const expObj = { id: voucherId, date, vendor, phone, cat, desc, amount: amt, mode };
-      store.officeExpenses.push(expObj);
-      store.config.nextExpSeq = (store.config.nextExpSeq || store.officeExpenses.length) + 1;
+
+      if (editId) {
+        const idx = store.officeExpenses.findIndex(e => e.id === editId);
+        if (idx >= 0) store.officeExpenses[idx] = expObj;
+      } else {
+        store.officeExpenses.push(expObj);
+      }
+
       persistData();
       refreshAllViews();
       closeModal('expense-modal');
 
       pushOnlineSync({
-        action: "SAVE_EXPENSE",
+        action: editId ? "UPDATE_EXPENSE" : "SAVE_EXPENSE",
         expense: expObj
       });
     }
@@ -1528,7 +1765,7 @@
       
       const tbody = document.getElementById('line-items-body');
       tbody.innerHTML = '';
-      addLineItem('', '', 1, '');
+      addLineItem('', 1, '');
 
       const costContainer = document.getElementById('cost-rows-container');
       costContainer.innerHTML = '';
@@ -1572,10 +1809,10 @@
       tbody.innerHTML = '';
       if (invoice.items && invoice.items.length > 0) {
         invoice.items.forEach(it => {
-          addLineItem(it.desc, it.dimension, it.qty, it.rate);
+          addLineItem(it.desc, it.qty, it.rate);
         });
       } else {
-        addLineItem('', '', 1, '');
+        addLineItem('', 1, '');
       }
 
       const costContainer = document.getElementById('cost-rows-container');
@@ -1625,21 +1862,16 @@
       viewClientInvoice(clientId, 'ALL');
     }
 
-    function addLineItem(desc = '', dim = '', qty = 1, rate = '') {
+    // LINE ITEM (PURE QUANTITY - SQUARE FEET COLUMN REMOVED)
+    function addLineItem(desc = '', qty = 1, rate = '') {
       const tbody = document.getElementById('line-items-body');
       const tr = document.createElement('tr');
       tr.innerHTML = `
         <td class="p-2">
-          <input type="text" value="${desc}" placeholder="Item (e.g. Wedding Card, Flex, Board)" class="w-full bg-white border border-slate-300 rounded-lg p-2 text-xs item-desc focus:ring-2 focus:ring-indigo-500 outline-none">
-        </td>
-        <td class="p-2 text-center">
-          <div class="flex items-center gap-1 justify-center">
-            <input type="text" value="${dim}" placeholder="10x4" class="w-16 bg-white border border-slate-300 rounded-lg p-1.5 text-xs text-center item-dim outline-none font-tabular">
-            <button type="button" onclick="openSqftModal(this)" class="px-1.5 py-1 text-[10px] font-bold bg-indigo-50 hover:bg-indigo-100 text-indigo-700 rounded border border-indigo-200">📐</button>
-          </div>
+          <input type="text" value="${desc}" placeholder="Item (e.g. Wedding Card, Flex, Board, Vinyl)" class="w-full bg-white border border-slate-300 rounded-lg p-2 text-xs item-desc focus:ring-2 focus:ring-indigo-500 outline-none">
         </td>
         <td class="p-2">
-          <input type="number" min="0.1" step="any" value="${qty}" oninput="calculateInvoiceDraftTotals()" class="w-full bg-white border border-slate-300 rounded-lg p-2 text-xs text-center item-qty outline-none font-tabular">
+          <input type="number" min="0.01" step="any" value="${qty}" oninput="calculateInvoiceDraftTotals()" class="w-full bg-white border border-slate-300 rounded-lg p-2 text-xs text-center item-qty outline-none font-tabular">
         </td>
         <td class="p-2">
           <input type="number" min="0" step="any" value="${rate}" oninput="calculateInvoiceDraftTotals()" placeholder="0.00" class="w-full bg-white border border-slate-300 rounded-lg p-2 text-xs text-right item-rate outline-none font-tabular">
@@ -1664,33 +1896,6 @@
         <button type="button" onclick="this.closest('.cost-entry-row').remove(); calculateInvoiceDraftTotals();" class="text-slate-400 hover:text-red-500 font-bold text-xs p-1">✕</button>
       `;
       container.appendChild(div);
-      calculateInvoiceDraftTotals();
-    }
-
-    function openSqftModal(btn) {
-      activeSqftTargetRow = btn.closest('tr');
-      document.getElementById('sqft-w').value = '';
-      document.getElementById('sqft-h').value = '';
-      document.getElementById('sqft-qty').value = '1';
-      openModal('sqft-modal');
-    }
-
-    function applySqftCalculation() {
-      if (!activeSqftTargetRow) return;
-      const w = parseFloat(document.getElementById('sqft-w').value) || 0;
-      const h = parseFloat(document.getElementById('sqft-h').value) || 0;
-      const pieces = parseFloat(document.getElementById('sqft-qty').value) || 1;
-
-      if (w <= 0 || h <= 0) return alert('Please enter valid width and height in feet.');
-
-      const totalSqft = (w * h * pieces).toFixed(2);
-      activeSqftTargetRow.querySelector('.item-dim').value = `${w}x${h} ft`;
-      activeSqftTargetRow.querySelector('.item-qty').value = totalSqft;
-
-      const descField = activeSqftTargetRow.querySelector('.item-desc');
-      if (!descField.value) descField.value = `Flex / Banner Printing (${w}x${h} ft, Qty: ${pieces})`;
-
-      closeModal('sqft-modal');
       calculateInvoiceDraftTotals();
     }
 
@@ -1769,11 +1974,10 @@
       const items = [];
       rows.forEach(r => {
         const desc = r.querySelector('.item-desc').value.trim();
-        const dim = r.querySelector('.item-dim').value.trim();
         const qty = parseFloat(r.querySelector('.item-qty').value) || 0;
         const rate = parseFloat(r.querySelector('.item-rate').value) || 0;
         if (desc && qty > 0) {
-          items.push({ desc, dimension: dim, qty, rate, total: qty * rate });
+          items.push({ desc, qty, rate, total: qty * rate });
         }
       });
 
@@ -1954,7 +2158,36 @@
         payment: payObj
       });
 
+      // Point 3: Offer instant WhatsApp payment receipt card/acknowledgement
+      if (confirm(`Payment of ₹${amount.toLocaleString('en-IN')} recorded successfully!\nWould you like to send WhatsApp Payment Receipt Slip to ${client ? client.name : 'Client'}?`)) {
+        sendPaymentReceiptWhatsApp(client, payObj);
+      }
+
       viewClientInvoice(clientId, targetInvId);
+    }
+
+    function sendPaymentReceiptWhatsApp(client, payment) {
+      if (!client || !client.phone) {
+        return alert('Client phone number not available for WhatsApp receipt.');
+      }
+      const stats = getClientSummary(client.id);
+      let msg = `*PAYMENT ACKNOWLEDGMENT RECEIPT — COOL ART®*\n`;
+      msg += `────────────────────────────\n`;
+      msg += `Dear *${client.name}*,\n\n`;
+      msg += `We have successfully received your payment deposit:\n`;
+      msg += `• Amount Received: *₹${payment.amount.toLocaleString('en-IN', {minimumFractionDigits: 2})}*\n`;
+      msg += `• Payment Mode: ${payment.mode}\n`;
+      msg += `• Receipt Date: ${payment.date}\n`;
+      if (payment.invoiceId) {
+        msg += `• Applied Against Bill: *${payment.invoiceId}*\n`;
+      }
+      msg += `\n*Your Current Account Standing:*\n`;
+      msg += `• Remaining Due Balance: *₹${stats.balanceDue.toLocaleString('en-IN', {minimumFractionDigits: 2})}*\n\n`;
+      msg += `_Thank you for your trusted business!_\n`;
+      msg += `*Cool Art Advertising — Atrauli (Aligarh)*\n`;
+      msg += `Helpline: +91 9458614610`;
+
+      dispatchWhatsApp(client.phone, msg);
     }
 
     function viewClientInvoice(clientId, targetInvId = null) {
@@ -2037,6 +2270,7 @@
         statusBadge.className = 'text-[10px] font-extrabold px-2 py-0.5 rounded bg-emerald-100 text-emerald-800';
       }
 
+      // RENDER PURE QUANTITY ITEMS TABLE
       const tbody = document.getElementById('doc-items-table');
       tbody.innerHTML = '';
       const displayInvoices = isSpecificBill ? [activeInv] : clientInvoices;
@@ -2050,7 +2284,7 @@
             <td class="py-2.5 px-3 text-center text-slate-400 font-tabular text-xs">${index++}</td>
             <td class="py-2.5 px-3">
               <span class="font-bold text-slate-900 block">${it.desc}</span>
-              <span class="text-[10px] text-slate-500 font-tabular">${it.dimension ? `Size: ${it.dimension} • ` : ''}Ref: ${inv.id} (${inv.date})</span>
+              <span class="text-[10px] text-slate-500 font-tabular">Ref: ${inv.id} (${inv.date})</span>
             </td>
             <td class="py-2.5 px-3 text-center text-slate-700 font-semibold font-tabular">${it.qty}</td>
             <td class="py-2.5 px-3 text-right font-tabular text-slate-700">₹${Number(it.rate).toLocaleString('en-IN', {minimumFractionDigits: 2})}</td>
@@ -2063,7 +2297,6 @@
       const logsContainer = document.getElementById('doc-payment-logs');
       logsContainer.innerHTML = '';
 
-      // DOUBLE-CHECK ONLY MATCHED CLIENT PAYMENTS
       const relevantPayments = isSpecificBill 
         ? clientPayments.filter(p => p.invoiceId === activeInv.id)
         : clientPayments;
