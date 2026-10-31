@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Cool Art | Enterprise Billing & Financial Ledger</title>
   
-  <link rel="icon" type="image/png" href="fevicon.png?v=60">
-  <link rel="apple-touch-icon" href="fevicon.png?v=60">
+  <link rel="icon" type="image/png" href="fevicon.png?v=70">
+  <link rel="apple-touch-icon" href="fevicon.png?v=70">
 
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
@@ -100,7 +100,7 @@
     <div class="stat-card max-w-sm w-full p-8 border-slate-800 bg-[#0b1329]/95 text-white shadow-2xl relative overflow-hidden text-center space-y-6">
       <div class="flex justify-center">
         <div class="w-20 h-20 rounded-2xl p-2 bg-slate-900/90 border border-slate-700/80 shadow-inner flex items-center justify-center">
-          <img src="fevicon.png?v=60" alt="Cool Art" class="w-full h-full object-contain">
+          <img src="fevicon.png?v=70" alt="Cool Art" class="w-full h-full object-contain">
         </div>
       </div>
 
@@ -135,7 +135,7 @@
           <div class="flex items-center gap-2 sm:gap-3 flex-shrink-0 cursor-pointer" onclick="switchTab('dashboard')" title="Go to Dashboard">
             <img src="cool art logo.png" alt="Cool Art" class="h-6 sm:h-8 w-auto object-contain">
             <span class="text-slate-600 font-extralight text-sm sm:text-lg">|</span>
-            <img src="fevicon.png?v=60" alt="CA Logo" class="h-6 sm:h-8 w-auto object-contain">
+            <img src="fevicon.png?v=70" alt="CA Logo" class="h-6 sm:h-8 w-auto object-contain">
 
             <div class="hidden md:block border-l border-slate-700 pl-3">
               <h1 class="text-xs font-bold uppercase tracking-wider text-slate-100">Cool Art Invoicing</h1>
@@ -194,6 +194,71 @@
       <main class="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 py-5 sm:py-7 w-full">
         <!-- 1. DASHBOARD TAB -->
         <section id="tab-sec-dashboard" class="space-y-6 no-print">
+          
+          <!-- SMART MISSION ENGINE (₹50,000 NET PROFIT TARGET BAR) -->
+          <div class="stat-card p-5 bg-gradient-to-r from-slate-900 via-indigo-950 to-slate-900 text-white border-indigo-900 shadow-xl relative overflow-hidden">
+            <div class="flex flex-wrap items-center justify-between gap-3 border-b border-slate-800 pb-3">
+              <div class="flex items-center gap-2.5">
+                <span class="text-2xl">🎯</span>
+                <div>
+                  <h3 class="text-sm sm:text-base font-extrabold uppercase tracking-wide text-slate-100">
+                    Smart Mission Engine: Target ₹50,000 Net Profit
+                  </h3>
+                  <p class="text-[11px] text-indigo-300">Live Business Intelligence & Weighted Growth Advisor</p>
+                </div>
+              </div>
+              
+              <div class="flex items-center gap-2">
+                <span class="text-[11px] text-slate-400 font-semibold">Select Month:</span>
+                <select id="mission-month-select" onchange="renderMissionEngine()" class="bg-slate-800 border border-slate-700 rounded-xl px-2.5 py-1 text-xs font-bold text-white focus:outline-none"></select>
+              </div>
+            </div>
+
+            <!-- Target Progress Bar -->
+            <div class="mt-4 space-y-2">
+              <div class="flex justify-between items-baseline text-xs font-tabular">
+                <div>
+                  <span class="text-slate-400 font-semibold">Realized Net Savings: </span>
+                  <strong class="text-emerald-400 text-base" id="mission-profit-val">₹0.00</strong>
+                  <span class="text-slate-500"> / ₹50,000</span>
+                </div>
+                <div class="text-right">
+                  <span id="mission-pct-badge" class="px-2 py-0.5 rounded-full bg-indigo-500/30 text-indigo-300 font-extrabold border border-indigo-500/40">0% Reached</span>
+                </div>
+              </div>
+
+              <div class="w-full bg-slate-800/80 rounded-full h-3.5 overflow-hidden border border-slate-700/60 p-0.5">
+                <div id="mission-progress-bar" class="bg-gradient-to-r from-indigo-500 to-emerald-400 h-full rounded-full transition-all duration-500" style="width: 0%"></div>
+              </div>
+
+              <div class="flex justify-between items-center text-[11px] text-slate-400 pt-1">
+                <span>Remaining Target: <strong class="text-rose-400" id="mission-remaining-val">₹50,000.00</strong></span>
+                <span id="mission-status-note" class="text-slate-400 font-medium">Tracking all production & office expenses</span>
+              </div>
+            </div>
+
+            <!-- Product Recommendations Engine -->
+            <div class="mt-4 pt-3.5 border-t border-slate-800/80 grid grid-cols-1 md:grid-cols-3 gap-3 text-xs">
+              <div class="bg-slate-800/60 p-2.5 rounded-xl border border-slate-700/60">
+                <span class="text-[10px] uppercase font-bold text-indigo-400 block">🏆 Top Selling Segment</span>
+                <strong class="text-white text-xs block mt-0.5" id="mission-top-prod">Flex Printing & Design</strong>
+                <span class="text-[10px] text-slate-400" id="mission-top-desc">High volume with consistent 40% margin</span>
+              </div>
+
+              <div class="bg-slate-800/60 p-2.5 rounded-xl border border-slate-700/60">
+                <span class="text-[10px] uppercase font-bold text-emerald-400 block">💡 Plan A (Hero Focus)</span>
+                <span class="text-slate-200 text-xs block mt-0.5" id="mission-plan-a">Print ~3,500 Sq.Ft Flex</span>
+                <span class="text-[10px] text-slate-400">At avg ₹5/sq.ft clean net margin</span>
+              </div>
+
+              <div class="bg-slate-800/60 p-2.5 rounded-xl border border-slate-700/60">
+                <span class="text-[10px] uppercase font-bold text-amber-400 block">⚡ Plan B (Combo Mix)</span>
+                <span class="text-slate-200 text-xs block mt-0.5" id="mission-plan-b">1,500 Sq.Ft Flex + 500 Cards + 50 Frames</span>
+                <span class="text-[10px] text-slate-400">Balanced retail + event revenue</span>
+              </div>
+            </div>
+          </div>
+
           <!-- Live Project & Client Overview Bar -->
           <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div class="stat-card p-4 flex items-center justify-between border-indigo-100 bg-indigo-50/40">
@@ -299,7 +364,7 @@
             <div class="p-4 sm:p-5 border-b border-slate-100 flex flex-wrap items-center justify-between gap-3">
               <div>
                 <h2 class="text-base font-bold text-slate-900">Commercial Client Accounts</h2>
-                <p class="text-xs text-slate-500 mt-0.5">Auto-sorted by recent interaction • Oldest pending balances highlighted</p>
+                <p class="text-xs text-slate-500 mt-0.5">Click any client row to view full invoice history • VIP & Regular badges active</p>
               </div>
 
               <div class="flex flex-wrap items-center gap-2">
@@ -397,7 +462,7 @@
                   <h2 class="text-lg sm:text-xl font-bold text-slate-900" id="form-invoice-title">Generate Commercial Invoice</h2>
                   <span id="badge-edit-mode" class="hidden text-[10px] font-extrabold uppercase px-2.5 py-0.5 bg-amber-100 text-amber-800 rounded-full border border-amber-200">Revision Mode</span>
                 </div>
-                <p class="text-xs text-slate-500 mt-1">Itemize artwork, pure quantities, flexible costing breakdown & discounts</p>
+                <p class="text-xs text-slate-500 mt-1">Itemize artwork, specifications sub-rows, pure quantities & costing breakdown</p>
               </div>
               <div class="text-right">
                 <span class="text-[10px] uppercase font-bold text-slate-400 block">Invoice Reference #</span>
@@ -427,7 +492,7 @@
               </div>
             </div>
 
-            <!-- PRODUCT LINE ITEMS (PURE QUANTITY - SQUARE FEET REMOVED) -->
+            <!-- PRODUCT LINE ITEMS WITH STATUS / REMARKS SUB-ROW -->
             <div class="space-y-3 pt-2">
               <div class="flex items-center justify-between">
                 <span class="text-xs font-bold uppercase tracking-wider text-slate-600">Product & Work Deliverables</span>
@@ -436,20 +501,7 @@
                 </button>
               </div>
 
-              <div class="overflow-x-auto border border-slate-200 rounded-xl bg-slate-50/60 p-2">
-                <table class="w-full text-left text-xs min-w-[500px]">
-                  <thead>
-                    <tr class="text-slate-500 uppercase text-[10px] font-bold border-b border-slate-200 pb-2">
-                      <th class="p-2 w-7/12">Item Description / Details</th>
-                      <th class="p-2 w-2/12 text-center">Quantity (Qty)</th>
-                      <th class="p-2 w-2/12 text-right">Unit Rate (₹)</th>
-                      <th class="p-2 w-2/12 text-right">Total (₹)</th>
-                      <th class="p-2 w-1/12 text-center"></th>
-                    </tr>
-                  </thead>
-                  <tbody id="line-items-body" class="divide-y divide-slate-200"></tbody>
-                </table>
-              </div>
+              <div id="line-items-container" class="space-y-3"></div>
             </div>
 
             <div class="flex items-center justify-between bg-slate-50 p-3.5 rounded-xl border border-slate-200">
@@ -591,6 +643,45 @@
             </div>
 
             <div class="p-4 sm:p-7 space-y-5">
+              
+              <!-- 4-STEP VISUAL ORDER TRACKER WITH ICONS -->
+              <div class="bg-slate-50 border border-slate-200 rounded-xl p-3.5">
+                <div class="flex justify-between items-center mb-2.5">
+                  <span class="text-[10px] font-bold uppercase tracking-wider text-slate-500">Live Production Workflow</span>
+                  <span class="text-[10px] text-indigo-700 font-bold" id="doc-tracker-current-label">Status: Active</span>
+                </div>
+                
+                <div class="grid grid-cols-4 gap-2 text-center relative">
+                  <!-- Step 1 -->
+                  <div class="space-y-1" id="track-step-1">
+                    <div class="w-8 h-8 mx-auto rounded-full flex items-center justify-center text-sm font-bold bg-emerald-600 text-white shadow-sm">📝</div>
+                    <span class="text-[10px] font-bold block text-slate-800">Order Booked</span>
+                    <span class="text-[9px] text-emerald-700 font-semibold block">Done</span>
+                  </div>
+
+                  <!-- Step 2 -->
+                  <div class="space-y-1" id="track-step-2">
+                    <div class="w-8 h-8 mx-auto rounded-full flex items-center justify-center text-sm font-bold bg-slate-200 text-slate-600">🎨</div>
+                    <span class="text-[10px] font-bold block text-slate-800">Design Ready</span>
+                    <span class="text-[9px] text-slate-500 block" id="track-step-2-sub">Pending</span>
+                  </div>
+
+                  <!-- Step 3 -->
+                  <div class="space-y-1" id="track-step-3">
+                    <div class="w-8 h-8 mx-auto rounded-full flex items-center justify-center text-sm font-bold bg-slate-200 text-slate-600">🖨️</div>
+                    <span class="text-[10px] font-bold block text-slate-800">Print / Craft</span>
+                    <span class="text-[9px] text-slate-500 block" id="track-step-3-sub">Pending</span>
+                  </div>
+
+                  <!-- Step 4 -->
+                  <div class="space-y-1" id="track-step-4">
+                    <div class="w-8 h-8 mx-auto rounded-full flex items-center justify-center text-sm font-bold bg-slate-200 text-slate-600">🚚</div>
+                    <span class="text-[10px] font-bold block text-slate-800">Ready / Delivered</span>
+                    <span class="text-[9px] text-slate-500 block" id="track-step-4-sub">Pending</span>
+                  </div>
+                </div>
+              </div>
+
               <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div class="bg-slate-50 p-4 rounded-xl border border-slate-200">
                   <div class="flex justify-between items-center mb-1">
@@ -625,7 +716,7 @@
                 </div>
               </div>
 
-              <!-- ITEMS TABLE: INDEPENDENT ROWS (PURE QUANTITY FORMAT) -->
+              <!-- ITEMS TABLE: INDEPENDENT ROWS WITH STATUS/REMARKS SUB-ROW -->
               <div class="border border-slate-200 rounded-xl overflow-x-auto">
                 <table class="w-full text-left text-xs border-collapse min-w-[500px]">
                   <thead>
@@ -732,7 +823,7 @@
                 </div>
               </div>
 
-              <!-- Signatory Footer (Clean Without stray text) -->
+              <!-- Signatory Footer -->
               <div class="border-t border-slate-200 pt-4 mt-1 flex justify-between items-end text-xs text-slate-500">
                 <div>
                   <p class="font-bold text-slate-700 text-[11px]">Cool Art Advertising</p>
@@ -774,6 +865,50 @@
         </div>
       </div>
     </footer>
+  </div>
+
+  <!-- MODAL: CLIENT INVOICE HISTORY (ROW CLICK EXPAND) -->
+  <div id="client-history-modal" class="hidden fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-3 sm:p-4">
+    <div class="bg-white rounded-2xl shadow-2xl border border-slate-200 max-w-2xl w-full p-5 space-y-4 max-h-[90vh] flex flex-col">
+      <div class="flex justify-between items-center pb-3 border-b border-slate-200">
+        <div>
+          <div class="flex items-center gap-2">
+            <h3 class="text-base font-extrabold text-slate-900" id="hist-modal-client-name">Client Account</h3>
+            <span id="hist-modal-badge" class="text-[10px] font-extrabold px-2 py-0.5 rounded-full"></span>
+          </div>
+          <p class="text-xs text-slate-500" id="hist-modal-client-phone"></p>
+        </div>
+        <button onclick="closeModal('client-history-modal')" class="text-slate-400 hover:text-slate-600 font-bold text-lg">✕</button>
+      </div>
+
+      <!-- Financial Snapshot Bar -->
+      <div class="grid grid-cols-3 gap-2 bg-slate-50 p-3 rounded-xl border border-slate-200 text-center font-tabular text-xs">
+        <div>
+          <span class="text-[10px] text-slate-400 font-bold uppercase block">Total Invoiced</span>
+          <strong class="text-slate-800 text-sm" id="hist-modal-billed">₹0.00</strong>
+        </div>
+        <div>
+          <span class="text-[10px] text-emerald-600 font-bold uppercase block">Total Cleared</span>
+          <strong class="text-emerald-600 text-sm" id="hist-modal-paid">₹0.00</strong>
+        </div>
+        <div>
+          <span class="text-[10px] text-rose-600 font-bold uppercase block">Balance Due</span>
+          <strong class="text-rose-600 text-sm" id="hist-modal-due">₹0.00</strong>
+        </div>
+      </div>
+
+      <!-- Invoices List -->
+      <div class="flex-1 overflow-y-auto space-y-2 border border-slate-200 rounded-xl p-2.5" id="hist-modal-invoices-list"></div>
+
+      <div class="flex justify-between items-center pt-2 border-t border-slate-100 text-xs">
+        <button onclick="promptPaymentModalFromHistory()" class="px-3 py-1.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold transition">
+          + Record Payment Deposit
+        </button>
+        <button onclick="closeModal('client-history-modal')" class="px-4 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold transition">
+          Close
+        </button>
+      </div>
+    </div>
   </div>
 
   <!-- MODAL: RECORD/EDIT PAYMENT -->
@@ -1019,6 +1154,7 @@
     };
 
     let editingInvoiceId = null;
+    let activeHistoryClientId = null;
 
     function unlockGateway() {
       const pass = document.getElementById('gw-pass').value.trim();
@@ -1049,7 +1185,7 @@
     }
 
     function loadData() {
-      const saved = localStorage.getItem('coolart_finance_master_v60');
+      const saved = localStorage.getItem('coolart_finance_master_v70');
       if (saved) {
         try { 
           const parsed = JSON.parse(saved);
@@ -1072,7 +1208,7 @@
     }
 
     function persistData() {
-      localStorage.setItem('coolart_finance_master_v60', JSON.stringify(store));
+      localStorage.setItem('coolart_finance_master_v70', JSON.stringify(store));
     }
 
     // ACCURATE MAX INVOICE NUMBER SCANNER
@@ -1176,6 +1312,7 @@
           const invId = String(inv.Invoice_ID);
           const lineItems = rawItems.filter(it => String(it.Invoice_ID) === invId).map(it => ({
             desc: String(it.Description || 'Deliverable'),
+            remarks: String(it.Remarks || it.Dimension || ''),
             qty: Number(it.Quantity) || 1,
             rate: Number(it.Unit_Rate) || 0,
             total: Number(it.Total_Amount) || 0
@@ -1189,7 +1326,7 @@
             clientName: String(inv.Client_Name || ''),
             date: String(inv.Date || '').split('T')[0],
             status: String(inv.Work_Status || 'Delivered / Completed'),
-            items: lineItems.length > 0 ? lineItems : [{ desc: 'Work Order', qty: 1, rate: Number(inv.Net_Total)||0, total: Number(inv.Net_Total)||0 }],
+            items: lineItems.length > 0 ? lineItems : [{ desc: 'Work Order', remarks: '', qty: 1, rate: Number(inv.Net_Total)||0, total: Number(inv.Net_Total)||0 }],
             grossTotal: Number(inv.Gross_Amount) || Number(inv.Net_Total) || 0,
             discount: Number(inv.Discount_Amount) || 0,
             gstAmount: Number(inv.GST_Amount) || 0,
@@ -1322,18 +1459,25 @@
       const collectionRatio = billedTotal > 0 ? Math.min(1, paidTotal / billedTotal) : 0;
       const totalRealizedSeva = totalBookedSeva * collectionRatio;
 
-      // Track last interaction timestamp for recent sorting
       let lastTouch = client?.createdDate || '2026-01-01';
       clientInvoices.forEach(inv => { if (inv.date > lastTouch) lastTouch = inv.date; });
       clientPayments.forEach(p => { if (p.date > lastTouch) lastTouch = p.date; });
 
-      // Track oldest invoice date with unpaid balance
       let oldestPendingDate = null;
       if (billedTotal > paidTotal && clientInvoices.length > 0) {
         oldestPendingDate = clientInvoices[0].date;
         clientInvoices.forEach(inv => {
           if (inv.date < oldestPendingDate) oldestPendingDate = inv.date;
         });
+      }
+
+      // VIP vs Regular tagging
+      let clientBadge = 'regular';
+      if (billedTotal >= 5000 && paidTotal >= billedTotal * 0.9) {
+        clientBadge = 'vip';
+      } else if (billedTotal > paidTotal && oldestPendingDate) {
+        const daysDiff = Math.floor((new Date() - new Date(oldestPendingDate)) / (1000 * 60 * 60 * 24));
+        if (daysDiff > 20) clientBadge = 'delay';
       }
 
       return {
@@ -1348,16 +1492,97 @@
         totalRealizedSeva,
         balanceDue: Math.max(0, billedTotal - paidTotal),
         lastTouch,
-        oldestPendingDate
+        oldestPendingDate,
+        clientBadge,
+        invoices: clientInvoices
       };
     }
 
     function refreshAllViews() {
+      populateMissionMonthsDropdown();
+      renderMissionEngine();
       renderClientsTable();
       populateExpenseMonthsDropdown();
       renderExpensesTable();
       updateMetricBadges();
       populateClientSelects();
+    }
+
+    // SMART MISSION ENGINE (₹50,000 NET PROFIT & WEIGHTED INTELLIGENCE)
+    function populateMissionMonthsDropdown() {
+      const select = document.getElementById('mission-month-select');
+      if (!select) return;
+      const currentVal = select.value;
+      const monthsSet = new Set();
+
+      const todayYM = new Date().toISOString().substring(0, 7);
+      monthsSet.add(todayYM);
+
+      store.invoices.forEach(inv => {
+        if (inv.date) monthsSet.add(inv.date.substring(0, 7));
+      });
+
+      const sorted = Array.from(monthsSet).sort().reverse();
+      select.innerHTML = '';
+      sorted.forEach(ym => {
+        const [year, month] = ym.split('-');
+        const dateObj = new Date(year, parseInt(month, 10) - 1, 1);
+        const label = dateObj.toLocaleString('en-IN', { month: 'long', year: 'numeric' });
+        select.innerHTML += `<option value="${ym}">${label} ${ym === todayYM ? '(Active)' : '(Archived)'}</option>`;
+      });
+
+      if (currentVal && monthsSet.has(currentVal)) {
+        select.value = currentVal;
+      } else {
+        select.value = todayYM;
+      }
+    }
+
+    function renderMissionEngine() {
+      const select = document.getElementById('mission-month-select');
+      const targetYM = select ? select.value : new Date().toISOString().substring(0, 7);
+      const targetGoal = 50000;
+
+      // Filter month invoices and expenses
+      const mInvoices = store.invoices.filter(i => (i.date || '').startsWith(targetYM));
+      const mExpenses = store.officeExpenses.filter(e => (e.date || '').startsWith(targetYM));
+
+      const bookedJobProfit = mInvoices.reduce((s, i) => s + (Number(i.netProfit) || 0), 0);
+      const mOfficeExp = mExpenses.reduce((s, e) => s + (Number(e.amount) || 0), 0);
+      const netProfitAchieved = Math.max(0, bookedJobProfit - mOfficeExp);
+
+      const pct = Math.min(100, (netProfitAchieved / targetGoal) * 100);
+      const remaining = Math.max(0, targetGoal - netProfitAchieved);
+
+      document.getElementById('mission-profit-val').innerText = `₹${netProfitAchieved.toLocaleString('en-IN', {minimumFractionDigits: 2})}`;
+      document.getElementById('mission-remaining-val').innerText = `₹${remaining.toLocaleString('en-IN', {minimumFractionDigits: 2})} to go`;
+      document.getElementById('mission-pct-badge').innerText = `${pct.toFixed(1)}% Reached`;
+      document.getElementById('mission-progress-bar').style.width = `${pct}%`;
+
+      // Weighted product analysis
+      let flexVolume = 0, cardCount = 0, shootCount = 0, frameCount = 0;
+      mInvoices.forEach(inv => {
+        (inv.items || []).forEach(it => {
+          const d = (it.desc || '').toLowerCase();
+          if (d.includes('flex')) flexVolume += (Number(it.qty) || 1) * 20;
+          else if (d.includes('card')) cardCount += (Number(it.qty) || 1);
+          else if (d.includes('photo') || d.includes('frame')) frameCount += (Number(it.qty) || 1);
+          else if (d.includes('shoot')) shootCount += 1;
+        });
+      });
+
+      if (remaining > 0) {
+        const neededFlexSqft = Math.ceil(remaining / 5);
+        document.getElementById('mission-plan-a').innerText = `Print ~${neededFlexSqft.toLocaleString('en-IN')} Sq.Ft Flex Banner`;
+        
+        const comboFlex = Math.ceil((remaining * 0.5) / 5);
+        const comboCards = Math.ceil((remaining * 0.3) / 2.6);
+        const comboFrames = Math.ceil((remaining * 0.2) / 15);
+        document.getElementById('mission-plan-b').innerText = `${comboFlex} Sq.Ft Flex + ${comboCards} Cards + ${comboFrames} Frames`;
+      } else {
+        document.getElementById('mission-plan-a').innerText = `🎯 Target Achieved! Surpassed ₹50,000`;
+        document.getElementById('mission-plan-b').innerText = `Outstanding growth recorded this month!`;
+      }
     }
 
     function updateMetricBadges() {
@@ -1396,7 +1621,6 @@
       const totalSevaSpent = (store.hanumanExpenses || []).reduce((s, e) => s + (Number(e.amount) || 0), 0);
       const netInHandSeva = Math.max(0, grandRealizedSeva - totalSevaSpent);
 
-      // Update counters (Total Clients & Live Stages)
       if (document.getElementById('metric-total-clients')) {
         document.getElementById('metric-total-clients').innerText = store.clients.length;
       }
@@ -1442,7 +1666,7 @@
         document.getElementById('metric-hanuman-accrued').innerText = `₹${grandBookedSeva.toLocaleString('en-IN', {minimumFractionDigits: 2})}`;
     }
 
-    // CLIENTS TABLE WITH AUTO TOUCH SORT, OLDEST PENDING BLINK & PAGINATION
+    // CLIENTS TABLE WITH ROW CLICK EXPAND & VIP BADGES
     function renderClientsTable() {
       const tbody = document.getElementById('clients-table-body');
       tbody.innerHTML = '';
@@ -1456,7 +1680,6 @@
       const searchVal = (document.getElementById('client-search-input')?.value || '').trim().toLowerCase();
       const limitVal = document.getElementById('client-row-limit')?.value || '25';
 
-      // Attach client stats and sort by latest interaction (Most Recent on Top)
       let list = store.clients.map(c => {
         const stats = getClientSummary(c.id);
         const lastInv = store.invoices.filter(i => i.clientId === c.id || (i.clientName && i.clientName.trim().toLowerCase() === c.name.trim().toLowerCase())).slice(-1)[0];
@@ -1464,7 +1687,6 @@
         return { client: c, stats, status };
       });
 
-      // Filter by quick search
       if (searchVal) {
         list = list.filter(item => 
           item.client.name.toLowerCase().includes(searchVal) ||
@@ -1472,10 +1694,8 @@
         );
       }
 
-      // Sort: Most recently active client on top
       list.sort((a, b) => (b.stats.lastTouch || '').localeCompare(a.stats.lastTouch || ''));
 
-      // Find client with oldest unpaid balance to highlight/blink
       let oldestClientObj = null;
       let oldestDate = '9999-99-99';
       list.forEach(item => {
@@ -1502,14 +1722,26 @@
         else if (status === 'In Process / Production') statusBadge = '<span class="text-[10px] font-extrabold px-2 py-0.5 rounded bg-blue-100 text-blue-800">In Process</span>';
         else if (status === 'Ready for Delivery') statusBadge = '<span class="text-[10px] font-extrabold px-2 py-0.5 rounded bg-purple-100 text-purple-800">Ready</span>';
 
+        let badgeTag = '<span class="ml-1.5 text-[9px] font-extrabold uppercase px-1.5 py-0.5 rounded bg-emerald-100 text-emerald-800 border border-emerald-200">⭐ Regular</span>';
+        if (stats.clientBadge === 'vip') {
+          badgeTag = '<span class="ml-1.5 text-[9px] font-extrabold uppercase px-1.5 py-0.5 rounded bg-purple-100 text-purple-800 border border-purple-200">💎 VIP</span>';
+        } else if (stats.clientBadge === 'delay') {
+          badgeTag = '<span class="ml-1.5 text-[9px] font-extrabold uppercase px-1.5 py-0.5 rounded bg-rose-100 text-rose-800 border border-rose-200">⚠️ Overdue</span>';
+        }
+
         const isOldestOverdue = (oldestClientObj && oldestClientObj.client.id === c.id);
 
         const tr = document.createElement('tr');
-        tr.className = `transition-colors ${isOldestOverdue ? 'oldest-overdue-row' : 'hover:bg-slate-50'}`;
+        tr.className = `cursor-pointer transition-colors ${isOldestOverdue ? 'oldest-overdue-row' : 'hover:bg-slate-50'}`;
+        tr.onclick = (e) => {
+          if (!e.target.closest('button')) {
+            openClientHistoryModal(c.id);
+          }
+        };
+
         tr.innerHTML = `
           <td class="py-3.5 px-4 font-bold text-slate-900">
-            ${c.name}
-            ${isOldestOverdue ? '<span class="ml-1.5 text-[9px] font-extrabold uppercase bg-red-600 text-white px-1.5 py-0.5 rounded">Oldest Overdue</span>' : ''}
+            ${c.name} ${badgeTag}
           </td>
           <td class="py-3.5 px-4 text-slate-500 font-tabular text-xs">${c.phone || '—'}</td>
           <td class="py-3.5 px-4 text-center">${statusBadge}</td>
@@ -1519,7 +1751,7 @@
             ₹${stats.balanceDue.toLocaleString('en-IN', {minimumFractionDigits: 2})}
           </td>
           <td class="py-3.5 px-4 text-center">
-            <div class="inline-flex items-center gap-1.5">
+            <div class="inline-flex items-center gap-1.5" onclick="event.stopPropagation()">
               <button onclick="promptPaymentModal('${c.id}')" class="px-2.5 py-1 text-xs font-bold text-emerald-700 bg-emerald-50 hover:bg-emerald-100 rounded-lg transition border border-emerald-200">
                 + Payment
               </button>
@@ -1538,6 +1770,73 @@
       `;
     }
 
+    // CLIENT INVOICE HISTORY MODAL (EXPAND ROW ACTION)
+    function openClientHistoryModal(clientId) {
+      activeHistoryClientId = clientId;
+      const client = store.clients.find(c => c.id === clientId);
+      if (!client) return;
+
+      const stats = getClientSummary(clientId);
+      document.getElementById('hist-modal-client-name').innerText = client.name;
+      document.getElementById('hist-modal-client-phone').innerText = `Phone: ${client.phone || 'On Record'} • Address: ${client.address || 'Registered'}`;
+      
+      const badge = document.getElementById('hist-modal-badge');
+      if (stats.clientBadge === 'vip') {
+        badge.className = "text-[10px] font-extrabold px-2 py-0.5 rounded-full bg-purple-100 text-purple-800 border border-purple-200";
+        badge.innerText = "💎 VIP Client";
+      } else {
+        badge.className = "text-[10px] font-extrabold px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 border border-emerald-200";
+        badge.innerText = "⭐ Regular Client";
+      }
+
+      document.getElementById('hist-modal-billed').innerText = `₹${stats.billedTotal.toLocaleString('en-IN', {minimumFractionDigits: 2})}`;
+      document.getElementById('hist-modal-paid').innerText = `₹${stats.paidTotal.toLocaleString('en-IN', {minimumFractionDigits: 2})}`;
+      document.getElementById('hist-modal-due').innerText = `₹${stats.balanceDue.toLocaleString('en-IN', {minimumFractionDigits: 2})}`;
+
+      const listContainer = document.getElementById('hist-modal-invoices-list');
+      listContainer.innerHTML = '';
+
+      if (stats.invoices.length === 0) {
+        listContainer.innerHTML = `<p class="p-4 text-center text-slate-400 italic text-xs">No invoices generated for this client yet.</p>`;
+      } else {
+        stats.invoices.forEach(inv => {
+          const invSpec = getInvoiceSpecificDetails(inv.id);
+          const div = document.createElement('div');
+          div.className = "flex justify-between items-center bg-slate-50 hover:bg-slate-100/80 p-3 rounded-xl border border-slate-200 transition";
+          div.innerHTML = `
+            <div>
+              <div class="flex items-center gap-2">
+                <span class="font-black text-slate-800 text-xs">${inv.id}</span>
+                <span class="text-[10px] font-bold text-slate-400">${inv.date}</span>
+                <span class="text-[9px] font-extrabold px-1.5 py-0.5 rounded bg-slate-200 text-slate-700">${inv.status}</span>
+              </div>
+              <p class="text-[11px] text-slate-500 mt-0.5">${(inv.items || []).map(i => i.desc).join(', ')}</p>
+            </div>
+            <div class="flex items-center gap-3 font-tabular">
+              <div class="text-right">
+                <span class="font-bold text-slate-900 text-xs block">₹${inv.total.toLocaleString('en-IN', {minimumFractionDigits: 2})}</span>
+                <span class="text-[10px] font-extrabold ${invSpec.due > 0 ? 'text-rose-600' : 'text-emerald-600'}">
+                  ${invSpec.due > 0 ? `Due: ₹${invSpec.due.toLocaleString('en-IN')}` : 'Cleared'}
+                </span>
+              </div>
+              <button onclick="closeModal('client-history-modal'); viewClientInvoice('${clientId}', '${inv.id}')" class="px-2.5 py-1 text-xs font-bold text-indigo-700 bg-indigo-50 hover:bg-indigo-100 rounded-lg border border-indigo-200 transition">
+                📄 View
+              </button>
+            </div>
+          `;
+          listContainer.appendChild(div);
+        });
+      }
+
+      openModal('client-history-modal');
+    }
+
+    function promptPaymentModalFromHistory() {
+      if (!activeHistoryClientId) return;
+      closeModal('client-history-modal');
+      promptPaymentModal(activeHistoryClientId);
+    }
+
     // EXPENSES MONTH-WISE POPULATOR
     function populateExpenseMonthsDropdown() {
       const select = document.getElementById('expense-month-filter');
@@ -1547,7 +1846,7 @@
 
       store.officeExpenses.forEach(exp => {
         if (exp.date) {
-          const ym = exp.date.substring(0, 7); // e.g. 2026-10
+          const ym = exp.date.substring(0, 7);
           monthsSet.add(ym);
         }
       });
@@ -1579,9 +1878,7 @@
         return;
       }
 
-      // Sort strictly by Date (Latest Date on Top, auto-shift old dates down)
       const sorted = [...store.officeExpenses].sort((a, b) => (b.date || '').localeCompare(a.date || ''));
-
       const monthFilter = document.getElementById('expense-month-filter')?.value || 'ALL';
       let filtered = sorted;
 
@@ -1763,9 +2060,9 @@
       document.getElementById('inv-date').value = new Date().toISOString().split('T')[0];
       document.getElementById('inv-status').value = "Order Received";
       
-      const tbody = document.getElementById('line-items-body');
-      tbody.innerHTML = '';
-      addLineItem('', 1, '');
+      const container = document.getElementById('line-items-container');
+      container.innerHTML = '';
+      addLineItem('', '', 1, '');
 
       const costContainer = document.getElementById('cost-rows-container');
       costContainer.innerHTML = '';
@@ -1805,14 +2102,14 @@
       document.getElementById('inv-date').value = invoice.date;
       document.getElementById('inv-status').value = invoice.status || 'Order Received';
 
-      const tbody = document.getElementById('line-items-body');
-      tbody.innerHTML = '';
+      const container = document.getElementById('line-items-container');
+      container.innerHTML = '';
       if (invoice.items && invoice.items.length > 0) {
         invoice.items.forEach(it => {
-          addLineItem(it.desc, it.qty, it.rate);
+          addLineItem(it.desc, it.remarks, it.qty, it.rate);
         });
       } else {
-        addLineItem('', 1, '');
+        addLineItem('', '', 1, '');
       }
 
       const costContainer = document.getElementById('cost-rows-container');
@@ -1862,24 +2159,37 @@
       viewClientInvoice(clientId, 'ALL');
     }
 
-    // LINE ITEM (PURE QUANTITY - SQUARE FEET COLUMN REMOVED)
-    function addLineItem(desc = '', qty = 1, rate = '') {
-      const tbody = document.getElementById('line-items-body');
-      const tr = document.createElement('tr');
-      tr.innerHTML = `
-        <td class="p-2">
-          <input type="text" value="${desc}" placeholder="Item (e.g. Wedding Card, Flex, Board, Vinyl)" class="w-full bg-white border border-slate-300 rounded-lg p-2 text-xs item-desc focus:ring-2 focus:ring-indigo-500 outline-none">
-        </td>
-        <td class="p-2">
-          <input type="number" min="0.01" step="any" value="${qty}" oninput="calculateInvoiceDraftTotals()" class="w-full bg-white border border-slate-300 rounded-lg p-2 text-xs text-center item-qty outline-none font-tabular">
-        </td>
-        <td class="p-2">
-          <input type="number" min="0" step="any" value="${rate}" oninput="calculateInvoiceDraftTotals()" placeholder="0.00" class="w-full bg-white border border-slate-300 rounded-lg p-2 text-xs text-right item-rate outline-none font-tabular">
-        </td>
-        <td class="p-2 text-right font-tabular font-bold text-slate-800 item-amount">₹0.00</td>
-        <td class="p-2 text-center"><button type="button" onclick="this.closest('tr').remove(); calculateInvoiceDraftTotals();" class="text-slate-400 hover:text-red-500 font-bold">✕</button></td>
+    // LINE ITEM WITH INTEGRATED STATUS / REMARKS SUB-ROW
+    function addLineItem(desc = '', remarks = '', qty = 1, rate = '') {
+      const container = document.getElementById('line-items-container');
+      const card = document.createElement('div');
+      card.className = "bg-slate-50 border border-slate-200 rounded-xl p-3 space-y-2 item-entry-card";
+      card.innerHTML = `
+        <div class="grid grid-cols-12 gap-2 items-center">
+          <div class="col-span-12 sm:col-span-6">
+            <input type="text" value="${desc}" placeholder="Item Description (e.g. Wedding Card, Flex, Board)" class="w-full bg-white border border-slate-300 rounded-lg p-2 text-xs item-desc focus:ring-2 focus:ring-indigo-500 outline-none font-semibold">
+          </div>
+          <div class="col-span-4 sm:col-span-2">
+            <input type="number" min="0.01" step="any" value="${qty}" oninput="calculateInvoiceDraftTotals()" placeholder="Qty" class="w-full bg-white border border-slate-300 rounded-lg p-2 text-xs text-center item-qty outline-none font-tabular">
+          </div>
+          <div class="col-span-4 sm:col-span-2">
+            <input type="number" min="0" step="any" value="${rate}" oninput="calculateInvoiceDraftTotals()" placeholder="Rate (₹)" class="w-full bg-white border border-slate-300 rounded-lg p-2 text-xs text-right item-rate outline-none font-tabular">
+          </div>
+          <div class="col-span-3 sm:col-span-1 text-right font-tabular font-bold text-slate-800 item-amount text-xs">
+            ₹0.00
+          </div>
+          <div class="col-span-1 sm:col-span-1 text-center">
+            <button type="button" onclick="this.closest('.item-entry-card').remove(); calculateInvoiceDraftTotals();" class="text-slate-400 hover:text-red-500 font-bold text-sm">✕</button>
+          </div>
+        </div>
+
+        <!-- Dedicated Status / Remarks Sub-row -->
+        <div class="flex items-center gap-2 pt-1 border-t border-slate-200/60">
+          <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider flex-shrink-0">↳ Remarks / Specs:</span>
+          <input type="text" value="${remarks}" placeholder="e.g. Matt Lamination, 250 GSM Card, Approved Sample, Iron Frame Fabrication" class="flex-1 bg-white/80 border border-slate-200 rounded-lg px-2.5 py-1 text-[11px] text-slate-700 outline-none focus:ring-1 focus:ring-indigo-400 item-remarks">
+        </div>
       `;
-      tbody.appendChild(tr);
+      container.appendChild(card);
       calculateInvoiceDraftTotals();
     }
 
@@ -1900,15 +2210,15 @@
     }
 
     function calculateInvoiceDraftTotals() {
-      const rows = document.querySelectorAll('#line-items-body tr');
+      const cards = document.querySelectorAll('#line-items-container .item-entry-card');
       let subtotal = 0;
 
-      rows.forEach(row => {
-        const qty = parseFloat(row.querySelector('.item-qty').value) || 0;
-        const rate = parseFloat(row.querySelector('.item-rate').value) || 0;
+      cards.forEach(card => {
+        const qty = parseFloat(card.querySelector('.item-qty').value) || 0;
+        const rate = parseFloat(card.querySelector('.item-rate').value) || 0;
         const total = qty * rate;
         subtotal += total;
-        row.querySelector('.item-amount').innerText = `₹${total.toLocaleString('en-IN', {minimumFractionDigits: 2})}`;
+        card.querySelector('.item-amount').innerText = `₹${total.toLocaleString('en-IN', {minimumFractionDigits: 2})}`;
       });
 
       const discountAmt = Math.min(subtotal, parseFloat(document.getElementById('inv-discount-amt').value) || 0);
@@ -1970,14 +2280,15 @@
       if (!date) return alert('Please choose invoice date.');
 
       const client = store.clients.find(c => c.id === clientId);
-      const rows = document.querySelectorAll('#line-items-body tr');
+      const cards = document.querySelectorAll('#line-items-container .item-entry-card');
       const items = [];
-      rows.forEach(r => {
-        const desc = r.querySelector('.item-desc').value.trim();
-        const qty = parseFloat(r.querySelector('.item-qty').value) || 0;
-        const rate = parseFloat(r.querySelector('.item-rate').value) || 0;
+      cards.forEach(card => {
+        const desc = card.querySelector('.item-desc').value.trim();
+        const remarks = card.querySelector('.item-remarks').value.trim();
+        const qty = parseFloat(card.querySelector('.item-qty').value) || 0;
+        const rate = parseFloat(card.querySelector('.item-rate').value) || 0;
         if (desc && qty > 0) {
-          items.push({ desc, qty, rate, total: qty * rate });
+          items.push({ desc, remarks, qty, rate, total: qty * rate });
         }
       });
 
@@ -2158,7 +2469,6 @@
         payment: payObj
       });
 
-      // Point 3: Offer instant WhatsApp payment receipt card/acknowledgement
       if (confirm(`Payment of ₹${amount.toLocaleString('en-IN')} recorded successfully!\nWould you like to send WhatsApp Payment Receipt Slip to ${client ? client.name : 'Client'}?`)) {
         sendPaymentReceiptWhatsApp(client, payObj);
       }
@@ -2270,7 +2580,10 @@
         statusBadge.className = 'text-[10px] font-extrabold px-2 py-0.5 rounded bg-emerald-100 text-emerald-800';
       }
 
-      // RENDER PURE QUANTITY ITEMS TABLE
+      // UPDATE VISUAL 4-STEP WORKFLOW TRACKER
+      updateVisualTracker(curStatus);
+
+      // RENDER ITEMS WITH STATUS/REMARKS SUB-ROW
       const tbody = document.getElementById('doc-items-table');
       tbody.innerHTML = '';
       const displayInvoices = isSpecificBill ? [activeInv] : clientInvoices;
@@ -2281,14 +2594,15 @@
           const tr = document.createElement('tr');
           tr.className = "hover:bg-slate-50";
           tr.innerHTML = `
-            <td class="py-2.5 px-3 text-center text-slate-400 font-tabular text-xs">${index++}</td>
+            <td class="py-2.5 px-3 text-center text-slate-400 font-tabular text-xs align-top">${index++}</td>
             <td class="py-2.5 px-3">
               <span class="font-bold text-slate-900 block">${it.desc}</span>
-              <span class="text-[10px] text-slate-500 font-tabular">Ref: ${inv.id} (${inv.date})</span>
+              ${it.remarks ? `<span class="text-[10px] text-slate-500 italic block mt-0.5 font-medium">↳ Remarks: ${it.remarks}</span>` : ''}
+              <span class="text-[9px] text-slate-400 font-tabular block mt-0.5">Ref: ${inv.id} (${inv.date})</span>
             </td>
-            <td class="py-2.5 px-3 text-center text-slate-700 font-semibold font-tabular">${it.qty}</td>
-            <td class="py-2.5 px-3 text-right font-tabular text-slate-700">₹${Number(it.rate).toLocaleString('en-IN', {minimumFractionDigits: 2})}</td>
-            <td class="py-2.5 px-3 text-right font-tabular font-bold text-slate-900">₹${Number(it.total).toLocaleString('en-IN', {minimumFractionDigits: 2})}</td>
+            <td class="py-2.5 px-3 text-center text-slate-700 font-semibold font-tabular align-top">${it.qty}</td>
+            <td class="py-2.5 px-3 text-right font-tabular text-slate-700 align-top">₹${Number(it.rate).toLocaleString('en-IN', {minimumFractionDigits: 2})}</td>
+            <td class="py-2.5 px-3 text-right font-tabular font-bold text-slate-900 align-top">₹${Number(it.total).toLocaleString('en-IN', {minimumFractionDigits: 2})}</td>
           `;
           tbody.appendChild(tr);
         });
@@ -2378,6 +2692,45 @@
       const upiUri = `upi://pay?pa=${encodeURIComponent(upiId)}&pn=CoolArtAdvertising&am=${payableAmt.toFixed(2)}&cu=INR&tn=Invoice_${isSpecificBill ? activeInv.id : 'Statement'}`;
       const qrApiUrl = `https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=${encodeURIComponent(upiUri)}`;
       document.getElementById('doc-upi-qr').src = qrApiUrl;
+    }
+
+    function updateVisualTracker(status) {
+      const lbl = document.getElementById('doc-tracker-current-label');
+      lbl.innerText = `Current Stage: ${status}`;
+
+      const s1 = document.getElementById('track-step-1');
+      const s2 = document.getElementById('track-step-2');
+      const s3 = document.getElementById('track-step-3');
+      const s4 = document.getElementById('track-step-4');
+
+      const s2Sub = document.getElementById('track-step-2-sub');
+      const s3Sub = document.getElementById('track-step-3-sub');
+      const s4Sub = document.getElementById('track-step-4-sub');
+
+      // Reset
+      [s2, s3, s4].forEach(el => el.querySelector('div').className = "w-8 h-8 mx-auto rounded-full flex items-center justify-center text-sm font-bold bg-slate-200 text-slate-600");
+      s2Sub.innerText = "Pending"; s3Sub.innerText = "Pending"; s4Sub.innerText = "Pending";
+
+      if (status === 'Order Received') {
+        s2.querySelector('div').className = "w-8 h-8 mx-auto rounded-full flex items-center justify-center text-sm font-bold bg-amber-500 text-white animate-pulse";
+        s2Sub.innerText = "Designing...";
+      } else if (status === 'In Process / Production') {
+        s2.querySelector('div').className = "w-8 h-8 mx-auto rounded-full flex items-center justify-center text-sm font-bold bg-emerald-600 text-white";
+        s2Sub.innerText = "Done";
+        s3.querySelector('div').className = "w-8 h-8 mx-auto rounded-full flex items-center justify-center text-sm font-bold bg-blue-600 text-white animate-pulse";
+        s3Sub.innerText = "Printing...";
+      } else if (status === 'Ready for Delivery') {
+        s2.querySelector('div').className = "w-8 h-8 mx-auto rounded-full flex items-center justify-center text-sm font-bold bg-emerald-600 text-white";
+        s2Sub.innerText = "Done";
+        s3.querySelector('div').className = "w-8 h-8 mx-auto rounded-full flex items-center justify-center text-sm font-bold bg-emerald-600 text-white";
+        s3Sub.innerText = "Done";
+        s4.querySelector('div').className = "w-8 h-8 mx-auto rounded-full flex items-center justify-center text-sm font-bold bg-purple-600 text-white animate-pulse";
+        s4Sub.innerText = "Ready to Pickup";
+      } else {
+        // Delivered / Completed
+        [s2, s3, s4].forEach(el => el.querySelector('div').className = "w-8 h-8 mx-auto rounded-full flex items-center justify-center text-sm font-bold bg-emerald-600 text-white");
+        s2Sub.innerText = "Done"; s3Sub.innerText = "Done"; s4Sub.innerText = "Delivered";
+      }
     }
 
     function renderHanumanModal() {
