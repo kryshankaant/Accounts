@@ -2,11 +2,11 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>Cool Art | Enterprise Billing & Financial Ledger</title>
   
-  <link rel="icon" type="image/png" href="fevicon.png?v=70">
-  <link rel="apple-touch-icon" href="fevicon.png?v=70">
+  <link rel="icon" type="image/png" href="fevicon.png?v=80">
+  <link rel="apple-touch-icon" href="fevicon.png?v=80">
 
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
@@ -17,13 +17,13 @@
 
   <style>
     * {
-      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, sans-serif !important;
       box-sizing: border-box;
-      letter-spacing: -0.01em;
+      letter-spacing: -0.015em;
     }
     body {
-      background: radial-gradient(ellipse at 10% 0%, rgba(219, 234, 254, 0.7), transparent 40%),
-                  radial-gradient(ellipse at 90% 10%, rgba(209, 250, 229, 0.6), transparent 35%),
+      background: radial-gradient(ellipse at 10% 0%, rgba(219, 234, 254, 0.6), transparent 45%),
+                  radial-gradient(ellipse at 90% 10%, rgba(209, 250, 229, 0.5), transparent 40%),
                   #f8fafc;
       color: #0f172a;
       min-height: 100vh;
@@ -34,24 +34,43 @@
       position: fixed;
       inset: 0;
       pointer-events: none;
-      opacity: 0.15;
+      opacity: 0.12;
       background-image: radial-gradient(#94a3b8 0.75px, transparent 0.75px);
-      background-size: 18px 18px;
+      background-size: 20px 20px;
       z-index: -1;
     }
     .font-tabular {
       font-variant-numeric: tabular-nums;
     }
     .stat-card {
-      border: 1px solid #e2e8f0;
-      border-radius: 18px;
-      background: rgba(255, 255, 255, 0.95);
-      box-shadow: 0 10px 30px -5px rgba(15, 23, 42, 0.05);
-      transition: all 0.2s ease;
+      border: 1px solid rgba(226, 232, 240, 0.8);
+      border-radius: 20px;
+      background: rgba(255, 255, 255, 0.88);
+      backdrop-filter: blur(12px);
+      box-shadow: 0 4px 20px -2px rgba(15, 23, 42, 0.04);
+      transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
     }
     .stat-card:hover {
       transform: translateY(-2px);
-      box-shadow: 0 18px 35px -8px rgba(15, 23, 42, 0.1);
+      box-shadow: 0 12px 28px -4px rgba(15, 23, 42, 0.08);
+      border-color: rgba(203, 213, 225, 0.9);
+    }
+    .apple-glass-btn {
+      background: rgba(255, 255, 255, 0.08);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .apple-glass-btn:hover {
+      background: rgba(255, 255, 255, 0.16);
+      border-color: rgba(255, 255, 255, 0.22);
+      transform: translateY(-1px);
+    }
+    .apple-glass-btn:active {
+      transform: scale(0.96);
+      background: rgba(255, 255, 255, 0.05);
     }
     .invoice-contrast-header {
       background-color: #0b1329 !important;
@@ -93,14 +112,14 @@
     }
   </style>
 </head>
-<body class="min-h-screen flex flex-col justify-between">
+<body class="min-h-screen flex flex-col justify-between antialiased">
 
   <!-- SECURITY GATEWAY -->
   <div id="security-gateway" class="fixed inset-0 z-50 bg-[#070d1e] flex items-center justify-center p-4">
     <div class="stat-card max-w-sm w-full p-8 border-slate-800 bg-[#0b1329]/95 text-white shadow-2xl relative overflow-hidden text-center space-y-6">
       <div class="flex justify-center">
         <div class="w-20 h-20 rounded-2xl p-2 bg-slate-900/90 border border-slate-700/80 shadow-inner flex items-center justify-center">
-          <img src="fevicon.png?v=70" alt="Cool Art" class="w-full h-full object-contain">
+          <img src="fevicon.png?v=80" alt="Cool Art" class="w-full h-full object-contain rounded-xl">
         </div>
       </div>
 
@@ -119,7 +138,8 @@
       </div>
 
       <button onclick="unlockGateway()" class="w-full py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-bold transition shadow-lg flex items-center justify-center gap-2">
-        <span>🔒</span> Unlock Application
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
+        Unlock Application
       </button>
 
       <p class="text-[10px] text-slate-500">Commercial Billing & Ledger Suite</p>
@@ -129,52 +149,63 @@
   <!-- MAIN APP CONTAINER -->
   <div id="app-root" class="hidden flex-1 flex flex-col justify-between">
     <div>
-      <header class="sticky top-0 z-40 bg-[#0b1329]/95 backdrop-blur-md border-b border-slate-800 text-white shadow-md no-print">
-        <div class="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 h-14 sm:h-16 flex items-center justify-between gap-2">
+      <!-- APPLE-INSPIRED REFINED HEADER -->
+      <header class="sticky top-0 z-40 bg-[#0b1329]/90 backdrop-blur-xl border-b border-white/10 text-white shadow-lg no-print">
+        <div class="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-3">
           
-          <div class="flex items-center gap-2 sm:gap-3 flex-shrink-0 cursor-pointer" onclick="switchTab('dashboard')" title="Go to Dashboard">
-            <img src="cool art logo.png" alt="Cool Art" class="h-6 sm:h-8 w-auto object-contain">
-            <span class="text-slate-600 font-extralight text-sm sm:text-lg">|</span>
-            <img src="fevicon.png?v=70" alt="CA Logo" class="h-6 sm:h-8 w-auto object-contain">
+          <!-- LOGO SECTION -->
+          <div class="flex items-center gap-2.5 sm:gap-3 flex-shrink-0 cursor-pointer" onclick="switchTab('dashboard')" title="Go to Dashboard">
+            <img src="cool art logo.png" alt="Cool Art" class="h-7 sm:h-8 w-auto object-contain">
+            <span class="text-white/20 font-light text-base sm:text-xl">|</span>
+            <div class="h-9 sm:h-11 w-9 sm:w-11 rounded-2xl p-1 bg-white/5 border border-white/10 shadow-inner flex items-center justify-center overflow-hidden flex-shrink-0">
+              <img src="fevicon.png?v=80" alt="CA Logo" class="h-full w-full object-contain rounded-xl">
+            </div>
 
-            <div class="hidden md:block border-l border-slate-700 pl-3">
+            <div class="hidden lg:block border-l border-white/10 pl-3">
               <h1 class="text-xs font-bold uppercase tracking-wider text-slate-100">Cool Art Invoicing</h1>
-              <p class="text-[11px] text-emerald-400 font-medium">Enterprise Commercial Billing & Cloud Ledger</p>
+              <p class="text-[10px] text-emerald-400 font-medium">Enterprise Commercial Billing & Cloud Ledger</p>
             </div>
           </div>
 
-          <div class="flex items-center gap-1 sm:gap-2">
-            <button onclick="switchTab('dashboard')" title="Home / Dashboard" class="p-1.5 sm:px-3 sm:py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-white transition shadow-sm border border-slate-700">
-              <span class="text-xs sm:text-sm">🏠</span>
-              <span class="hidden sm:inline text-xs font-bold ml-1">Home</span>
+          <!-- APPLE GLASS NAVIGATION BUTTONS -->
+          <div class="flex items-center gap-1.5 sm:gap-2">
+            <!-- Home -->
+            <button onclick="switchTab('dashboard')" title="Home / Dashboard" class="apple-glass-btn px-2.5 sm:px-3.5 py-1.5 sm:py-2 rounded-xl text-white inline-flex items-center gap-1.5">
+              <svg class="w-4 h-4 text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path></svg>
+              <span class="hidden sm:inline text-xs font-bold">Home</span>
             </button>
 
-            <button onclick="pullDataFromSheets(true)" id="btn-pull-sync" title="Sync from Sheet" class="p-1.5 sm:px-3 sm:py-2 rounded-xl bg-emerald-700 hover:bg-emerald-600 text-white transition shadow-sm">
-              <span class="text-xs sm:text-sm">🔄</span>
-              <span class="hidden sm:inline text-xs font-bold ml-1" id="sync-text">Sync</span>
+            <!-- Sync -->
+            <button onclick="pullDataFromSheets(true)" id="btn-pull-sync" title="Sync from Sheet" class="apple-glass-btn px-2.5 sm:px-3.5 py-1.5 sm:py-2 rounded-xl text-white inline-flex items-center gap-1.5 text-emerald-400">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg>
+              <span class="hidden sm:inline text-xs font-bold text-white" id="sync-text">Sync</span>
             </button>
 
-            <button onclick="openCreateExpenseModal()" title="Add General Expense" class="p-1.5 sm:px-3 sm:py-2 rounded-xl bg-rose-600 hover:bg-rose-500 text-white shadow transition">
-              <span class="text-xs sm:text-sm">💸</span>
-              <span class="hidden sm:inline text-xs font-bold ml-1">Expense</span>
+            <!-- Expense -->
+            <button onclick="openCreateExpenseModal()" title="Add General Expense" class="apple-glass-btn px-2.5 sm:px-3.5 py-1.5 sm:py-2 rounded-xl text-rose-300 inline-flex items-center gap-1.5">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
+              <span class="hidden sm:inline text-xs font-bold text-white">Expense</span>
             </button>
 
-            <button onclick="openNewInvoiceForm()" class="inline-flex items-center gap-1 text-xs font-bold px-2.5 py-1.5 sm:px-3 sm:py-2 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white shadow transition">
-              <span>➕</span>
+            <!-- New Invoice -->
+            <button onclick="openNewInvoiceForm()" class="px-3 sm:px-4 py-1.5 sm:py-2 rounded-xl bg-indigo-600/90 hover:bg-indigo-500 text-white text-xs font-bold shadow-md hover:shadow-indigo-500/20 active:scale-95 transition inline-flex items-center gap-1.5 border border-indigo-400/30">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
               <span class="hidden sm:inline">New Invoice</span>
               <span class="sm:hidden">Bill</span>
             </button>
 
-            <button onclick="lockGateway()" title="Lock Application" class="p-1.5 text-slate-400 hover:text-red-400 transition">
-              🔒
+            <!-- Lock -->
+            <button onclick="lockGateway()" title="Lock Application" class="apple-glass-btn p-2 rounded-xl text-slate-400 hover:text-red-400 inline-flex items-center justify-center">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
             </button>
           </div>
         </div>
       </header>
 
-      <div class="border-b border-slate-200 bg-white/80 backdrop-blur-sm no-print shadow-sm">
+      <!-- NAVIGATION TABS -->
+      <div class="border-b border-slate-200/80 bg-white/70 backdrop-blur-md no-print shadow-xs">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <nav class="flex space-x-6 sm:space-x-8 overflow-x-auto py-1">
+          <nav class="flex space-x-6 sm:space-x-8 overflow-x-auto py-1 scrollbar-none">
             <button onclick="switchTab('dashboard')" id="nav-dashboard" class="py-3 px-1 text-xs sm:text-sm font-bold border-b-2 border-indigo-600 text-indigo-700 flex items-center gap-1.5 whitespace-nowrap transition">
               📋 Directory & Ledger
             </button>
@@ -193,11 +224,11 @@
 
       <main class="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 py-5 sm:py-7 w-full">
         <!-- 1. DASHBOARD TAB -->
-        <section id="tab-sec-dashboard" class="space-y-6 no-print">
+        <section id="tab-sec-dashboard" class="space-y-5 sm:space-y-6 no-print">
           
-          <!-- SMART MISSION ENGINE (₹50,000 NET PROFIT TARGET BAR) -->
-          <div class="stat-card p-5 bg-gradient-to-r from-slate-900 via-indigo-950 to-slate-900 text-white border-indigo-900 shadow-xl relative overflow-hidden">
-            <div class="flex flex-wrap items-center justify-between gap-3 border-b border-slate-800 pb-3">
+          <!-- SMART MISSION ENGINE (TARGET ₹50,000 NET PROFIT) -->
+          <div class="stat-card p-4 sm:p-5 bg-gradient-to-r from-slate-950 via-[#0c142e] to-slate-950 text-white border-indigo-900/60 shadow-xl relative overflow-hidden">
+            <div class="flex flex-wrap items-center justify-between gap-3 border-b border-white/10 pb-3">
               <div class="flex items-center gap-2.5">
                 <span class="text-2xl">🎯</span>
                 <div>
@@ -209,8 +240,8 @@
               </div>
               
               <div class="flex items-center gap-2">
-                <span class="text-[11px] text-slate-400 font-semibold">Select Month:</span>
-                <select id="mission-month-select" onchange="renderMissionEngine()" class="bg-slate-800 border border-slate-700 rounded-xl px-2.5 py-1 text-xs font-bold text-white focus:outline-none"></select>
+                <span class="text-[11px] text-slate-400 font-semibold">Month:</span>
+                <select id="mission-month-select" onchange="renderMissionEngine()" class="bg-white/10 border border-white/15 rounded-xl px-2.5 py-1 text-xs font-bold text-white focus:outline-none"></select>
               </div>
             </div>
 
@@ -223,35 +254,35 @@
                   <span class="text-slate-500"> / ₹50,000</span>
                 </div>
                 <div class="text-right">
-                  <span id="mission-pct-badge" class="px-2 py-0.5 rounded-full bg-indigo-500/30 text-indigo-300 font-extrabold border border-indigo-500/40">0% Reached</span>
+                  <span id="mission-pct-badge" class="px-2 py-0.5 rounded-full bg-indigo-500/20 text-indigo-300 font-extrabold border border-indigo-500/30">0% Reached</span>
                 </div>
               </div>
 
-              <div class="w-full bg-slate-800/80 rounded-full h-3.5 overflow-hidden border border-slate-700/60 p-0.5">
+              <div class="w-full bg-slate-900/90 rounded-full h-3.5 overflow-hidden border border-white/10 p-0.5">
                 <div id="mission-progress-bar" class="bg-gradient-to-r from-indigo-500 to-emerald-400 h-full rounded-full transition-all duration-500" style="width: 0%"></div>
               </div>
 
               <div class="flex justify-between items-center text-[11px] text-slate-400 pt-1">
-                <span>Remaining Target: <strong class="text-rose-400" id="mission-remaining-val">₹50,000.00</strong></span>
-                <span id="mission-status-note" class="text-slate-400 font-medium">Tracking all production & office expenses</span>
+                <span>Remaining: <strong class="text-rose-400" id="mission-remaining-val">₹50,000.00</strong></span>
+                <span id="mission-status-note" class="text-slate-400 font-medium">Tracking direct costs & shop overheads</span>
               </div>
             </div>
 
             <!-- Product Recommendations Engine -->
-            <div class="mt-4 pt-3.5 border-t border-slate-800/80 grid grid-cols-1 md:grid-cols-3 gap-3 text-xs">
-              <div class="bg-slate-800/60 p-2.5 rounded-xl border border-slate-700/60">
+            <div class="mt-4 pt-3.5 border-t border-white/10 grid grid-cols-1 md:grid-cols-3 gap-3 text-xs">
+              <div class="bg-white/5 p-3 rounded-xl border border-white/5">
                 <span class="text-[10px] uppercase font-bold text-indigo-400 block">🏆 Top Selling Segment</span>
                 <strong class="text-white text-xs block mt-0.5" id="mission-top-prod">Flex Printing & Design</strong>
                 <span class="text-[10px] text-slate-400" id="mission-top-desc">High volume with consistent 40% margin</span>
               </div>
 
-              <div class="bg-slate-800/60 p-2.5 rounded-xl border border-slate-700/60">
+              <div class="bg-white/5 p-3 rounded-xl border border-white/5">
                 <span class="text-[10px] uppercase font-bold text-emerald-400 block">💡 Plan A (Hero Focus)</span>
                 <span class="text-slate-200 text-xs block mt-0.5" id="mission-plan-a">Print ~3,500 Sq.Ft Flex</span>
                 <span class="text-[10px] text-slate-400">At avg ₹5/sq.ft clean net margin</span>
               </div>
 
-              <div class="bg-slate-800/60 p-2.5 rounded-xl border border-slate-700/60">
+              <div class="bg-white/5 p-3 rounded-xl border border-white/5">
                 <span class="text-[10px] uppercase font-bold text-amber-400 block">⚡ Plan B (Combo Mix)</span>
                 <span class="text-slate-200 text-xs block mt-0.5" id="mission-plan-b">1,500 Sq.Ft Flex + 500 Cards + 50 Frames</span>
                 <span class="text-[10px] text-slate-400">Balanced retail + event revenue</span>
@@ -259,8 +290,8 @@
             </div>
           </div>
 
-          <!-- Live Project & Client Overview Bar -->
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <!-- Live Project & Client Overview Bar (MOBILE RESPONSIVE) -->
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4">
             <div class="stat-card p-4 flex items-center justify-between border-indigo-100 bg-indigo-50/40">
               <div>
                 <span class="text-xs font-bold uppercase tracking-wider text-indigo-900">Registered Commercial Accounts</span>
@@ -275,19 +306,19 @@
             <div class="stat-card p-4 flex items-center justify-between border-emerald-100 bg-emerald-50/40">
               <div>
                 <span class="text-xs font-bold uppercase tracking-wider text-emerald-900">Work Orders Status Overview</span>
-                <div id="metric-project-stages" class="flex flex-wrap items-center gap-2 mt-1.5 text-xs font-bold font-tabular">
-                  <span class="px-2 py-0.5 rounded bg-emerald-100 text-emerald-800">Delivered: 0</span>
-                  <span class="px-2 py-0.5 rounded bg-amber-100 text-amber-800">Received: 0</span>
-                  <span class="px-2 py-0.5 rounded bg-blue-100 text-blue-800">In Process: 0</span>
+                <div id="metric-project-stages" class="flex flex-wrap items-center gap-1.5 mt-1.5 text-xs font-bold font-tabular">
+                  <span class="px-2 py-0.5 rounded-md bg-emerald-100 text-emerald-800">Delivered: 0</span>
+                  <span class="px-2 py-0.5 rounded-md bg-amber-100 text-amber-800">Received: 0</span>
+                  <span class="px-2 py-0.5 rounded-md bg-blue-100 text-blue-800">In Process: 0</span>
                 </div>
               </div>
               <span class="text-3xl">📦</span>
             </div>
           </div>
 
-          <!-- Top Row Financial Cards -->
-          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            <div class="stat-card p-5">
+          <!-- Financial Cards (MOBILE 1-COL, DESKTOP 4-COL) -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
+            <div class="stat-card p-4 sm:p-5">
               <p class="text-xs font-bold uppercase tracking-wider text-slate-400">Total Invoiced Amount</p>
               <div class="flex items-baseline gap-2 mt-2">
                 <span id="metric-total-billed" class="text-2xl sm:text-3xl font-extrabold font-tabular text-slate-900">₹0.00</span>
@@ -295,7 +326,7 @@
               <p class="text-[11px] text-slate-500 mt-1">Cumulative sales volume</p>
             </div>
 
-            <div class="stat-card p-5">
+            <div class="stat-card p-4 sm:p-5">
               <p class="text-xs font-bold uppercase tracking-wider text-emerald-600">Payments Cleared</p>
               <div class="flex items-baseline gap-2 mt-2">
                 <span id="metric-total-received" class="text-2xl sm:text-3xl font-extrabold font-tabular text-emerald-600">₹0.00</span>
@@ -303,7 +334,7 @@
               <p class="text-[11px] text-slate-500 mt-1">Total deposited receipts</p>
             </div>
 
-            <div class="stat-card p-5 bg-gradient-to-br from-[#0b1329] to-[#1e293b] text-white border-slate-800">
+            <div class="stat-card p-4 sm:p-5 bg-gradient-to-br from-[#0b1329] to-[#1e293b] text-white border-slate-800">
               <p class="text-xs font-bold uppercase tracking-wider text-emerald-400">Outstanding Balance</p>
               <div class="flex items-baseline gap-2 mt-2">
                 <span id="metric-total-due" class="text-2xl sm:text-3xl font-extrabold font-tabular text-white">₹0.00</span>
@@ -311,9 +342,9 @@
               <p class="text-[11px] text-slate-400 mt-1">Total market receivables</p>
             </div>
 
-            <div onclick="openModal('hanuman-bank-modal')" class="stat-card p-5 bg-gradient-to-br from-amber-50 via-orange-50 to-amber-100 border-amber-300 cursor-pointer hover:border-amber-400 relative overflow-hidden" title="Click to view Service Fund Ledger">
+            <div onclick="openModal('hanuman-bank-modal')" class="stat-card p-4 sm:p-5 bg-gradient-to-br from-amber-50 via-orange-50 to-amber-100 border-amber-300 cursor-pointer hover:border-amber-400 relative overflow-hidden" title="Click to view Service Fund Ledger">
               <div class="flex items-center justify-between gap-3">
-                <div class="w-12 h-12 rounded-xl overflow-hidden flex-shrink-0 bg-amber-200 border-2 border-amber-400 shadow flex items-center justify-center">
+                <div class="w-12 h-12 rounded-xl overflow-hidden flex-shrink-0 bg-amber-200 border border-amber-300 shadow flex items-center justify-center">
                   <img src="hanumanji.png" alt="Hanuman Ji" class="w-full h-full object-cover" onerror="this.onerror=null; this.src='hanuman ji.png'; this.onerror=function(){this.style.display='none'; this.nextElementSibling.style.display='block';}">
                   <span style="display:none;" class="text-2xl">🚩</span>
                 </div>
@@ -333,26 +364,26 @@
           </div>
 
           <!-- Bottom Row Financial Cards -->
-          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            <div class="bg-white p-4 rounded-xl border border-amber-300 shadow-sm">
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
+            <div class="bg-white p-4 rounded-2xl border border-amber-200 shadow-xs">
               <span class="text-xs font-bold text-amber-900 uppercase tracking-wider block">Total Job Cost (COGS)</span>
               <span id="metric-total-cogs" class="text-xl font-extrabold text-amber-950 font-tabular mt-1 block">₹0.00</span>
               <span class="text-[10px] text-slate-500">Raw Stock + Labor + Delivery Fuel</span>
             </div>
 
-            <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm">
-              <span class="text-xs font-bold text-slate-500 uppercase tracking-wider block">Job Production Margin (Booked)</span>
+            <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-xs">
+              <span class="text-xs font-bold text-slate-500 uppercase tracking-wider block">Job Production Margin</span>
               <span id="metric-job-profit" class="text-xl font-extrabold text-slate-800 font-tabular mt-1 block">₹0.00</span>
               <span class="text-[10px] text-slate-400">Total Billed - Direct Job Costs</span>
             </div>
 
-            <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm">
+            <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-xs">
               <span class="text-xs font-bold text-rose-600 uppercase tracking-wider block">Office / Shop Expenses</span>
               <span id="metric-office-expenses" class="text-xl font-extrabold text-rose-600 font-tabular mt-1 block">₹0.00</span>
               <span class="text-[10px] text-slate-400">Rent, Bills, Tea, Tools, Maintenance</span>
             </div>
 
-            <div class="bg-emerald-50/80 p-4 rounded-xl border border-emerald-200 shadow-sm">
+            <div class="bg-emerald-50/80 p-4 rounded-2xl border border-emerald-200 shadow-xs">
               <span class="text-xs font-black text-emerald-900 uppercase tracking-wider block">Real In-Hand Cash Profit</span>
               <span id="metric-net-real-profit" class="text-2xl font-black text-emerald-700 font-tabular mt-1 block">₹0.00</span>
               <span class="text-[10px] text-emerald-800/80 font-medium">Cleared Receipts - Job Costs - Office Exp</span>
@@ -364,7 +395,7 @@
             <div class="p-4 sm:p-5 border-b border-slate-100 flex flex-wrap items-center justify-between gap-3">
               <div>
                 <h2 class="text-base font-bold text-slate-900">Commercial Client Accounts</h2>
-                <p class="text-xs text-slate-500 mt-0.5">Click any client row to view full invoice history • VIP & Regular badges active</p>
+                <p class="text-xs text-slate-500 mt-0.5">Click any client row to view full invoice history • VIP & Regular badges aligned</p>
               </div>
 
               <div class="flex flex-wrap items-center gap-2">
@@ -400,12 +431,11 @@
               </table>
             </div>
 
-            <!-- Table Rows Counter & Hidden Rows Status -->
             <div id="clients-pagination-info" class="p-3 bg-slate-50/70 border-t border-slate-100 text-xs text-slate-500 font-medium flex justify-between items-center px-4"></div>
           </div>
         </section>
 
-        <!-- 2. OFFICE EXPENSES TAB WITH MONTHLY DROPDOWN -->
+        <!-- 2. OFFICE EXPENSES TAB -->
         <section id="tab-sec-expenses" class="hidden no-print space-y-6">
           <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
             <div class="p-4 sm:p-5 border-b border-slate-100 flex flex-wrap items-center justify-between gap-3">
@@ -426,7 +456,6 @@
               </div>
             </div>
 
-            <!-- Monthly Expense Highlight -->
             <div class="bg-rose-50/60 px-4 py-2.5 border-b border-rose-100 flex justify-between items-center text-xs">
               <span class="font-bold text-rose-900" id="expense-filtered-label">Showing Expenses</span>
               <span class="font-extrabold text-rose-700 font-tabular text-sm">Filtered Total: <span id="expense-filtered-total">₹0.00</span></span>
@@ -512,7 +541,7 @@
               <span class="text-[11px] text-slate-500">Uncheck for regular non-tax invoice</span>
             </div>
 
-            <!-- DYNAMIC & FULLY EDITABLE COSTING -->
+            <!-- DYNAMIC & FULLY EDITABLE COSTING (VAULT PRESERVED) -->
             <div class="bg-amber-50/80 border border-amber-200 rounded-xl p-4 space-y-3">
               <div class="flex flex-wrap items-center justify-between border-b border-amber-200 pb-2 gap-2">
                 <span class="text-xs font-extrabold text-amber-950 flex items-center gap-1.5">
@@ -652,28 +681,24 @@
                 </div>
                 
                 <div class="grid grid-cols-4 gap-2 text-center relative">
-                  <!-- Step 1 -->
                   <div class="space-y-1" id="track-step-1">
                     <div class="w-8 h-8 mx-auto rounded-full flex items-center justify-center text-sm font-bold bg-emerald-600 text-white shadow-sm">📝</div>
                     <span class="text-[10px] font-bold block text-slate-800">Order Booked</span>
                     <span class="text-[9px] text-emerald-700 font-semibold block">Done</span>
                   </div>
 
-                  <!-- Step 2 -->
                   <div class="space-y-1" id="track-step-2">
                     <div class="w-8 h-8 mx-auto rounded-full flex items-center justify-center text-sm font-bold bg-slate-200 text-slate-600">🎨</div>
                     <span class="text-[10px] font-bold block text-slate-800">Design Ready</span>
                     <span class="text-[9px] text-slate-500 block" id="track-step-2-sub">Pending</span>
                   </div>
 
-                  <!-- Step 3 -->
                   <div class="space-y-1" id="track-step-3">
                     <div class="w-8 h-8 mx-auto rounded-full flex items-center justify-center text-sm font-bold bg-slate-200 text-slate-600">🖨️</div>
                     <span class="text-[10px] font-bold block text-slate-800">Print / Craft</span>
                     <span class="text-[9px] text-slate-500 block" id="track-step-3-sub">Pending</span>
                   </div>
 
-                  <!-- Step 4 -->
                   <div class="space-y-1" id="track-step-4">
                     <div class="w-8 h-8 mx-auto rounded-full flex items-center justify-center text-sm font-bold bg-slate-200 text-slate-600">🚚</div>
                     <span class="text-[10px] font-bold block text-slate-800">Ready / Delivered</span>
@@ -716,7 +741,7 @@
                 </div>
               </div>
 
-              <!-- ITEMS TABLE: INDEPENDENT ROWS WITH STATUS/REMARKS SUB-ROW -->
+              <!-- ITEMS TABLE -->
               <div class="border border-slate-200 rounded-xl overflow-x-auto">
                 <table class="w-full text-left text-xs border-collapse min-w-[500px]">
                   <thead>
@@ -796,20 +821,20 @@
                 </div>
 
                 <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 items-center">
-                  <div class="bg-white/90 p-2.5 rounded-xl border border-amber-200 shadow-sm">
+                  <div class="bg-white/90 p-2.5 rounded-xl border border-amber-200 shadow-xs">
                     <span class="text-[10px] text-slate-500 font-bold block uppercase">Production Costing</span>
                     <span class="text-sm font-extrabold text-slate-800 font-tabular" id="doc-private-cost">₹0.00</span>
                     <span class="text-[9px] text-slate-400 block mt-0.5" id="doc-private-cost-detail">Dynamic Raw Costs</span>
                   </div>
 
-                  <div class="bg-white/90 p-2.5 rounded-xl border border-amber-200 shadow-sm">
+                  <div class="bg-white/90 p-2.5 rounded-xl border border-amber-200 shadow-xs">
                     <span class="text-[10px] text-emerald-700 font-bold block uppercase">Calculated Net Profit</span>
                     <span class="text-sm font-black text-emerald-700 font-tabular" id="doc-private-profit">₹0.00</span>
                     <span class="text-[9px] text-emerald-600/80 block mt-0.5">Net Billed - Production Cost</span>
                   </div>
 
-                  <div class="bg-gradient-to-br from-amber-100 to-orange-100 p-2.5 rounded-xl border border-amber-300 flex items-center gap-3 shadow-sm">
-                    <div class="w-10 h-10 rounded-lg overflow-hidden flex-shrink-0 bg-amber-200 border border-amber-400 flex items-center justify-center">
+                  <div class="bg-gradient-to-br from-amber-100 to-orange-100 p-2.5 rounded-xl border border-amber-300 flex items-center gap-3 shadow-xs">
+                    <div class="w-10 h-10 rounded-lg overflow-hidden flex-shrink-0 bg-amber-200 border border-amber-300 flex items-center justify-center">
                       <img src="hanumanji.png" alt="Hanuman Ji" class="w-full h-full object-cover" onerror="this.onerror=null; this.src='hanuman ji.png'; this.onerror=function(){this.style.display='none'; this.nextElementSibling.style.display='block';}">
                       <span style="display:none;" class="text-xl">🚩</span>
                     </div>
@@ -848,7 +873,7 @@
 
     <!-- Studio Footer -->
     <footer class="no-print mt-10 py-8 px-4 border-t border-slate-200/80 bg-white/70 backdrop-blur-sm">
-      <div class="max-w-xl mx-auto text-center p-6 rounded-3xl bg-white shadow-sm border border-slate-200/90 space-y-2">
+      <div class="max-w-xl mx-auto text-center p-6 rounded-3xl bg-white shadow-xs border border-slate-200/90 space-y-2">
         <div class="text-sm font-extrabold text-slate-800">
           Designed & Developed by: <span class="text-indigo-600">COOL ART®</span>
         </div>
@@ -867,7 +892,7 @@
     </footer>
   </div>
 
-  <!-- MODAL: CLIENT INVOICE HISTORY (ROW CLICK EXPAND) -->
+  <!-- MODAL: CLIENT INVOICE HISTORY -->
   <div id="client-history-modal" class="hidden fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-3 sm:p-4">
     <div class="bg-white rounded-2xl shadow-2xl border border-slate-200 max-w-2xl w-full p-5 space-y-4 max-h-[90vh] flex flex-col">
       <div class="flex justify-between items-center pb-3 border-b border-slate-200">
@@ -881,7 +906,6 @@
         <button onclick="closeModal('client-history-modal')" class="text-slate-400 hover:text-slate-600 font-bold text-lg">✕</button>
       </div>
 
-      <!-- Financial Snapshot Bar -->
       <div class="grid grid-cols-3 gap-2 bg-slate-50 p-3 rounded-xl border border-slate-200 text-center font-tabular text-xs">
         <div>
           <span class="text-[10px] text-slate-400 font-bold uppercase block">Total Invoiced</span>
@@ -897,7 +921,6 @@
         </div>
       </div>
 
-      <!-- Invoices List -->
       <div class="flex-1 overflow-y-auto space-y-2 border border-slate-200 rounded-xl p-2.5" id="hist-modal-invoices-list"></div>
 
       <div class="flex justify-between items-center pt-2 border-t border-slate-100 text-xs">
@@ -966,7 +989,7 @@
     </div>
   </div>
 
-  <!-- MODAL: OFFICE EXPENSE (CREATE / EDIT) -->
+  <!-- MODAL: OFFICE EXPENSE -->
   <div id="expense-modal" class="hidden fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
     <div class="bg-white rounded-2xl shadow-2xl border border-slate-200 max-w-md w-full p-6 space-y-4">
       <div class="flex justify-between items-center pb-2 border-b border-slate-100">
@@ -1134,7 +1157,7 @@
     </div>
   </div>
 
-  <!-- JAVASCRIPT LOGIC -->
+  <!-- JAVASCRIPT LOGIC (PERMANENT LOCAL COST VAULT ENGINE) -->
   <script>
     const DEFAULT_WEBHOOK_URL = "https://script.google.com/macros/s/AKfycbwXlXsEhAqRUho6zZr-amBL8GJ9BPXHcUI9X54ZRlEj8_vpLxM7UaEHrp_L8cuLFy3BUA/exec";
     const MASTER_KEY = "CoolArt@2026";
@@ -1184,8 +1207,37 @@
       }
     }
 
+    // LOAD DATA & MULTI-VERSION VAULT SCANNER
     function loadData() {
-      const saved = localStorage.getItem('coolart_finance_master_v70');
+      let saved = localStorage.getItem('coolart_finance_master_v80') ||
+                  localStorage.getItem('coolart_finance_master_v75') || 
+                  localStorage.getItem('coolart_finance_master_v70') || 
+                  localStorage.getItem('coolart_finance_master_v60') || 
+                  localStorage.getItem('coolart_finance_master');
+
+      let costVault = JSON.parse(localStorage.getItem('coolart_cost_vault') || '{}');
+
+      // Purani sabhi keys se costing breakdown scan karke vault mein lock karna
+      for (let i = 0; i < localStorage.length; i++) {
+        let k = localStorage.key(i);
+        if (k && k.includes('coolart')) {
+          try {
+            let p = JSON.parse(localStorage.getItem(k));
+            if (p && Array.isArray(p.invoices)) {
+              p.invoices.forEach(inv => {
+                if (inv && inv.id && Array.isArray(inv.costRows) && inv.costRows.length > 0) {
+                  // Agar vault mein abhi tak multi-row nahi hai aur purane data mein 1 se zyada rows the
+                  if (!costVault[inv.id] || costVault[inv.id].length <= 1) {
+                    costVault[inv.id] = inv.costRows;
+                  }
+                }
+              });
+            }
+          } catch(e){}
+        }
+      }
+      localStorage.setItem('coolart_cost_vault', JSON.stringify(costVault));
+
       if (saved) {
         try { 
           const parsed = JSON.parse(saved);
@@ -1198,6 +1250,15 @@
         } catch (e) { console.error(e); }
       }
 
+      // Har invoice par vault ke preserved cost rows ko restore karna
+      if (store.invoices && Array.isArray(store.invoices)) {
+        store.invoices.forEach(inv => {
+          if (costVault[inv.id] && costVault[inv.id].length > 0) {
+            inv.costRows = costVault[inv.id];
+          }
+        });
+      }
+
       store.config.webhookUrl = DEFAULT_WEBHOOK_URL;
       store.config.upiId = '9458614610-2@ybl';
       if (!Array.isArray(store.hanumanExpenses)) store.hanumanExpenses = [];
@@ -1208,10 +1269,9 @@
     }
 
     function persistData() {
-      localStorage.setItem('coolart_finance_master_v70', JSON.stringify(store));
+      localStorage.setItem('coolart_finance_master_v80', JSON.stringify(store));
     }
 
-    // ACCURATE MAX INVOICE NUMBER SCANNER
     function getNextInvoiceNumber() {
       let maxNum = 0;
       const currentYear = new Date().getFullYear();
@@ -1234,7 +1294,6 @@
       return `INV-${currentYear}-${String(nextNum).padStart(3, '0')}`;
     }
 
-    // ACCURATE MAX EXPENSE VOUCHER SCANNER
     function getNextExpenseNumber() {
       let maxNum = 0;
       const currentYear = new Date().getFullYear();
@@ -1306,6 +1365,7 @@
 
       const rawInvoices = Array.isArray(payload.invoices) ? payload.invoices : [];
       const rawItems = Array.isArray(payload.items) ? payload.items : [];
+      const costVault = JSON.parse(localStorage.getItem('coolart_cost_vault') || '{}');
 
       if (rawInvoices.length > 0) {
         store.invoices = rawInvoices.map(inv => {
@@ -1320,6 +1380,14 @@
 
           const matchedExisting = store.invoices.find(i => i.id === invId);
 
+          // PERMANENT VAULT LOCK: Never overwrite multi-line breakdown with single 'Material / Raw Stock'
+          let preservedCosts = null;
+          if (costVault[invId] && Array.isArray(costVault[invId]) && costVault[invId].length > 0) {
+            preservedCosts = costVault[invId];
+          } else if (matchedExisting && Array.isArray(matchedExisting.costRows) && matchedExisting.costRows.length > 0) {
+            preservedCosts = matchedExisting.costRows;
+          }
+
           return {
             id: invId,
             clientId: String(inv.Client_ID || ('CL_' + inv.Client_Name)),
@@ -1331,7 +1399,7 @@
             discount: Number(inv.Discount_Amount) || 0,
             gstAmount: Number(inv.GST_Amount) || 0,
             total: Number(inv.Net_Total) || 0,
-            costRows: (matchedExisting && matchedExisting.costRows) ? matchedExisting.costRows : [
+            costRows: preservedCosts ? preservedCosts : [
               { title: 'Material / Raw Stock', amount: (Number(inv.Job_Cost) || 0) }
             ],
             totalCost: Number(inv.Job_Cost) || 0,
@@ -1407,7 +1475,6 @@
     }
     function closeModal(id) { document.getElementById(id).classList.add('hidden'); }
 
-    // DOUBLE-LOCK PAYMENT CHECK: STRICT CLIENT MATCH ONLY
     function getInvoiceSpecificDetails(invoiceId) {
       const inv = store.invoices.find(i => i.id === invoiceId);
       if (!inv) return { billed: 0, paid: 0, due: 0, payments: [] };
@@ -1471,7 +1538,6 @@
         });
       }
 
-      // VIP vs Regular tagging
       let clientBadge = 'regular';
       if (billedTotal >= 5000 && paidTotal >= billedTotal * 0.9) {
         clientBadge = 'vip';
@@ -1508,7 +1574,7 @@
       populateClientSelects();
     }
 
-    // SMART MISSION ENGINE (₹50,000 NET PROFIT & WEIGHTED INTELLIGENCE)
+    // SMART MISSION ENGINE
     function populateMissionMonthsDropdown() {
       const select = document.getElementById('mission-month-select');
       if (!select) return;
@@ -1543,7 +1609,6 @@
       const targetYM = select ? select.value : new Date().toISOString().substring(0, 7);
       const targetGoal = 50000;
 
-      // Filter month invoices and expenses
       const mInvoices = store.invoices.filter(i => (i.date || '').startsWith(targetYM));
       const mExpenses = store.officeExpenses.filter(e => (e.date || '').startsWith(targetYM));
 
@@ -1558,18 +1623,6 @@
       document.getElementById('mission-remaining-val').innerText = `₹${remaining.toLocaleString('en-IN', {minimumFractionDigits: 2})} to go`;
       document.getElementById('mission-pct-badge').innerText = `${pct.toFixed(1)}% Reached`;
       document.getElementById('mission-progress-bar').style.width = `${pct}%`;
-
-      // Weighted product analysis
-      let flexVolume = 0, cardCount = 0, shootCount = 0, frameCount = 0;
-      mInvoices.forEach(inv => {
-        (inv.items || []).forEach(it => {
-          const d = (it.desc || '').toLowerCase();
-          if (d.includes('flex')) flexVolume += (Number(it.qty) || 1) * 20;
-          else if (d.includes('card')) cardCount += (Number(it.qty) || 1);
-          else if (d.includes('photo') || d.includes('frame')) frameCount += (Number(it.qty) || 1);
-          else if (d.includes('shoot')) shootCount += 1;
-        });
-      });
 
       if (remaining > 0) {
         const neededFlexSqft = Math.ceil(remaining / 5);
@@ -1637,10 +1690,10 @@
       const stagesContainer = document.getElementById('metric-project-stages');
       if (stagesContainer) {
         stagesContainer.innerHTML = `
-          <span class="px-2 py-0.5 rounded bg-emerald-100 text-emerald-800">Delivered: ${deliveredCount}</span>
-          <span class="px-2 py-0.5 rounded bg-amber-100 text-amber-800">Received: ${receivedCount}</span>
-          <span class="px-2 py-0.5 rounded bg-blue-100 text-blue-800">In Process: ${inProcessCount}</span>
-          ${readyCount > 0 ? `<span class="px-2 py-0.5 rounded bg-purple-100 text-purple-800">Ready: ${readyCount}</span>` : ''}
+          <span class="px-2 py-0.5 rounded-md bg-emerald-100 text-emerald-800">Delivered: ${deliveredCount}</span>
+          <span class="px-2 py-0.5 rounded-md bg-amber-100 text-amber-800">Received: ${receivedCount}</span>
+          <span class="px-2 py-0.5 rounded-md bg-blue-100 text-blue-800">In Process: ${inProcessCount}</span>
+          ${readyCount > 0 ? `<span class="px-2 py-0.5 rounded-md bg-purple-100 text-purple-800">Ready: ${readyCount}</span>` : ''}
         `;
       }
 
@@ -1666,7 +1719,7 @@
         document.getElementById('metric-hanuman-accrued').innerText = `₹${grandBookedSeva.toLocaleString('en-IN', {minimumFractionDigits: 2})}`;
     }
 
-    // CLIENTS TABLE WITH ROW CLICK EXPAND & VIP BADGES
+    // CLIENTS TABLE WITH FIXED PILL BADGES
     function renderClientsTable() {
       const tbody = document.getElementById('clients-table-body');
       tbody.innerHTML = '';
@@ -1722,11 +1775,12 @@
         else if (status === 'In Process / Production') statusBadge = '<span class="text-[10px] font-extrabold px-2 py-0.5 rounded bg-blue-100 text-blue-800">In Process</span>';
         else if (status === 'Ready for Delivery') statusBadge = '<span class="text-[10px] font-extrabold px-2 py-0.5 rounded bg-purple-100 text-purple-800">Ready</span>';
 
-        let badgeTag = '<span class="ml-1.5 text-[9px] font-extrabold uppercase px-1.5 py-0.5 rounded bg-emerald-100 text-emerald-800 border border-emerald-200">⭐ Regular</span>';
+        // FIXED VERTICAL ALIGNED PILL
+        let badgeTag = '<span class="inline-flex items-center text-[9px] font-extrabold uppercase px-1.5 py-0.2 rounded bg-emerald-50 text-emerald-700 border border-emerald-200 mt-0.5 w-fit">⭐ Regular</span>';
         if (stats.clientBadge === 'vip') {
-          badgeTag = '<span class="ml-1.5 text-[9px] font-extrabold uppercase px-1.5 py-0.5 rounded bg-purple-100 text-purple-800 border border-purple-200">💎 VIP</span>';
+          badgeTag = '<span class="inline-flex items-center text-[9px] font-extrabold uppercase px-1.5 py-0.2 rounded bg-purple-50 text-purple-700 border border-purple-200 mt-0.5 w-fit">💎 VIP</span>';
         } else if (stats.clientBadge === 'delay') {
-          badgeTag = '<span class="ml-1.5 text-[9px] font-extrabold uppercase px-1.5 py-0.5 rounded bg-rose-100 text-rose-800 border border-rose-200">⚠️ Overdue</span>';
+          badgeTag = '<span class="inline-flex items-center text-[9px] font-extrabold uppercase px-1.5 py-0.2 rounded bg-rose-50 text-rose-700 border border-rose-200 mt-0.5 w-fit">⚠️ Overdue</span>';
         }
 
         const isOldestOverdue = (oldestClientObj && oldestClientObj.client.id === c.id);
@@ -1740,17 +1794,20 @@
         };
 
         tr.innerHTML = `
-          <td class="py-3.5 px-4 font-bold text-slate-900">
-            ${c.name} ${badgeTag}
+          <td class="py-3 px-4">
+            <div class="flex flex-col">
+              <span class="font-bold text-slate-900 leading-tight">${c.name}</span>
+              ${badgeTag}
+            </div>
           </td>
-          <td class="py-3.5 px-4 text-slate-500 font-tabular text-xs">${c.phone || '—'}</td>
-          <td class="py-3.5 px-4 text-center">${statusBadge}</td>
-          <td class="py-3.5 px-4 text-right font-semibold font-tabular text-slate-800">₹${stats.billedTotal.toLocaleString('en-IN', {minimumFractionDigits: 2})}</td>
-          <td class="py-3.5 px-4 text-right font-semibold font-tabular text-emerald-600">₹${stats.paidTotal.toLocaleString('en-IN', {minimumFractionDigits: 2})}</td>
-          <td class="py-3.5 px-4 text-right font-tabular font-extrabold ${stats.balanceDue > 0 ? 'text-red-600' : 'text-slate-800'}">
+          <td class="py-3 px-4 text-slate-500 font-tabular text-xs">${c.phone || '—'}</td>
+          <td class="py-3 px-4 text-center">${statusBadge}</td>
+          <td class="py-3 px-4 text-right font-semibold font-tabular text-slate-800">₹${stats.billedTotal.toLocaleString('en-IN', {minimumFractionDigits: 2})}</td>
+          <td class="py-3 px-4 text-right font-semibold font-tabular text-emerald-600">₹${stats.paidTotal.toLocaleString('en-IN', {minimumFractionDigits: 2})}</td>
+          <td class="py-3 px-4 text-right font-tabular font-extrabold ${stats.balanceDue > 0 ? 'text-red-600' : 'text-slate-800'}">
             ₹${stats.balanceDue.toLocaleString('en-IN', {minimumFractionDigits: 2})}
           </td>
-          <td class="py-3.5 px-4 text-center">
+          <td class="py-3 px-4 text-center">
             <div class="inline-flex items-center gap-1.5" onclick="event.stopPropagation()">
               <button onclick="promptPaymentModal('${c.id}')" class="px-2.5 py-1 text-xs font-bold text-emerald-700 bg-emerald-50 hover:bg-emerald-100 rounded-lg transition border border-emerald-200">
                 + Payment
@@ -1770,7 +1827,6 @@
       `;
     }
 
-    // CLIENT INVOICE HISTORY MODAL (EXPAND ROW ACTION)
     function openClientHistoryModal(clientId) {
       activeHistoryClientId = clientId;
       const client = store.clients.find(c => c.id === clientId);
@@ -1837,7 +1893,6 @@
       promptPaymentModal(activeHistoryClientId);
     }
 
-    // EXPENSES MONTH-WISE POPULATOR
     function populateExpenseMonthsDropdown() {
       const select = document.getElementById('expense-month-filter');
       if (!select) return;
@@ -1866,7 +1921,6 @@
       }
     }
 
-    // EXPENSES TABLE (AUTO-SORTED BY DATE & EDITABLE MODAL)
     function renderExpensesTable() {
       const tbody = document.getElementById('expenses-table-body');
       if (!tbody) return;
@@ -2114,8 +2168,18 @@
 
       const costContainer = document.getElementById('cost-rows-container');
       costContainer.innerHTML = '';
-      if (invoice.costRows && invoice.costRows.length > 0) {
-        invoice.costRows.forEach(cr => addCostRow(cr.title, cr.amount));
+
+      // COST VAULT PRIORITY CHECK: Hamesha saved alag-alag rows ko pehle kholna
+      const costVault = JSON.parse(localStorage.getItem('coolart_cost_vault') || '{}');
+      let preserved = null;
+      if (costVault[invoice.id] && Array.isArray(costVault[invoice.id]) && costVault[invoice.id].length > 0) {
+        preserved = costVault[invoice.id];
+      } else if (invoice.costRows && Array.isArray(invoice.costRows) && invoice.costRows.length > 0) {
+        preserved = invoice.costRows;
+      }
+
+      if (preserved && preserved.length > 0) {
+        preserved.forEach(cr => addCostRow(cr.title, cr.amount));
       } else {
         addCostRow('Material / Raw Stock', invoice.totalCost || '');
         addCostRow('Delivery / Bike Fuel', '');
@@ -2147,6 +2211,13 @@
         if (p.invoiceId === invId) p.invoiceId = '';
       });
 
+      // Remove from vault
+      const costVault = JSON.parse(localStorage.getItem('coolart_cost_vault') || '{}');
+      if (costVault[invId]) {
+        delete costVault[invId];
+        localStorage.setItem('coolart_cost_vault', JSON.stringify(costVault));
+      }
+
       persistData();
       refreshAllViews();
 
@@ -2159,7 +2230,6 @@
       viewClientInvoice(clientId, 'ALL');
     }
 
-    // LINE ITEM WITH INTEGRATED STATUS / REMARKS SUB-ROW
     function addLineItem(desc = '', remarks = '', qty = 1, rate = '') {
       const container = document.getElementById('line-items-container');
       const card = document.createElement('div');
@@ -2183,7 +2253,6 @@
           </div>
         </div>
 
-        <!-- Dedicated Status / Remarks Sub-row -->
         <div class="flex items-center gap-2 pt-1 border-t border-slate-200/60">
           <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider flex-shrink-0">↳ Remarks / Specs:</span>
           <input type="text" value="${remarks}" placeholder="e.g. Matt Lamination, 250 GSM Card, Approved Sample, Iron Frame Fabrication" class="flex-1 bg-white/80 border border-slate-200 rounded-lg px-2.5 py-1 text-[11px] text-slate-700 outline-none focus:ring-1 focus:ring-indigo-400 item-remarks">
@@ -2327,6 +2396,13 @@
         editingInvoiceId = null;
       } else {
         store.invoices.push(invoiceObj);
+      }
+
+      // PERMANENT LOCAL COST VAULT LOCK
+      const costVault = JSON.parse(localStorage.getItem('coolart_cost_vault') || '{}');
+      if (calc.costRows && calc.costRows.length > 0) {
+        costVault[invId] = calc.costRows;
+        localStorage.setItem('coolart_cost_vault', JSON.stringify(costVault));
       }
 
       if (calc.immediatePaid > 0) {
@@ -2580,10 +2656,8 @@
         statusBadge.className = 'text-[10px] font-extrabold px-2 py-0.5 rounded bg-emerald-100 text-emerald-800';
       }
 
-      // UPDATE VISUAL 4-STEP WORKFLOW TRACKER
       updateVisualTracker(curStatus);
 
-      // RENDER ITEMS WITH STATUS/REMARKS SUB-ROW
       const tbody = document.getElementById('doc-items-table');
       tbody.innerHTML = '';
       const displayInvoices = isSpecificBill ? [activeInv] : clientInvoices;
@@ -2620,7 +2694,7 @@
       } else {
         relevantPayments.forEach(p => {
           const div = document.createElement('div');
-          div.className = "flex justify-between items-center bg-white p-2 rounded-lg border border-slate-200 shadow-sm";
+          div.className = "flex justify-between items-center bg-white p-2 rounded-lg border border-slate-200 shadow-xs";
           div.innerHTML = `
             <div class="flex-1 pr-2">
               <span class="font-bold text-slate-800 block text-[11px]">
@@ -2707,7 +2781,6 @@
       const s3Sub = document.getElementById('track-step-3-sub');
       const s4Sub = document.getElementById('track-step-4-sub');
 
-      // Reset
       [s2, s3, s4].forEach(el => el.querySelector('div').className = "w-8 h-8 mx-auto rounded-full flex items-center justify-center text-sm font-bold bg-slate-200 text-slate-600");
       s2Sub.innerText = "Pending"; s3Sub.innerText = "Pending"; s4Sub.innerText = "Pending";
 
@@ -2727,7 +2800,6 @@
         s4.querySelector('div').className = "w-8 h-8 mx-auto rounded-full flex items-center justify-center text-sm font-bold bg-purple-600 text-white animate-pulse";
         s4Sub.innerText = "Ready to Pickup";
       } else {
-        // Delivered / Completed
         [s2, s3, s4].forEach(el => el.querySelector('div').className = "w-8 h-8 mx-auto rounded-full flex items-center justify-center text-sm font-bold bg-emerald-600 text-white");
         s2Sub.innerText = "Done"; s3Sub.innerText = "Done"; s4Sub.innerText = "Delivered";
       }
@@ -2893,7 +2965,7 @@
         ? `https://api.whatsapp.com/send?phone=${cleanPhone}&text=${encodeURIComponent(message)}`
         : `https://api.whatsapp.com/send?text=${encodeURIComponent(message)}`;
 
-      const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+      const isMobile = /iPhone|iPad|iPod|Android/i.test(userAgent = navigator.userAgent);
       if (isMobile) {
         window.location.href = waUrl;
       } else {
