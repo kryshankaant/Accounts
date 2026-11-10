@@ -5,11 +5,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>Cool Art | Enterprise Billing & Financial Ledger</title>
   
-  <link rel="icon" type="image/png" href="fevicon.png?v=80">
-  <link rel="apple-touch-icon" href="fevicon.png?v=80">
+  <link rel="icon" type="image/png" href="fevicon.png?v=90">
+  <link rel="apple-touch-icon" href="fevicon.png?v=90">
 
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+  <!-- Chart.js for Live Financial Growth Engine -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com">
@@ -119,7 +121,7 @@
     <div class="stat-card max-w-sm w-full p-8 border-slate-800 bg-[#0b1329]/95 text-white shadow-2xl relative overflow-hidden text-center space-y-6">
       <div class="flex justify-center">
         <div class="w-20 h-20 rounded-2xl p-2 bg-slate-900/90 border border-slate-700/80 shadow-inner flex items-center justify-center">
-          <img src="fevicon.png?v=80" alt="Cool Art" class="w-full h-full object-contain rounded-xl">
+          <img src="fevicon.png?v=90" alt="Cool Art" class="w-full h-full object-contain rounded-xl">
         </div>
       </div>
 
@@ -158,7 +160,7 @@
             <img src="cool art logo.png" alt="Cool Art" class="h-7 sm:h-8 w-auto object-contain">
             <span class="text-white/20 font-light text-base sm:text-xl">|</span>
             <div class="h-9 sm:h-11 w-9 sm:w-11 rounded-2xl p-1 bg-white/5 border border-white/10 shadow-inner flex items-center justify-center overflow-hidden flex-shrink-0">
-              <img src="fevicon.png?v=80" alt="CA Logo" class="h-full w-full object-contain rounded-xl">
+              <img src="fevicon.png?v=90" alt="CA Logo" class="h-full w-full object-contain rounded-xl">
             </div>
 
             <div class="hidden lg:block border-l border-white/10 pl-3">
@@ -169,32 +171,27 @@
 
           <!-- APPLE GLASS NAVIGATION BUTTONS -->
           <div class="flex items-center gap-1.5 sm:gap-2">
-            <!-- Home -->
             <button onclick="switchTab('dashboard')" title="Home / Dashboard" class="apple-glass-btn px-2.5 sm:px-3.5 py-1.5 sm:py-2 rounded-xl text-white inline-flex items-center gap-1.5">
               <svg class="w-4 h-4 text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path></svg>
               <span class="hidden sm:inline text-xs font-bold">Home</span>
             </button>
 
-            <!-- Sync -->
             <button onclick="pullDataFromSheets(true)" id="btn-pull-sync" title="Sync from Sheet" class="apple-glass-btn px-2.5 sm:px-3.5 py-1.5 sm:py-2 rounded-xl text-white inline-flex items-center gap-1.5 text-emerald-400">
               <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg>
               <span class="hidden sm:inline text-xs font-bold text-white" id="sync-text">Sync</span>
             </button>
 
-            <!-- Expense -->
             <button onclick="openCreateExpenseModal()" title="Add General Expense" class="apple-glass-btn px-2.5 sm:px-3.5 py-1.5 sm:py-2 rounded-xl text-rose-300 inline-flex items-center gap-1.5">
               <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
               <span class="hidden sm:inline text-xs font-bold text-white">Expense</span>
             </button>
 
-            <!-- New Invoice -->
             <button onclick="openNewInvoiceForm()" class="px-3 sm:px-4 py-1.5 sm:py-2 rounded-xl bg-indigo-600/90 hover:bg-indigo-500 text-white text-xs font-bold shadow-md hover:shadow-indigo-500/20 active:scale-95 transition inline-flex items-center gap-1.5 border border-indigo-400/30">
               <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
               <span class="hidden sm:inline">New Invoice</span>
               <span class="sm:hidden">Bill</span>
             </button>
 
-            <!-- Lock -->
             <button onclick="lockGateway()" title="Lock Application" class="apple-glass-btn p-2 rounded-xl text-slate-400 hover:text-red-400 inline-flex items-center justify-center">
               <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
             </button>
@@ -226,7 +223,7 @@
         <!-- 1. DASHBOARD TAB -->
         <section id="tab-sec-dashboard" class="space-y-5 sm:space-y-6 no-print">
           
-          <!-- SMART MISSION ENGINE (TARGET ₹50,000 NET PROFIT) -->
+          <!-- SMART MISSION ENGINE -->
           <div class="stat-card p-4 sm:p-5 bg-gradient-to-r from-slate-950 via-[#0c142e] to-slate-950 text-white border-indigo-900/60 shadow-xl relative overflow-hidden">
             <div class="flex flex-wrap items-center justify-between gap-3 border-b border-white/10 pb-3">
               <div class="flex items-center gap-2.5">
@@ -268,7 +265,7 @@
               </div>
             </div>
 
-            <!-- Product Recommendations Engine -->
+            <!-- Recommendations Engine -->
             <div class="mt-4 pt-3.5 border-t border-white/10 grid grid-cols-1 md:grid-cols-3 gap-3 text-xs">
               <div class="bg-white/5 p-3 rounded-xl border border-white/5">
                 <span class="text-[10px] uppercase font-bold text-indigo-400 block">🏆 Top Selling Segment</span>
@@ -290,7 +287,61 @@
             </div>
           </div>
 
-          <!-- Live Project & Client Overview Bar (MOBILE RESPONSIVE) -->
+          <!-- LIVE FINANCIAL GROWTH TREND GRAPH (CHART.JS) -->
+          <div class="stat-card p-4 sm:p-6 bg-white border border-slate-200 shadow-sm rounded-2xl space-y-4">
+            <div class="flex flex-wrap items-center justify-between gap-3 border-b border-slate-100 pb-3">
+              <div>
+                <div class="flex items-center gap-2">
+                  <span class="text-xl">📈</span>
+                  <h3 class="text-sm sm:text-base font-extrabold uppercase tracking-wide text-slate-900">
+                    Live Financial Growth Trend
+                  </h3>
+                </div>
+                <p class="text-[11px] text-slate-500 mt-0.5">Real-time revenue, cleared cashflow, and profit acceleration curve</p>
+              </div>
+
+              <!-- 3 Interactive Timeline Filters -->
+              <div class="inline-flex p-1 rounded-xl bg-slate-100 border border-slate-200 text-xs font-bold">
+                <button type="button" onclick="setGrowthChartFilter('month')" id="btn-chart-month" class="px-3 py-1 rounded-lg transition bg-white text-indigo-700 shadow-sm">
+                  This Month
+                </button>
+                <button type="button" onclick="setGrowthChartFilter('fy')" id="btn-chart-fy" class="px-3 py-1 rounded-lg transition text-slate-600 hover:text-slate-900">
+                  Current FY
+                </button>
+                <button type="button" onclick="setGrowthChartFilter('all')" id="btn-chart-all" class="px-3 py-1 rounded-lg transition text-slate-600 hover:text-slate-900">
+                  All-Time
+                </button>
+              </div>
+            </div>
+
+            <!-- 3 Financial Intelligence Mini-Badges -->
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
+              <div class="p-3 rounded-xl bg-slate-50 border border-slate-200 font-tabular">
+                <span class="text-[10px] font-bold uppercase text-slate-500 block">FY 2026–27 Turnover</span>
+                <strong class="text-sm sm:text-base text-slate-900 font-extrabold mt-0.5 block" id="badge-fy-turnover">₹0.00</strong>
+                <span class="text-[10px] text-slate-400">Total booked volume</span>
+              </div>
+
+              <div class="p-3 rounded-xl bg-emerald-50/70 border border-emerald-200 font-tabular">
+                <span class="text-[10px] font-bold uppercase text-emerald-900 block">Cash Realization Rate</span>
+                <strong class="text-sm sm:text-base text-emerald-700 font-extrabold mt-0.5 block" id="badge-cash-rate">0.0%</strong>
+                <span class="text-[10px] text-emerald-800">In-hand collection ratio</span>
+              </div>
+
+              <div class="p-3 rounded-xl bg-indigo-50/70 border border-indigo-200 font-tabular">
+                <span class="text-[10px] font-bold uppercase text-indigo-900 block">Monthly Growth Velocity</span>
+                <strong class="text-sm sm:text-base text-indigo-700 font-extrabold mt-0.5 block" id="badge-mom-growth">+0.0%</strong>
+                <span class="text-[10px] text-indigo-800">MoM bill momentum</span>
+              </div>
+            </div>
+
+            <!-- Chart Canvas Container -->
+            <div class="relative w-full h-64 sm:h-72">
+              <canvas id="growthCanvas"></canvas>
+            </div>
+          </div>
+
+          <!-- Overview Bar -->
           <div class="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4">
             <div class="stat-card p-4 flex items-center justify-between border-indigo-100 bg-indigo-50/40">
               <div>
@@ -316,7 +367,7 @@
             </div>
           </div>
 
-          <!-- Financial Cards (MOBILE 1-COL, DESKTOP 4-COL) -->
+          <!-- Top Row Financial Cards -->
           <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
             <div class="stat-card p-4 sm:p-5">
               <p class="text-xs font-bold uppercase tracking-wider text-slate-400">Total Invoiced Amount</p>
@@ -363,30 +414,34 @@
             </div>
           </div>
 
-          <!-- Bottom Row Financial Cards -->
+          <!-- Bottom Row Financial Cards: 4 BALANCED CARDS (NO REDUNDANT PERCENTAGE CARD) -->
           <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
-            <div class="bg-white p-4 rounded-2xl border border-amber-200 shadow-xs">
+            <!-- 1. Total Job Cost (COGS) -->
+            <div class="bg-white p-4 sm:p-5 rounded-2xl border border-amber-200 shadow-xs">
               <span class="text-xs font-bold text-amber-900 uppercase tracking-wider block">Total Job Cost (COGS)</span>
-              <span id="metric-total-cogs" class="text-xl font-extrabold text-amber-950 font-tabular mt-1 block">₹0.00</span>
+              <span id="metric-total-cogs" class="text-xl sm:text-2xl font-extrabold text-amber-950 font-tabular mt-1 block">₹0.00</span>
               <span class="text-[10px] text-slate-500">Raw Stock + Labor + Delivery Fuel</span>
             </div>
 
-            <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-xs">
-              <span class="text-xs font-bold text-slate-500 uppercase tracking-wider block">Job Production Margin</span>
-              <span id="metric-job-profit" class="text-xl font-extrabold text-slate-800 font-tabular mt-1 block">₹0.00</span>
-              <span class="text-[10px] text-slate-400">Total Billed - Direct Job Costs</span>
+            <!-- 2. Calculated Net Profit (Direct All Bills Total) -->
+            <div class="bg-emerald-50/80 p-4 sm:p-5 rounded-2xl border border-emerald-200 shadow-xs">
+              <span class="text-xs font-bold text-emerald-900 uppercase tracking-wider block">Calculated Net Profit</span>
+              <span id="metric-job-profit" class="text-xl sm:text-2xl font-black text-emerald-700 font-tabular mt-1 block">₹0.00</span>
+              <span class="text-[10px] text-emerald-800 font-medium">Net Billed - Production Cost</span>
             </div>
 
-            <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-xs">
+            <!-- 3. Office / Shop Expenses -->
+            <div class="bg-white p-4 sm:p-5 rounded-2xl border border-slate-200 shadow-xs">
               <span class="text-xs font-bold text-rose-600 uppercase tracking-wider block">Office / Shop Expenses</span>
-              <span id="metric-office-expenses" class="text-xl font-extrabold text-rose-600 font-tabular mt-1 block">₹0.00</span>
+              <span id="metric-office-expenses" class="text-xl sm:text-2xl font-extrabold text-rose-600 font-tabular mt-1 block">₹0.00</span>
               <span class="text-[10px] text-slate-400">Rent, Bills, Tea, Tools, Maintenance</span>
             </div>
 
-            <div class="bg-emerald-50/80 p-4 rounded-2xl border border-emerald-200 shadow-xs">
-              <span class="text-xs font-black text-emerald-900 uppercase tracking-wider block">Real In-Hand Cash Profit</span>
-              <span id="metric-net-real-profit" class="text-2xl font-black text-emerald-700 font-tabular mt-1 block">₹0.00</span>
-              <span class="text-[10px] text-emerald-800/80 font-medium">Cleared Receipts - Job Costs - Office Exp</span>
+            <!-- 4. Real In-Hand Cash Profit -->
+            <div class="bg-white p-4 sm:p-5 rounded-2xl border border-slate-200 shadow-xs">
+              <span class="text-xs font-black text-slate-800 uppercase tracking-wider block">Real In-Hand Cash Profit</span>
+              <span id="metric-net-real-profit" class="text-xl sm:text-2xl font-black text-emerald-700 font-tabular mt-1 block">₹0.00</span>
+              <span class="text-[10px] text-slate-400 font-medium">Cleared Receipts - Costs - Overheads</span>
             </div>
           </div>
 
@@ -1157,7 +1212,7 @@
     </div>
   </div>
 
-  <!-- JAVASCRIPT LOGIC (PERMANENT LOCAL COST VAULT ENGINE) -->
+  <!-- JAVASCRIPT LOGIC (PERMANENT LOCAL COST VAULT & LIVE GROWTH ENGINE) -->
   <script>
     const DEFAULT_WEBHOOK_URL = "https://script.google.com/macros/s/AKfycbwXlXsEhAqRUho6zZr-amBL8GJ9BPXHcUI9X54ZRlEj8_vpLxM7UaEHrp_L8cuLFy3BUA/exec";
     const MASTER_KEY = "CoolArt@2026";
@@ -1178,6 +1233,8 @@
 
     let editingInvoiceId = null;
     let activeHistoryClientId = null;
+    let growthChartInstance = null;
+    let currentChartFilter = 'month';
 
     function unlockGateway() {
       const pass = document.getElementById('gw-pass').value.trim();
@@ -1207,17 +1264,16 @@
       }
     }
 
-    // LOAD DATA & MULTI-VERSION VAULT SCANNER
     function loadData() {
-      let saved = localStorage.getItem('coolart_finance_master_v80') ||
+      let saved = localStorage.getItem('coolart_finance_master_v90') ||
+                  localStorage.getItem('coolart_finance_master_v85') ||
+                  localStorage.getItem('coolart_finance_master_v80') ||
                   localStorage.getItem('coolart_finance_master_v75') || 
                   localStorage.getItem('coolart_finance_master_v70') || 
-                  localStorage.getItem('coolart_finance_master_v60') || 
                   localStorage.getItem('coolart_finance_master');
 
       let costVault = JSON.parse(localStorage.getItem('coolart_cost_vault') || '{}');
 
-      // Purani sabhi keys se costing breakdown scan karke vault mein lock karna
       for (let i = 0; i < localStorage.length; i++) {
         let k = localStorage.key(i);
         if (k && k.includes('coolart')) {
@@ -1226,7 +1282,6 @@
             if (p && Array.isArray(p.invoices)) {
               p.invoices.forEach(inv => {
                 if (inv && inv.id && Array.isArray(inv.costRows) && inv.costRows.length > 0) {
-                  // Agar vault mein abhi tak multi-row nahi hai aur purane data mein 1 se zyada rows the
                   if (!costVault[inv.id] || costVault[inv.id].length <= 1) {
                     costVault[inv.id] = inv.costRows;
                   }
@@ -1250,7 +1305,6 @@
         } catch (e) { console.error(e); }
       }
 
-      // Har invoice par vault ke preserved cost rows ko restore karna
       if (store.invoices && Array.isArray(store.invoices)) {
         store.invoices.forEach(inv => {
           if (costVault[inv.id] && costVault[inv.id].length > 0) {
@@ -1269,7 +1323,7 @@
     }
 
     function persistData() {
-      localStorage.setItem('coolart_finance_master_v80', JSON.stringify(store));
+      localStorage.setItem('coolart_finance_master_v90', JSON.stringify(store));
     }
 
     function getNextInvoiceNumber() {
@@ -1380,7 +1434,6 @@
 
           const matchedExisting = store.invoices.find(i => i.id === invId);
 
-          // PERMANENT VAULT LOCK: Never overwrite multi-line breakdown with single 'Material / Raw Stock'
           let preservedCosts = null;
           if (costVault[invId] && Array.isArray(costVault[invId]) && costVault[invId].length > 0) {
             preservedCosts = costVault[invId];
@@ -1388,23 +1441,27 @@
             preservedCosts = matchedExisting.costRows;
           }
 
+          const jCost = Number(inv.Job_Cost) || 0;
+          const netTot = Number(inv.Net_Total) || 0;
+          const calcProfit = Math.max(0, netTot - jCost);
+
           return {
             id: invId,
             clientId: String(inv.Client_ID || ('CL_' + inv.Client_Name)),
             clientName: String(inv.Client_Name || ''),
             date: String(inv.Date || '').split('T')[0],
             status: String(inv.Work_Status || 'Delivered / Completed'),
-            items: lineItems.length > 0 ? lineItems : [{ desc: 'Work Order', remarks: '', qty: 1, rate: Number(inv.Net_Total)||0, total: Number(inv.Net_Total)||0 }],
-            grossTotal: Number(inv.Gross_Amount) || Number(inv.Net_Total) || 0,
+            items: lineItems.length > 0 ? lineItems : [{ desc: 'Work Order', remarks: '', qty: 1, rate: netTot, total: netTot }],
+            grossTotal: Number(inv.Gross_Amount) || netTot,
             discount: Number(inv.Discount_Amount) || 0,
             gstAmount: Number(inv.GST_Amount) || 0,
-            total: Number(inv.Net_Total) || 0,
+            total: netTot,
             costRows: preservedCosts ? preservedCosts : [
-              { title: 'Material / Raw Stock', amount: (Number(inv.Job_Cost) || 0) }
+              { title: 'Material / Raw Stock', amount: jCost }
             ],
-            totalCost: Number(inv.Job_Cost) || 0,
-            netProfit: Number(inv.Net_Profit) || 0,
-            sevaFund: Number(inv.Seva_Fund) || 0,
+            totalCost: jCost,
+            netProfit: (inv.Net_Profit !== undefined && inv.Net_Profit !== null && inv.Net_Profit !== '') ? Number(inv.Net_Profit) : calcProfit,
+            sevaFund: Number(inv.Seva_Fund) || (calcProfit * 0.1),
             lastModified: String(inv.Date || '')
           };
         });
@@ -1466,6 +1523,8 @@
       } else if (tabId === 'expenses') {
         populateExpenseMonthsDropdown();
         renderExpensesTable();
+      } else if (tabId === 'dashboard') {
+        renderGrowthChart();
       }
     }
 
@@ -1514,7 +1573,7 @@
       const discountTotal = clientInvoices.reduce((sum, i) => sum + (Number(i.discount) || 0), 0);
       const gstTotal = clientInvoices.reduce((sum, i) => sum + (Number(i.gstAmount) || 0), 0);
       const totalJobCost = clientInvoices.reduce((sum, i) => sum + (Number(i.totalCost) || 0), 0);
-      const totalProfit = clientInvoices.reduce((sum, i) => sum + (Number(i.netProfit) || 0), 0);
+      const totalProfit = Math.max(0, billedTotal - totalJobCost);
       const totalBookedSeva = clientInvoices.reduce((sum, i) => sum + (Number(i.sevaFund) || 0), 0);
 
       const clientPayments = store.payments.filter(p => 
@@ -1572,6 +1631,7 @@
       renderExpensesTable();
       updateMetricBadges();
       populateClientSelects();
+      renderGrowthChart();
     }
 
     // SMART MISSION ENGINE
@@ -1612,7 +1672,7 @@
       const mInvoices = store.invoices.filter(i => (i.date || '').startsWith(targetYM));
       const mExpenses = store.officeExpenses.filter(e => (e.date || '').startsWith(targetYM));
 
-      const bookedJobProfit = mInvoices.reduce((s, i) => s + (Number(i.netProfit) || 0), 0);
+      const bookedJobProfit = mInvoices.reduce((s, i) => s + Math.max(0, (Number(i.total) || 0) - (Number(i.totalCost) || 0)), 0);
       const mOfficeExp = mExpenses.reduce((s, e) => s + (Number(e.amount) || 0), 0);
       const netProfitAchieved = Math.max(0, bookedJobProfit - mOfficeExp);
 
@@ -1638,20 +1698,242 @@
       }
     }
 
+    // LIVE FINANCIAL GROWTH ENGINE (CHART.JS)
+    function setGrowthChartFilter(filterType) {
+      currentChartFilter = filterType;
+      ['month', 'fy', 'all'].forEach(t => {
+        const btn = document.getElementById(`btn-chart-${t}`);
+        if (t === filterType) {
+          btn.className = "px-3 py-1 rounded-lg transition bg-white text-indigo-700 shadow-sm font-bold";
+        } else {
+          btn.className = "px-3 py-1 rounded-lg transition text-slate-600 hover:text-slate-900";
+        }
+      });
+      renderGrowthChart();
+    }
+
+    function renderGrowthChart() {
+      const canvas = document.getElementById('growthCanvas');
+      if (!canvas) return;
+
+      const today = new Date();
+      const currentYear = today.getFullYear();
+      const currentMonth = today.getMonth(); // 0-indexed
+      const currentYM = today.toISOString().substring(0, 7);
+
+      // Financial Year boundaries (April to March)
+      const fyStartYear = currentMonth >= 3 ? currentYear : (currentYear - 1);
+      const fyEndYear = fyStartYear + 1;
+      const fyStartDate = `${fyStartYear}-04-01`;
+      const fyEndDate = `${fyEndYear}-03-31`;
+
+      // 1. Calculate FY turnover & recovery stats
+      const fyInvoices = store.invoices.filter(i => i.date >= fyStartDate && i.date <= fyEndDate);
+      const fyPayments = store.payments.filter(p => p.date >= fyStartDate && p.date <= fyEndDate);
+
+      const fyBilled = fyInvoices.reduce((s, i) => s + (Number(i.total) || 0), 0);
+      const fyCleared = fyPayments.reduce((s, p) => s + (Number(p.amount) || 0), 0);
+      const recoveryRate = fyBilled > 0 ? ((fyCleared / fyBilled) * 100).toFixed(1) : '0.0';
+
+      // 2. MoM Growth Velocity (Current Month vs Previous Month)
+      const prevMonthDate = new Date(currentYear, currentMonth - 1, 1);
+      const prevYM = prevMonthDate.toISOString().substring(0, 7);
+      const thisMonthBilled = store.invoices.filter(i => (i.date || '').startsWith(currentYM)).reduce((s, i) => s + (Number(i.total) || 0), 0);
+      const prevMonthBilled = store.invoices.filter(i => (i.date || '').startsWith(prevYM)).reduce((s, i) => s + (Number(i.total) || 0), 0);
+
+      let momRate = "+0.0%";
+      if (prevMonthBilled > 0) {
+        const diff = ((thisMonthBilled - prevMonthBilled) / prevMonthBilled) * 100;
+        momRate = (diff >= 0 ? "+" : "") + diff.toFixed(1) + "%";
+      } else if (thisMonthBilled > 0) {
+        momRate = "+100%";
+      }
+
+      if (document.getElementById('badge-fy-turnover'))
+        document.getElementById('badge-fy-turnover').innerText = `₹${fyBilled.toLocaleString('en-IN', {minimumFractionDigits: 2})}`;
+      if (document.getElementById('badge-cash-rate'))
+        document.getElementById('badge-cash-rate').innerText = `${recoveryRate}%`;
+      if (document.getElementById('badge-mom-growth'))
+        document.getElementById('badge-mom-growth').innerText = momRate;
+
+      // 3. Prepare Chart Datasets based on Filter
+      let labels = [];
+      let billedData = [];
+      let clearedData = [];
+      let profitData = [];
+
+      if (currentChartFilter === 'month') {
+        // Daily progression for active month
+        const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
+        for (let d = 1; d <= daysInMonth; d++) {
+          const dayStr = `${currentYM}-${String(d).padStart(2, '0')}`;
+          labels.push(`${d} ${today.toLocaleString('en-IN', { month: 'short' })}`);
+
+          const dayInvs = store.invoices.filter(i => i.date === dayStr);
+          const dayPays = store.payments.filter(p => p.date === dayStr);
+
+          const bAmt = dayInvs.reduce((s, i) => s + (Number(i.total) || 0), 0);
+          const cAmt = dayPays.reduce((s, p) => s + (Number(p.amount) || 0), 0);
+          const pAmt = dayInvs.reduce((s, i) => s + Math.max(0, (Number(i.total) || 0) - (Number(i.totalCost) || 0)), 0);
+
+          billedData.push(bAmt);
+          clearedData.push(cAmt);
+          profitData.push(pAmt);
+        }
+      } else if (currentChartFilter === 'fy') {
+        // 12 Months: April to March
+        const fyMonths = [
+          { ym: `${fyStartYear}-04`, label: `Apr '${String(fyStartYear).slice(-2)}` },
+          { ym: `${fyStartYear}-05`, label: `May '${String(fyStartYear).slice(-2)}` },
+          { ym: `${fyStartYear}-06`, label: `Jun '${String(fyStartYear).slice(-2)}` },
+          { ym: `${fyStartYear}-07`, label: `Jul '${String(fyStartYear).slice(-2)}` },
+          { ym: `${fyStartYear}-08`, label: `Aug '${String(fyStartYear).slice(-2)}` },
+          { ym: `${fyStartYear}-09`, label: `Sep '${String(fyStartYear).slice(-2)}` },
+          { ym: `${fyStartYear}-10`, label: `Oct '${String(fyStartYear).slice(-2)}` },
+          { ym: `${fyStartYear}-11`, label: `Nov '${String(fyStartYear).slice(-2)}` },
+          { ym: `${fyStartYear}-12`, label: `Dec '${String(fyStartYear).slice(-2)}` },
+          { ym: `${fyEndYear}-01`, label: `Jan '${String(fyEndYear).slice(-2)}` },
+          { ym: `${fyEndYear}-02`, label: `Feb '${String(fyEndYear).slice(-2)}` },
+          { ym: `${fyEndYear}-03`, label: `Mar '${String(fyEndYear).slice(-2)}` }
+        ];
+
+        fyMonths.forEach(m => {
+          labels.push(m.label);
+          const mInvs = store.invoices.filter(i => (i.date || '').startsWith(m.ym));
+          const mPays = store.payments.filter(p => (p.date || '').startsWith(m.ym));
+
+          billedData.push(mInvs.reduce((s, i) => s + (Number(i.total) || 0), 0));
+          clearedData.push(mPays.reduce((s, p) => s + (Number(p.amount) || 0), 0));
+          profitData.push(mInvs.reduce((s, i) => s + Math.max(0, (Number(i.total) || 0) - (Number(i.totalCost) || 0)), 0));
+        });
+      } else {
+        // All-Time chronological by registered months
+        const allMonths = new Set();
+        store.invoices.forEach(i => { if (i.date) allMonths.add(i.date.substring(0, 7)); });
+        store.payments.forEach(p => { if (p.date) allMonths.add(p.date.substring(0, 7)); });
+        allMonths.add(currentYM);
+
+        const sorted = Array.from(allMonths).sort();
+        sorted.forEach(ym => {
+          const [y, m] = ym.split('-');
+          labels.push(new Date(y, parseInt(m, 10) - 1, 1).toLocaleString('en-IN', { month: 'short', year: '2-digit' }));
+
+          const mInvs = store.invoices.filter(i => (i.date || '').startsWith(ym));
+          const mPays = store.payments.filter(p => (p.date || '').startsWith(ym));
+
+          billedData.push(mInvs.reduce((s, i) => s + (Number(i.total) || 0), 0));
+          clearedData.push(mPays.reduce((s, p) => s + (Number(p.amount) || 0), 0));
+          profitData.push(mInvs.reduce((s, i) => s + Math.max(0, (Number(i.total) || 0) - (Number(i.totalCost) || 0)), 0));
+        });
+      }
+
+      // 4. Destroy previous chart and render
+      if (growthChartInstance) {
+        growthChartInstance.destroy();
+      }
+
+      const ctx = canvas.getContext('2d');
+      growthChartInstance = new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels: labels,
+          datasets: [
+            {
+              label: 'Total Billed (₹)',
+              data: billedData,
+              backgroundColor: 'rgba(99, 102, 241, 0.75)',
+              borderColor: 'rgb(79, 70, 229)',
+              borderWidth: 1.5,
+              borderRadius: 6,
+              order: 2
+            },
+            {
+              label: 'Cash Cleared (₹)',
+              data: clearedData,
+              backgroundColor: 'rgba(16, 185, 129, 0.75)',
+              borderColor: 'rgb(5, 150, 105)',
+              borderWidth: 1.5,
+              borderRadius: 6,
+              order: 3
+            },
+            {
+              type: 'line',
+              label: 'Calculated Net Profit (₹)',
+              data: profitData,
+              borderColor: 'rgb(245, 158, 11)',
+              backgroundColor: 'rgba(245, 158, 11, 0.15)',
+              borderWidth: 3,
+              tension: 0.35,
+              fill: false,
+              pointRadius: 3.5,
+              pointBackgroundColor: '#f59e0b',
+              order: 1
+            }
+          ]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          interaction: {
+            mode: 'index',
+            intersect: false
+          },
+          plugins: {
+            legend: {
+              position: 'top',
+              labels: {
+                boxWidth: 12,
+                font: { size: 11, weight: '700' },
+                color: '#334155'
+              }
+            },
+            tooltip: {
+              callbacks: {
+                label: function(context) {
+                  let label = context.dataset.label || '';
+                  if (label) label += ': ';
+                  if (context.parsed.y !== null) {
+                    label += '₹' + Number(context.parsed.y).toLocaleString('en-IN');
+                  }
+                  return label;
+                }
+              }
+            }
+          },
+          scales: {
+            x: {
+              grid: { display: false },
+              ticks: { font: { size: 10, weight: '600' }, color: '#64748b' }
+            },
+            y: {
+              beginAtZero: true,
+              grid: { color: 'rgba(226, 232, 240, 0.7)' },
+              ticks: {
+                font: { size: 10, weight: '600' },
+                color: '#64748b',
+                callback: function(value) {
+                  return '₹' + Number(value).toLocaleString('en-IN');
+                }
+              }
+            }
+          }
+        }
+      });
+    }
+
+    // UPDATE METRIC BADGES
     function updateMetricBadges() {
-      let grandBilled = 0, grandReceived = 0, grandBookedSeva = 0, grandRealizedSeva = 0, grandJobProfit = 0, grandJobCost = 0;
+      let grandBilled = 0, grandReceived = 0, grandBookedSeva = 0, grandRealizedSeva = 0, grandJobCost = 0;
 
       if (store.invoices && store.invoices.length > 0) {
         grandBilled = store.invoices.reduce((s, i) => s + (Number(i.total) || 0), 0);
         grandJobCost = store.invoices.reduce((s, i) => s + (Number(i.totalCost) || 0), 0);
-        grandJobProfit = store.invoices.reduce((s, i) => s + (Number(i.netProfit) || 0), 0);
         grandBookedSeva = store.invoices.reduce((s, i) => s + (Number(i.sevaFund) || 0), 0);
       } else {
         store.clients.forEach(c => {
           const stats = getClientSummary(c.id);
           grandBilled += stats.billedTotal;
           grandJobCost += stats.totalJobCost;
-          grandJobProfit += stats.totalProfit;
           grandBookedSeva += stats.totalBookedSeva;
         });
       }
@@ -1668,6 +1950,9 @@
       const grandDue = Math.max(0, grandBilled - grandReceived);
       const collectionRatio = grandBilled > 0 ? Math.min(1, grandReceived / grandBilled) : 0;
       grandRealizedSeva = grandBookedSeva * collectionRatio;
+
+      // CALCULATED NET PROFIT = NET BILLED - PRODUCTION COST
+      const grandJobProfit = Math.max(0, grandBilled - grandJobCost);
 
       const totalOfficeExp = (store.officeExpenses || []).reduce((s, e) => s + (Number(e.amount) || 0), 0);
       const netRealInHandProfit = Math.max(0, grandReceived - grandJobCost - totalOfficeExp);
@@ -1706,17 +1991,21 @@
 
       if (document.getElementById('metric-total-cogs'))
         document.getElementById('metric-total-cogs').innerText = `₹${grandJobCost.toLocaleString('en-IN', {minimumFractionDigits: 2})}`;
+      
+      // Direct All Bills Net Profit
       if (document.getElementById('metric-job-profit'))
         document.getElementById('metric-job-profit').innerText = `₹${grandJobProfit.toLocaleString('en-IN', {minimumFractionDigits: 2})}`;
+
       if (document.getElementById('metric-office-expenses'))
         document.getElementById('metric-office-expenses').innerText = `₹${totalOfficeExp.toLocaleString('en-IN', {minimumFractionDigits: 2})}`;
       if (document.getElementById('metric-net-real-profit'))
         document.getElementById('metric-net-real-profit').innerText = `₹${netRealInHandProfit.toLocaleString('en-IN', {minimumFractionDigits: 2})}`;
 
+      // Strictly 2 decimals
       if (document.getElementById('metric-hanuman-realized'))
-        document.getElementById('metric-hanuman-realized').innerText = `₹${netInHandSeva.toLocaleString('en-IN', {minimumFractionDigits: 2})}`;
+        document.getElementById('metric-hanuman-realized').innerText = `₹${netInHandSeva.toLocaleString('en-IN', {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
       if (document.getElementById('metric-hanuman-accrued'))
-        document.getElementById('metric-hanuman-accrued').innerText = `₹${grandBookedSeva.toLocaleString('en-IN', {minimumFractionDigits: 2})}`;
+        document.getElementById('metric-hanuman-accrued').innerText = `₹${grandBookedSeva.toLocaleString('en-IN', {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
     }
 
     // CLIENTS TABLE WITH FIXED PILL BADGES
@@ -1775,7 +2064,6 @@
         else if (status === 'In Process / Production') statusBadge = '<span class="text-[10px] font-extrabold px-2 py-0.5 rounded bg-blue-100 text-blue-800">In Process</span>';
         else if (status === 'Ready for Delivery') statusBadge = '<span class="text-[10px] font-extrabold px-2 py-0.5 rounded bg-purple-100 text-purple-800">Ready</span>';
 
-        // FIXED VERTICAL ALIGNED PILL
         let badgeTag = '<span class="inline-flex items-center text-[9px] font-extrabold uppercase px-1.5 py-0.2 rounded bg-emerald-50 text-emerald-700 border border-emerald-200 mt-0.5 w-fit">⭐ Regular</span>';
         if (stats.clientBadge === 'vip') {
           badgeTag = '<span class="inline-flex items-center text-[9px] font-extrabold uppercase px-1.5 py-0.2 rounded bg-purple-50 text-purple-700 border border-purple-200 mt-0.5 w-fit">💎 VIP</span>';
@@ -2169,7 +2457,6 @@
       const costContainer = document.getElementById('cost-rows-container');
       costContainer.innerHTML = '';
 
-      // COST VAULT PRIORITY CHECK: Hamesha saved alag-alag rows ko pehle kholna
       const costVault = JSON.parse(localStorage.getItem('coolart_cost_vault') || '{}');
       let preserved = null;
       if (costVault[invoice.id] && Array.isArray(costVault[invoice.id]) && costVault[invoice.id].length > 0) {
@@ -2211,7 +2498,6 @@
         if (p.invoiceId === invId) p.invoiceId = '';
       });
 
-      // Remove from vault
       const costVault = JSON.parse(localStorage.getItem('coolart_cost_vault') || '{}');
       if (costVault[invId]) {
         delete costVault[invId];
@@ -2398,7 +2684,6 @@
         store.invoices.push(invoiceObj);
       }
 
-      // PERMANENT LOCAL COST VAULT LOCK
       const costVault = JSON.parse(localStorage.getItem('coolart_cost_vault') || '{}');
       if (calc.costRows && calc.costRows.length > 0) {
         costVault[invId] = calc.costRows;
@@ -2965,7 +3250,7 @@
         ? `https://api.whatsapp.com/send?phone=${cleanPhone}&text=${encodeURIComponent(message)}`
         : `https://api.whatsapp.com/send?text=${encodeURIComponent(message)}`;
 
-      const isMobile = /iPhone|iPad|iPod|Android/i.test(userAgent = navigator.userAgent);
+      const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
       if (isMobile) {
         window.location.href = waUrl;
       } else {
