@@ -3,10 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Cool Art | Enterprise Billing & Financial Ledger</title>
-  
-  <link rel="icon" type="image/png" href="fevicon.png?v=95">
-  <link rel="apple-touch-icon" href="fevicon.png?v=95">
+  <title>Cool Art | Enterprise Billing & Financial Ledger (v9.0)</title>
+
+  <link rel="icon" type="image/png" href="fevicon.png?v=90">
+  <link rel="apple-touch-icon" href="fevicon.png?v=90">
 
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
@@ -17,18 +17,21 @@
 
   <style>
     * {
-      font-family: 'Plus Jakarta Sans', 'Noto Sans Devanagari', -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, sans-serif !important;
+      font-family: 'Plus Jakarta Sans', 'Noto Sans Devanagari', -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, sans-serif;
       box-sizing: border-box;
-      letter-spacing: -0.015em;
     }
+
     body {
       background: radial-gradient(ellipse at 10% 0%, rgba(219, 234, 254, 0.6), transparent 45%),
                   radial-gradient(ellipse at 90% 10%, rgba(209, 250, 229, 0.5), transparent 40%),
                   #f8fafc;
       color: #0f172a;
       min-height: 100vh;
+      padding-bottom: 64px; /* Prevents content overlap with fixed bottom bar */
       -webkit-font-smoothing: antialiased;
+      letter-spacing: -0.01em;
     }
+
     body::before {
       content: "";
       position: fixed;
@@ -39,22 +42,39 @@
       background-size: 20px 20px;
       z-index: -1;
     }
+
+    /* Dedicated Devanagari/Hindi rendering rules so matras never cut or clump */
+    .devanagari-safe,
+    #doc-terms-content,
+    #inv-terms-text,
+    #doc-items-table {
+      font-family: 'Noto Sans Devanagari', 'Plus Jakarta Sans', sans-serif !important;
+      line-height: 1.68 !important;
+      letter-spacing: 0 !important;
+      word-spacing: 0.04em;
+      font-variant-ligatures: normal;
+      text-rendering: optimizeLegibility;
+    }
+
     .font-tabular {
       font-variant-numeric: tabular-nums;
     }
+
     .stat-card {
-      border: 1px solid rgba(226, 232, 240, 0.8);
+      border: 1px solid rgba(226, 232, 240, 0.85);
       border-radius: 20px;
-      background: rgba(255, 255, 255, 0.88);
+      background: rgba(255, 255, 255, 0.9);
       backdrop-filter: blur(12px);
       box-shadow: 0 4px 20px -2px rgba(15, 23, 42, 0.04);
       transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
     }
+
     .stat-card:hover {
       transform: translateY(-2px);
       box-shadow: 0 12px 28px -4px rgba(15, 23, 42, 0.08);
-      border-color: rgba(203, 213, 225, 0.9);
+      border-color: rgba(203, 213, 225, 0.95);
     }
+
     .apple-glass-btn {
       background: rgba(255, 255, 255, 0.08);
       backdrop-filter: blur(16px);
@@ -63,63 +83,188 @@
       box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
       transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
     }
+
     .apple-glass-btn:hover {
       background: rgba(255, 255, 255, 0.16);
       border-color: rgba(255, 255, 255, 0.22);
       transform: translateY(-1px);
     }
+
     .apple-glass-btn:active {
       transform: scale(0.96);
       background: rgba(255, 255, 255, 0.05);
     }
+
     .invoice-contrast-header {
       background-color: #0b1329 !important;
       color: #ffffff !important;
       -webkit-print-color-adjust: exact !important;
       print-color-adjust: exact !important;
     }
+
     @keyframes gentlePulse {
       0%, 100% { background-color: rgba(254, 242, 242, 0.9); }
       50% { background-color: rgba(254, 226, 226, 0.5); }
     }
+
     .oldest-overdue-row {
       animation: gentlePulse 2.5s infinite ease-in-out;
       border-left: 4px solid #ef4444 !important;
     }
+
+    /* Left Drawer Slide Transition */
+    #left-drawer {
+      transition: transform 0.28s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    /* Single-Page A4 Print Optimization */
     @media print {
       body {
         background: #ffffff !important;
         color: #000000 !important;
+        padding-bottom: 0 !important;
+        margin: 0 !important;
       }
-      body::before, header, nav, footer, .no-print, .office-private-note {
+      body::before,
+      header,
+      nav,
+      footer,
+      #left-drawer,
+      #left-drawer-backdrop,
+      .no-print,
+      .office-private-note {
         display: none !important;
       }
-      #invoice-sheet {
-        position: absolute;
-        left: 0;
-        top: 0;
-        width: 100% !important;
+      #app-root,
+      main,
+      #tab-sec-invoice-preview {
+        display: block !important;
         margin: 0 !important;
         padding: 0 !important;
+        width: 100% !important;
+      }
+      #invoice-sheet {
+        width: 100% !important;
+        max-width: 100% !important;
+        margin: 0 auto !important;
+        padding: 0 !important;
         border: none !important;
+        border-radius: 0 !important;
         box-shadow: none !important;
         background: #ffffff !important;
+        page-break-inside: avoid;
+        break-inside: avoid;
+      }
+      #invoice-sheet .p-4,
+      #invoice-sheet .sm\:p-7,
+      #invoice-sheet .p-5,
+      #invoice-sheet .p-4 {
+        padding: 10px 14px !important;
+      }
+      #invoice-sheet .space-y-5 > :not([hidden]) ~ :not([hidden]) {
+        margin-top: 8px !important;
       }
       @page {
         size: A4 portrait;
-        margin: 6mm 8mm;
+        margin: 5mm 6mm;
       }
     }
   </style>
 </head>
 <body class="min-h-screen flex flex-col justify-between antialiased">
 
+  <!-- LEFT SIDEBAR BACKDROP -->
+  <div id="left-drawer-backdrop" onclick="closeLeftDrawer()" class="hidden fixed inset-0 z-50 bg-slate-950/60 backdrop-blur-xs no-print transition-opacity"></div>
+
+  <!-- LEFT SIDEBAR DRAWER (STRICTLY LEFT SIDE) -->
+  <aside id="left-drawer" class="fixed top-0 left-0 bottom-0 z-50 w-72 sm:w-80 bg-[#0b1329] text-white border-r border-white/10 shadow-2xl -translate-x-full flex flex-col justify-between no-print">
+    <div class="p-4 space-y-5 overflow-y-auto">
+      <!-- Drawer Header -->
+      <div class="flex items-center justify-between pb-3 border-b border-white/10">
+        <div class="flex items-center gap-2.5">
+          <img src="fevicon.png?v=90" alt="Cool Art" class="w-9 h-9 rounded-xl object-contain bg-white/5 p-1 border border-white/10" onerror="this.src='https://placehold.co/40x40/0b1329/ffffff?text=CA'">
+          <div>
+            <h2 class="text-xs font-extrabold uppercase tracking-wider text-white">Cool Art Menu</h2>
+            <p class="text-[10px] text-emerald-400 font-semibold">v9.0 • Updated: 24 Nov 2026</p>
+          </div>
+        </div>
+        <button onclick="closeLeftDrawer()" class="w-8 h-8 rounded-lg bg-white/10 hover:bg-white/20 text-slate-300 hover:text-white flex items-center justify-center text-sm font-bold transition" title="Close Drawer">
+          ✕
+        </button>
+      </div>
+
+      <!-- Featured Drawer Action Buttons Requested -->
+      <div class="space-y-2">
+        <span class="text-[10px] font-bold uppercase tracking-widest text-slate-400 px-1 block">Intelligence & Growth</span>
+
+        <button onclick="openMissionFromDrawer()" class="w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl bg-gradient-to-r from-indigo-600/30 to-emerald-600/20 hover:from-indigo-600/45 hover:to-emerald-600/30 border border-indigo-400/30 text-left transition group">
+          <span class="flex items-center gap-2.5">
+            <span class="text-base">🎯</span>
+            <span>
+              <span class="text-xs font-extrabold text-white block">Smart Mission Engine</span>
+              <span class="text-[10px] text-emerald-300 block">Target ₹50,000 Net Profit</span>
+            </span>
+          </span>
+          <span class="text-xs text-indigo-300 group-hover:translate-x-0.5 transition">➔</span>
+        </button>
+
+        <button onclick="openGrowthFromDrawer()" class="w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 text-left transition group">
+          <span class="flex items-center gap-2.5">
+            <span class="text-base">📈</span>
+            <span>
+              <span class="text-xs font-extrabold text-white block">Sales Growth & Graph</span>
+              <span class="text-[10px] text-slate-400 block">Day • Month • Year Meter</span>
+            </span>
+          </span>
+          <span class="text-xs text-slate-400 group-hover:translate-x-0.5 transition">➔</span>
+        </button>
+      </div>
+
+      <!-- Navigation Shortcuts -->
+      <div class="space-y-1.5">
+        <span class="text-[10px] font-bold uppercase tracking-widest text-slate-400 px-1 block">Workspace</span>
+
+        <button onclick="switchTab('dashboard'); closeLeftDrawer();" class="w-full flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-semibold text-slate-200 hover:bg-white/10 transition text-left">
+          <span>📋</span> Directory & Client Ledger
+        </button>
+
+        <button onclick="switchTab('expenses'); closeLeftDrawer();" class="w-full flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-semibold text-slate-200 hover:bg-white/10 transition text-left">
+          <span>🏢</span> Office Expenses
+        </button>
+
+        <button onclick="openNewInvoiceForm(); closeLeftDrawer();" class="w-full flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-semibold text-slate-200 hover:bg-white/10 transition text-left">
+          <span>✍️</span> Invoice Studio
+        </button>
+
+        <button onclick="switchTab('invoice-preview'); closeLeftDrawer();" class="w-full flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-semibold text-slate-200 hover:bg-white/10 transition text-left">
+          <span>📄</span> Official Statement (A4)
+        </button>
+
+        <button onclick="closeLeftDrawer(); openModal('hanuman-bank-modal');" class="w-full flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-semibold text-amber-300 hover:bg-amber-500/10 transition text-left">
+          <span>🚩</span> Hanuman Ji Ka Bank
+        </button>
+      </div>
+
+      <!-- Future Modules Slot -->
+      <div class="p-3 rounded-xl bg-white/5 border border-dashed border-white/15 space-y-1">
+        <span class="text-[10px] font-bold uppercase tracking-wider text-indigo-300 block">Upcoming Modules Slot</span>
+        <p class="text-[10px] text-slate-400 leading-relaxed">Ready for future add-ons such as Staff Attendance, Stock Register, or Print Job Queue.</p>
+      </div>
+    </div>
+
+    <!-- Drawer Footer Version Info -->
+    <div class="p-3.5 border-t border-white/10 bg-slate-950/50 text-[10px] text-slate-400 flex items-center justify-between">
+      <span>Build: <strong class="text-slate-200">v9.0</strong></span>
+      <span>Updated: <strong class="text-emerald-400">24 Nov 2026</strong></span>
+    </div>
+  </aside>
+
   <!-- SECURITY GATEWAY -->
   <div id="security-gateway" class="fixed inset-0 z-50 bg-[#070d1e] flex items-center justify-center p-4">
     <div class="stat-card max-w-sm w-full p-8 border-slate-800 bg-[#0b1329]/95 text-white shadow-2xl relative overflow-hidden text-center space-y-6">
       <div class="flex justify-center">
         <div class="w-20 h-20 rounded-2xl p-2 bg-slate-900/90 border border-slate-700/80 shadow-inner flex items-center justify-center">
-          <img src="fevicon.png?v=95" alt="Cool Art" class="w-full h-full object-contain rounded-xl" onerror="this.src='https://placehold.co/80x80/0b1329/ffffff?text=CA'">
+          <img src="fevicon.png?v=90" alt="Cool Art" class="w-full h-full object-contain rounded-xl" onerror="this.src='https://placehold.co/80x80/0b1329/ffffff?text=CA'">
         </div>
       </div>
 
@@ -127,7 +272,7 @@
         <h2 class="text-base font-extrabold uppercase tracking-widest text-slate-100">Cool Art Ledger</h2>
         <p class="text-xs text-indigo-400 font-semibold mt-1">Enterprise Billing & Financial Accounts</p>
         <span class="inline-block mt-2 text-[10px] font-bold text-emerald-400 bg-emerald-950/60 border border-emerald-800/80 px-2.5 py-0.5 rounded-full uppercase tracking-wider">
-          Authorized Terminal
+          v9.0 • Updated 24 Nov 2026
         </span>
       </div>
 
@@ -149,37 +294,47 @@
   <!-- MAIN APP CONTAINER -->
   <div id="app-root" class="hidden flex-1 flex flex-col justify-between">
     <div>
-      <!-- APPLE-INSPIRED REFINED HEADER -->
-      <header class="sticky top-0 z-40 bg-[#0b1329]/90 backdrop-blur-xl border-b border-white/10 text-white shadow-lg no-print">
-        <div class="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-3">
-          
-          <!-- LOGO SECTION -->
-          <div class="flex items-center gap-2.5 sm:gap-3 flex-shrink-0 cursor-pointer" onclick="switchTab('dashboard')" title="Go to Dashboard">
-            <img src="cool art logo.png" alt="Cool Art" class="h-7 sm:h-8 w-auto object-contain" onerror="this.style.display='none'">
-            <span class="text-white/20 font-light text-base sm:text-xl">|</span>
-            <div class="h-9 sm:h-11 w-9 sm:w-11 rounded-2xl p-1 bg-white/5 border border-white/10 shadow-inner flex items-center justify-center overflow-hidden flex-shrink-0">
-              <img src="fevicon.png?v=95" alt="CA Logo" class="h-full w-full object-contain rounded-xl" onerror="this.src='https://placehold.co/60x60/0b1329/ffffff?text=CA'">
-            </div>
+      <!-- TOP HEADER BAR WITH LEFT DRAWER TOGGLE -->
+      <header class="sticky top-0 z-40 bg-[#0b1329]/92 backdrop-blur-xl border-b border-white/10 text-white shadow-lg no-print">
+        <div class="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-2 sm:gap-3">
 
-            <div class="hidden lg:block border-l border-white/10 pl-3">
-              <h1 class="text-xs font-bold uppercase tracking-wider text-slate-100">Cool Art Invoicing</h1>
-              <p class="text-[10px] text-emerald-400 font-medium">Enterprise Commercial Billing & Cloud Ledger</p>
+          <!-- LEFT SIDE: DRAWER BUTTON + BRAND LOGO -->
+          <div class="flex items-center gap-2 sm:gap-3 flex-shrink-0">
+            <button onclick="openLeftDrawer()" id="btn-open-drawer" title="Open Left Sidebar Drawer" class="apple-glass-btn px-2.5 sm:px-3 py-2 rounded-xl text-white inline-flex items-center gap-1.5 font-bold text-xs">
+              <svg class="w-4 h-4 text-indigo-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
+              <span class="hidden md:inline">Menu</span>
+            </button>
+
+            <div class="flex items-center gap-2 sm:gap-2.5 cursor-pointer" onclick="switchTab('dashboard')" title="Go to Dashboard">
+              <img src="cool art logo.png" alt="Cool Art" class="h-6 sm:h-8 w-auto object-contain" onerror="this.style.display='none'">
+              <span class="text-white/20 font-light text-base sm:text-xl">|</span>
+              <div class="h-9 sm:h-10 w-9 sm:w-10 rounded-2xl p-1 bg-white/5 border border-white/10 shadow-inner flex items-center justify-center overflow-hidden flex-shrink-0">
+                <img src="fevicon.png?v=90" alt="CA Logo" class="h-full w-full object-contain rounded-xl" onerror="this.src='https://placehold.co/50x50/0b1329/ffffff?text=CA'">
+              </div>
+
+              <div class="hidden xl:block border-l border-white/10 pl-3">
+                <div class="flex items-center gap-2">
+                  <h1 class="text-xs font-bold uppercase tracking-wider text-slate-100">Cool Art Invoicing</h1>
+                  <span class="text-[9px] font-bold px-2 py-0.5 rounded-full bg-indigo-500/20 text-indigo-300 border border-indigo-400/30">v9.0 • 24 Nov 2026</span>
+                </div>
+                <p class="text-[10px] text-emerald-400 font-medium">Enterprise Commercial Billing & Cloud Ledger</p>
+              </div>
             </div>
           </div>
 
-          <!-- APPLE GLASS NAVIGATION BUTTONS -->
+          <!-- RIGHT SIDE: ACTION BUTTONS -->
           <div class="flex items-center gap-1.5 sm:gap-2">
-            <button onclick="switchTab('dashboard')" title="Home / Dashboard" class="apple-glass-btn px-2.5 sm:px-3.5 py-1.5 sm:py-2 rounded-xl text-white inline-flex items-center gap-1.5">
+            <button onclick="switchTab('dashboard')" title="Home / Dashboard" class="apple-glass-btn px-2.5 sm:px-3 py-1.5 sm:py-2 rounded-xl text-white inline-flex items-center gap-1.5">
               <svg class="w-4 h-4 text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path></svg>
               <span class="hidden sm:inline text-xs font-bold">Home</span>
             </button>
 
-            <button onclick="pullDataFromSheets(true)" id="btn-pull-sync" title="Sync from Sheet" class="apple-glass-btn px-2.5 sm:px-3.5 py-1.5 sm:py-2 rounded-xl text-white inline-flex items-center gap-1.5 text-emerald-400">
+            <button onclick="pullDataFromSheets(true)" id="btn-pull-sync" title="Sync from Sheet" class="apple-glass-btn px-2.5 sm:px-3 py-1.5 sm:py-2 rounded-xl text-emerald-400 inline-flex items-center gap-1.5">
               <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg>
               <span class="hidden sm:inline text-xs font-bold text-white" id="sync-text">Sync</span>
             </button>
 
-            <button onclick="openCreateExpenseModal()" title="Add General Expense" class="apple-glass-btn px-2.5 sm:px-3.5 py-1.5 sm:py-2 rounded-xl text-rose-300 inline-flex items-center gap-1.5">
+            <button onclick="openCreateExpenseModal()" title="Add General Expense" class="apple-glass-btn px-2.5 sm:px-3 py-1.5 sm:py-2 rounded-xl text-rose-300 inline-flex items-center gap-1.5">
               <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
               <span class="hidden sm:inline text-xs font-bold text-white">Expense</span>
             </button>
@@ -220,9 +375,27 @@
       <main class="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 py-5 sm:py-7 w-full">
         <!-- 1. DASHBOARD TAB -->
         <section id="tab-sec-dashboard" class="space-y-5 sm:space-y-6 no-print">
-          
-          <!-- SMART MISSION ENGINE -->
-          <div class="stat-card p-4 sm:p-5 bg-gradient-to-r from-slate-950 via-[#0c142e] to-slate-950 text-white border-indigo-900/60 shadow-xl relative overflow-hidden">
+
+          <!-- COMPACT TOOLBAR FOR DRAWER SHORTCUTS & VERSION -->
+          <div class="flex flex-wrap items-center justify-between gap-2 bg-white/80 backdrop-blur-xs border border-slate-200/90 rounded-2xl px-4 py-2.5 shadow-2xs">
+            <div class="flex flex-wrap items-center gap-2">
+              <button onclick="openLeftDrawer()" class="px-3 py-1.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold inline-flex items-center gap-1.5 transition">
+                <span>☰</span> Left Drawer
+              </button>
+              <button onclick="toggleMissionPanel()" class="px-3 py-1.5 rounded-xl bg-indigo-50 hover:bg-indigo-100 text-indigo-800 border border-indigo-200 text-xs font-bold inline-flex items-center gap-1.5 transition">
+                <span>🎯</span> Smart Mission Engine
+              </button>
+              <button onclick="toggleGrowthPanel()" class="px-3 py-1.5 rounded-xl bg-emerald-50 hover:bg-emerald-100 text-emerald-800 border border-emerald-200 text-xs font-bold inline-flex items-center gap-1.5 transition">
+                <span>📈</span> Sales Growth Graph
+              </button>
+            </div>
+            <span class="text-[11px] font-semibold text-slate-500 font-tabular">
+              Version <strong class="text-slate-800">v9.0</strong> • Last Update: <strong class="text-indigo-700">24 Nov 2026</strong>
+            </span>
+          </div>
+
+          <!-- SMART MISSION ENGINE (COLLAPSED / HIDDEN BY DEFAULT ON DASHBOARD; OPENED VIA LEFT DRAWER OR BUTTON) -->
+          <div id="mission-engine-panel" class="hidden stat-card p-4 sm:p-5 bg-gradient-to-r from-slate-950 via-[#0c142e] to-slate-950 text-white border-indigo-900/60 shadow-xl relative overflow-hidden">
             <div class="flex flex-wrap items-center justify-between gap-3 border-b border-white/10 pb-3">
               <div class="flex items-center gap-2.5">
                 <span class="text-2xl">🎯</span>
@@ -233,10 +406,11 @@
                   <p class="text-[11px] text-indigo-300">Live Business Intelligence & Weighted Growth Advisor</p>
                 </div>
               </div>
-              
+
               <div class="flex items-center gap-2">
                 <span class="text-[11px] text-slate-400 font-semibold">Month:</span>
                 <select id="mission-month-select" onchange="renderMissionEngine()" class="bg-white/10 border border-white/15 rounded-xl px-2.5 py-1 text-xs font-bold text-white focus:outline-none"></select>
+                <button onclick="toggleMissionPanel(false)" class="px-2.5 py-1 rounded-lg bg-white/10 hover:bg-white/20 text-xs font-bold text-slate-300">Hide</button>
               </div>
             </div>
 
@@ -282,6 +456,87 @@
                 <span class="text-slate-200 text-xs block mt-0.5" id="mission-plan-b">1,500 Sq.Ft Flex + 500 Cards + 50 Frames</span>
                 <span class="text-[10px] text-slate-400">Balanced retail + event revenue</span>
               </div>
+            </div>
+          </div>
+
+          <!-- SALES GROWTH GRAPH & LIVE DAILY / MONTHLY / YEARLY METER -->
+          <div id="sales-growth-panel" class="stat-card p-4 sm:p-5 bg-white border-slate-200/90 space-y-4">
+            <div class="flex flex-wrap items-center justify-between gap-3 border-b border-slate-100 pb-3">
+              <div class="flex items-center gap-2.5">
+                <span class="text-xl">📈</span>
+                <div>
+                  <h3 class="text-sm sm:text-base font-extrabold text-slate-900">
+                    Sales Growth Graph & Live Meter (आज • महीना • साल)
+                  </h3>
+                  <p class="text-[11px] text-slate-500">Reference Date: <strong class="text-slate-700">24 Nov 2026</strong> • Live Daily, Monthly & Yearly Sales Tracker</p>
+                </div>
+              </div>
+
+              <div class="flex items-center gap-1.5 bg-slate-100 p-1 rounded-xl text-xs font-bold">
+                <button onclick="setGrowthGranularity('daily')" id="growth-tab-daily" class="px-3 py-1 rounded-lg bg-white text-indigo-700 shadow-2xs transition">Day (दिन)</button>
+                <button onclick="setGrowthGranularity('monthly')" id="growth-tab-monthly" class="px-3 py-1 rounded-lg text-slate-600 hover:text-slate-900 transition">Month (महीना)</button>
+                <button onclick="setGrowthGranularity('yearly')" id="growth-tab-yearly" class="px-3 py-1 rounded-lg text-slate-600 hover:text-slate-900 transition">Year (साल)</button>
+              </div>
+            </div>
+
+            <!-- Live Meters Row (Daily / Monthly / Yearly) -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-3 font-tabular">
+              <!-- Daily Meter -->
+              <div class="p-3.5 rounded-2xl bg-blue-50/70 border border-blue-200/80 space-y-2">
+                <div class="flex justify-between items-center text-xs">
+                  <span class="font-extrabold text-blue-950 uppercase tracking-wider">Today Sales (आज)</span>
+                  <span id="meter-day-pct" class="text-[10px] font-extrabold px-2 py-0.5 rounded-full bg-blue-100 text-blue-800">0%</span>
+                </div>
+                <div class="text-lg font-black text-blue-900" id="meter-day-val">₹0.00</div>
+                <div class="w-full bg-blue-200/70 rounded-full h-2.5 overflow-hidden">
+                  <div id="meter-day-bar" class="bg-blue-600 h-full rounded-full transition-all duration-500" style="width: 0%"></div>
+                </div>
+                <div class="text-[10px] text-blue-800/80 flex justify-between">
+                  <span>24 Nov 2026</span>
+                  <span>Daily Pace Meter</span>
+                </div>
+              </div>
+
+              <!-- Monthly Meter -->
+              <div class="p-3.5 rounded-2xl bg-indigo-50/70 border border-indigo-200/80 space-y-2">
+                <div class="flex justify-between items-center text-xs">
+                  <span class="font-extrabold text-indigo-950 uppercase tracking-wider">Nov 2026 Sales (महीना)</span>
+                  <span id="meter-month-pct" class="text-[10px] font-extrabold px-2 py-0.5 rounded-full bg-indigo-100 text-indigo-800">0%</span>
+                </div>
+                <div class="text-lg font-black text-indigo-900" id="meter-month-val">₹0.00</div>
+                <div class="w-full bg-indigo-200/70 rounded-full h-2.5 overflow-hidden">
+                  <div id="meter-month-bar" class="bg-indigo-600 h-full rounded-full transition-all duration-500" style="width: 0%"></div>
+                </div>
+                <div class="text-[10px] text-indigo-800/80 flex justify-between">
+                  <span>Monthly Goal: ₹1,00,000</span>
+                  <span>Live Month Meter</span>
+                </div>
+              </div>
+
+              <!-- Yearly Meter -->
+              <div class="p-3.5 rounded-2xl bg-emerald-50/70 border border-emerald-200/80 space-y-2">
+                <div class="flex justify-between items-center text-xs">
+                  <span class="font-extrabold text-emerald-950 uppercase tracking-wider">FY 2026 Sales (साल)</span>
+                  <span id="meter-year-pct" class="text-[10px] font-extrabold px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800">0%</span>
+                </div>
+                <div class="text-lg font-black text-emerald-900" id="meter-year-val">₹0.00</div>
+                <div class="w-full bg-emerald-200/70 rounded-full h-2.5 overflow-hidden">
+                  <div id="meter-year-bar" class="bg-emerald-600 h-full rounded-full transition-all duration-500" style="width: 0%"></div>
+                </div>
+                <div class="text-[10px] text-emerald-800/80 flex justify-between">
+                  <span>Annual Target: ₹10,00,000</span>
+                  <span>Cumulative 2026</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Visual Bar Chart Container -->
+            <div class="bg-slate-50/90 border border-slate-200/80 rounded-2xl p-4">
+              <div class="flex items-center justify-between mb-3">
+                <span class="text-xs font-bold text-slate-700" id="growth-chart-title">Recent 7 Days Sales Trend (₹)</span>
+                <span class="text-[10px] font-semibold text-slate-400">Hover bars for exact figure</span>
+              </div>
+              <div id="sales-growth-bars" class="h-40 flex items-end justify-between gap-2 sm:gap-4 pt-6 pb-1 px-1 border-b border-slate-200"></div>
             </div>
           </div>
 
@@ -360,36 +615,31 @@
 
           <!-- Bottom Row Financial Cards: 5-CARD VIEW (PROFIT + MARGIN %) -->
           <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3 sm:gap-4">
-            <!-- 1. Total Job Cost (COGS) -->
-            <div class="bg-white p-4 rounded-2xl border border-amber-200 shadow-xs">
+            <div class="bg-white p-4 rounded-2xl border border-amber-200 shadow-2xs">
               <span class="text-xs font-bold text-amber-900 uppercase tracking-wider block">Total Job Cost (COGS)</span>
               <span id="metric-total-cogs" class="text-xl font-extrabold text-amber-950 font-tabular mt-1 block">₹0.00</span>
               <span class="text-[10px] text-slate-500">Raw Stock + Labor + Delivery Fuel</span>
             </div>
 
-            <!-- 2. Calculated Net Profit (Booked) -->
-            <div class="bg-emerald-50/70 p-4 rounded-2xl border border-emerald-200 shadow-xs">
+            <div class="bg-emerald-50/70 p-4 rounded-2xl border border-emerald-200 shadow-2xs">
               <span class="text-xs font-bold text-emerald-900 uppercase tracking-wider block">Calculated Net Profit</span>
               <span id="metric-job-profit" class="text-xl font-extrabold text-emerald-700 font-tabular mt-1 block">₹0.00</span>
               <span class="text-[10px] text-emerald-800 font-medium">Net Billed - Production Cost</span>
             </div>
 
-            <!-- 3. Production Margin (%) -->
-            <div class="bg-indigo-50/70 p-4 rounded-2xl border border-indigo-200 shadow-xs">
+            <div class="bg-indigo-50/70 p-4 rounded-2xl border border-indigo-200 shadow-2xs">
               <span class="text-xs font-bold text-indigo-900 uppercase tracking-wider block">Production Margin (%)</span>
               <span id="metric-margin-pct" class="text-xl font-extrabold text-indigo-700 font-tabular mt-1 block">0.0%</span>
               <span class="text-[10px] text-indigo-800 font-medium">(Net Profit ÷ Net Billed) × 100</span>
             </div>
 
-            <!-- 4. Office / Shop Expenses -->
-            <div class="bg-white p-4 rounded-2xl border border-rose-200 shadow-xs">
+            <div class="bg-white p-4 rounded-2xl border border-rose-200 shadow-2xs">
               <span class="text-xs font-bold text-rose-600 uppercase tracking-wider block">Office / Shop Expenses</span>
               <span id="metric-office-expenses" class="text-xl font-extrabold text-rose-600 font-tabular mt-1 block">₹0.00</span>
               <span class="text-[10px] text-slate-400">Rent, Bills, Tea, Tools, Maintenance</span>
             </div>
 
-            <!-- 5. Real In-Hand Cash Profit -->
-            <div class="bg-emerald-100/80 p-4 rounded-2xl border border-emerald-300 shadow-xs">
+            <div class="bg-emerald-100/80 p-4 rounded-2xl border border-emerald-300 shadow-2xs">
               <span class="text-xs font-black text-emerald-950 uppercase tracking-wider block">Real In-Hand Cash Profit</span>
               <span id="metric-net-real-profit" class="text-2xl font-black text-emerald-800 font-tabular mt-1 block">₹0.00</span>
               <span class="text-[10px] text-emerald-900 font-semibold">Cleared Receipts - Costs - Overheads</span>
@@ -406,7 +656,7 @@
 
               <div class="flex flex-wrap items-center gap-2">
                 <input type="text" id="client-search-input" oninput="renderClientsTable()" placeholder="🔍 Quick search client..." class="bg-slate-50 border border-slate-300 rounded-xl px-3 py-1.5 text-xs text-slate-800 focus:outline-none focus:ring-2 focus:ring-indigo-500 w-44">
-                
+
                 <select id="client-row-limit" onchange="renderClientsTable()" class="bg-slate-50 border border-slate-300 rounded-xl px-2.5 py-1.5 text-xs font-bold text-slate-700 focus:outline-none">
                   <option value="10">Show 10</option>
                   <option value="25" selected>Show 25</option>
@@ -548,7 +798,7 @@
               <span class="text-[11px] text-slate-500">Uncheck for regular non-tax invoice</span>
             </div>
 
-            <!-- TERMS & CONDITIONS MANAGER (HIDDEN BY DEFAULT UNTIL CHECKED) -->
+            <!-- TERMS & CONDITIONS MANAGER (UNCHECKED & HIDDEN BY DEFAULT) -->
             <div class="bg-indigo-50/60 border border-indigo-200/80 rounded-xl p-4 space-y-3">
               <div class="flex flex-wrap items-center justify-between gap-2">
                 <div class="flex items-center gap-2">
@@ -566,11 +816,11 @@
                   <select id="inv-terms-category" onchange="applyTermsPreset()" class="bg-white border border-indigo-300 rounded-lg px-3 py-1.5 text-xs font-bold text-indigo-900 focus:outline-none focus:ring-2 focus:ring-indigo-500">
                     <option value="photography">📸 Photography & Videography Terms</option>
                     <option value="printing">🖨️ Printing & Graphic Designing Terms</option>
-                    <option value="custom">✍️ Custom / Edit Manually</option>
+                    <option value="custom">✍️ Custom / Manual Edit</option>
                   </select>
                 </div>
-                <textarea id="inv-terms-text" rows="5" oninput="document.getElementById('inv-terms-category').value='custom'" placeholder="Enter custom terms & conditions..." class="w-full bg-white border border-indigo-200 rounded-xl p-3 text-xs text-slate-800 leading-relaxed focus:outline-none focus:ring-2 focus:ring-indigo-500"></textarea>
-                <p class="text-[10px] text-slate-500">Tip: Selecting a preset auto-fills Hindi + English professional terms. You can freely edit any line above.</p>
+                <textarea id="inv-terms-text" rows="5" oninput="document.getElementById('inv-terms-category').value='custom'" placeholder="Enter custom terms & conditions..." class="w-full bg-white border border-indigo-200 rounded-xl p-3 text-xs text-slate-800 devanagari-safe focus:outline-none focus:ring-2 focus:ring-indigo-500"></textarea>
+                <p class="text-[10px] text-slate-500">Selecting a preset auto-fills clean Hindi + English terms; edit freely as needed.</p>
               </div>
             </div>
 
@@ -643,7 +893,7 @@
           </div>
         </section>
 
-        <!-- 4. OFFICIAL STATEMENT & INVOICE PREVIEW -->
+        <!-- 4. OFFICIAL STATEMENT & INVOICE PREVIEW (A4 FIT-TO-PAGE) -->
         <section id="tab-sec-invoice-preview" class="hidden space-y-6">
           <div class="no-print max-w-4xl mx-auto bg-white p-3.5 rounded-2xl border border-slate-200 shadow-sm flex flex-wrap items-center justify-between gap-3">
             <div class="flex flex-wrap items-center gap-2.5">
@@ -657,26 +907,26 @@
                 <select id="preview-bill-select" onchange="renderInvoiceView()" class="border border-slate-300 rounded-xl px-2.5 py-1 text-xs font-bold bg-slate-50 text-slate-800 focus:outline-none font-tabular"></select>
               </div>
 
-              <button onclick="editCurrentActiveInvoice()" id="btn-edit-active-inv" class="mt-3.5 inline-flex items-center gap-1 px-3 py-1.5 rounded-xl bg-amber-500 hover:bg-amber-600 text-white text-xs font-bold transition shadow-sm" title="Edit line items, terms and costings">
+              <button onclick="editCurrentActiveInvoice()" id="btn-edit-active-inv" class="mt-3.5 inline-flex items-center gap-1 px-3 py-1.5 rounded-xl bg-amber-500 hover:bg-amber-600 text-white text-xs font-bold transition shadow-2xs" title="Edit line items, terms and costings">
                 ✏️ Edit Invoice
               </button>
 
-              <button onclick="deleteCurrentActiveInvoice()" id="btn-delete-active-inv" class="mt-3.5 inline-flex items-center gap-1 px-3 py-1.5 rounded-xl bg-rose-600 hover:bg-rose-700 text-white text-xs font-bold transition shadow-sm" title="Delete this invoice and remove from Excel automatically">
+              <button onclick="deleteCurrentActiveInvoice()" id="btn-delete-active-inv" class="mt-3.5 inline-flex items-center gap-1 px-3 py-1.5 rounded-xl bg-rose-600 hover:bg-rose-700 text-white text-xs font-bold transition shadow-2xs" title="Delete this invoice and remove from Excel automatically">
                 🗑️ Delete Invoice
               </button>
             </div>
-            
+
             <div class="flex flex-wrap items-center gap-2">
-              <button onclick="sendFriendlyWhatsAppReminder()" class="inline-flex items-center gap-1 px-3 py-2 rounded-xl bg-teal-600 hover:bg-teal-500 text-white text-xs font-bold transition shadow-sm">
+              <button onclick="sendFriendlyWhatsAppReminder()" class="inline-flex items-center gap-1 px-3 py-2 rounded-xl bg-teal-600 hover:bg-teal-500 text-white text-xs font-bold transition shadow-2xs">
                 💬 Reminder
               </button>
 
-              <button onclick="sendDirectWhatsApp()" class="inline-flex items-center gap-1 px-3 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold transition shadow-sm">
+              <button onclick="sendDirectWhatsApp()" class="inline-flex items-center gap-1 px-3 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold transition shadow-2xs">
                 📲 Send Bill
               </button>
 
-              <button onclick="downloadCleanPDF()" class="inline-flex items-center gap-1 px-3.5 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-bold transition shadow-sm" title="Download direct clean A4 PDF">
-                📥 PDF
+              <button onclick="downloadCleanPDF()" class="inline-flex items-center gap-1 px-3.5 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-bold transition shadow-2xs" title="Download single-page A4 PDF">
+                📥 A4 PDF
               </button>
 
               <button onclick="printInvoiceSheet()" class="inline-flex items-center gap-1 px-3.5 py-2 rounded-xl bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold transition shadow-md">
@@ -686,12 +936,12 @@
           </div>
 
           <div id="invoice-sheet" class="max-w-4xl mx-auto bg-white border border-slate-200 rounded-2xl shadow-xl overflow-hidden text-slate-800">
-            <div class="invoice-contrast-header px-6 sm:px-8 py-5 flex flex-row justify-between items-center border-b border-slate-800">
-              <div class="flex items-center gap-3 sm:gap-4">
-                <img src="cool art logo.png" alt="Cool Art" class="h-8 sm:h-9 w-auto object-contain" onerror="this.style.display='none'">
+            <div class="invoice-contrast-header px-5 sm:px-7 py-4 flex flex-row justify-between items-center border-b border-slate-800">
+              <div class="flex items-center gap-3">
+                <img src="cool art logo.png" alt="Cool Art" class="h-7 sm:h-8 w-auto object-contain" onerror="this.style.display='none'">
                 <div class="border-l border-slate-700 pl-3">
                   <span class="text-[9px] sm:text-[10px] uppercase font-bold tracking-widest text-slate-300 block">Commercial Accounts Division</span>
-                  <p class="text-[10px] sm:text-[11px] text-slate-400">Branding • Signage • Large-Format Fabrication</p>
+                  <p class="text-[10px] text-slate-400">Branding • Signage • Large-Format Fabrication</p>
                 </div>
               </div>
 
@@ -700,59 +950,59 @@
                   COMMERCIAL INVOICE
                 </span>
                 <h1 class="text-base sm:text-lg font-black text-white font-tabular tracking-tight mt-0.5" id="doc-inv-number">INV-2026-001</h1>
-                <p class="text-[10px] sm:text-[11px] text-slate-400">Date: <span id="doc-inv-date" class="font-semibold text-slate-200"></span></p>
+                <p class="text-[10px] text-slate-400">Date: <span id="doc-inv-date" class="font-semibold text-slate-200"></span></p>
               </div>
             </div>
 
-            <div class="p-4 sm:p-7 space-y-5">
-              
+            <div class="p-4 sm:p-6 space-y-4">
+
               <!-- 4-STEP VISUAL ORDER TRACKER WITH ICONS -->
-              <div class="bg-slate-50 border border-slate-200 rounded-xl p-3.5">
-                <div class="flex justify-between items-center mb-2.5">
+              <div class="bg-slate-50 border border-slate-200 rounded-xl p-3">
+                <div class="flex justify-between items-center mb-2">
                   <span class="text-[10px] font-bold uppercase tracking-wider text-slate-500">Live Production Workflow</span>
                   <span class="text-[10px] text-indigo-700 font-bold" id="doc-tracker-current-label">Status: Active</span>
                 </div>
-                
+
                 <div class="grid grid-cols-4 gap-2 text-center relative">
-                  <div class="space-y-1" id="track-step-1">
-                    <div class="w-8 h-8 mx-auto rounded-full flex items-center justify-center text-sm font-bold bg-emerald-600 text-white shadow-sm">📝</div>
+                  <div class="space-y-0.5" id="track-step-1">
+                    <div class="w-7 h-7 mx-auto rounded-full flex items-center justify-center text-xs font-bold bg-emerald-600 text-white shadow-2xs">📝</div>
                     <span class="text-[10px] font-bold block text-slate-800">Order Booked</span>
                     <span class="text-[9px] text-emerald-700 font-semibold block">Done</span>
                   </div>
 
-                  <div class="space-y-1" id="track-step-2">
-                    <div class="w-8 h-8 mx-auto rounded-full flex items-center justify-center text-sm font-bold bg-slate-200 text-slate-600">🎨</div>
+                  <div class="space-y-0.5" id="track-step-2">
+                    <div class="w-7 h-7 mx-auto rounded-full flex items-center justify-center text-xs font-bold bg-slate-200 text-slate-600">🎨</div>
                     <span class="text-[10px] font-bold block text-slate-800">Design Ready</span>
                     <span class="text-[9px] text-slate-500 block" id="track-step-2-sub">Pending</span>
                   </div>
 
-                  <div class="space-y-1" id="track-step-3">
-                    <div class="w-8 h-8 mx-auto rounded-full flex items-center justify-center text-sm font-bold bg-slate-200 text-slate-600">🖨️</div>
+                  <div class="space-y-0.5" id="track-step-3">
+                    <div class="w-7 h-7 mx-auto rounded-full flex items-center justify-center text-xs font-bold bg-slate-200 text-slate-600">🖨️</div>
                     <span class="text-[10px] font-bold block text-slate-800">Print / Craft</span>
                     <span class="text-[9px] text-slate-500 block" id="track-step-3-sub">Pending</span>
                   </div>
 
-                  <div class="space-y-1" id="track-step-4">
-                    <div class="w-8 h-8 mx-auto rounded-full flex items-center justify-center text-sm font-bold bg-slate-200 text-slate-600">🚚</div>
+                  <div class="space-y-0.5" id="track-step-4">
+                    <div class="w-7 h-7 mx-auto rounded-full flex items-center justify-center text-xs font-bold bg-slate-200 text-slate-600">🚚</div>
                     <span class="text-[10px] font-bold block text-slate-800">Ready / Delivered</span>
                     <span class="text-[9px] text-slate-500 block" id="track-step-4-sub">Pending</span>
                   </div>
                 </div>
               </div>
 
-              <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div class="bg-slate-50 p-4 rounded-xl border border-slate-200">
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-3.5">
+                <div class="bg-slate-50 p-3.5 rounded-xl border border-slate-200">
                   <div class="flex justify-between items-center mb-1">
                     <span class="text-[10px] font-bold uppercase tracking-wider text-slate-400 block">Billed To (Client / Entity)</span>
                     <span id="doc-status-badge" class="text-[10px] font-extrabold px-2 py-0.5 rounded bg-emerald-100 text-emerald-800">Delivered / Completed</span>
                   </div>
-                  <h3 id="doc-client-name" class="text-sm font-bold text-slate-900"></h3>
+                  <h3 id="doc-client-name" class="text-sm font-bold text-slate-900 devanagari-safe"></h3>
                   <p id="doc-client-phone" class="text-xs text-slate-600 mt-0.5 font-tabular"></p>
-                  <p id="doc-client-address" class="text-[11px] text-slate-500 mt-0.5 leading-snug"></p>
+                  <p id="doc-client-address" class="text-[11px] text-slate-500 mt-0.5 leading-snug devanagari-safe"></p>
                   <p id="doc-client-gstin" class="text-[11px] text-indigo-700 font-bold font-tabular mt-1 hidden"></p>
                 </div>
 
-                <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 flex flex-col justify-between">
+                <div class="bg-slate-50 p-3.5 rounded-xl border border-slate-200 flex flex-col justify-between">
                   <div class="flex justify-between items-start">
                     <span class="text-[10px] font-bold uppercase tracking-wider text-slate-400">Ledger Balance Standing</span>
                     <span class="text-[9px] bg-slate-200 text-slate-700 px-2 py-0.5 rounded font-bold uppercase">Verified Statement</span>
@@ -760,13 +1010,13 @@
                   <div class="grid grid-cols-2 gap-2 mt-2">
                     <div class="border-r border-slate-200 pr-2">
                       <span class="text-[10px] text-slate-500 block">This Invoice Due:</span>
-                      <div class="text-lg font-black text-rose-600 tracking-tight font-tabular" id="doc-inv-specific-due">
+                      <div class="text-base sm:text-lg font-black text-rose-600 tracking-tight font-tabular" id="doc-inv-specific-due">
                         ₹0.00
                       </div>
                     </div>
                     <div class="pl-1">
                       <span class="text-[10px] text-slate-500 block">Overall Account Due:</span>
-                      <div class="text-lg font-black text-slate-900 tracking-tight font-tabular" id="doc-client-due-badge">
+                      <div class="text-base sm:text-lg font-black text-slate-900 tracking-tight font-tabular" id="doc-client-due-badge">
                         ₹0.00
                       </div>
                     </div>
@@ -779,24 +1029,24 @@
                 <table class="w-full text-left text-xs border-collapse min-w-[500px]">
                   <thead>
                     <tr class="bg-slate-100 text-slate-700 text-[10px] uppercase tracking-wider font-bold border-b border-slate-200">
-                      <th class="py-2.5 px-3 w-10 text-center">#</th>
-                      <th class="py-2.5 px-3">Description of Work / Deliverables</th>
-                      <th class="py-2.5 px-3 w-28 text-center">Quantity (Qty)</th>
-                      <th class="py-2.5 px-3 w-28 text-right">Unit Rate (₹)</th>
-                      <th class="py-2.5 px-3 w-32 text-right">Amount (₹)</th>
+                      <th class="py-2 px-3 w-10 text-center">#</th>
+                      <th class="py-2 px-3">Description of Work / Deliverables</th>
+                      <th class="py-2 px-3 w-24 text-center">Quantity (Qty)</th>
+                      <th class="py-2 px-3 w-28 text-right">Unit Rate (₹)</th>
+                      <th class="py-2 px-3 w-32 text-right">Amount (₹)</th>
                     </tr>
                   </thead>
-                  <tbody id="doc-items-table" class="divide-y divide-slate-100 font-tabular text-xs"></tbody>
+                  <tbody id="doc-items-table" class="divide-y divide-slate-100 font-tabular text-xs devanagari-safe"></tbody>
                 </table>
               </div>
 
-              <div class="grid grid-cols-1 md:grid-cols-2 gap-5 pt-1">
-                <div class="space-y-2 bg-slate-50 p-4 rounded-xl border border-slate-200 font-tabular text-xs md:order-2">
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-4 pt-1">
+                <div class="space-y-1.5 bg-slate-50 p-3.5 rounded-xl border border-slate-200 font-tabular text-xs md:order-2">
                   <div class="flex justify-between text-slate-600">
                     <span id="doc-lbl-gross">Gross Value of Work:</span>
                     <span id="doc-sum-gross" class="font-bold text-slate-900">₹0.00</span>
                   </div>
-                  
+
                   <div id="doc-discount-row" class="flex justify-between text-indigo-700 font-semibold bg-indigo-50/80 px-2 py-1 rounded border border-indigo-100">
                     <span id="doc-discount-label">Special Discount:</span>
                     <span id="doc-sum-discount">(-) ₹0.00</span>
@@ -817,15 +1067,15 @@
                     <span id="doc-sum-paid">(-) ₹0.00</span>
                   </div>
 
-                  <div class="border-t-2 border-slate-300 pt-2 flex justify-between text-sm font-extrabold text-red-600">
+                  <div class="border-t-2 border-slate-300 pt-1.5 flex justify-between text-sm font-extrabold text-red-600">
                     <span id="doc-lbl-balance">NET BALANCE ON THIS BILL:</span>
                     <span id="doc-sum-balance">₹0.00</span>
                   </div>
                 </div>
 
-                <div class="space-y-3 md:order-1">
-                  <div id="doc-upi-box" class="bg-slate-50 p-3.5 rounded-xl border border-slate-200 flex items-center gap-3.5">
-                    <img id="doc-upi-qr" src="" alt="Scan to Pay" class="w-20 h-20 bg-white p-1 rounded-lg border border-slate-300 object-contain flex-shrink-0">
+                <div class="space-y-2.5 md:order-1">
+                  <div id="doc-upi-box" class="bg-slate-50 p-3 rounded-xl border border-slate-200 flex items-center gap-3">
+                    <img id="doc-upi-qr" src="" alt="Scan to Pay" class="w-16 h-16 bg-white p-1 rounded-lg border border-slate-300 object-contain flex-shrink-0" onerror="this.src='https://placehold.co/80x80/f8fafc/0f172a?text=UPI'">
                     <div>
                       <span class="text-[10px] font-extrabold uppercase tracking-wider text-slate-600 block">Instant Scan & Pay</span>
                       <p class="text-xs text-slate-800 font-bold font-tabular">GPay / PhonePe / Paytm</p>
@@ -835,24 +1085,24 @@
                   </div>
 
                   <div class="border-t border-slate-200 pt-2">
-                    <div class="flex items-center justify-between mb-1.5">
+                    <div class="flex items-center justify-between mb-1">
                       <span class="text-[10px] font-bold text-slate-500 uppercase tracking-wider block">Cleared Receipts Log</span>
                       <span class="text-[10px] text-slate-400 no-print">Click ✏️ to edit or 🗑️ to delete</span>
                     </div>
-                    <div id="doc-payment-logs" class="space-y-1.5 text-xs"></div>
+                    <div id="doc-payment-logs" class="space-y-1 text-xs"></div>
                   </div>
                 </div>
               </div>
 
-              <!-- CONDITIONAL TERMS & CONDITIONS DISPLAY (PRINTS ONLY WHEN ENABLED ON BILL) -->
-              <div id="doc-terms-section" class="hidden bg-slate-50/90 border border-slate-200 rounded-xl p-3.5 text-slate-700 space-y-1.5">
+              <!-- CONDITIONAL TERMS & CONDITIONS DISPLAY (HIDDEN UNLESS ENABLED ON BILL) -->
+              <div id="doc-terms-section" class="hidden bg-slate-50/90 border border-slate-200 rounded-xl p-3 text-slate-700 space-y-1">
                 <div class="flex items-center justify-between border-b border-slate-200 pb-1">
                   <span class="text-[10px] font-extrabold uppercase tracking-wider text-slate-800 flex items-center gap-1">
                     ⚖️ Terms & Conditions
                   </span>
                   <span class="text-[9px] font-bold text-slate-400 uppercase">Agreed Service Policy</span>
                 </div>
-                <div id="doc-terms-content" class="text-[10px] sm:text-[11px] leading-relaxed text-slate-700 whitespace-pre-line font-medium"></div>
+                <div id="doc-terms-content" class="text-[10px] sm:text-[11px] text-slate-700 whitespace-pre-line font-medium devanagari-safe"></div>
               </div>
 
               <!-- Confidential Office Margin -->
@@ -865,19 +1115,19 @@
                 </div>
 
                 <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 items-center">
-                  <div class="bg-white/90 p-2.5 rounded-xl border border-amber-200 shadow-xs">
+                  <div class="bg-white/90 p-2.5 rounded-xl border border-amber-200 shadow-2xs">
                     <span class="text-[10px] text-slate-500 font-bold block uppercase">Production Costing</span>
                     <span class="text-sm font-extrabold text-slate-800 font-tabular" id="doc-private-cost">₹0.00</span>
                     <span class="text-[9px] text-slate-400 block mt-0.5" id="doc-private-cost-detail">Dynamic Raw Costs</span>
                   </div>
 
-                  <div class="bg-white/90 p-2.5 rounded-xl border border-amber-200 shadow-xs">
+                  <div class="bg-white/90 p-2.5 rounded-xl border border-amber-200 shadow-2xs">
                     <span class="text-[10px] text-emerald-700 font-bold block uppercase">Calculated Net Profit</span>
                     <span class="text-sm font-black text-emerald-700 font-tabular" id="doc-private-profit">₹0.00</span>
                     <span class="text-[9px] text-emerald-600/80 block mt-0.5">Net Billed - Production Cost</span>
                   </div>
 
-                  <div class="bg-gradient-to-br from-amber-100 to-orange-100 p-2.5 rounded-xl border border-amber-300 flex items-center gap-3 shadow-xs">
+                  <div class="bg-gradient-to-br from-amber-100 to-orange-100 p-2.5 rounded-xl border border-amber-300 flex items-center gap-3 shadow-2xs">
                     <div class="w-10 h-10 rounded-lg overflow-hidden flex-shrink-0 bg-amber-200 border border-amber-300 flex items-center justify-center">
                       <img src="hanumanji.png" alt="Hanuman Ji" class="w-full h-full object-cover" onerror="this.onerror=null; this.src='hanuman ji.png'; this.onerror=function(){this.style.display='none'; this.nextElementSibling.style.display='block';}">
                       <span style="display:none;" class="text-xl">🚩</span>
@@ -893,24 +1143,24 @@
               </div>
 
               <!-- Signatory Footer -->
-              <div class="border-t border-slate-200 pt-4 mt-1 flex justify-between items-end text-xs text-slate-500">
+              <div class="border-t border-slate-200 pt-3 mt-1 flex justify-between items-end text-xs text-slate-500">
                 <div>
                   <p class="font-bold text-slate-700 text-[11px]">Cool Art Advertising</p>
                   <p class="text-[10px] text-slate-400">Official Computer Generated Tax Invoice & Client Ledger</p>
                 </div>
-                
+
                 <div class="text-right flex flex-col items-end">
-                  <div class="h-14 w-36 flex items-end justify-end mb-1">
+                  <div class="h-11 w-32 flex items-end justify-end mb-0.5">
                     <img src="kksignature.png" alt="Signature" class="max-h-full max-w-full object-contain filter contrast-125" onerror="this.onerror=null; this.src='kksignature.jpg'; this.onerror=function(){this.style.display='none';}">
                   </div>
-                  <div class="w-36 border-b border-slate-400 mb-1"></div>
+                  <div class="w-32 border-b border-slate-400 mb-0.5"></div>
                   <span class="text-[10px] font-bold text-slate-700 uppercase tracking-wider block">Authorized Signatory</span>
                   <span class="text-[9px] text-slate-400">Commercial Billing</span>
                 </div>
               </div>
 
-              <!-- INVOICE BOTTOM CO-BRANDING (PRINTS & SHOWS ON PDF) -->
-              <div class="border-t border-slate-200/80 pt-3 mt-2 flex items-center justify-center gap-2 text-[11px] text-slate-500">
+              <!-- INVOICE BOTTOM CO-BRANDING -->
+              <div class="border-t border-slate-200/80 pt-2.5 mt-1 flex flex-wrap items-center justify-center gap-2 text-[11px] text-slate-500">
                 <span>Powered by</span>
                 <img src="logo.png" alt="MunimJi by Cool Art" class="h-5 w-auto object-contain inline-block" onerror="this.style.display='none'">
                 <span class="text-slate-300">•</span>
@@ -923,31 +1173,15 @@
       </main>
     </div>
 
-    <!-- Studio Footer with MunimJi Co-Branding -->
-    <footer class="no-print mt-10 py-8 px-4 border-t border-slate-200/80 bg-white/70 backdrop-blur-sm">
-      <div class="max-w-xl mx-auto text-center p-6 rounded-3xl bg-white shadow-xs border border-slate-200/90 space-y-2">
-        <div class="text-sm font-extrabold text-slate-800">
-          Designed & Developed by: <span class="text-indigo-600">COOL ART®</span>
-        </div>
-        <div class="text-xs font-semibold text-slate-500">
-          Village: Nahal, Atrauli, Aligarh, UP
-        </div>
-        <div class="text-xs text-slate-400">
-          Complete Graphic Design, Printing & Media Solutions
-        </div>
-        <div class="pt-1 pb-2">
-          <a href="tel:9458614610" class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold font-tabular transition">
-            📞 Helpline: +91 9458614610
-          </a>
-        </div>
-
-        <!-- Centered MunimJi Co-Branding Strip -->
-        <div class="pt-3 border-t border-slate-100 flex flex-wrap items-center justify-center gap-2 text-xs text-slate-500">
-          <span>Powered by</span>
-          <img src="logo.png" alt="MunimJi by Cool Art" class="h-6 w-auto object-contain inline-block" onerror="this.style.display='none'">
-          <span class="text-slate-300">•</span>
-          <span>Developed by Team <strong class="text-slate-900 font-extrabold">CoolArt®</strong></span>
-        </div>
+    <!-- FIXED BOTTOM BRANDING BAR (ONLY MUNIMJI + COOLART CO-BRANDING + VERSION) -->
+    <footer class="fixed bottom-0 inset-x-0 z-30 no-print bg-white/95 backdrop-blur-md border-t border-slate-200/90 shadow-lg px-3 py-2.5">
+      <div class="max-w-7xl mx-auto flex flex-wrap items-center justify-center gap-2 text-xs text-slate-600">
+        <span>Powered by</span>
+        <img src="logo.png" alt="MunimJi by Cool Art" class="h-5 sm:h-6 w-auto object-contain inline-block" onerror="this.style.display='none'">
+        <span class="text-slate-300">•</span>
+        <span>Developed by Team <strong class="text-slate-900 font-extrabold">CoolArt®</strong></span>
+        <span class="hidden sm:inline text-slate-300">|</span>
+        <span class="hidden sm:inline text-[11px] text-slate-400 font-tabular">v9.0 • Updated: 24 Nov 2026</span>
       </div>
     </footer>
   </div>
@@ -958,10 +1192,10 @@
       <div class="flex justify-between items-center pb-3 border-b border-slate-200">
         <div>
           <div class="flex items-center gap-2">
-            <h3 class="text-base font-extrabold text-slate-900" id="hist-modal-client-name">Client Account</h3>
+            <h3 class="text-base font-extrabold text-slate-900 devanagari-safe" id="hist-modal-client-name">Client Account</h3>
             <span id="hist-modal-badge" class="text-[10px] font-extrabold px-2 py-0.5 rounded-full"></span>
           </div>
-          <p class="text-xs text-slate-500" id="hist-modal-client-phone"></p>
+          <p class="text-xs text-slate-500 devanagari-safe" id="hist-modal-client-phone"></p>
         </div>
         <button onclick="closeModal('client-history-modal')" class="text-slate-400 hover:text-slate-600 font-bold text-lg">✕</button>
       </div>
@@ -1217,14 +1451,14 @@
     </div>
   </div>
 
-  <!-- CUSTOM MESSAGE BOX MODAL (REPLACES BROWSER ALERT/CONFIRM) -->
+  <!-- CUSTOM MESSAGE BOX MODAL -->
   <div id="custom-dialog-modal" class="hidden fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
     <div class="bg-white rounded-2xl shadow-2xl border border-slate-200 max-w-sm w-full p-5 space-y-4">
       <div class="flex items-center gap-2.5">
         <span id="dialog-icon" class="text-xl">ℹ️</span>
         <h3 class="text-sm font-extrabold text-slate-900" id="dialog-title">Notice</h3>
       </div>
-      <p class="text-xs text-slate-600 leading-relaxed whitespace-pre-line" id="dialog-message"></p>
+      <p class="text-xs text-slate-600 leading-relaxed whitespace-pre-line devanagari-safe" id="dialog-message"></p>
       <div class="flex justify-end gap-2 pt-2" id="dialog-actions"></div>
     </div>
   </div>
@@ -1233,6 +1467,9 @@
   <script>
     const DEFAULT_WEBHOOK_URL = "https://script.google.com/macros/s/AKfycbwXlXsEhAqRUho6zZr-amBL8GJ9BPXHcUI9X54ZRlEj8_vpLxM7UaEHrp_L8cuLFy3BUA/exec";
     const MASTER_KEY = "CoolArt@2026";
+    const APP_VERSION = "v9.0";
+    const APP_UPDATED_DATE = "24 Nov 2026";
+    const REFERENCE_TODAY = "2026-11-24";
 
     // PRESET TERMS & CONDITIONS TEMPLATES
     const TERMS_PRESETS = {
@@ -1256,8 +1493,66 @@
 
     let editingInvoiceId = null;
     let activeHistoryClientId = null;
+    let growthGranularity = 'daily';
 
-    // CUSTOM NON-BLOCKING DIALOGS (NO alert() OR confirm())
+    // LEFT DRAWER CONTROLS
+    function openLeftDrawer() {
+      const drawer = document.getElementById('left-drawer');
+      const backdrop = document.getElementById('left-drawer-backdrop');
+      backdrop.classList.remove('hidden');
+      requestAnimationFrame(() => {
+        drawer.classList.remove('-translate-x-full');
+      });
+    }
+
+    function closeLeftDrawer() {
+      const drawer = document.getElementById('left-drawer');
+      const backdrop = document.getElementById('left-drawer-backdrop');
+      drawer.classList.add('-translate-x-full');
+      setTimeout(() => {
+        if (drawer.classList.contains('-translate-x-full')) {
+          backdrop.classList.add('hidden');
+        }
+      }, 260);
+    }
+
+    function toggleMissionPanel(forceState = null) {
+      switchTab('dashboard');
+      const panel = document.getElementById('mission-engine-panel');
+      const shouldShow = forceState !== null ? forceState : panel.classList.contains('hidden');
+      if (shouldShow) {
+        panel.classList.remove('hidden');
+        renderMissionEngine();
+      } else {
+        panel.classList.add('hidden');
+      }
+    }
+
+    function openMissionFromDrawer() {
+      closeLeftDrawer();
+      toggleMissionPanel(true);
+      document.getElementById('mission-engine-panel').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+
+    function toggleGrowthPanel(forceState = null) {
+      switchTab('dashboard');
+      const panel = document.getElementById('sales-growth-panel');
+      const shouldShow = forceState !== null ? forceState : panel.classList.contains('hidden');
+      if (shouldShow) {
+        panel.classList.remove('hidden');
+        renderSalesGrowthAnalytics();
+      } else {
+        panel.classList.add('hidden');
+      }
+    }
+
+    function openGrowthFromDrawer() {
+      closeLeftDrawer();
+      toggleGrowthPanel(true);
+      document.getElementById('sales-growth-panel').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+
+    // CUSTOM NON-BLOCKING DIALOGS
     function showNotice(message, title = "Cool Art Ledger", icon = "ℹ️") {
       document.getElementById('dialog-title').innerText = title;
       document.getElementById('dialog-icon').innerText = icon;
@@ -1323,11 +1618,12 @@
     // MULTI-VERSION VAULT SCANNER & RECOVERY
     function loadData() {
       let saved = localStorage.getItem('coolart_finance_master_v95') ||
+                  localStorage.getItem('coolart_finance_master_v90') ||
                   localStorage.getItem('coolart_finance_master_v85') ||
                   localStorage.getItem('coolart_finance_master_v80') ||
-                  localStorage.getItem('coolart_finance_master_v75') || 
-                  localStorage.getItem('coolart_finance_master_v70') || 
-                  localStorage.getItem('coolart_finance_master_v60') || 
+                  localStorage.getItem('coolart_finance_master_v75') ||
+                  localStorage.getItem('coolart_finance_master_v70') ||
+                  localStorage.getItem('coolart_finance_master_v60') ||
                   localStorage.getItem('coolart_finance_master');
 
       let costVault = JSON.parse(localStorage.getItem('coolart_cost_vault') || '{}');
@@ -1356,14 +1652,14 @@
                 }
               });
             }
-          } catch(e){}
+          } catch (e) {}
         }
       }
       localStorage.setItem('coolart_cost_vault', JSON.stringify(costVault));
       localStorage.setItem('coolart_terms_vault', JSON.stringify(termsVault));
 
       if (saved) {
-        try { 
+        try {
           const parsed = JSON.parse(saved);
           if (Array.isArray(parsed.clients)) store.clients = parsed.clients;
           if (Array.isArray(parsed.invoices)) store.invoices = parsed.invoices;
@@ -1610,11 +1906,14 @@
       }
     }
 
-    function openModal(id) { 
+    function openModal(id) {
       document.getElementById(id).classList.remove('hidden');
       if (id === 'hanuman-bank-modal') renderHanumanModal();
     }
-    function closeModal(id) { document.getElementById(id).classList.add('hidden'); }
+
+    function closeModal(id) {
+      document.getElementById(id).classList.add('hidden');
+    }
 
     // TERMS & CONDITIONS UI HANDLERS
     function toggleTermsEditor() {
@@ -1622,8 +1921,7 @@
       const box = document.getElementById('terms-editor-box');
       if (isChecked) {
         box.classList.remove('hidden');
-        const currentText = document.getElementById('inv-terms-text').value.trim();
-        if (!currentText) {
+        if (!document.getElementById('inv-terms-text').value.trim()) {
           applyTermsPreset();
         }
       } else {
@@ -1648,13 +1946,11 @@
 
       const payments = store.payments.filter(p => {
         if (p.invoiceId !== invoiceId) return false;
-        
         const payClientName = (p.clientName || '').trim().toLowerCase();
         const payClientId = p.clientId;
 
         if (invClientId && payClientId && invClientId === payClientId) return true;
         if (invClientName && payClientName && invClientName === payClientName) return true;
-        
         return false;
       });
 
@@ -1668,8 +1964,8 @@
       const client = store.clients.find(c => c.id === clientId || c.name === clientId);
       const cName = client ? client.name.trim().toLowerCase() : '';
 
-      const clientInvoices = store.invoices.filter(i => 
-        i.clientId === clientId || 
+      const clientInvoices = store.invoices.filter(i =>
+        i.clientId === clientId ||
         (i.clientName && i.clientName.trim().toLowerCase() === cName)
       );
 
@@ -1681,8 +1977,8 @@
       const totalProfit = Math.max(0, billedTotal - totalJobCost);
       const totalBookedSeva = clientInvoices.reduce((sum, i) => sum + (Number(i.sevaFund) || 0), 0);
 
-      const clientPayments = store.payments.filter(p => 
-        p.clientId === clientId || 
+      const clientPayments = store.payments.filter(p =>
+        p.clientId === clientId ||
         (p.clientName && p.clientName.trim().toLowerCase() === cName)
       );
       const paidTotal = clientPayments.reduce((sum, p) => sum + (Number(p.amount) || 0), 0);
@@ -1731,11 +2027,122 @@
     function refreshAllViews() {
       populateMissionMonthsDropdown();
       renderMissionEngine();
+      renderSalesGrowthAnalytics();
       renderClientsTable();
       populateExpenseMonthsDropdown();
       renderExpensesTable();
       updateMetricBadges();
       populateClientSelects();
+    }
+
+    // SALES GROWTH GRAPH & LIVE DAILY / MONTHLY / YEARLY METER
+    function setGrowthGranularity(mode) {
+      growthGranularity = mode;
+      ['daily', 'monthly', 'yearly'].forEach(m => {
+        const btn = document.getElementById(`growth-tab-${m}`);
+        if (!btn) return;
+        btn.className = m === mode
+          ? "px-3 py-1 rounded-lg bg-white text-indigo-700 shadow-2xs transition"
+          : "px-3 py-1 rounded-lg text-slate-600 hover:text-slate-900 transition";
+      });
+      renderSalesGrowthAnalytics();
+    }
+
+    function renderSalesGrowthAnalytics() {
+      const refDate = REFERENCE_TODAY; // 2026-11-24
+      const refMonth = refDate.substring(0, 7); // 2026-11
+      const refYear = refDate.substring(0, 4); // 2026
+
+      const daySales = store.invoices
+        .filter(i => (i.date || '').startsWith(refDate))
+        .reduce((s, i) => s + (Number(i.total) || 0), 0);
+
+      const monthSales = store.invoices
+        .filter(i => (i.date || '').startsWith(refMonth))
+        .reduce((s, i) => s + (Number(i.total) || 0), 0);
+
+      const yearSales = store.invoices
+        .filter(i => (i.date || '').startsWith(refYear))
+        .reduce((s, i) => s + (Number(i.total) || 0), 0);
+
+      const dayGoal = 10000;
+      const monthGoal = 100000;
+      const yearGoal = 1000000;
+
+      const dayPct = Math.min(100, (daySales / dayGoal) * 100);
+      const monthPct = Math.min(100, (monthSales / monthGoal) * 100);
+      const yearPct = Math.min(100, (yearSales / yearGoal) * 100);
+
+      const setEl = (id, val) => { const el = document.getElementById(id); if (el) el.innerText = val; };
+      const setBar = (id, pct) => { const el = document.getElementById(id); if (el) el.style.width = `${pct}%`; };
+
+      setEl('meter-day-val', `₹${daySales.toLocaleString('en-IN', { minimumFractionDigits: 2 })}`);
+      setEl('meter-day-pct', `${dayPct.toFixed(1)}%`);
+      setBar('meter-day-bar', dayPct);
+
+      setEl('meter-month-val', `₹${monthSales.toLocaleString('en-IN', { minimumFractionDigits: 2 })}`);
+      setEl('meter-month-pct', `${monthPct.toFixed(1)}%`);
+      setBar('meter-month-bar', monthPct);
+
+      setEl('meter-year-val', `₹${yearSales.toLocaleString('en-IN', { minimumFractionDigits: 2 })}`);
+      setEl('meter-year-pct', `${yearPct.toFixed(1)}%`);
+      setBar('meter-year-bar', yearPct);
+
+      // Build bars based on selected granularity
+      const barsContainer = document.getElementById('sales-growth-bars');
+      const chartTitle = document.getElementById('growth-chart-title');
+      if (!barsContainer) return;
+
+      let buckets = [];
+      if (growthGranularity === 'daily') {
+        if (chartTitle) chartTitle.innerText = "Last 7 Days Sales Graph (18 Nov – 24 Nov 2026)";
+        const base = new Date(2026, 10, 24);
+        for (let d = 6; d >= 0; d--) {
+          const dt = new Date(base);
+          dt.setDate(base.getDate() - d);
+          const iso = dt.toISOString().split('T')[0];
+          const label = dt.toLocaleDateString('en-IN', { day: '2-digit', month: 'short' });
+          const val = store.invoices
+            .filter(i => (i.date || '').startsWith(iso))
+            .reduce((s, i) => s + (Number(i.total) || 0), 0);
+          buckets.push({ label, val });
+        }
+      } else if (growthGranularity === 'monthly') {
+        if (chartTitle) chartTitle.innerText = "Month-Wise Sales Graph (Jan – Nov 2026)";
+        for (let m = 1; m <= 11; m++) {
+          const ym = `2026-${String(m).padStart(2, '0')}`;
+          const label = new Date(2026, m - 1, 1).toLocaleDateString('en-IN', { month: 'short' });
+          const val = store.invoices
+            .filter(i => (i.date || '').startsWith(ym))
+            .reduce((s, i) => s + (Number(i.total) || 0), 0);
+          buckets.push({ label, val });
+        }
+      } else {
+        if (chartTitle) chartTitle.innerText = "Year-Wise Sales Comparison";
+        const yearsSet = new Set(['2024', '2025', '2026']);
+        store.invoices.forEach(i => { if (i.date && i.date.length >= 4) yearsSet.add(i.date.substring(0, 4)); });
+        Array.from(yearsSet).sort().forEach(yr => {
+          const val = store.invoices
+            .filter(i => (i.date || '').startsWith(yr))
+            .reduce((s, i) => s + (Number(i.total) || 0), 0);
+          buckets.push({ label: yr, val });
+        });
+      }
+
+      const maxVal = Math.max(1000, ...buckets.map(b => b.val));
+      barsContainer.innerHTML = '';
+
+      buckets.forEach(b => {
+        const heightPct = Math.max(4, Math.round((b.val / maxVal) * 100));
+        const col = document.createElement('div');
+        col.className = "flex-1 flex flex-col items-center justify-end h-full group relative";
+        col.innerHTML = `
+          <span class="text-[9px] font-bold font-tabular text-slate-600 mb-1 whitespace-nowrap">₹${b.val >= 1000 ? (b.val / 1000).toFixed(1) + 'k' : b.val}</span>
+          <div class="w-full max-w-[36px] rounded-t-lg bg-gradient-to-t from-indigo-600 to-emerald-400 group-hover:from-indigo-500 group-hover:to-emerald-300 transition-all duration-300 shadow-2xs" style="height: ${heightPct}%" title="${b.label}: ₹${b.val.toLocaleString('en-IN')}"></div>
+          <span class="text-[10px] font-bold text-slate-500 mt-1.5 whitespace-nowrap">${b.label}</span>
+        `;
+        barsContainer.appendChild(col);
+      });
     }
 
     // SMART MISSION ENGINE
@@ -1745,7 +2152,7 @@
       const currentVal = select.value;
       const monthsSet = new Set();
 
-      const todayYM = new Date().toISOString().substring(0, 7);
+      const todayYM = REFERENCE_TODAY.substring(0, 7);
       monthsSet.add(todayYM);
 
       store.invoices.forEach(inv => {
@@ -1770,7 +2177,7 @@
 
     function renderMissionEngine() {
       const select = document.getElementById('mission-month-select');
-      const targetYM = select ? select.value : new Date().toISOString().substring(0, 7);
+      const targetYM = select ? select.value : REFERENCE_TODAY.substring(0, 7);
       const targetGoal = 50000;
 
       const mInvoices = store.invoices.filter(i => (i.date || '').startsWith(targetYM));
@@ -1783,15 +2190,15 @@
       const pct = Math.min(100, (netProfitAchieved / targetGoal) * 100);
       const remaining = Math.max(0, targetGoal - netProfitAchieved);
 
-      document.getElementById('mission-profit-val').innerText = `₹${netProfitAchieved.toLocaleString('en-IN', {minimumFractionDigits: 2})}`;
-      document.getElementById('mission-remaining-val').innerText = `₹${remaining.toLocaleString('en-IN', {minimumFractionDigits: 2})} to go`;
+      document.getElementById('mission-profit-val').innerText = `₹${netProfitAchieved.toLocaleString('en-IN', { minimumFractionDigits: 2 })}`;
+      document.getElementById('mission-remaining-val').innerText = `₹${remaining.toLocaleString('en-IN', { minimumFractionDigits: 2 })} to go`;
       document.getElementById('mission-pct-badge').innerText = `${pct.toFixed(1)}% Reached`;
       document.getElementById('mission-progress-bar').style.width = `${pct}%`;
 
       if (remaining > 0) {
         const neededFlexSqft = Math.ceil(remaining / 5);
         document.getElementById('mission-plan-a').innerText = `Print ~${neededFlexSqft.toLocaleString('en-IN')} Sq.Ft Flex Banner`;
-        
+
         const comboFlex = Math.ceil((remaining * 0.5) / 5);
         const comboCards = Math.ceil((remaining * 0.3) / 2.6);
         const comboFrames = Math.ceil((remaining * 0.2) / 15);
@@ -1864,31 +2271,31 @@
       }
 
       if (document.getElementById('metric-total-billed'))
-        document.getElementById('metric-total-billed').innerText = `₹${grandBilled.toLocaleString('en-IN', {minimumFractionDigits: 2})}`;
+        document.getElementById('metric-total-billed').innerText = `₹${grandBilled.toLocaleString('en-IN', { minimumFractionDigits: 2 })}`;
       if (document.getElementById('metric-total-received'))
-        document.getElementById('metric-total-received').innerText = `₹${grandReceived.toLocaleString('en-IN', {minimumFractionDigits: 2})}`;
+        document.getElementById('metric-total-received').innerText = `₹${grandReceived.toLocaleString('en-IN', { minimumFractionDigits: 2 })}`;
       if (document.getElementById('metric-total-due'))
-        document.getElementById('metric-total-due').innerText = `₹${grandDue.toLocaleString('en-IN', {minimumFractionDigits: 2})}`;
+        document.getElementById('metric-total-due').innerText = `₹${grandDue.toLocaleString('en-IN', { minimumFractionDigits: 2 })}`;
 
       if (document.getElementById('metric-total-cogs'))
-        document.getElementById('metric-total-cogs').innerText = `₹${grandJobCost.toLocaleString('en-IN', {minimumFractionDigits: 2})}`;
+        document.getElementById('metric-total-cogs').innerText = `₹${grandJobCost.toLocaleString('en-IN', { minimumFractionDigits: 2 })}`;
       if (document.getElementById('metric-job-profit'))
-        document.getElementById('metric-job-profit').innerText = `₹${grandJobProfit.toLocaleString('en-IN', {minimumFractionDigits: 2})}`;
+        document.getElementById('metric-job-profit').innerText = `₹${grandJobProfit.toLocaleString('en-IN', { minimumFractionDigits: 2 })}`;
       if (document.getElementById('metric-margin-pct'))
         document.getElementById('metric-margin-pct').innerText = `${marginPct}%`;
 
       if (document.getElementById('metric-office-expenses'))
-        document.getElementById('metric-office-expenses').innerText = `₹${totalOfficeExp.toLocaleString('en-IN', {minimumFractionDigits: 2})}`;
+        document.getElementById('metric-office-expenses').innerText = `₹${totalOfficeExp.toLocaleString('en-IN', { minimumFractionDigits: 2 })}`;
       if (document.getElementById('metric-net-real-profit'))
-        document.getElementById('metric-net-real-profit').innerText = `₹${netRealInHandProfit.toLocaleString('en-IN', {minimumFractionDigits: 2})}`;
+        document.getElementById('metric-net-real-profit').innerText = `₹${netRealInHandProfit.toLocaleString('en-IN', { minimumFractionDigits: 2 })}`;
 
       if (document.getElementById('metric-hanuman-realized'))
-        document.getElementById('metric-hanuman-realized').innerText = `₹${netInHandSeva.toLocaleString('en-IN', {minimumFractionDigits: 2})}`;
+        document.getElementById('metric-hanuman-realized').innerText = `₹${netInHandSeva.toLocaleString('en-IN', { minimumFractionDigits: 2 })}`;
       if (document.getElementById('metric-hanuman-accrued'))
-        document.getElementById('metric-hanuman-accrued').innerText = `₹${grandBookedSeva.toLocaleString('en-IN', {minimumFractionDigits: 2})}`;
+        document.getElementById('metric-hanuman-accrued').innerText = `₹${grandBookedSeva.toLocaleString('en-IN', { minimumFractionDigits: 2 })}`;
     }
 
-    // CLIENTS TABLE WITH FIXED PILL BADGES
+    // CLIENTS TABLE
     function renderClientsTable() {
       const tbody = document.getElementById('clients-table-body');
       tbody.innerHTML = '';
@@ -1910,7 +2317,7 @@
       });
 
       if (searchVal) {
-        list = list.filter(item => 
+        list = list.filter(item =>
           item.client.name.toLowerCase().includes(searchVal) ||
           item.client.phone.includes(searchVal)
         );
@@ -1944,11 +2351,11 @@
         else if (status === 'In Process / Production') statusBadge = '<span class="text-[10px] font-extrabold px-2 py-0.5 rounded bg-blue-100 text-blue-800">In Process</span>';
         else if (status === 'Ready for Delivery') statusBadge = '<span class="text-[10px] font-extrabold px-2 py-0.5 rounded bg-purple-100 text-purple-800">Ready</span>';
 
-        let badgeTag = '<span class="inline-flex items-center text-[9px] font-extrabold uppercase px-1.5 py-0.2 rounded bg-emerald-50 text-emerald-700 border border-emerald-200 mt-0.5 w-fit">⭐ Regular</span>';
+        let badgeTag = '<span class="inline-flex items-center text-[9px] font-extrabold uppercase px-1.5 py-0.5 rounded bg-emerald-50 text-emerald-700 border border-emerald-200 mt-0.5 w-fit">⭐ Regular</span>';
         if (stats.clientBadge === 'vip') {
-          badgeTag = '<span class="inline-flex items-center text-[9px] font-extrabold uppercase px-1.5 py-0.2 rounded bg-purple-50 text-purple-700 border border-purple-200 mt-0.5 w-fit">💎 VIP</span>';
+          badgeTag = '<span class="inline-flex items-center text-[9px] font-extrabold uppercase px-1.5 py-0.5 rounded bg-purple-50 text-purple-700 border border-purple-200 mt-0.5 w-fit">💎 VIP</span>';
         } else if (stats.clientBadge === 'delay') {
-          badgeTag = '<span class="inline-flex items-center text-[9px] font-extrabold uppercase px-1.5 py-0.2 rounded bg-rose-50 text-rose-700 border border-rose-200 mt-0.5 w-fit">⚠️ Overdue</span>';
+          badgeTag = '<span class="inline-flex items-center text-[9px] font-extrabold uppercase px-1.5 py-0.5 rounded bg-rose-50 text-rose-700 border border-rose-200 mt-0.5 w-fit">⚠️ Overdue</span>';
         }
 
         const isOldestOverdue = (oldestClientObj && oldestClientObj.client.id === c.id);
@@ -1964,16 +2371,16 @@
         tr.innerHTML = `
           <td class="py-3 px-4">
             <div class="flex flex-col">
-              <span class="font-bold text-slate-900 leading-tight">${c.name}</span>
+              <span class="font-bold text-slate-900 leading-tight devanagari-safe">${c.name}</span>
               ${badgeTag}
             </div>
           </td>
           <td class="py-3 px-4 text-slate-500 font-tabular text-xs">${c.phone || '—'}</td>
           <td class="py-3 px-4 text-center">${statusBadge}</td>
-          <td class="py-3 px-4 text-right font-semibold font-tabular text-slate-800">₹${stats.billedTotal.toLocaleString('en-IN', {minimumFractionDigits: 2})}</td>
-          <td class="py-3 px-4 text-right font-semibold font-tabular text-emerald-600">₹${stats.paidTotal.toLocaleString('en-IN', {minimumFractionDigits: 2})}</td>
+          <td class="py-3 px-4 text-right font-semibold font-tabular text-slate-800">₹${stats.billedTotal.toLocaleString('en-IN', { minimumFractionDigits: 2 })}</td>
+          <td class="py-3 px-4 text-right font-semibold font-tabular text-emerald-600">₹${stats.paidTotal.toLocaleString('en-IN', { minimumFractionDigits: 2 })}</td>
           <td class="py-3 px-4 text-right font-tabular font-extrabold ${stats.balanceDue > 0 ? 'text-red-600' : 'text-slate-800'}">
-            ₹${stats.balanceDue.toLocaleString('en-IN', {minimumFractionDigits: 2})}
+            ₹${stats.balanceDue.toLocaleString('en-IN', { minimumFractionDigits: 2 })}
           </td>
           <td class="py-3 px-4 text-center">
             <div class="inline-flex items-center gap-1.5" onclick="event.stopPropagation()">
@@ -2003,7 +2410,7 @@
       const stats = getClientSummary(clientId);
       document.getElementById('hist-modal-client-name').innerText = client.name;
       document.getElementById('hist-modal-client-phone').innerText = `Phone: ${client.phone || 'On Record'} • Address: ${client.address || 'Registered'}`;
-      
+
       const badge = document.getElementById('hist-modal-badge');
       if (stats.clientBadge === 'vip') {
         badge.className = "text-[10px] font-extrabold px-2 py-0.5 rounded-full bg-purple-100 text-purple-800 border border-purple-200";
@@ -2013,9 +2420,9 @@
         badge.innerText = "⭐ Regular Client";
       }
 
-      document.getElementById('hist-modal-billed').innerText = `₹${stats.billedTotal.toLocaleString('en-IN', {minimumFractionDigits: 2})}`;
-      document.getElementById('hist-modal-paid').innerText = `₹${stats.paidTotal.toLocaleString('en-IN', {minimumFractionDigits: 2})}`;
-      document.getElementById('hist-modal-due').innerText = `₹${stats.balanceDue.toLocaleString('en-IN', {minimumFractionDigits: 2})}`;
+      document.getElementById('hist-modal-billed').innerText = `₹${stats.billedTotal.toLocaleString('en-IN', { minimumFractionDigits: 2 })}`;
+      document.getElementById('hist-modal-paid').innerText = `₹${stats.paidTotal.toLocaleString('en-IN', { minimumFractionDigits: 2 })}`;
+      document.getElementById('hist-modal-due').innerText = `₹${stats.balanceDue.toLocaleString('en-IN', { minimumFractionDigits: 2 })}`;
 
       const listContainer = document.getElementById('hist-modal-invoices-list');
       listContainer.innerHTML = '';
@@ -2034,11 +2441,11 @@
                 <span class="text-[10px] font-bold text-slate-400">${inv.date}</span>
                 <span class="text-[9px] font-extrabold px-1.5 py-0.5 rounded bg-slate-200 text-slate-700">${inv.status}</span>
               </div>
-              <p class="text-[11px] text-slate-500 mt-0.5">${(inv.items || []).map(i => i.desc).join(', ')}</p>
+              <p class="text-[11px] text-slate-500 mt-0.5 devanagari-safe">${(inv.items || []).map(i => i.desc).join(', ')}</p>
             </div>
             <div class="flex items-center gap-3 font-tabular">
               <div class="text-right">
-                <span class="font-bold text-slate-900 text-xs block">₹${inv.total.toLocaleString('en-IN', {minimumFractionDigits: 2})}</span>
+                <span class="font-bold text-slate-900 text-xs block">₹${inv.total.toLocaleString('en-IN', { minimumFractionDigits: 2 })}</span>
                 <span class="text-[10px] font-extrabold ${invSpec.due > 0 ? 'text-rose-600' : 'text-emerald-600'}">
                   ${invSpec.due > 0 ? `Due: ₹${invSpec.due.toLocaleString('en-IN')}` : 'Cleared'}
                 </span>
@@ -2114,7 +2521,7 @@
       }
 
       const totalFilteredAmt = filtered.reduce((sum, e) => sum + (Number(e.amount) || 0), 0);
-      document.getElementById('expense-filtered-total').innerText = `₹${totalFilteredAmt.toLocaleString('en-IN', {minimumFractionDigits: 2})}`;
+      document.getElementById('expense-filtered-total').innerText = `₹${totalFilteredAmt.toLocaleString('en-IN', { minimumFractionDigits: 2 })}`;
 
       if (filtered.length === 0) {
         tbody.innerHTML = `<tr><td colspan="9" class="p-8 text-center text-slate-400">No expenses found for selected month.</td></tr>`;
@@ -2127,12 +2534,12 @@
         tr.innerHTML = `
           <td class="py-3.5 px-4 font-bold text-slate-900">${exp.id}</td>
           <td class="py-3.5 px-4 text-slate-500 text-xs">${exp.date}</td>
-          <td class="py-3.5 px-4 font-bold text-slate-800">${exp.vendor || '—'}</td>
+          <td class="py-3.5 px-4 font-bold text-slate-800 devanagari-safe">${exp.vendor || '—'}</td>
           <td class="py-3.5 px-4 text-slate-500 text-xs">${exp.phone || '—'}</td>
           <td class="py-3.5 px-4"><span class="px-2 py-0.5 rounded-full bg-slate-100 text-slate-700 font-bold text-[10px]">${exp.cat}</span></td>
-          <td class="py-3.5 px-4 text-slate-800 font-medium">${exp.desc}</td>
+          <td class="py-3.5 px-4 text-slate-800 font-medium devanagari-safe">${exp.desc}</td>
           <td class="py-3.5 px-4 text-slate-500 text-xs">${exp.mode}</td>
-          <td class="py-3.5 px-4 text-right font-extrabold text-rose-600">₹${Number(exp.amount).toLocaleString('en-IN', {minimumFractionDigits: 2})}</td>
+          <td class="py-3.5 px-4 text-right font-extrabold text-rose-600">₹${Number(exp.amount).toLocaleString('en-IN', { minimumFractionDigits: 2 })}</td>
           <td class="py-3.5 px-4 text-center">
             <div class="inline-flex items-center gap-1.5">
               <button onclick="editOfficeExpense('${exp.id}')" class="text-indigo-600 hover:text-indigo-800 font-bold p-1 text-xs" title="Edit Expense">✏️</button>
@@ -2147,7 +2554,7 @@
     function openCreateExpenseModal() {
       document.getElementById('expense-modal-title').innerText = "Office Expense Voucher";
       document.getElementById('exp-edit-id').value = '';
-      document.getElementById('exp-date').value = new Date().toISOString().split('T')[0];
+      document.getElementById('exp-date').value = REFERENCE_TODAY;
       document.getElementById('exp-vendor').value = '';
       document.getElementById('exp-phone').value = '';
       document.getElementById('exp-desc').value = '';
@@ -2223,7 +2630,7 @@
     function populateClientSelects() {
       const invSelect = document.getElementById('inv-client-select');
       const prevSelect = document.getElementById('preview-client-select');
-      
+
       const currentPrev = prevSelect.value;
       invSelect.innerHTML = '<option value="">-- Choose Client --</option>';
       prevSelect.innerHTML = '';
@@ -2248,14 +2655,14 @@
       if (!name) return showNotice('Please enter client or company name.');
 
       const cleanClientId = 'CL_' + name.toLowerCase().replace(/[^a-z0-9]/g, '_');
-      const newClient = { 
-        id: cleanClientId, 
-        name, 
-        phone, 
-        gstin, 
-        address, 
-        openingBalance: opening, 
-        createdDate: new Date().toISOString().split('T')[0] 
+      const newClient = {
+        id: cleanClientId,
+        name,
+        phone,
+        gstin,
+        address,
+        openingBalance: opening,
+        createdDate: REFERENCE_TODAY
       };
 
       store.clients.push(newClient);
@@ -2280,9 +2687,9 @@
 
     function prepareInvoiceStudio() {
       document.getElementById('inv-custom-id').value = getNextInvoiceNumber();
-      document.getElementById('inv-date').value = new Date().toISOString().split('T')[0];
+      document.getElementById('inv-date').value = REFERENCE_TODAY;
       document.getElementById('inv-status').value = "Order Received";
-      
+
       const container = document.getElementById('line-items-container');
       container.innerHTML = '';
       addLineItem('', '', 1, '');
@@ -2293,7 +2700,7 @@
       addCostRow('Fabrication / Labor', '');
       addCostRow('Delivery / Bike Fuel', '');
 
-      // Reset Terms & Conditions to Hidden by default
+      // Terms & Conditions default unchecked and hidden
       document.getElementById('inv-show-terms').checked = false;
       document.getElementById('inv-terms-category').value = 'photography';
       document.getElementById('inv-terms-text').value = TERMS_PRESETS.photography;
@@ -2359,7 +2766,6 @@
         addCostRow('Delivery / Bike Fuel', '');
       }
 
-      // Restore Terms & Conditions State
       const termsVault = JSON.parse(localStorage.getItem('coolart_terms_vault') || '{}');
       const savedTerms = termsVault[invoice.id] || {
         showTerms: !!invoice.showTerms,
@@ -2431,7 +2837,7 @@
       card.innerHTML = `
         <div class="grid grid-cols-12 gap-2 items-center">
           <div class="col-span-12 sm:col-span-6">
-            <input type="text" value="${desc}" placeholder="Item Description (e.g. Wedding Card, Flex, Board)" class="w-full bg-white border border-slate-300 rounded-lg p-2 text-xs item-desc focus:ring-2 focus:ring-indigo-500 outline-none font-semibold">
+            <input type="text" value="${desc}" placeholder="Item Description (e.g. Wedding Card, Flex, Board)" class="w-full bg-white border border-slate-300 rounded-lg p-2 text-xs item-desc devanagari-safe focus:ring-2 focus:ring-indigo-500 outline-none font-semibold">
           </div>
           <div class="col-span-4 sm:col-span-2">
             <input type="number" min="0.01" step="any" value="${qty}" oninput="calculateInvoiceDraftTotals()" placeholder="Qty" class="w-full bg-white border border-slate-300 rounded-lg p-2 text-xs text-center item-qty outline-none font-tabular">
@@ -2449,7 +2855,7 @@
 
         <div class="flex items-center gap-2 pt-1 border-t border-slate-200/60">
           <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider flex-shrink-0">↳ Remarks / Specs:</span>
-          <input type="text" value="${remarks}" placeholder="e.g. Matt Lamination, 250 GSM Card, Approved Sample, Iron Frame Fabrication" class="flex-1 bg-white/80 border border-slate-200 rounded-lg px-2.5 py-1 text-[11px] text-slate-700 outline-none focus:ring-1 focus:ring-indigo-400 item-remarks">
+          <input type="text" value="${remarks}" placeholder="e.g. Matt Lamination, 250 GSM Card, Approved Sample, Iron Frame Fabrication" class="flex-1 bg-white/80 border border-slate-200 rounded-lg px-2.5 py-1 text-[11px] text-slate-700 devanagari-safe outline-none focus:ring-1 focus:ring-indigo-400 item-remarks">
         </div>
       `;
       container.appendChild(card);
@@ -2481,14 +2887,14 @@
         const rate = parseFloat(card.querySelector('.item-rate').value) || 0;
         const total = qty * rate;
         subtotal += total;
-        card.querySelector('.item-amount').innerText = `₹${total.toLocaleString('en-IN', {minimumFractionDigits: 2})}`;
+        card.querySelector('.item-amount').innerText = `₹${total.toLocaleString('en-IN', { minimumFractionDigits: 2 })}`;
       });
 
       const discountAmt = Math.min(subtotal, parseFloat(document.getElementById('inv-discount-amt').value) || 0);
       const discountPct = subtotal > 0 ? ((discountAmt / subtotal) * 100).toFixed(1) : '0';
 
       document.getElementById('draft-discount-badge').innerText = `${discountPct}% OFF`;
-      document.getElementById('draft-discount-disp').innerText = `(-) ₹${discountAmt.toLocaleString('en-IN', {minimumFractionDigits: 2})}`;
+      document.getElementById('draft-discount-disp').innerText = `(-) ₹${discountAmt.toLocaleString('en-IN', { minimumFractionDigits: 2 })}`;
 
       const afterDiscount = Math.max(0, subtotal - discountAmt);
       const applyGst = document.getElementById('inv-apply-gst').checked;
@@ -2497,7 +2903,7 @@
       const gstRow = document.getElementById('draft-gst-row');
       if (applyGst) {
         gstRow.classList.remove('hidden');
-        document.getElementById('draft-gst-disp').innerText = `(+) ₹${gstAmt.toLocaleString('en-IN', {minimumFractionDigits: 2})}`;
+        document.getElementById('draft-gst-disp').innerText = `(+) ₹${gstAmt.toLocaleString('en-IN', { minimumFractionDigits: 2 })}`;
       } else {
         gstRow.classList.add('hidden');
       }
@@ -2520,14 +2926,14 @@
       const netProfit = Math.max(0, afterDiscount - totalCost);
       const sevaFund = netProfit * 0.10;
 
-      document.getElementById('draft-subtotal').innerText = `₹${subtotal.toLocaleString('en-IN', {minimumFractionDigits: 2})}`;
-      document.getElementById('draft-net-invoiced').innerText = `₹${netInvoiced.toLocaleString('en-IN', {minimumFractionDigits: 2})}`;
-      document.getElementById('draft-paid').innerText = `(-) ₹${immediatePaid.toLocaleString('en-IN', {minimumFractionDigits: 2})}`;
-      document.getElementById('draft-due').innerText = `₹${netDue.toLocaleString('en-IN', {minimumFractionDigits: 2})}`;
+      document.getElementById('draft-subtotal').innerText = `₹${subtotal.toLocaleString('en-IN', { minimumFractionDigits: 2 })}`;
+      document.getElementById('draft-net-invoiced').innerText = `₹${netInvoiced.toLocaleString('en-IN', { minimumFractionDigits: 2 })}`;
+      document.getElementById('draft-paid').innerText = `(-) ₹${immediatePaid.toLocaleString('en-IN', { minimumFractionDigits: 2 })}`;
+      document.getElementById('draft-due').innerText = `₹${netDue.toLocaleString('en-IN', { minimumFractionDigits: 2 })}`;
 
-      document.getElementById('draft-total-cost').innerText = `₹${totalCost.toLocaleString('en-IN', {minimumFractionDigits: 2})}`;
-      document.getElementById('draft-net-profit').innerText = `₹${netProfit.toLocaleString('en-IN', {minimumFractionDigits: 2})}`;
-      document.getElementById('draft-seva-fund').innerText = `₹${sevaFund.toLocaleString('en-IN', {minimumFractionDigits: 2})}`;
+      document.getElementById('draft-total-cost').innerText = `₹${totalCost.toLocaleString('en-IN', { minimumFractionDigits: 2 })}`;
+      document.getElementById('draft-net-profit').innerText = `₹${netProfit.toLocaleString('en-IN', { minimumFractionDigits: 2 })}`;
+      document.getElementById('draft-seva-fund').innerText = `₹${sevaFund.toLocaleString('en-IN', { minimumFractionDigits: 2 })}`;
 
       return { subtotal, discountAmt, discountPct, applyGst, gstAmt, netInvoiced, immediatePaid, totalCost, costRows, netProfit, sevaFund };
     }
@@ -2560,12 +2966,11 @@
       const calc = calculateInvoiceDraftTotals();
       const nowStr = new Date().toLocaleString('en-IN', { day: '2-digit', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' });
 
-      // Terms & Conditions values
       const showTerms = document.getElementById('inv-show-terms').checked;
       const termsCategory = document.getElementById('inv-terms-category').value;
       const termsText = document.getElementById('inv-terms-text').value.trim();
 
-      const existingIdx = editingInvoiceId 
+      const existingIdx = editingInvoiceId
         ? store.invoices.findIndex(i => i.id === editingInvoiceId)
         : store.invoices.findIndex(i => i.id === invId);
 
@@ -2600,14 +3005,12 @@
         store.invoices.push(invoiceObj);
       }
 
-      // Save Cost Vault
       const costVault = JSON.parse(localStorage.getItem('coolart_cost_vault') || '{}');
       if (calc.costRows && calc.costRows.length > 0) {
         costVault[invId] = calc.costRows;
         localStorage.setItem('coolart_cost_vault', JSON.stringify(costVault));
       }
 
-      // Save Terms Vault
       const termsVault = JSON.parse(localStorage.getItem('coolart_terms_vault') || '{}');
       termsVault[invId] = { showTerms, termsCategory, termsText };
       localStorage.setItem('coolart_terms_vault', JSON.stringify(termsVault));
@@ -2651,7 +3054,7 @@
       document.getElementById('p-payment-id').value = '';
       document.getElementById('p-client-id').value = client.id;
       document.getElementById('p-client-name').value = client.name;
-      document.getElementById('p-date').value = new Date().toISOString().split('T')[0];
+      document.getElementById('p-date').value = REFERENCE_TODAY;
       document.getElementById('p-amount').value = '';
       document.getElementById('p-ref').value = '';
 
@@ -2769,14 +3172,14 @@
       msg += `────────────────────────────\n`;
       msg += `Dear *${client.name}*,\n\n`;
       msg += `We have successfully received your payment deposit:\n`;
-      msg += `• Amount Received: *₹${payment.amount.toLocaleString('en-IN', {minimumFractionDigits: 2})}*\n`;
+      msg += `• Amount Received: *₹${payment.amount.toLocaleString('en-IN', { minimumFractionDigits: 2 })}*\n`;
       msg += `• Payment Mode: ${payment.mode}\n`;
       msg += `• Receipt Date: ${payment.date}\n`;
       if (payment.invoiceId) {
         msg += `• Applied Against Bill: *${payment.invoiceId}*\n`;
       }
       msg += `\n*Your Current Account Standing:*\n`;
-      msg += `• Remaining Due Balance: *₹${stats.balanceDue.toLocaleString('en-IN', {minimumFractionDigits: 2})}*\n\n`;
+      msg += `• Remaining Due Balance: *₹${stats.balanceDue.toLocaleString('en-IN', { minimumFractionDigits: 2 })}*\n\n`;
       msg += `_Thank you for your trusted business!_\n`;
       msg += `*Cool Art Advertising — Atrauli (Aligarh)*\n`;
       msg += `Helpline: +91 9458614610`;
@@ -2833,7 +3236,7 @@
 
       document.getElementById('doc-inv-type-badge').innerText = (activeInv && activeInv.gstApplied) ? 'TAX INVOICE (GST 18%)' : 'COMMERCIAL INVOICE';
       document.getElementById('doc-inv-number').innerText = isSpecificBill ? activeInv.id : 'CONSOLIDATED STATEMENT';
-      document.getElementById('doc-inv-date').innerText = activeInv ? activeInv.date : new Date().toISOString().split('T')[0];
+      document.getElementById('doc-inv-date').innerText = activeInv ? activeInv.date : REFERENCE_TODAY;
 
       document.getElementById('doc-client-name').innerText = client.name;
       document.getElementById('doc-client-phone').innerText = client.phone ? `Phone / WhatsApp: ${client.phone}` : 'Contact: On Record';
@@ -2848,8 +3251,8 @@
       }
 
       const invSpecific = isSpecificBill ? getInvoiceSpecificDetails(activeInv.id) : { billed: overallStats.billedTotal, paid: overallStats.paidTotal, due: overallStats.balanceDue };
-      document.getElementById('doc-inv-specific-due').innerText = `₹${invSpecific.due.toLocaleString('en-IN', {minimumFractionDigits: 2})}`;
-      document.getElementById('doc-client-due-badge').innerText = `₹${overallStats.balanceDue.toLocaleString('en-IN', {minimumFractionDigits: 2})}`;
+      document.getElementById('doc-inv-specific-due').innerText = `₹${invSpecific.due.toLocaleString('en-IN', { minimumFractionDigits: 2 })}`;
+      document.getElementById('doc-client-due-badge').innerText = `₹${overallStats.balanceDue.toLocaleString('en-IN', { minimumFractionDigits: 2 })}`;
 
       const statusBadge = document.getElementById('doc-status-badge');
       const curStatus = activeInv ? (activeInv.status || 'Delivered / Completed') : 'Delivered / Completed';
@@ -2876,15 +3279,15 @@
           const tr = document.createElement('tr');
           tr.className = "hover:bg-slate-50";
           tr.innerHTML = `
-            <td class="py-2.5 px-3 text-center text-slate-400 font-tabular text-xs align-top">${index++}</td>
-            <td class="py-2.5 px-3">
-              <span class="font-bold text-slate-900 block">${it.desc}</span>
-              ${it.remarks ? `<span class="text-[10px] text-slate-500 italic block mt-0.5 font-medium">↳ Remarks: ${it.remarks}</span>` : ''}
+            <td class="py-2 px-3 text-center text-slate-400 font-tabular text-xs align-top">${index++}</td>
+            <td class="py-2 px-3">
+              <span class="font-bold text-slate-900 block devanagari-safe">${it.desc}</span>
+              ${it.remarks ? `<span class="text-[10px] text-slate-500 italic block mt-0.5 font-medium devanagari-safe">↳ Remarks: ${it.remarks}</span>` : ''}
               <span class="text-[9px] text-slate-400 font-tabular block mt-0.5">Ref: ${inv.id} (${inv.date})</span>
             </td>
-            <td class="py-2.5 px-3 text-center text-slate-700 font-semibold font-tabular align-top">${it.qty}</td>
-            <td class="py-2.5 px-3 text-right font-tabular text-slate-700 align-top">₹${Number(it.rate).toLocaleString('en-IN', {minimumFractionDigits: 2})}</td>
-            <td class="py-2.5 px-3 text-right font-tabular font-bold text-slate-900 align-top">₹${Number(it.total).toLocaleString('en-IN', {minimumFractionDigits: 2})}</td>
+            <td class="py-2 px-3 text-center text-slate-700 font-semibold font-tabular align-top">${it.qty}</td>
+            <td class="py-2 px-3 text-right font-tabular text-slate-700 align-top">₹${Number(it.rate).toLocaleString('en-IN', { minimumFractionDigits: 2 })}</td>
+            <td class="py-2 px-3 text-right font-tabular font-bold text-slate-900 align-top">₹${Number(it.total).toLocaleString('en-IN', { minimumFractionDigits: 2 })}</td>
           `;
           tbody.appendChild(tr);
         });
@@ -2893,7 +3296,7 @@
       const logsContainer = document.getElementById('doc-payment-logs');
       logsContainer.innerHTML = '';
 
-      const relevantPayments = isSpecificBill 
+      const relevantPayments = isSpecificBill
         ? clientPayments.filter(p => p.invoiceId === activeInv.id)
         : clientPayments;
 
@@ -2902,16 +3305,16 @@
       } else {
         relevantPayments.forEach(p => {
           const div = document.createElement('div');
-          div.className = "flex justify-between items-center bg-white p-2 rounded-lg border border-slate-200 shadow-xs";
+          div.className = "flex justify-between items-center bg-white p-2 rounded-lg border border-slate-200 shadow-2xs";
           div.innerHTML = `
             <div class="flex-1 pr-2">
               <span class="font-bold text-slate-800 block text-[11px]">
-                ${p.mode} <span class="text-[9px] font-extrabold text-indigo-600 bg-indigo-50 px-1.5 py-0.2 rounded border border-indigo-200">[${p.invoiceId || 'General'}]</span>
+                ${p.mode} <span class="text-[9px] font-extrabold text-indigo-600 bg-indigo-50 px-1.5 py-0.5 rounded border border-indigo-200">[${p.invoiceId || 'General'}]</span>
               </span>
               <span class="text-[10px] text-slate-400 font-tabular">Date: ${p.date} • ${p.ref || 'Cleared'}</span>
             </div>
             <div class="flex items-center gap-2 font-tabular">
-              <span class="font-bold text-emerald-600 text-xs">₹${Number(p.amount).toLocaleString('en-IN', {minimumFractionDigits: 2})}</span>
+              <span class="font-bold text-emerald-600 text-xs">₹${Number(p.amount).toLocaleString('en-IN', { minimumFractionDigits: 2 })}</span>
               <button onclick="editPayment('${p.id}')" class="no-print text-slate-400 hover:text-indigo-600 p-1" title="Edit Payment">✏️</button>
               <button onclick="deletePayment('${p.id}')" class="no-print text-slate-400 hover:text-red-600 p-1" title="Delete Payment">🗑️</button>
             </div>
@@ -2941,14 +3344,14 @@
       const activePaid = isSpecificBill ? invSpecific.paid : overallStats.paidTotal;
       const activeBalance = isSpecificBill ? invSpecific.due : overallStats.balanceDue;
 
-      document.getElementById('doc-sum-gross').innerText = `₹${activeGross.toLocaleString('en-IN', {minimumFractionDigits: 2})}`;
-      
+      document.getElementById('doc-sum-gross').innerText = `₹${activeGross.toLocaleString('en-IN', { minimumFractionDigits: 2 })}`;
+
       const discountRow = document.getElementById('doc-discount-row');
       if (activeDiscount > 0) {
         discountRow.classList.remove('hidden');
         const overallPct = activeGross > 0 ? ((activeDiscount / activeGross) * 100).toFixed(1) : 0;
         document.getElementById('doc-discount-label').innerText = `Special Discount (${overallPct}% OFF):`;
-        document.getElementById('doc-sum-discount').innerText = `(-) ₹${activeDiscount.toLocaleString('en-IN', {minimumFractionDigits: 2})}`;
+        document.getElementById('doc-sum-discount').innerText = `(-) ₹${activeDiscount.toLocaleString('en-IN', { minimumFractionDigits: 2 })}`;
       } else {
         discountRow.classList.add('hidden');
       }
@@ -2956,14 +3359,14 @@
       const gstRow = document.getElementById('doc-gst-row');
       if (activeGst > 0) {
         gstRow.classList.remove('hidden');
-        document.getElementById('doc-sum-gst').innerText = `(+) ₹${activeGst.toLocaleString('en-IN', {minimumFractionDigits: 2})}`;
+        document.getElementById('doc-sum-gst').innerText = `(+) ₹${activeGst.toLocaleString('en-IN', { minimumFractionDigits: 2 })}`;
       } else {
         gstRow.classList.add('hidden');
       }
 
-      document.getElementById('doc-sum-net').innerText = `₹${activeNet.toLocaleString('en-IN', {minimumFractionDigits: 2})}`;
-      document.getElementById('doc-sum-paid').innerText = `(-) ₹${activePaid.toLocaleString('en-IN', {minimumFractionDigits: 2})}`;
-      document.getElementById('doc-sum-balance').innerText = `₹${activeBalance.toLocaleString('en-IN', {minimumFractionDigits: 2})}`;
+      document.getElementById('doc-sum-net').innerText = `₹${activeNet.toLocaleString('en-IN', { minimumFractionDigits: 2 })}`;
+      document.getElementById('doc-sum-paid').innerText = `(-) ₹${activePaid.toLocaleString('en-IN', { minimumFractionDigits: 2 })}`;
+      document.getElementById('doc-sum-balance').innerText = `₹${activeBalance.toLocaleString('en-IN', { minimumFractionDigits: 2 })}`;
 
       if (isSpecificBill) {
         document.getElementById('doc-lbl-balance').innerText = "NET BALANCE ON THIS BILL:";
@@ -2978,9 +3381,9 @@
       const curSeva = isSpecificBill ? (activeInv?.sevaFund || 0) : overallStats.totalBookedSeva;
       const lastMod = activeInv?.lastModified || 'Fresh Record';
 
-      document.getElementById('doc-private-cost').innerText = `₹${curCost.toLocaleString('en-IN', {minimumFractionDigits: 2})}`;
-      document.getElementById('doc-private-profit').innerText = `₹${curProfit.toLocaleString('en-IN', {minimumFractionDigits: 2})}`;
-      document.getElementById('doc-private-seva').innerText = `₹${curSeva.toLocaleString('en-IN', {minimumFractionDigits: 2})}`;
+      document.getElementById('doc-private-cost').innerText = `₹${curCost.toLocaleString('en-IN', { minimumFractionDigits: 2 })}`;
+      document.getElementById('doc-private-profit').innerText = `₹${curProfit.toLocaleString('en-IN', { minimumFractionDigits: 2 })}`;
+      document.getElementById('doc-private-seva').innerText = `₹${curSeva.toLocaleString('en-IN', { minimumFractionDigits: 2 })}`;
       document.getElementById('doc-last-modified-tag').innerText = `Last Modified: ${lastMod}`;
 
       const upiId = '9458614610-2@ybl';
@@ -3002,26 +3405,26 @@
       const s3Sub = document.getElementById('track-step-3-sub');
       const s4Sub = document.getElementById('track-step-4-sub');
 
-      [s2, s3, s4].forEach(el => el.querySelector('div').className = "w-8 h-8 mx-auto rounded-full flex items-center justify-center text-sm font-bold bg-slate-200 text-slate-600");
+      [s2, s3, s4].forEach(el => el.querySelector('div').className = "w-7 h-7 mx-auto rounded-full flex items-center justify-center text-xs font-bold bg-slate-200 text-slate-600");
       s2Sub.innerText = "Pending"; s3Sub.innerText = "Pending"; s4Sub.innerText = "Pending";
 
       if (status === 'Order Received') {
-        s2.querySelector('div').className = "w-8 h-8 mx-auto rounded-full flex items-center justify-center text-sm font-bold bg-amber-500 text-white animate-pulse";
+        s2.querySelector('div').className = "w-7 h-7 mx-auto rounded-full flex items-center justify-center text-xs font-bold bg-amber-500 text-white animate-pulse";
         s2Sub.innerText = "Designing...";
       } else if (status === 'In Process / Production') {
-        s2.querySelector('div').className = "w-8 h-8 mx-auto rounded-full flex items-center justify-center text-sm font-bold bg-emerald-600 text-white";
+        s2.querySelector('div').className = "w-7 h-7 mx-auto rounded-full flex items-center justify-center text-xs font-bold bg-emerald-600 text-white";
         s2Sub.innerText = "Done";
-        s3.querySelector('div').className = "w-8 h-8 mx-auto rounded-full flex items-center justify-center text-sm font-bold bg-blue-600 text-white animate-pulse";
+        s3.querySelector('div').className = "w-7 h-7 mx-auto rounded-full flex items-center justify-center text-xs font-bold bg-blue-600 text-white animate-pulse";
         s3Sub.innerText = "Printing...";
       } else if (status === 'Ready for Delivery') {
-        s2.querySelector('div').className = "w-8 h-8 mx-auto rounded-full flex items-center justify-center text-sm font-bold bg-emerald-600 text-white";
+        s2.querySelector('div').className = "w-7 h-7 mx-auto rounded-full flex items-center justify-center text-xs font-bold bg-emerald-600 text-white";
         s2Sub.innerText = "Done";
-        s3.querySelector('div').className = "w-8 h-8 mx-auto rounded-full flex items-center justify-center text-sm font-bold bg-emerald-600 text-white";
+        s3.querySelector('div').className = "w-7 h-7 mx-auto rounded-full flex items-center justify-center text-xs font-bold bg-emerald-600 text-white";
         s3Sub.innerText = "Done";
-        s4.querySelector('div').className = "w-8 h-8 mx-auto rounded-full flex items-center justify-center text-sm font-bold bg-purple-600 text-white animate-pulse";
+        s4.querySelector('div').className = "w-7 h-7 mx-auto rounded-full flex items-center justify-center text-xs font-bold bg-purple-600 text-white animate-pulse";
         s4Sub.innerText = "Ready to Pickup";
       } else {
-        [s2, s3, s4].forEach(el => el.querySelector('div').className = "w-8 h-8 mx-auto rounded-full flex items-center justify-center text-sm font-bold bg-emerald-600 text-white");
+        [s2, s3, s4].forEach(el => el.querySelector('div').className = "w-7 h-7 mx-auto rounded-full flex items-center justify-center text-xs font-bold bg-emerald-600 text-white");
         s2Sub.innerText = "Done"; s3Sub.innerText = "Done"; s4Sub.innerText = "Delivered";
       }
     }
@@ -3038,10 +3441,10 @@
       const totalSpent = expenses.reduce((s, e) => s + (Number(e.amount) || 0), 0);
       const inHandBal = Math.max(0, grandRealized - totalSpent);
 
-      document.getElementById('h-total-booked').innerText = `₹${grandBooked.toLocaleString('en-IN', {minimumFractionDigits: 2})}`;
-      document.getElementById('h-total-realized').innerText = `₹${grandRealized.toLocaleString('en-IN', {minimumFractionDigits: 2})}`;
-      document.getElementById('h-net-balance').innerText = `₹${inHandBal.toLocaleString('en-IN', {minimumFractionDigits: 2})}`;
-      document.getElementById('h-exp-date').value = new Date().toISOString().split('T')[0];
+      document.getElementById('h-total-booked').innerText = `₹${grandBooked.toLocaleString('en-IN', { minimumFractionDigits: 2 })}`;
+      document.getElementById('h-total-realized').innerText = `₹${grandRealized.toLocaleString('en-IN', { minimumFractionDigits: 2 })}`;
+      document.getElementById('h-net-balance').innerText = `₹${inHandBal.toLocaleString('en-IN', { minimumFractionDigits: 2 })}`;
+      document.getElementById('h-exp-date').value = REFERENCE_TODAY;
 
       const logContainer = document.getElementById('h-expenses-log');
       logContainer.innerHTML = '';
@@ -3053,10 +3456,10 @@
           div.className = "flex justify-between items-center p-2.5 hover:bg-slate-50";
           div.innerHTML = `
             <div>
-              <span class="font-bold text-slate-800 block">${exp.note}</span>
+              <span class="font-bold text-slate-800 block devanagari-safe">${exp.note}</span>
               <span class="text-[10px] text-slate-400 font-tabular">${exp.date}</span>
             </div>
-            <span class="font-tabular font-bold text-red-600">(-) ₹${Number(exp.amount).toLocaleString('en-IN', {minimumFractionDigits: 2})}</span>
+            <span class="font-tabular font-bold text-red-600">(-) ₹${Number(exp.amount).toLocaleString('en-IN', { minimumFractionDigits: 2 })}</span>
           `;
           logContainer.appendChild(div);
         });
@@ -3079,32 +3482,63 @@
       document.getElementById('h-exp-note').value = '';
     }
 
-    function downloadCleanPDF() {
+    // SINGLE-PAGE A4 PDF DOWNLOAD WITH CLEAN DEVANAGARI RENDERING
+    async function downloadCleanPDF() {
       const element = document.getElementById('invoice-sheet');
       const invNum = document.getElementById('doc-inv-number').innerText.trim() || 'INVOICE';
       const clientSelect = document.getElementById('preview-client-select');
-      const clientName = clientSelect && clientSelect.options[clientSelect.selectedIndex] 
-        ? clientSelect.options[clientSelect.selectedIndex].text.replace(/[^a-zA-Z0-9]/g, '_') 
+      const clientName = clientSelect && clientSelect.options[clientSelect.selectedIndex]
+        ? clientSelect.options[clientSelect.selectedIndex].text.replace(/[^a-zA-Z0-9]/g, '_')
         : 'Client';
 
-      const opt = {
-        margin:       [6, 6, 6, 6],
-        filename:     `CoolArt_${invNum}_${clientName}.pdf`,
-        image:        { type: 'jpeg', quality: 0.98 },
-        html2canvas:  { scale: 2, useCORS: true, letterRendering: true },
-        jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
-      };
-
       const memo = document.getElementById('doc-office-private-panel');
-      if (memo) memo.style.display = 'none';
+      const origMemoDisplay = memo ? memo.style.display : '';
+      const origStyle = element.getAttribute('style') || '';
 
-      html2pdf().set(opt).from(element).save().then(() => {
-        if (memo) memo.style.display = '';
-      }).catch(err => {
+      try {
+        if (document.fonts && document.fonts.ready) {
+          await document.fonts.ready;
+        }
+        if (memo) memo.style.display = 'none';
+
+        // Temporarily tighten layout slightly if tall so it fits cleanly on 1 A4 page
+        element.style.borderRadius = '0px';
+        element.style.boxShadow = 'none';
+
+        const rect = element.getBoundingClientRect();
+        // A4 aspect ratio height (~297mm / 210mm = 1.414) at 794px width is ~1122px
+        const targetMaxHeight = 1085;
+        let autoScale = 1;
+        if (rect.height > targetMaxHeight) {
+          autoScale = Math.max(0.76, targetMaxHeight / rect.height);
+          element.style.transformOrigin = 'top left';
+          element.style.transform = `scale(${autoScale})`;
+          element.style.width = `${(100 / autoScale).toFixed(2)}%`;
+        }
+
+        const opt = {
+          margin: [4, 4, 4, 4],
+          filename: `CoolArt_${invNum}_${clientName}.pdf`,
+          image: { type: 'jpeg', quality: 0.98 },
+          html2canvas: {
+            scale: 2,
+            useCORS: true,
+            letterRendering: false,
+            scrollY: 0,
+            backgroundColor: '#ffffff'
+          },
+          jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
+          pagebreak: { mode: ['avoid-all'] }
+        };
+
+        await html2pdf().set(opt).from(element).save();
+      } catch (err) {
         console.error(err);
-        if (memo) memo.style.display = '';
         window.print();
-      });
+      } finally {
+        if (memo) memo.style.display = origMemoDisplay;
+        element.setAttribute('style', origStyle);
+      }
     }
 
     function printInvoiceSheet() {
@@ -3127,9 +3561,9 @@
       let msg = `*Dear ${client.name}*,\n`;
       msg += `Greetings from *Cool Art Advertising*!\n\n`;
       msg += `This is a gentle reminder regarding your completed work order statement:\n`;
-      msg += `• Total Invoiced: ₹${stats.billedTotal.toLocaleString('en-IN', {minimumFractionDigits: 2})}\n`;
-      msg += `• Total Cleared: ₹${stats.paidTotal.toLocaleString('en-IN', {minimumFractionDigits: 2})}\n`;
-      msg += `• *NET BALANCE DUE: ₹${stats.balanceDue.toLocaleString('en-IN', {minimumFractionDigits: 2})}*\n\n`;
+      msg += `• Total Invoiced: ₹${stats.billedTotal.toLocaleString('en-IN', { minimumFractionDigits: 2 })}\n`;
+      msg += `• Total Cleared: ₹${stats.paidTotal.toLocaleString('en-IN', { minimumFractionDigits: 2 })}\n`;
+      msg += `• *NET BALANCE DUE: ₹${stats.balanceDue.toLocaleString('en-IN', { minimumFractionDigits: 2 })}*\n\n`;
       msg += `Kindly clear the balance at your convenience via UPI ID: *9458614610-2@ybl*.\n`;
       msg += `_Thank you for your business!_\n`;
       msg += `*Cool Art Advertising — Atrauli (Aligarh)*`;
@@ -3161,15 +3595,15 @@
       if (isSpecificBill) {
         msg += `Invoice Reference: *${selectedBillId}*\n\n`;
         msg += `*Invoice Standing:*\n`;
-        msg += `• Invoice Amount: ₹${invSpecific.billed.toLocaleString('en-IN', {minimumFractionDigits: 2})}\n`;
-        msg += `• Cleared on this Bill: ₹${invSpecific.paid.toLocaleString('en-IN', {minimumFractionDigits: 2})}\n`;
-        msg += `• *Bill Balance Due: ₹${invSpecific.due.toLocaleString('en-IN', {minimumFractionDigits: 2})}*\n\n`;
-        msg += `• Total Account Standing (All Bills): ₹${overallStats.balanceDue.toLocaleString('en-IN', {minimumFractionDigits: 2})}\n`;
+        msg += `• Invoice Amount: ₹${invSpecific.billed.toLocaleString('en-IN', { minimumFractionDigits: 2 })}\n`;
+        msg += `• Cleared on this Bill: ₹${invSpecific.paid.toLocaleString('en-IN', { minimumFractionDigits: 2 })}\n`;
+        msg += `• *Bill Balance Due: ₹${invSpecific.due.toLocaleString('en-IN', { minimumFractionDigits: 2 })}*\n\n`;
+        msg += `• Total Account Standing (All Bills): ₹${overallStats.balanceDue.toLocaleString('en-IN', { minimumFractionDigits: 2 })}\n`;
       } else {
         msg += `Consolidated Client Statement:\n`;
-        msg += `• Net Invoiced: ₹${overallStats.billedTotal.toLocaleString('en-IN', {minimumFractionDigits: 2})}\n`;
-        msg += `• Cleared Receipts: ₹${overallStats.paidTotal.toLocaleString('en-IN', {minimumFractionDigits: 2})}\n`;
-        msg += `• *Total Balance Due: ₹${overallStats.balanceDue.toLocaleString('en-IN', {minimumFractionDigits: 2})}*\n`;
+        msg += `• Net Invoiced: ₹${overallStats.billedTotal.toLocaleString('en-IN', { minimumFractionDigits: 2 })}\n`;
+        msg += `• Cleared Receipts: ₹${overallStats.paidTotal.toLocaleString('en-IN', { minimumFractionDigits: 2 })}\n`;
+        msg += `• *Total Balance Due: ₹${overallStats.balanceDue.toLocaleString('en-IN', { minimumFractionDigits: 2 })}*\n`;
       }
       msg += `\nUPI Payment ID: *9458614610-2@ybl*\n`;
       msg += `_Cool Art Advertising — Atrauli (Aligarh)_\n`;
@@ -3182,7 +3616,7 @@
       let cleanPhone = (phone || '').replace(/[^0-9]/g, '');
       if (cleanPhone.length === 10) cleanPhone = '91' + cleanPhone;
 
-      const waUrl = cleanPhone 
+      const waUrl = cleanPhone
         ? `https://api.whatsapp.com/send?phone=${cleanPhone}&text=${encodeURIComponent(message)}`
         : `https://api.whatsapp.com/send?text=${encodeURIComponent(message)}`;
 
