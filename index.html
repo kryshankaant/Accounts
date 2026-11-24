@@ -5,12 +5,15 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>Cool Art | Enterprise Billing & Financial Ledger</title>
 
-  <link rel="icon" type="image/png" href="fevicon.png?v=91">
-  <link rel="apple-touch-icon" href="fevicon.png?v=91">
+  <!-- Brand Icons -->
+  <link rel="icon" type="image/png" href="fevicon.png?v=92">
+  <link rel="apple-touch-icon" href="fevicon.png?v=92">
 
+  <!-- Tailwind CSS & PDF Exporter -->
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
+  <!-- Fonts including Noto Sans Devanagari for crisp Hindi matra & character rendering -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -26,8 +29,8 @@
                   radial-gradient(ellipse at 90% 10%, rgba(209, 250, 229, 0.45), transparent 40%),
                   #f8fafc;
       color: #0f172a;
-      min-height: 100vh;
-      padding-bottom: 64px;
+      height: 100vh;
+      overflow: hidden;
       -webkit-font-smoothing: antialiased;
       letter-spacing: -0.01em;
     }
@@ -43,7 +46,7 @@
       z-index: -1;
     }
 
-    /* Clean Devanagari / Hindi rendering without matra clipping or character clumping */
+    /* Clean Hindi/Devanagari rendering to prevent matra clipping or character clumping */
     .devanagari-safe,
     #doc-terms-content,
     #inv-terms-text,
@@ -51,7 +54,7 @@
     .item-desc,
     .item-remarks {
       font-family: 'Noto Sans Devanagari', 'Plus Jakarta Sans', sans-serif !important;
-      line-height: 1.68 !important;
+      line-height: 1.72 !important;
       letter-spacing: 0 !important;
       word-spacing: 0.04em;
       font-variant-ligatures: normal;
@@ -63,18 +66,18 @@
     }
 
     .stat-card {
-      border: 1px solid rgba(226, 232, 240, 0.85);
+      border: 1px solid rgba(226, 232, 240, 0.9);
       border-radius: 18px;
-      background: rgba(255, 255, 255, 0.92);
+      background: rgba(255, 255, 255, 0.94);
       backdrop-filter: blur(12px);
       box-shadow: 0 4px 18px -2px rgba(15, 23, 42, 0.04);
-      transition: all 0.22s cubic-bezier(0.4, 0, 0.2, 1);
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
     .stat-card:hover {
       transform: translateY(-1px);
       box-shadow: 0 10px 24px -4px rgba(15, 23, 42, 0.07);
-      border-color: rgba(203, 213, 225, 0.95);
+      border-color: rgba(203, 213, 225, 1);
     }
 
     .apple-glass-btn {
@@ -105,8 +108,8 @@
     }
 
     @keyframes gentlePulse {
-      0%, 100% { background-color: rgba(254, 242, 242, 0.9); }
-      50% { background-color: rgba(254, 226, 226, 0.5); }
+      0%, 100% { background-color: rgba(254, 242, 242, 0.92); }
+      50% { background-color: rgba(254, 226, 226, 0.55); }
     }
 
     .oldest-overdue-row {
@@ -115,33 +118,38 @@
     }
 
     #left-sidebar {
-      transition: transform 0.25s cubic-bezier(0.22, 1, 0.36, 1);
+      transition: transform 0.24s cubic-bezier(0.22, 1, 0.36, 1);
     }
 
-    /* Single-Page A4 Print Optimization */
+    /* Strict Single-Page A4 Print Rules */
     @media print {
-      body {
+      html, body {
+        height: auto !important;
+        overflow: visible !important;
         background: #ffffff !important;
         color: #000000 !important;
-        padding-bottom: 0 !important;
         margin: 0 !important;
+        padding: 0 !important;
       }
       body::before,
       header,
       nav,
       footer,
-      #left-sidebar,
+      aside,
       #sidebar-backdrop,
-      #sidebar-popover-panel,
       .no-print,
       .office-private-note {
         display: none !important;
       }
       #app-root,
-      #workspace-shell,
+      #shell-body,
+      #workspace-scroll-area,
       main,
       #tab-sec-invoice-preview {
         display: block !important;
+        position: static !important;
+        overflow: visible !important;
+        height: auto !important;
         margin: 0 !important;
         padding: 0 !important;
         width: 100% !important;
@@ -160,19 +168,19 @@
       }
       #invoice-sheet .p-4,
       #invoice-sheet .sm\:p-6 {
-        padding: 10px 14px !important;
+        padding: 8px 12px !important;
       }
-      #invoice-sheet .space-y-4 > :not([hidden]) ~ :not([hidden]) {
-        margin-top: 7px !important;
+      #invoice-sheet .space-y-3\.5 > :not([hidden]) ~ :not([hidden]) {
+        margin-top: 6px !important;
       }
       @page {
         size: A4 portrait;
-        margin: 5mm 6mm;
+        margin: 4mm 5mm;
       }
     }
   </style>
 </head>
-<body class="min-h-screen flex flex-col justify-between antialiased">
+<body class="antialiased selection:bg-indigo-500/20">
 
   <!-- MOBILE SIDEBAR BACKDROP -->
   <div id="sidebar-backdrop" onclick="closeMobileSidebar()" class="hidden fixed inset-0 z-40 bg-slate-950/60 backdrop-blur-xs lg:hidden no-print"></div>
@@ -182,7 +190,7 @@
     <div class="stat-card max-w-sm w-full p-8 border-slate-800 bg-[#0b1329]/95 text-white shadow-2xl relative overflow-hidden text-center space-y-6">
       <div class="flex justify-center">
         <div class="w-20 h-20 rounded-2xl p-2 bg-slate-900/90 border border-slate-700/80 shadow-inner flex items-center justify-center">
-          <img src="fevicon.png?v=91" alt="Cool Art" class="w-full h-full object-contain rounded-xl" onerror="this.src='https://placehold.co/80x80/0b1329/ffffff?text=CA'">
+          <img src="fevicon.png?v=92" alt="Cool Art" class="w-full h-full object-contain rounded-xl" onerror="this.src='https://placehold.co/80x80/0b1329/ffffff?text=CA'">
         </div>
       </div>
 
@@ -206,882 +214,860 @@
     </div>
   </div>
 
-  <!-- MAIN APPLICATION SHELL -->
-  <div id="app-root" class="hidden flex-1 flex flex-col justify-between">
-    <div>
-      <!-- DARK TOP HEADER (#0b1329) -->
-      <header class="sticky top-0 z-40 bg-[#0b1329] border-b border-white/10 text-white shadow-lg no-print">
-        <div class="px-3 sm:px-6 h-16 flex items-center justify-between gap-2 sm:gap-3">
+  <!-- MAIN APPLICATION SHELL (FIXED HEADER, FIXED SIDEBAR, FIXED FOOTER; ONLY WORKSPACE SCROLLS) -->
+  <div id="app-root" class="hidden h-screen flex flex-col overflow-hidden">
 
-          <!-- LEFT: MOBILE DRAWER BUTTON + BRAND LOGO -->
-          <div class="flex items-center gap-2 sm:gap-3 flex-shrink-0">
-            <button onclick="toggleMobileSidebar()" id="btn-mobile-sidebar" title="Toggle Sidebar" class="lg:hidden apple-glass-btn px-2.5 py-2 rounded-xl text-white inline-flex items-center gap-1.5 font-bold text-xs">
-              <svg class="w-4 h-4 text-indigo-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
-            </button>
+    <!-- FIXED TOP HEADER (#0b1329), ALIGNED WITH WORKSPACE -->
+    <header class="h-16 flex-shrink-0 z-40 bg-[#0b1329] border-b border-white/10 text-white shadow-md no-print flex items-center">
+      <!-- Left brand spacer aligned with w-64 desktop sidebar -->
+      <div class="w-full lg:w-64 flex-shrink-0 px-3 sm:px-4 flex items-center justify-between lg:border-r lg:border-white/10">
+        <div class="flex items-center gap-2.5">
+          <button onclick="toggleMobileSidebar()" id="btn-mobile-sidebar" title="Toggle Menu" class="lg:hidden apple-glass-btn p-2 rounded-xl text-white inline-flex items-center justify-center">
+            <svg class="w-4 h-4 text-indigo-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
+          </button>
 
-            <div class="flex items-center gap-2.5 cursor-pointer" onclick="switchTab('dashboard')" title="Go to Dashboard">
-              <img src="cool art logo.png" alt="Cool Art" class="h-6 sm:h-8 w-auto object-contain" onerror="this.style.display='none'">
-              <span class="text-white/20 font-light text-base sm:text-xl">|</span>
-              <div class="h-9 sm:h-10 w-9 sm:w-10 rounded-2xl p-1 bg-white/5 border border-white/10 shadow-inner flex items-center justify-center overflow-hidden flex-shrink-0">
-                <img src="fevicon.png?v=91" alt="CA Logo" class="h-full w-full object-contain rounded-xl" onerror="this.src='https://placehold.co/50x50/0b1329/ffffff?text=CA'">
-              </div>
-
-              <div class="hidden md:block border-l border-white/10 pl-3">
-                <h1 class="text-xs font-bold uppercase tracking-wider text-slate-100">Cool Art Invoicing</h1>
-                <p class="text-[10px] text-emerald-400 font-medium">Enterprise Commercial Billing & Cloud Ledger</p>
-              </div>
+          <div class="flex items-center gap-2 cursor-pointer" onclick="switchTab('dashboard')" title="Go to Dashboard">
+            <img src="cool art logo.png" alt="Cool Art" class="h-6 sm:h-7 w-auto object-contain" onerror="this.style.display='none'">
+            <span class="text-white/20 font-light text-base">|</span>
+            <div class="h-8 w-8 rounded-xl p-0.5 bg-white/5 border border-white/10 flex items-center justify-center overflow-hidden flex-shrink-0">
+              <img src="fevicon.png?v=92" alt="CA Logo" class="h-full w-full object-contain rounded-lg" onerror="this.src='https://placehold.co/40x40/0b1329/ffffff?text=CA'">
             </div>
-          </div>
-
-          <!-- RIGHT: HEADER ACTION BUTTONS -->
-          <div class="flex items-center gap-1.5 sm:gap-2">
-            <button onclick="switchTab('dashboard')" title="Home / Dashboard" class="apple-glass-btn px-2.5 sm:px-3 py-1.5 sm:py-2 rounded-xl text-white inline-flex items-center gap-1.5">
-              <svg class="w-4 h-4 text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path></svg>
-              <span class="hidden sm:inline text-xs font-bold">Home</span>
-            </button>
-
-            <button onclick="pullDataFromSheets(true)" id="btn-pull-sync" title="Sync from Sheet" class="apple-glass-btn px-2.5 sm:px-3 py-1.5 sm:py-2 rounded-xl text-emerald-400 inline-flex items-center gap-1.5">
-              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg>
-              <span class="hidden sm:inline text-xs font-bold text-white" id="sync-text">Sync</span>
-            </button>
-
-            <button onclick="openCreateExpenseModal()" title="Add General Expense" class="apple-glass-btn px-2.5 sm:px-3 py-1.5 sm:py-2 rounded-xl text-rose-300 inline-flex items-center gap-1.5">
-              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
-              <span class="hidden sm:inline text-xs font-bold text-white">Expense</span>
-            </button>
-
-            <button onclick="openNewInvoiceForm()" class="px-3 sm:px-4 py-1.5 sm:py-2 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-bold shadow-md active:scale-95 transition inline-flex items-center gap-1.5 border border-indigo-400/30">
-              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
-              <span class="hidden sm:inline">New Invoice</span>
-              <span class="sm:hidden">Bill</span>
-            </button>
-
-            <button onclick="lockGateway()" title="Lock Application" class="apple-glass-btn p-2 rounded-xl text-slate-400 hover:text-red-400 inline-flex items-center justify-center">
-              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
-            </button>
           </div>
         </div>
-      </header>
 
-      <!-- BODY LAYOUT: DOCKED LEFT SIDEBAR + MAIN WORKSPACE -->
-      <div class="flex min-h-[calc(100vh-112px)] relative">
+        <!-- Mobile Lock button -->
+        <button onclick="lockGateway()" title="Lock Application" class="lg:hidden apple-glass-btn p-2 rounded-xl text-slate-400 hover:text-red-400">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
+        </button>
+      </div>
 
-        <!-- LEFT SIDEBAR (DOCKED ON DESKTOP, SLIDE DRAWER ON MOBILE) -->
-        <aside id="left-sidebar" class="fixed lg:static top-16 bottom-12 left-0 z-40 w-64 flex-shrink-0 bg-[#0b1329] text-white border-r border-white/10 -translate-x-full lg:translate-x-0 flex flex-col justify-between no-print">
-          <div class="p-3.5 space-y-4 overflow-y-auto relative">
+      <!-- Right header bar aligned with main tabs & workspace -->
+      <div class="hidden lg:flex flex-1 items-center justify-between px-6">
+        <div>
+          <h1 class="text-xs font-bold uppercase tracking-wider text-slate-100">Cool Art Invoicing</h1>
+          <p class="text-[10px] text-emerald-400 font-medium">Enterprise Commercial Billing & Cloud Ledger</p>
+        </div>
 
-            <!-- Compact Triggers for Mission Engine & Sales Growth Graph -->
-            <div class="space-y-2">
-              <span class="text-[10px] font-bold uppercase tracking-widest text-slate-400 px-1 block">Quick Tools</span>
+        <button onclick="lockGateway()" title="Lock Application" class="apple-glass-btn px-3 py-1.5 rounded-xl text-slate-300 hover:text-red-400 inline-flex items-center gap-1.5 text-xs font-bold">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
+          <span>Lock</span>
+        </button>
+      </div>
+    </header>
 
-              <button onclick="openSidebarPopover('mission')" id="trigger-mission-popover" class="w-full flex items-center justify-between px-3 py-2 rounded-xl bg-indigo-600/25 hover:bg-indigo-600/40 border border-indigo-400/30 text-left transition">
-                <span class="flex items-center gap-2">
-                  <span class="text-sm">🎯</span>
-                  <span class="text-xs font-bold text-white">Smart Mission Engine</span>
-                </span>
-                <span class="text-[10px] text-indigo-300 font-bold">▾</span>
-              </button>
+    <!-- MIDDLE SHELL: FIXED LEFT SIDEBAR + SCROLLABLE RIGHT WORKSPACE -->
+    <div id="shell-body" class="flex-1 flex min-h-0 overflow-hidden relative">
 
-              <button onclick="openSidebarPopover('growth')" id="trigger-growth-popover" class="w-full flex items-center justify-between px-3 py-2 rounded-xl bg-emerald-600/20 hover:bg-emerald-600/35 border border-emerald-400/30 text-left transition">
-                <span class="flex items-center gap-2">
-                  <span class="text-sm">📈</span>
-                  <span class="text-xs font-bold text-white">Sales Growth & Graph</span>
-                </span>
-                <span class="text-[10px] text-emerald-300 font-bold">▾</span>
-              </button>
-            </div>
+      <!-- FIXED LEFT SIDEBAR (#0b1329) -->
+      <aside id="left-sidebar" class="fixed lg:static inset-y-16 lg:inset-y-auto left-0 z-40 w-64 flex-shrink-0 bg-[#0b1329] text-white border-r border-white/10 -translate-x-full lg:translate-x-0 flex flex-col justify-between overflow-hidden no-print">
+        <div class="p-3.5 space-y-3.5 overflow-y-auto flex-1">
 
-            <!-- COMPACT POPOVER PANEL (OPENS NEATLY BESIDE/BELOW LEFT SIDEBAR TRIGGER) -->
-            <div id="sidebar-popover-panel" class="hidden fixed lg:absolute left-4 right-4 lg:left-[268px] lg:right-auto top-28 lg:top-3 z-50 w-auto lg:w-80 bg-[#0f1a38] text-white border border-indigo-400/30 rounded-2xl shadow-2xl p-4 space-y-3">
-              <div class="flex items-center justify-between border-b border-white/10 pb-2">
-                <div class="flex items-center gap-2">
-                  <span id="popover-icon" class="text-base">🎯</span>
-                  <h4 id="popover-title" class="text-xs font-extrabold uppercase tracking-wider text-white">Mission Target</h4>
-                </div>
-                <button onclick="closeSidebarPopover()" class="w-6 h-6 rounded-md bg-white/10 hover:bg-white/20 text-slate-300 text-xs font-bold flex items-center justify-center">✕</button>
+          <!-- Core Quick Actions (Moved from Top Header into Sidebar) -->
+          <div class="space-y-1.5">
+            <span class="text-[10px] font-bold uppercase tracking-widest text-slate-400 px-1 block">Quick Actions</span>
+
+            <button onclick="switchTab('dashboard'); closeMobileSidebar();" class="w-full flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-semibold text-slate-200 hover:bg-white/10 transition text-left">
+              <span>🏠</span> Home / Dashboard
+            </button>
+
+            <button onclick="pullDataFromSheets(true)" id="btn-pull-sync" class="w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-semibold text-emerald-300 hover:bg-white/10 transition text-left">
+              <span class="flex items-center gap-2.5">
+                <svg id="sync-icon" class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg>
+                <span class="text-white" id="sync-text">Sync Sheet</span>
+              </span>
+              <span class="text-[9px] text-emerald-400 font-bold">LIVE</span>
+            </button>
+
+            <button onclick="openCreateExpenseModal(); closeMobileSidebar();" class="w-full flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-semibold text-rose-300 hover:bg-white/10 transition text-left">
+              <span>💸</span> Add Expense
+            </button>
+          </div>
+
+          <!-- INLINE ACCORDION / DROPDOWN 1: SMART MISSION ENGINE -->
+          <div class="rounded-xl bg-white/5 border border-indigo-400/25 overflow-hidden">
+            <button onclick="toggleInlineAccordion('mission')" id="btn-acc-mission" class="w-full flex items-center justify-between px-3 py-2 text-left hover:bg-white/5 transition">
+              <span class="flex items-center gap-2">
+                <span class="text-sm">🎯</span>
+                <span class="text-xs font-bold text-white">Smart Mission Engine</span>
+              </span>
+              <span id="arrow-acc-mission" class="text-[10px] text-indigo-300 font-bold transition-transform">▾</span>
+            </button>
+
+            <div id="acc-mission-panel" class="hidden px-3 pb-3 pt-2 border-t border-white/10 space-y-2 text-[11px] font-tabular bg-slate-950/40">
+              <div class="flex items-center justify-between gap-1">
+                <span class="text-[10px] text-slate-400">Month:</span>
+                <select id="mission-month-select" onchange="renderMissionEngine()" class="bg-white/10 border border-white/15 rounded-lg px-2 py-0.5 text-[10px] font-bold text-white focus:outline-none"></select>
               </div>
 
-              <!-- Mission Compact Body -->
-              <div id="popover-mission-body" class="hidden space-y-2.5 text-xs font-tabular">
-                <div class="flex items-center justify-between">
-                  <span class="text-[10px] text-slate-400 font-semibold">Month:</span>
-                  <select id="mission-month-select" onchange="renderMissionEngine()" class="bg-white/10 border border-white/15 rounded-lg px-2 py-0.5 text-[11px] font-bold text-white focus:outline-none"></select>
-                </div>
-
-                <div class="flex justify-between items-baseline">
-                  <span class="text-[11px] text-slate-300">Net Savings:</span>
-                  <strong class="text-emerald-400 text-sm" id="mission-profit-val">₹0.00</strong>
-                </div>
-
-                <div class="w-full bg-slate-900 rounded-full h-2 overflow-hidden border border-white/10">
-                  <div id="mission-progress-bar" class="bg-gradient-to-r from-indigo-500 to-emerald-400 h-full rounded-full transition-all duration-300" style="width: 0%"></div>
-                </div>
-
-                <div class="flex justify-between text-[10px] text-slate-400">
-                  <span>Goal: ₹50,000</span>
-                  <span id="mission-pct-badge" class="text-indigo-300 font-bold">0%</span>
-                </div>
-                <div class="text-[10px] text-rose-300">
-                  Remaining: <strong id="mission-remaining-val">₹50,000.00</strong>
-                </div>
-
-                <div class="pt-2 border-t border-white/10 space-y-1 text-[10px] text-slate-300">
-                  <div id="mission-plan-a">• Hero: Print ~10,000 Sq.Ft Flex</div>
-                  <div id="mission-plan-b">• Mix: Flex + Cards + Frames</div>
-                </div>
+              <div class="flex justify-between items-baseline">
+                <span class="text-[10px] text-slate-300">Net Savings:</span>
+                <strong class="text-emerald-400 text-xs" id="mission-profit-val">₹0.00</strong>
               </div>
 
-              <!-- Sales Growth Compact Body -->
-              <div id="popover-growth-body" class="hidden space-y-2.5 text-xs font-tabular">
-                <div class="flex items-center justify-between gap-1 bg-white/5 p-1 rounded-lg text-[10px] font-bold">
-                  <button onclick="setGrowthGranularity('daily')" id="growth-tab-daily" class="flex-1 py-1 rounded-md bg-indigo-600 text-white">Day</button>
-                  <button onclick="setGrowthGranularity('monthly')" id="growth-tab-monthly" class="flex-1 py-1 rounded-md text-slate-300 hover:text-white">Month</button>
-                  <button onclick="setGrowthGranularity('yearly')" id="growth-tab-yearly" class="flex-1 py-1 rounded-md text-slate-300 hover:text-white">Year</button>
-                </div>
-
-                <!-- Compact Meters -->
-                <div class="space-y-1.5 text-[11px]">
-                  <div>
-                    <div class="flex justify-between text-[10px]">
-                      <span class="text-slate-300">Today (24 Nov)</span>
-                      <span class="text-blue-300 font-bold" id="meter-day-val">₹0.00</span>
-                    </div>
-                    <div class="w-full bg-slate-900 rounded-full h-1.5 mt-0.5 overflow-hidden">
-                      <div id="meter-day-bar" class="bg-blue-500 h-full rounded-full" style="width: 0%"></div>
-                    </div>
-                  </div>
-
-                  <div>
-                    <div class="flex justify-between text-[10px]">
-                      <span class="text-slate-300">Nov 2026</span>
-                      <span class="text-indigo-300 font-bold" id="meter-month-val">₹0.00</span>
-                    </div>
-                    <div class="w-full bg-slate-900 rounded-full h-1.5 mt-0.5 overflow-hidden">
-                      <div id="meter-month-bar" class="bg-indigo-500 h-full rounded-full" style="width: 0%"></div>
-                    </div>
-                  </div>
-
-                  <div>
-                    <div class="flex justify-between text-[10px]">
-                      <span class="text-slate-300">FY 2026</span>
-                      <span class="text-emerald-300 font-bold" id="meter-year-val">₹0.00</span>
-                    </div>
-                    <div class="w-full bg-slate-900 rounded-full h-1.5 mt-0.5 overflow-hidden">
-                      <div id="meter-year-bar" class="bg-emerald-500 h-full rounded-full" style="width: 0%"></div>
-                    </div>
-                  </div>
-                </div>
-
-                <!-- Compact Mini Bar Chart -->
-                <div class="pt-2 border-t border-white/10">
-                  <span class="text-[10px] text-slate-400 block mb-1.5" id="growth-chart-title">Last 7 Days Sales</span>
-                  <div id="sales-growth-bars" class="h-24 flex items-end justify-between gap-1.5 pt-3 pb-1 border-b border-white/10"></div>
-                </div>
+              <div class="w-full bg-slate-900 rounded-full h-1.5 overflow-hidden border border-white/10">
+                <div id="mission-progress-bar" class="bg-gradient-to-r from-indigo-500 to-emerald-400 h-full rounded-full transition-all duration-300" style="width: 0%"></div>
               </div>
-            </div>
 
-            <!-- Main Navigation Links -->
-            <div class="space-y-1">
-              <span class="text-[10px] font-bold uppercase tracking-widest text-slate-400 px-1 block">Navigation</span>
+              <div class="flex justify-between text-[10px] text-slate-400">
+                <span>Target: ₹50,000</span>
+                <span id="mission-pct-badge" class="text-indigo-300 font-bold">0%</span>
+              </div>
 
-              <button onclick="switchTab('dashboard'); closeMobileSidebar();" class="w-full flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-semibold text-slate-200 hover:bg-white/10 transition text-left">
-                <span>📋</span> Directory & Ledger
-              </button>
+              <div class="text-[10px] text-rose-300">
+                Remaining: <strong id="mission-remaining-val">₹50,000.00</strong>
+              </div>
 
-              <button onclick="switchTab('expenses'); closeMobileSidebar();" class="w-full flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-semibold text-slate-200 hover:bg-white/10 transition text-left">
-                <span>🏢</span> Office Expenses
-              </button>
-
-              <button onclick="openNewInvoiceForm(); closeMobileSidebar();" class="w-full flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-semibold text-slate-200 hover:bg-white/10 transition text-left">
-                <span>✍️</span> Invoice Studio
-              </button>
-
-              <button onclick="switchTab('invoice-preview'); closeMobileSidebar();" class="w-full flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-semibold text-slate-200 hover:bg-white/10 transition text-left">
-                <span>📄</span> Official Statement
-              </button>
-
-              <button onclick="closeMobileSidebar(); openModal('hanuman-bank-modal');" class="w-full flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-semibold text-amber-300 hover:bg-amber-500/10 transition text-left">
-                <span>🚩</span> Hanuman Ji Ka Bank
-              </button>
-            </div>
-
-            <!-- Reserved Space for Future Modules -->
-            <div class="p-2.5 rounded-xl bg-white/5 border border-dashed border-white/15 space-y-1">
-              <span class="text-[10px] font-bold uppercase tracking-wider text-indigo-300 block">Future Modules</span>
-              <p class="text-[10px] text-slate-400 leading-snug">Staff Attendance • Stock Register • Print Job Queue</p>
+              <div class="pt-1.5 border-t border-white/10 space-y-1 text-[10px] text-slate-300">
+                <div id="mission-plan-a">• Hero: ~10,000 Sq.Ft Flex</div>
+                <div id="mission-plan-b">• Mix: Flex + Cards + Frames</div>
+              </div>
             </div>
           </div>
 
-          <!-- SINGLE VERSION & UPDATE DATE BADGE IN SIDEBAR FOOTER -->
-          <div class="px-3.5 py-2.5 border-t border-white/10 bg-slate-950/60 text-[10px] text-slate-300 font-tabular text-center">
-            <span class="font-bold text-indigo-300">v9.1</span> • Updated <span class="text-emerald-400 font-semibold">24 Nov 2026</span>
-          </div>
-        </aside>
+          <!-- INLINE ACCORDION / DROPDOWN 2: SALES GROWTH & GRAPH (FULL 30 DAYS + FINANCIAL YEAR) -->
+          <div class="rounded-xl bg-white/5 border border-emerald-400/25 overflow-hidden">
+            <button onclick="toggleInlineAccordion('growth')" id="btn-acc-growth" class="w-full flex items-center justify-between px-3 py-2 text-left hover:bg-white/5 transition">
+              <span class="flex items-center gap-2">
+                <span class="text-sm">📈</span>
+                <span class="text-xs font-bold text-white">Sales Growth & Graph</span>
+              </span>
+              <span id="arrow-acc-growth" class="text-[10px] text-emerald-300 font-bold transition-transform">▾</span>
+            </button>
 
-        <!-- RIGHT WORKSPACE COLUMN -->
-        <div id="workspace-shell" class="flex-1 min-w-0">
-          <!-- SUB-NAVIGATION TABS -->
-          <div class="border-b border-slate-200/80 bg-white/75 backdrop-blur-md no-print">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-              <nav class="flex space-x-6 sm:space-x-8 overflow-x-auto py-1 scrollbar-none">
-                <button onclick="switchTab('dashboard')" id="nav-dashboard" class="py-3 px-1 text-xs sm:text-sm font-bold border-b-2 border-indigo-600 text-indigo-700 flex items-center gap-1.5 whitespace-nowrap transition">
-                  📋 Directory & Ledger
-                </button>
-                <button onclick="switchTab('expenses')" id="nav-expenses" class="py-3 px-1 text-xs sm:text-sm font-semibold border-b-2 border-transparent text-slate-500 hover:text-slate-900 flex items-center gap-1.5 whitespace-nowrap transition">
-                  🏢 Office Expenses
-                </button>
-                <button onclick="switchTab('create-bill')" id="nav-create-bill" class="py-3 px-1 text-xs sm:text-sm font-semibold border-b-2 border-transparent text-slate-500 hover:text-slate-900 flex items-center gap-1.5 whitespace-nowrap transition">
-                  ✍️ Invoice Studio
-                </button>
-                <button onclick="switchTab('invoice-preview')" id="nav-invoice-preview" class="py-3 px-1 text-xs sm:text-sm font-semibold border-b-2 border-transparent text-slate-500 hover:text-slate-900 flex items-center gap-1.5 whitespace-nowrap transition">
-                  📄 Official Statement
-                </button>
-              </nav>
+            <div id="acc-growth-panel" class="hidden px-2.5 pb-3 pt-2 border-t border-white/10 space-y-2 text-[11px] font-tabular bg-slate-950/40">
+              <!-- Switch between Full 30-Day Current Month and Financial Year -->
+              <div class="grid grid-cols-2 gap-1 bg-white/5 p-1 rounded-lg text-[10px] font-bold">
+                <button onclick="setGrowthView('month30')" id="growth-btn-month30" class="py-1 rounded-md bg-indigo-600 text-white">30 Days (Nov)</button>
+                <button onclick="setGrowthView('fy')" id="growth-btn-fy" class="py-1 rounded-md text-slate-300 hover:text-white">Financial Year</button>
+              </div>
+
+              <div class="flex items-center justify-between text-[10px] px-0.5">
+                <span class="text-slate-400" id="growth-summary-label">Nov 2026 Total:</span>
+                <span class="text-emerald-400 font-extrabold" id="growth-summary-val">₹0.00</span>
+              </div>
+
+              <!-- Meter Bar -->
+              <div class="w-full bg-slate-900 rounded-full h-1.5 overflow-hidden border border-white/10">
+                <div id="growth-meter-bar" class="bg-gradient-to-r from-blue-500 via-indigo-400 to-emerald-400 h-full rounded-full transition-all duration-300" style="width: 0%"></div>
+              </div>
+
+              <!-- Full 30-Day or FY Bar Chart inside Sidebar without horizontal slide -->
+              <div class="pt-1">
+                <span class="text-[9px] text-slate-400 block mb-1" id="growth-chart-caption">Daily Sales (1–30 Nov 2026)</span>
+                <div id="sales-growth-bars" class="h-24 w-full flex items-end justify-between gap-[1px] pt-2 pb-1 border-b border-white/10 overflow-hidden"></div>
+              </div>
             </div>
           </div>
 
-          <main class="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 py-5 sm:py-6 w-full">
-            <!-- 1. DASHBOARD TAB -->
-            <section id="tab-sec-dashboard" class="space-y-5 no-print">
+          <!-- Workspace Navigation -->
+          <div class="space-y-1">
+            <span class="text-[10px] font-bold uppercase tracking-widest text-slate-400 px-1 block">Workspace</span>
 
-              <!-- Overview Bar -->
-              <div class="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4">
-                <div class="stat-card p-4 flex items-center justify-between border-indigo-100 bg-indigo-50/40">
-                  <div>
-                    <span class="text-xs font-bold uppercase tracking-wider text-indigo-900">Registered Commercial Accounts</span>
-                    <div class="flex items-baseline gap-2 mt-1">
-                      <span id="metric-total-clients" class="text-2xl font-black font-tabular text-indigo-700">0</span>
-                      <span class="text-xs text-slate-500">Active Clients in Khata</span>
-                    </div>
-                  </div>
-                  <span class="text-3xl">👥</span>
-                </div>
+            <button onclick="switchTab('dashboard'); closeMobileSidebar();" class="w-full flex items-center gap-2.5 px-3 py-1.5 rounded-xl text-xs font-semibold text-slate-200 hover:bg-white/10 transition text-left">
+              <span>📋</span> Directory & Ledger
+            </button>
 
-                <div class="stat-card p-4 flex items-center justify-between border-emerald-100 bg-emerald-50/40">
-                  <div>
-                    <span class="text-xs font-bold uppercase tracking-wider text-emerald-900">Work Orders Status Overview</span>
-                    <div id="metric-project-stages" class="flex flex-wrap items-center gap-1.5 mt-1.5 text-xs font-bold font-tabular">
-                      <span class="px-2 py-0.5 rounded-md bg-emerald-100 text-emerald-800">Delivered: 0</span>
-                      <span class="px-2 py-0.5 rounded-md bg-amber-100 text-amber-800">Received: 0</span>
-                      <span class="px-2 py-0.5 rounded-md bg-blue-100 text-blue-800">In Process: 0</span>
-                    </div>
+            <button onclick="switchTab('expenses'); closeMobileSidebar();" class="w-full flex items-center gap-2.5 px-3 py-1.5 rounded-xl text-xs font-semibold text-slate-200 hover:bg-white/10 transition text-left">
+              <span>🏢</span> Office Expenses
+            </button>
+
+            <button onclick="openNewInvoiceForm(); closeMobileSidebar();" class="w-full flex items-center gap-2.5 px-3 py-1.5 rounded-xl text-xs font-semibold text-slate-200 hover:bg-white/10 transition text-left">
+              <span>✍️</span> Invoice Studio
+            </button>
+
+            <button onclick="switchTab('invoice-preview'); closeMobileSidebar();" class="w-full flex items-center gap-2.5 px-3 py-1.5 rounded-xl text-xs font-semibold text-slate-200 hover:bg-white/10 transition text-left">
+              <span>📄</span> Official Statement
+            </button>
+
+            <button onclick="closeMobileSidebar(); openModal('hanuman-bank-modal');" class="w-full flex items-center gap-2.5 px-3 py-1.5 rounded-xl text-xs font-semibold text-amber-300 hover:bg-amber-500/10 transition text-left">
+              <span>🚩</span> Hanuman Ji Ka Bank
+            </button>
+          </div>
+
+          <!-- Future Modules Slot -->
+          <div class="p-2.5 rounded-xl bg-white/5 border border-dashed border-white/15 space-y-0.5">
+            <span class="text-[10px] font-bold uppercase tracking-wider text-indigo-300 block">Future Modules</span>
+            <p class="text-[10px] text-slate-400 leading-snug">Staff Attendance • Stock Register • Print Job Queue</p>
+          </div>
+        </div>
+
+        <!-- SINGLE VERSION & UPDATE DATE BADGE FIXED AT BOTTOM OF LEFT SIDEBAR -->
+        <div class="px-3 py-2.5 border-t border-white/10 bg-[#070d1e] text-[10px] text-slate-300 font-tabular text-center flex-shrink-0">
+          <span class="font-bold text-indigo-300">v9.2</span> • Updated <span class="text-emerald-400 font-semibold">24 Nov 2026</span>
+        </div>
+      </aside>
+
+      <!-- SCROLLABLE WORKSPACE AREA -->
+      <div id="workspace-scroll-area" class="flex-1 min-w-0 overflow-y-auto">
+        <!-- SUB-NAVIGATION TABS -->
+        <div class="border-b border-slate-200/80 bg-white/80 backdrop-blur-md no-print sticky top-0 z-20">
+          <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <nav class="flex space-x-6 sm:space-x-8 overflow-x-auto py-0.5">
+              <button onclick="switchTab('dashboard')" id="nav-dashboard" class="py-3 px-1 text-xs sm:text-sm font-bold border-b-2 border-indigo-600 text-indigo-700 flex items-center gap-1.5 whitespace-nowrap transition">
+                📋 Directory & Ledger
+              </button>
+              <button onclick="switchTab('expenses')" id="nav-expenses" class="py-3 px-1 text-xs sm:text-sm font-semibold border-b-2 border-transparent text-slate-500 hover:text-slate-900 flex items-center gap-1.5 whitespace-nowrap transition">
+                🏢 Office Expenses
+              </button>
+              <button onclick="switchTab('create-bill')" id="nav-create-bill" class="py-3 px-1 text-xs sm:text-sm font-semibold border-b-2 border-transparent text-slate-500 hover:text-slate-900 flex items-center gap-1.5 whitespace-nowrap transition">
+                ✍️ Invoice Studio
+              </button>
+              <button onclick="switchTab('invoice-preview')" id="nav-invoice-preview" class="py-3 px-1 text-xs sm:text-sm font-semibold border-b-2 border-transparent text-slate-500 hover:text-slate-900 flex items-center gap-1.5 whitespace-nowrap transition">
+                📄 Official Statement
+              </button>
+            </nav>
+          </div>
+        </div>
+
+        <main class="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 py-5 sm:py-6 w-full space-y-5">
+          <!-- 1. DASHBOARD TAB -->
+          <section id="tab-sec-dashboard" class="space-y-5 no-print">
+
+            <!-- TOP OVERVIEW BAR WITH "OUR CLIENTS", WORK ORDERS STATUS CHART & + NEW INVOICE BUTTON -->
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-3 sm:gap-4 items-stretch">
+              <!-- Our Clients Card -->
+              <div class="lg:col-span-4 stat-card p-4 flex items-center justify-between border-indigo-100 bg-indigo-50/40">
+                <div>
+                  <span class="text-sm sm:text-base font-extrabold uppercase tracking-wide text-indigo-950 block">Our Clients</span>
+                  <div class="flex items-baseline gap-2 mt-1">
+                    <span id="metric-total-clients" class="text-2xl sm:text-3xl font-black font-tabular text-indigo-700">0</span>
+                    <span class="text-xs text-slate-500 font-medium">Active Accounts</span>
                   </div>
-                  <span class="text-3xl">📦</span>
                 </div>
+                <span class="text-3xl">👥</span>
               </div>
 
-              <!-- Top Row Financial Cards -->
-              <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
-                <div class="stat-card p-4 sm:p-5">
-                  <p class="text-xs font-bold uppercase tracking-wider text-slate-400">Total Invoiced Amount</p>
-                  <div class="flex items-baseline gap-2 mt-2">
-                    <span id="metric-total-billed" class="text-2xl sm:text-3xl font-extrabold font-tabular text-slate-900">₹0.00</span>
-                  </div>
-                  <p class="text-[11px] text-slate-500 mt-1">Cumulative sales volume</p>
+              <!-- Work Orders Status Overview Visual Chart Card -->
+              <div class="lg:col-span-5 stat-card p-4 border-emerald-100 bg-emerald-50/30 flex flex-col justify-between">
+                <div class="flex items-center justify-between gap-2 mb-2">
+                  <span class="text-xs font-extrabold uppercase tracking-wider text-emerald-950">Work Orders Status Overview</span>
+                  <span id="work-order-total-pill" class="text-[10px] font-bold font-tabular bg-white px-2 py-0.5 rounded-full border border-emerald-200 text-emerald-800">0 Orders</span>
                 </div>
 
-                <div class="stat-card p-4 sm:p-5">
-                  <p class="text-xs font-bold uppercase tracking-wider text-emerald-600">Payments Cleared</p>
-                  <div class="flex items-baseline gap-2 mt-2">
-                    <span id="metric-total-received" class="text-2xl sm:text-3xl font-extrabold font-tabular text-emerald-600">₹0.00</span>
-                  </div>
-                  <p class="text-[11px] text-slate-500 mt-1">Total deposited receipts</p>
-                </div>
-
-                <div class="stat-card p-4 sm:p-5 bg-gradient-to-br from-[#0b1329] to-[#1e293b] text-white border-slate-800">
-                  <p class="text-xs font-bold uppercase tracking-wider text-emerald-400">Outstanding Balance</p>
-                  <div class="flex items-baseline gap-2 mt-2">
-                    <span id="metric-total-due" class="text-2xl sm:text-3xl font-extrabold font-tabular text-white">₹0.00</span>
-                  </div>
-                  <p class="text-[11px] text-slate-400 mt-1">Total market receivables</p>
-                </div>
-
-                <div onclick="openModal('hanuman-bank-modal')" class="stat-card p-4 sm:p-5 bg-gradient-to-br from-amber-50 via-orange-50 to-amber-100 border-amber-300 cursor-pointer hover:border-amber-400 relative overflow-hidden" title="Click to view Service Fund Ledger">
-                  <div class="flex items-center justify-between gap-3">
-                    <div class="w-12 h-12 rounded-xl overflow-hidden flex-shrink-0 bg-amber-200 border border-amber-300 shadow flex items-center justify-center">
-                      <img src="hanumanji.png" alt="Hanuman Ji" class="w-full h-full object-cover" onerror="this.onerror=null; this.src='hanuman ji.png'; this.onerror=function(){this.style.display='none'; this.nextElementSibling.style.display='block';}">
-                      <span style="display:none;" class="text-2xl">🚩</span>
-                    </div>
-
-                    <div class="flex-1 text-right">
-                      <p class="text-xs font-black uppercase tracking-wider text-amber-950">Hanuman Ji Ka Bank</p>
-                      <div class="flex items-baseline justify-end gap-1 mt-1">
-                        <span id="metric-hanuman-realized" class="text-2xl sm:text-3xl font-black font-tabular text-amber-800">₹0.00</span>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="flex items-center justify-between text-[11px] text-amber-900/80 mt-2.5 pt-2 border-t border-amber-200">
-                    <span>Booked: <strong id="metric-hanuman-accrued">₹0.00</strong></span>
-                    <span class="font-bold underline text-amber-900">Cash Ledger ➔</span>
-                  </div>
-                </div>
+                <!-- Visual Horizontal Chart Bars -->
+                <div id="work-orders-chart" class="space-y-1.5 text-[10px] font-tabular"></div>
               </div>
 
-              <!-- Bottom Row Financial Cards: 5-CARD VIEW (PROFIT + MARGIN %) -->
-              <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3 sm:gap-4">
-                <div class="bg-white p-4 rounded-2xl border border-amber-200 shadow-2xs">
-                  <span class="text-xs font-bold text-amber-900 uppercase tracking-wider block">Total Job Cost (COGS)</span>
-                  <span id="metric-total-cogs" class="text-xl font-extrabold text-amber-950 font-tabular mt-1 block">₹0.00</span>
-                  <span class="text-[10px] text-slate-500">Raw Stock + Labor + Delivery Fuel</span>
+              <!-- + New Invoice Action Card -->
+              <div class="lg:col-span-3 stat-card p-4 border-indigo-200 bg-gradient-to-br from-indigo-600 to-indigo-700 text-white flex flex-col justify-between">
+                <div>
+                  <span class="text-[10px] font-bold uppercase tracking-wider text-indigo-200 block">Quick Billing</span>
+                  <p class="text-xs text-white/90 mt-0.5">Create a new client bill</p>
                 </div>
+                <button onclick="openNewInvoiceForm()" class="mt-3 w-full py-2.5 px-4 rounded-xl bg-white hover:bg-indigo-50 text-indigo-950 text-xs font-extrabold shadow-sm active:scale-95 transition inline-flex items-center justify-center gap-1.5">
+                  <svg class="w-4 h-4 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.4" d="M12 4v16m8-8H4"></path></svg>
+                  <span>+ New Invoice</span>
+                </button>
+              </div>
+            </div>
 
-                <div class="bg-emerald-50/70 p-4 rounded-2xl border border-emerald-200 shadow-2xs">
-                  <span class="text-xs font-bold text-emerald-900 uppercase tracking-wider block">Calculated Net Profit</span>
-                  <span id="metric-job-profit" class="text-xl font-extrabold text-emerald-700 font-tabular mt-1 block">₹0.00</span>
-                  <span class="text-[10px] text-emerald-800 font-medium">Net Billed - Production Cost</span>
+            <!-- Top Row Financial Cards -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
+              <div class="stat-card p-4 sm:p-5">
+                <p class="text-xs font-bold uppercase tracking-wider text-slate-400">Total Invoiced Amount</p>
+                <div class="flex items-baseline gap-2 mt-2">
+                  <span id="metric-total-billed" class="text-2xl sm:text-3xl font-extrabold font-tabular text-slate-900">₹0.00</span>
                 </div>
-
-                <div class="bg-indigo-50/70 p-4 rounded-2xl border border-indigo-200 shadow-2xs">
-                  <span class="text-xs font-bold text-indigo-900 uppercase tracking-wider block">Production Margin (%)</span>
-                  <span id="metric-margin-pct" class="text-xl font-extrabold text-indigo-700 font-tabular mt-1 block">0.0%</span>
-                  <span class="text-[10px] text-indigo-800 font-medium">(Net Profit ÷ Net Billed) × 100</span>
-                </div>
-
-                <div class="bg-white p-4 rounded-2xl border border-rose-200 shadow-2xs">
-                  <span class="text-xs font-bold text-rose-600 uppercase tracking-wider block">Office / Shop Expenses</span>
-                  <span id="metric-office-expenses" class="text-xl font-extrabold text-rose-600 font-tabular mt-1 block">₹0.00</span>
-                  <span class="text-[10px] text-slate-400">Rent, Bills, Tea, Tools, Maintenance</span>
-                </div>
-
-                <div class="bg-emerald-100/80 p-4 rounded-2xl border border-emerald-300 shadow-2xs">
-                  <span class="text-xs font-black text-emerald-950 uppercase tracking-wider block">Real In-Hand Cash Profit</span>
-                  <span id="metric-net-real-profit" class="text-2xl font-black text-emerald-800 font-tabular mt-1 block">₹0.00</span>
-                  <span class="text-[10px] text-emerald-900 font-semibold">Cleared Receipts - Costs - Overheads</span>
-                </div>
+                <p class="text-[11px] text-slate-500 mt-1">Cumulative sales volume</p>
               </div>
 
-              <!-- Clients Table & Pagination Toolbar -->
-              <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
-                <div class="p-4 sm:p-5 border-b border-slate-100 flex flex-wrap items-center justify-between gap-3">
-                  <div>
-                    <h2 class="text-base font-bold text-slate-900">Commercial Client Accounts</h2>
-                    <p class="text-xs text-slate-500 mt-0.5">Click any client row to view full invoice history • VIP & Regular badges aligned</p>
-                  </div>
-
-                  <div class="flex flex-wrap items-center gap-2">
-                    <input type="text" id="client-search-input" oninput="renderClientsTable()" placeholder="🔍 Quick search client..." class="bg-slate-50 border border-slate-300 rounded-xl px-3 py-1.5 text-xs text-slate-800 focus:outline-none focus:ring-2 focus:ring-indigo-500 w-44">
-
-                    <select id="client-row-limit" onchange="renderClientsTable()" class="bg-slate-50 border border-slate-300 rounded-xl px-2.5 py-1.5 text-xs font-bold text-slate-700 focus:outline-none">
-                      <option value="10">Show 10</option>
-                      <option value="25" selected>Show 25</option>
-                      <option value="50">Show 50</option>
-                      <option value="ALL">Show All</option>
-                    </select>
-
-                    <button onclick="openModal('client-modal')" class="inline-flex items-center gap-1.5 text-xs font-bold px-3.5 py-2 rounded-xl bg-slate-900 hover:bg-slate-800 text-white transition shadow-sm">
-                      + Register Client
-                    </button>
-                  </div>
+              <div class="stat-card p-4 sm:p-5">
+                <p class="text-xs font-bold uppercase tracking-wider text-emerald-600">Payments Cleared</p>
+                <div class="flex items-baseline gap-2 mt-2">
+                  <span id="metric-total-received" class="text-2xl sm:text-3xl font-extrabold font-tabular text-emerald-600">₹0.00</span>
                 </div>
-
-                <div class="overflow-x-auto">
-                  <table class="w-full text-left text-xs sm:text-sm">
-                    <thead class="bg-slate-50 border-b border-slate-200 text-slate-500 uppercase tracking-wider text-[11px] font-bold">
-                      <tr>
-                        <th class="py-3.5 px-4">Client / Company</th>
-                        <th class="py-3.5 px-4">Phone</th>
-                        <th class="py-3.5 px-4 text-center">Status</th>
-                        <th class="py-3.5 px-4 text-right">Net Billed (₹)</th>
-                        <th class="py-3.5 px-4 text-right">Cleared (₹)</th>
-                        <th class="py-3.5 px-4 text-right">Balance Due (₹)</th>
-                        <th class="py-3.5 px-4 text-center">Actions</th>
-                      </tr>
-                    </thead>
-                    <tbody id="clients-table-body" class="divide-y divide-slate-100 font-normal"></tbody>
-                  </table>
-                </div>
-
-                <div id="clients-pagination-info" class="p-3 bg-slate-50/70 border-t border-slate-100 text-xs text-slate-500 font-medium flex justify-between items-center px-4"></div>
+                <p class="text-[11px] text-slate-500 mt-1">Total deposited receipts</p>
               </div>
-            </section>
 
-            <!-- 2. OFFICE EXPENSES TAB -->
-            <section id="tab-sec-expenses" class="hidden no-print space-y-6">
-              <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
-                <div class="p-4 sm:p-5 border-b border-slate-100 flex flex-wrap items-center justify-between gap-3">
-                  <div>
-                    <h2 class="text-base font-bold text-slate-900">Office & General Expense Records</h2>
-                    <p class="text-xs text-slate-500 mt-0.5">Chronologically auto-sorted by date • Month-wise audit filters</p>
+              <div class="stat-card p-4 sm:p-5 bg-gradient-to-br from-[#0b1329] to-[#1e293b] text-white border-slate-800">
+                <p class="text-xs font-bold uppercase tracking-wider text-emerald-400">Outstanding Balance</p>
+                <div class="flex items-baseline gap-2 mt-2">
+                  <span id="metric-total-due" class="text-2xl sm:text-3xl font-extrabold font-tabular text-white">₹0.00</span>
+                </div>
+                <p class="text-[11px] text-slate-400 mt-1">Total market receivables</p>
+              </div>
+
+              <div onclick="openModal('hanuman-bank-modal')" class="stat-card p-4 sm:p-5 bg-gradient-to-br from-amber-50 via-orange-50 to-amber-100 border-amber-300 cursor-pointer hover:border-amber-400 relative overflow-hidden" title="Click to view Service Fund Ledger">
+                <div class="flex items-center justify-between gap-3">
+                  <div class="w-12 h-12 rounded-xl overflow-hidden flex-shrink-0 bg-amber-200 border border-amber-300 shadow flex items-center justify-center">
+                    <img src="hanumanji.png" alt="Hanuman Ji" class="w-full h-full object-cover" onerror="this.onerror=null; this.src='hanuman ji.png'; this.onerror=function(){this.style.display='none'; this.nextElementSibling.style.display='block';};">
+                    <span style="display:none;" class="text-2xl">🚩</span>
                   </div>
 
-                  <div class="flex items-center gap-2.5">
-                    <div class="flex items-center gap-1.5">
-                      <span class="text-xs font-bold text-slate-500">Filter Month:</span>
-                      <select id="expense-month-filter" onchange="renderExpensesTable()" class="bg-slate-50 border border-slate-300 rounded-xl px-3 py-1.5 text-xs font-bold text-slate-800 focus:outline-none"></select>
+                  <div class="flex-1 text-right">
+                    <p class="text-xs font-black uppercase tracking-wider text-amber-950">Hanuman Ji Ka Bank</p>
+                    <div class="flex items-baseline justify-end gap-1 mt-1">
+                      <span id="metric-hanuman-realized" class="text-2xl sm:text-3xl font-black font-tabular text-amber-800">₹0.00</span>
                     </div>
-
-                    <button onclick="openCreateExpenseModal()" class="inline-flex items-center gap-1.5 text-xs font-bold px-4 py-2 rounded-xl bg-rose-600 hover:bg-rose-500 text-white transition shadow-sm">
-                      + Create Expense Voucher
-                    </button>
                   </div>
                 </div>
-
-                <div class="bg-rose-50/60 px-4 py-2.5 border-b border-rose-100 flex justify-between items-center text-xs">
-                  <span class="font-bold text-rose-900" id="expense-filtered-label">Showing Expenses</span>
-                  <span class="font-extrabold text-rose-700 font-tabular text-sm">Filtered Total: <span id="expense-filtered-total">₹0.00</span></span>
-                </div>
-
-                <div class="overflow-x-auto">
-                  <table class="w-full text-left text-xs sm:text-sm min-w-[650px]">
-                    <thead class="bg-slate-50 border-b border-slate-200 text-slate-500 uppercase tracking-wider text-[11px] font-bold">
-                      <tr>
-                        <th class="py-3.5 px-4">Voucher #</th>
-                        <th class="py-3.5 px-4">Date</th>
-                        <th class="py-3.5 px-4">Vendor / Person</th>
-                        <th class="py-3.5 px-4">Phone</th>
-                        <th class="py-3.5 px-4">Category</th>
-                        <th class="py-3.5 px-4">What Was Purchased</th>
-                        <th class="py-3.5 px-4">Mode</th>
-                        <th class="py-3.5 px-4 text-right">Amount (₹)</th>
-                        <th class="py-3.5 px-4 text-center">Actions</th>
-                      </tr>
-                    </thead>
-                    <tbody id="expenses-table-body" class="divide-y divide-slate-100 font-normal font-tabular"></tbody>
-                  </table>
+                <div class="flex items-center justify-between text-[11px] text-amber-900/80 mt-2.5 pt-2 border-t border-amber-200">
+                  <span>Booked: <strong id="metric-hanuman-accrued">₹0.00</strong></span>
+                  <span class="font-bold underline text-amber-900">Cash Ledger ➔</span>
                 </div>
               </div>
-            </section>
+            </div>
 
-            <!-- 3. CREATE / EDIT INVOICE TAB (INVOICE STUDIO) -->
-            <section id="tab-sec-create-bill" class="hidden no-print max-w-4xl mx-auto space-y-6">
-              <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-4 sm:p-8 space-y-6">
-                <div class="flex flex-wrap items-center justify-between border-b border-slate-200 pb-4 gap-3">
-                  <div>
-                    <div class="flex items-center gap-2">
-                      <h2 class="text-lg sm:text-xl font-bold text-slate-900" id="form-invoice-title">Generate Commercial Invoice</h2>
-                      <span id="badge-edit-mode" class="hidden text-[10px] font-extrabold uppercase px-2.5 py-0.5 bg-amber-100 text-amber-800 rounded-full border border-amber-200">Revision Mode</span>
-                    </div>
-                    <p class="text-xs text-slate-500 mt-1">Itemize artwork, specifications sub-rows, pure quantities & costing breakdown</p>
-                  </div>
-                  <div class="text-right">
-                    <span class="text-[10px] uppercase font-bold text-slate-400 block">Invoice Reference #</span>
-                    <input type="text" id="inv-custom-id" readonly class="font-tabular font-bold text-xs text-slate-800 bg-slate-100 px-3 py-1.5 rounded-lg border border-slate-300 text-right w-36 outline-none cursor-not-allowed">
-                  </div>
-                </div>
-
-                <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
-                  <div class="md:col-span-2">
-                    <label class="block text-xs font-bold text-slate-700 mb-1.5">Billed To (Client) *</label>
-                    <select id="inv-client-select" onchange="onClientSelectionChange()" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-xs sm:text-sm text-slate-800 focus:outline-none focus:ring-2 focus:ring-indigo-500">
-                      <option value="">-- Choose Client --</option>
-                    </select>
-                  </div>
-                  <div>
-                    <label class="block text-xs font-bold text-slate-700 mb-1.5">Invoice Date *</label>
-                    <input type="date" id="inv-date" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-xs sm:text-sm text-slate-800 focus:outline-none focus:ring-2 focus:ring-indigo-500">
-                  </div>
-                  <div>
-                    <label class="block text-xs font-bold text-slate-700 mb-1.5">Work Stage (Status)</label>
-                    <select id="inv-status" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-xs sm:text-sm text-slate-800 focus:outline-none focus:ring-2 focus:ring-indigo-500 font-semibold">
-                      <option value="Order Received">🟡 Order Received</option>
-                      <option value="In Process / Production">🔵 In Process / Production</option>
-                      <option value="Ready for Delivery">🟣 Ready for Delivery</option>
-                      <option value="Delivered / Completed">🟢 Delivered / Completed</option>
-                    </select>
-                  </div>
-                </div>
-
-                <!-- PRODUCT LINE ITEMS WITH PERSISTENT REMARKS SUB-ROW -->
-                <div class="space-y-3 pt-2">
-                  <div class="flex items-center justify-between">
-                    <span class="text-xs font-bold uppercase tracking-wider text-slate-600">Product & Work Deliverables</span>
-                    <button type="button" onclick="addLineItem()" class="text-xs font-bold text-indigo-600 hover:text-indigo-800 flex items-center gap-1">
-                      <span>➕</span> Add Item Row
-                    </button>
-                  </div>
-
-                  <div id="line-items-container" class="space-y-3"></div>
-                </div>
-
-                <!-- GST TOGGLE -->
-                <div class="flex items-center justify-between bg-slate-50 p-3.5 rounded-xl border border-slate-200">
-                  <div class="flex items-center gap-2">
-                    <input type="checkbox" id="inv-apply-gst" onchange="calculateInvoiceDraftTotals()" class="w-4 h-4 text-indigo-600 rounded border-slate-300 focus:ring-indigo-500 cursor-pointer">
-                    <label for="inv-apply-gst" class="text-xs font-bold text-slate-800 cursor-pointer">Apply GST (18% — CGST 9% + SGST 9%)</label>
-                  </div>
-                  <span class="text-[11px] text-slate-500">Uncheck for regular non-tax invoice</span>
-                </div>
-
-                <!-- TERMS & CONDITIONS MANAGER (UNCHECKED & HIDDEN BY DEFAULT) -->
-                <div class="bg-indigo-50/60 border border-indigo-200/80 rounded-xl p-4 space-y-3">
-                  <div class="flex flex-wrap items-center justify-between gap-2">
-                    <div class="flex items-center gap-2">
-                      <input type="checkbox" id="inv-show-terms" onchange="toggleTermsEditor()" class="w-4 h-4 text-indigo-600 rounded border-slate-300 focus:ring-indigo-500 cursor-pointer">
-                      <label for="inv-show-terms" class="text-xs font-extrabold text-indigo-950 cursor-pointer flex items-center gap-1.5">
-                        ⚖️ Show Terms & Conditions on Bill (बिल में शर्तें जोड़ें)
-                      </label>
-                    </div>
-                    <span class="text-[10px] font-semibold text-indigo-600 bg-white px-2.5 py-0.5 rounded-full border border-indigo-100">Hidden unless checked</span>
-                  </div>
-
-                  <div id="terms-editor-box" class="hidden space-y-2.5 pt-2 border-t border-indigo-200/60">
-                    <div class="flex flex-wrap items-center justify-between gap-2">
-                      <label class="text-[11px] font-bold text-slate-700">Select Terms Preset Category:</label>
-                      <select id="inv-terms-category" onchange="applyTermsPreset()" class="bg-white border border-indigo-300 rounded-lg px-3 py-1.5 text-xs font-bold text-indigo-900 focus:outline-none focus:ring-2 focus:ring-indigo-500">
-                        <option value="photography">📸 Photography & Videography Terms</option>
-                        <option value="printing">🖨️ Printing & Graphic Designing Terms</option>
-                        <option value="custom">✍️ Custom / Manual</option>
-                      </select>
-                    </div>
-                    <textarea id="inv-terms-text" rows="5" oninput="document.getElementById('inv-terms-category').value='custom'" placeholder="Enter custom terms & conditions..." class="w-full bg-white border border-indigo-200 rounded-xl p-3 text-xs text-slate-800 devanagari-safe focus:outline-none focus:ring-2 focus:ring-indigo-500"></textarea>
-                    <p class="text-[10px] text-slate-500">Selecting a preset auto-fills clean Hindi + English terms; edit freely as needed.</p>
-                  </div>
-                </div>
-
-                <!-- DYNAMIC & FULLY EDITABLE COSTING (VAULT PRESERVED) -->
-                <div class="bg-amber-50/80 border border-amber-200 rounded-xl p-4 space-y-3">
-                  <div class="flex flex-wrap items-center justify-between border-b border-amber-200 pb-2 gap-2">
-                    <span class="text-xs font-extrabold text-amber-950 flex items-center gap-1.5">
-                      🔒 Internal Job Costing & Hanuman Ji Ka Bank (Excluded from Print/PDF)
-                    </span>
-                    <button type="button" onclick="addCostRow('', '')" class="text-xs font-bold text-amber-900 bg-amber-200/80 hover:bg-amber-300 px-2.5 py-1 rounded-lg transition border border-amber-300">
-                      + Add Cost Row
-                    </button>
-                  </div>
-
-                  <div id="cost-rows-container" class="space-y-2"></div>
-
-                  <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-2 border-t border-amber-200/80 items-center">
-                    <div>
-                      <span class="text-[11px] text-slate-600 block">Total Incurred Cost:</span>
-                      <span id="draft-total-cost" class="text-sm font-extrabold text-slate-900 font-tabular">₹0.00</span>
-                    </div>
-                    <div>
-                      <span class="text-[11px] text-emerald-800 block">Calculated Net Profit:</span>
-                      <span id="draft-net-profit" class="text-base font-black text-emerald-700 font-tabular">₹0.00</span>
-                    </div>
-                    <div class="bg-amber-100/90 p-2 rounded-lg border border-amber-300">
-                      <span class="text-[10px] font-black uppercase text-amber-950 block">Hanuman Ji Ka Bank (10%):</span>
-                      <span id="draft-seva-fund" class="text-base font-black text-amber-800 font-tabular">₹0.00</span>
-                    </div>
-                  </div>
-                </div>
-
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-5 bg-slate-50/80 p-4 sm:p-5 rounded-xl border border-slate-200">
-                  <div class="space-y-3">
-                    <div class="bg-white p-3 rounded-lg border border-slate-200 space-y-1.5">
-                      <div class="flex items-center justify-between">
-                        <label class="text-xs font-bold text-indigo-900">Special Discount Granted (₹)</label>
-                        <span id="draft-discount-badge" class="text-[11px] font-extrabold text-indigo-600 bg-indigo-50 px-2 py-0.5 rounded border border-indigo-100">0% OFF</span>
-                      </div>
-                      <input type="number" id="inv-discount-amt" min="0" placeholder="0.00" oninput="calculateInvoiceDraftTotals()" class="w-full bg-slate-50 border border-slate-300 rounded-lg px-3 py-1.5 text-xs text-indigo-700 font-bold focus:outline-none focus:ring-2 focus:ring-indigo-500 font-tabular">
-                    </div>
-
-                    <div>
-                      <label class="block text-xs font-bold text-slate-700 mb-1">Spot Payment Cleared (₹)</label>
-                      <input type="number" id="inv-immediate-paid" min="0" placeholder="0.00" oninput="calculateInvoiceDraftTotals()" class="w-full bg-white border border-slate-300 rounded-lg px-3 py-1.5 text-xs text-emerald-700 font-bold focus:outline-none focus:ring-2 focus:ring-indigo-500 mb-2 font-tabular">
-                      <input type="text" id="inv-payment-note" placeholder="Payment Mode / Ref ID (e.g. UPI / Cash / Cheque)" class="w-full bg-white border border-slate-300 rounded-lg px-3 py-1.5 text-xs text-slate-600 focus:outline-none">
-                    </div>
-                  </div>
-
-                  <div class="flex flex-col justify-center items-end space-y-1 text-right font-tabular">
-                    <div class="text-xs text-slate-500">Gross Value: <span id="draft-subtotal" class="font-bold text-slate-800 text-sm">₹0.00</span></div>
-                    <div class="text-xs text-indigo-600 font-semibold">Discount: <span id="draft-discount-disp" class="text-sm">(-) ₹0.00</span></div>
-                    <div id="draft-gst-row" class="text-xs text-slate-600 hidden">GST (18%): <span id="draft-gst-disp" class="font-semibold text-sm">(+) ₹0.00</span></div>
-                    <div class="text-xs text-slate-900 font-bold pt-1 border-t border-slate-200 w-full">Net Invoiced: <span id="draft-net-invoiced" class="text-base text-slate-900">₹0.00</span></div>
-                    <div class="text-xs text-emerald-600 font-semibold">Immediate Cleared: <span id="draft-paid" class="text-sm">(-) ₹0.00</span></div>
-                    <div class="text-xs text-slate-800 pt-2 border-t-2 border-slate-300 w-full font-bold">
-                      Remaining Due on This Bill: <span id="draft-due" class="text-lg font-extrabold text-red-600 ml-1">₹0.00</span>
-                    </div>
-                  </div>
-                </div>
-
-                <div class="flex justify-end gap-3 pt-2">
-                  <button onclick="switchTab('dashboard')" class="px-5 py-2.5 rounded-xl border border-slate-300 text-slate-600 text-xs font-bold hover:bg-slate-100 transition">
-                    Cancel
-                  </button>
-                  <button onclick="commitInvoice()" id="btn-save-invoice" class="px-6 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-bold transition flex items-center gap-2">
-                    💾 Save & Commit Invoice
-                  </button>
-                </div>
+            <!-- Bottom Row Financial Cards: 5-CARD VIEW (PROFIT + MARGIN %) -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3 sm:gap-4">
+              <div class="bg-white p-4 rounded-2xl border border-amber-200 shadow-2xs">
+                <span class="text-xs font-bold text-amber-900 uppercase tracking-wider block">Total Job Cost (COGS)</span>
+                <span id="metric-total-cogs" class="text-xl font-extrabold text-amber-950 font-tabular mt-1 block">₹0.00</span>
+                <span class="text-[10px] text-slate-500">Raw Stock + Labor + Delivery Fuel</span>
               </div>
-            </section>
 
-            <!-- 4. OFFICIAL STATEMENT & INVOICE PREVIEW (A4 FIT-TO-PAGE) -->
-            <section id="tab-sec-invoice-preview" class="hidden space-y-6">
-              <div class="no-print max-w-4xl mx-auto bg-white p-3.5 rounded-2xl border border-slate-200 shadow-sm flex flex-wrap items-center justify-between gap-3">
-                <div class="flex flex-wrap items-center gap-2.5">
-                  <div>
-                    <label class="text-[10px] font-bold uppercase tracking-wider text-slate-400 block">Client:</label>
-                    <select id="preview-client-select" onchange="renderInvoiceView()" class="border border-slate-300 rounded-xl px-2.5 py-1 text-xs font-bold bg-slate-50 text-slate-800 focus:outline-none"></select>
-                  </div>
+              <div class="bg-emerald-50/70 p-4 rounded-2xl border border-emerald-200 shadow-2xs">
+                <span class="text-xs font-bold text-emerald-900 uppercase tracking-wider block">Calculated Net Profit</span>
+                <span id="metric-job-profit" class="text-xl font-extrabold text-emerald-700 font-tabular mt-1 block">₹0.00</span>
+                <span class="text-[10px] text-emerald-800 font-medium">Net Billed - Production Cost</span>
+              </div>
 
-                  <div>
-                    <label class="text-[10px] font-bold uppercase tracking-wider text-slate-400 block">Statement View / Bill #:</label>
-                    <select id="preview-bill-select" onchange="renderInvoiceView()" class="border border-slate-300 rounded-xl px-2.5 py-1 text-xs font-bold bg-slate-50 text-slate-800 focus:outline-none font-tabular"></select>
-                  </div>
+              <div class="bg-indigo-50/70 p-4 rounded-2xl border border-indigo-200 shadow-2xs">
+                <span class="text-xs font-bold text-indigo-900 uppercase tracking-wider block">Production Margin (%)</span>
+                <span id="metric-margin-pct" class="text-xl font-extrabold text-indigo-700 font-tabular mt-1 block">0.0%</span>
+                <span class="text-[10px] text-indigo-800 font-medium">(Net Profit ÷ Net Billed) × 100</span>
+              </div>
 
-                  <button onclick="editCurrentActiveInvoice()" id="btn-edit-active-inv" class="mt-3.5 inline-flex items-center gap-1 px-3 py-1.5 rounded-xl bg-amber-500 hover:bg-amber-600 text-white text-xs font-bold transition shadow-2xs" title="Edit line items, terms and costings">
-                    ✏️ Edit Invoice
-                  </button>
+              <div class="bg-white p-4 rounded-2xl border border-rose-200 shadow-2xs">
+                <span class="text-xs font-bold text-rose-600 uppercase tracking-wider block">Office / Shop Expenses</span>
+                <span id="metric-office-expenses" class="text-xl font-extrabold text-rose-600 font-tabular mt-1 block">₹0.00</span>
+                <span class="text-[10px] text-slate-400">Rent, Bills, Tea, Tools, Maintenance</span>
+              </div>
 
-                  <button onclick="deleteCurrentActiveInvoice()" id="btn-delete-active-inv" class="mt-3.5 inline-flex items-center gap-1 px-3 py-1.5 rounded-xl bg-rose-600 hover:bg-rose-700 text-white text-xs font-bold transition shadow-2xs" title="Delete this invoice and remove from Excel automatically">
-                    🗑️ Delete Invoice
-                  </button>
+              <div class="bg-emerald-100/80 p-4 rounded-2xl border border-emerald-300 shadow-2xs">
+                <span class="text-xs font-black text-emerald-950 uppercase tracking-wider block">Real In-Hand Cash Profit</span>
+                <span id="metric-net-real-profit" class="text-2xl font-black text-emerald-800 font-tabular mt-1 block">₹0.00</span>
+                <span class="text-[10px] text-emerald-900 font-semibold">Cleared Receipts - Costs - Overheads</span>
+              </div>
+            </div>
+
+            <!-- Clients Table & Pagination Toolbar -->
+            <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
+              <div class="p-4 sm:p-5 border-b border-slate-100 flex flex-wrap items-center justify-between gap-3">
+                <div>
+                  <h2 class="text-base font-bold text-slate-900">Commercial Client Accounts</h2>
+                  <p class="text-xs text-slate-500 mt-0.5">Click any client row to view full invoice history • VIP & Regular badges aligned</p>
                 </div>
 
                 <div class="flex flex-wrap items-center gap-2">
-                  <button onclick="sendFriendlyWhatsAppReminder()" class="inline-flex items-center gap-1 px-3 py-2 rounded-xl bg-teal-600 hover:bg-teal-500 text-white text-xs font-bold transition shadow-2xs">
-                    💬 Reminder
-                  </button>
+                  <input type="text" id="client-search-input" oninput="renderClientsTable()" placeholder="🔍 Quick search client..." class="bg-slate-50 border border-slate-300 rounded-xl px-3 py-1.5 text-xs text-slate-800 focus:outline-none focus:ring-2 focus:ring-indigo-500 w-44">
 
-                  <button onclick="sendDirectWhatsApp()" class="inline-flex items-center gap-1 px-3 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold transition shadow-2xs">
-                    📲 Send Bill
-                  </button>
+                  <select id="client-row-limit" onchange="renderClientsTable()" class="bg-slate-50 border border-slate-300 rounded-xl px-2.5 py-1.5 text-xs font-bold text-slate-700 focus:outline-none">
+                    <option value="10">Show 10</option>
+                    <option value="25" selected>Show 25</option>
+                    <option value="50">Show 50</option>
+                    <option value="ALL">Show All</option>
+                  </select>
 
-                  <button onclick="downloadCleanPDF()" class="inline-flex items-center gap-1 px-3.5 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-bold transition shadow-2xs" title="Download single-page A4 PDF">
-                    📥 A4 PDF
-                  </button>
-
-                  <button onclick="printInvoiceSheet()" class="inline-flex items-center gap-1 px-3.5 py-2 rounded-xl bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold transition shadow-md">
-                    🖨️ Print
+                  <button onclick="openModal('client-modal')" class="inline-flex items-center gap-1.5 text-xs font-bold px-3.5 py-2 rounded-xl bg-slate-900 hover:bg-slate-800 text-white transition shadow-sm">
+                    + Register Client
                   </button>
                 </div>
               </div>
 
-              <div id="invoice-sheet" class="max-w-4xl mx-auto bg-white border border-slate-200 rounded-2xl shadow-xl overflow-hidden text-slate-800">
-                <div class="invoice-contrast-header px-5 sm:px-7 py-4 flex flex-row justify-between items-center border-b border-slate-800">
-                  <div class="flex items-center gap-3">
-                    <img src="cool art logo.png" alt="Cool Art" class="h-7 sm:h-8 w-auto object-contain" onerror="this.style.display='none'">
-                    <div class="border-l border-slate-700 pl-3">
-                      <span class="text-[9px] sm:text-[10px] uppercase font-bold tracking-widest text-slate-300 block">Commercial Accounts Division</span>
-                      <p class="text-[10px] text-slate-400">Branding • Signage • Large-Format Fabrication</p>
+              <div class="overflow-x-auto">
+                <table class="w-full text-left text-xs sm:text-sm">
+                  <thead class="bg-slate-50 border-b border-slate-200 text-slate-500 uppercase tracking-wider text-[11px] font-bold">
+                    <tr>
+                      <th class="py-3.5 px-4">Client / Company</th>
+                      <th class="py-3.5 px-4">Phone</th>
+                      <th class="py-3.5 px-4 text-center">Status</th>
+                      <th class="py-3.5 px-4 text-right">Net Billed (₹)</th>
+                      <th class="py-3.5 px-4 text-right">Cleared (₹)</th>
+                      <th class="py-3.5 px-4 text-right">Balance Due (₹)</th>
+                      <th class="py-3.5 px-4 text-center">Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody id="clients-table-body" class="divide-y divide-slate-100 font-normal"></tbody>
+                </table>
+              </div>
+
+              <div id="clients-pagination-info" class="p-3 bg-slate-50/70 border-t border-slate-100 text-xs text-slate-500 font-medium flex justify-between items-center px-4"></div>
+            </div>
+          </section>
+
+          <!-- 2. OFFICE EXPENSES TAB -->
+          <section id="tab-sec-expenses" class="hidden no-print space-y-6">
+            <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
+              <div class="p-4 sm:p-5 border-b border-slate-100 flex flex-wrap items-center justify-between gap-3">
+                <div>
+                  <h2 class="text-base font-bold text-slate-900">Office & General Expense Records</h2>
+                  <p class="text-xs text-slate-500 mt-0.5">Chronologically auto-sorted by date • Month-wise audit filters</p>
+                </div>
+
+                <div class="flex items-center gap-2.5">
+                  <div class="flex items-center gap-1.5">
+                    <span class="text-xs font-bold text-slate-500">Filter Month:</span>
+                    <select id="expense-month-filter" onchange="renderExpensesTable()" class="bg-slate-50 border border-slate-300 rounded-xl px-3 py-1.5 text-xs font-bold text-slate-800 focus:outline-none"></select>
+                  </div>
+
+                  <button onclick="openCreateExpenseModal()" class="inline-flex items-center gap-1.5 text-xs font-bold px-4 py-2 rounded-xl bg-rose-600 hover:bg-rose-500 text-white transition shadow-sm">
+                    + Create Expense Voucher
+                  </button>
+                </div>
+              </div>
+
+              <div class="bg-rose-50/60 px-4 py-2.5 border-b border-rose-100 flex justify-between items-center text-xs">
+                <span class="font-bold text-rose-900" id="expense-filtered-label">Showing Expenses</span>
+                <span class="font-extrabold text-rose-700 font-tabular text-sm">Filtered Total: <span id="expense-filtered-total">₹0.00</span></span>
+              </div>
+
+              <div class="overflow-x-auto">
+                <table class="w-full text-left text-xs sm:text-sm min-w-[650px]">
+                  <thead class="bg-slate-50 border-b border-slate-200 text-slate-500 uppercase tracking-wider text-[11px] font-bold">
+                    <tr>
+                      <th class="py-3.5 px-4">Voucher #</th>
+                      <th class="py-3.5 px-4">Date</th>
+                      <th class="py-3.5 px-4">Vendor / Person</th>
+                      <th class="py-3.5 px-4">Phone</th>
+                      <th class="py-3.5 px-4">Category</th>
+                      <th class="py-3.5 px-4">What Was Purchased</th>
+                      <th class="py-3.5 px-4">Mode</th>
+                      <th class="py-3.5 px-4 text-right">Amount (₹)</th>
+                      <th class="py-3.5 px-4 text-center">Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody id="expenses-table-body" class="divide-y divide-slate-100 font-normal font-tabular"></tbody>
+                </table>
+              </div>
+            </div>
+          </section>
+
+          <!-- 3. CREATE / EDIT INVOICE TAB (INVOICE STUDIO) -->
+          <section id="tab-sec-create-bill" class="hidden no-print max-w-4xl mx-auto space-y-6">
+            <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-4 sm:p-8 space-y-6">
+              <div class="flex flex-wrap items-center justify-between border-b border-slate-200 pb-4 gap-3">
+                <div>
+                  <div class="flex items-center gap-2">
+                    <h2 class="text-lg sm:text-xl font-bold text-slate-900" id="form-invoice-title">Generate Commercial Invoice</h2>
+                    <span id="badge-edit-mode" class="hidden text-[10px] font-extrabold uppercase px-2.5 py-0.5 bg-amber-100 text-amber-800 rounded-full border border-amber-200">Revision Mode</span>
+                  </div>
+                  <p class="text-xs text-slate-500 mt-1">Itemize artwork, specifications sub-rows, pure quantities & costing breakdown</p>
+                </div>
+                <div class="text-right">
+                  <span class="text-[10px] uppercase font-bold text-slate-400 block">Invoice Reference #</span>
+                  <input type="text" id="inv-custom-id" readonly class="font-tabular font-bold text-xs text-slate-800 bg-slate-100 px-3 py-1.5 rounded-lg border border-slate-300 text-right w-36 outline-none cursor-not-allowed">
+                </div>
+              </div>
+
+              <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                <div class="md:col-span-2">
+                  <label class="block text-xs font-bold text-slate-700 mb-1.5">Billed To (Client) *</label>
+                  <select id="inv-client-select" onchange="onClientSelectionChange()" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-xs sm:text-sm text-slate-800 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                    <option value="">-- Choose Client --</option>
+                  </select>
+                </div>
+                <div>
+                  <label class="block text-xs font-bold text-slate-700 mb-1.5">Invoice Date *</label>
+                  <input type="date" id="inv-date" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-xs sm:text-sm text-slate-800 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                </div>
+                <div>
+                  <label class="block text-xs font-bold text-slate-700 mb-1.5">Work Stage (Status)</label>
+                  <select id="inv-status" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-xs sm:text-sm text-slate-800 focus:outline-none focus:ring-2 focus:ring-indigo-500 font-semibold">
+                    <option value="Order Received">🟡 Order Received</option>
+                    <option value="In Process / Production">🔵 In Process / Production</option>
+                    <option value="Ready for Delivery">🟣 Ready for Delivery</option>
+                    <option value="Delivered / Completed">🟢 Delivered / Completed</option>
+                  </select>
+                </div>
+              </div>
+
+              <!-- PRODUCT LINE ITEMS WITH PERSISTENT REMARKS SUB-ROW -->
+              <div class="space-y-3 pt-2">
+                <div class="flex items-center justify-between">
+                  <span class="text-xs font-bold uppercase tracking-wider text-slate-600">Product & Work Deliverables</span>
+                  <button type="button" onclick="addLineItem()" class="text-xs font-bold text-indigo-600 hover:text-indigo-800 flex items-center gap-1">
+                    <span>➕</span> Add Item Row
+                  </button>
+                </div>
+
+                <div id="line-items-container" class="space-y-3"></div>
+              </div>
+
+              <!-- GST TOGGLE -->
+              <div class="flex items-center justify-between bg-slate-50 p-3.5 rounded-xl border border-slate-200">
+                <div class="flex items-center gap-2">
+                  <input type="checkbox" id="inv-apply-gst" onchange="calculateInvoiceDraftTotals()" class="w-4 h-4 text-indigo-600 rounded border-slate-300 focus:ring-indigo-500 cursor-pointer">
+                  <label for="inv-apply-gst" class="text-xs font-bold text-slate-800 cursor-pointer">Apply GST (18% — CGST 9% + SGST 9%)</label>
+                </div>
+                <span class="text-[11px] text-slate-500">Uncheck for regular non-tax invoice</span>
+              </div>
+
+              <!-- TERMS & CONDITIONS MANAGER (UNCHECKED & HIDDEN BY DEFAULT) -->
+              <div class="bg-indigo-50/60 border border-indigo-200/80 rounded-xl p-4 space-y-3">
+                <div class="flex flex-wrap items-center justify-between gap-2">
+                  <div class="flex items-center gap-2">
+                    <input type="checkbox" id="inv-show-terms" onchange="toggleTermsEditor()" class="w-4 h-4 text-indigo-600 rounded border-slate-300 focus:ring-indigo-500 cursor-pointer">
+                    <label for="inv-show-terms" class="text-xs font-extrabold text-indigo-950 cursor-pointer flex items-center gap-1.5">
+                      ⚖️ Show Terms & Conditions on Bill (बिल में शर्तें जोड़ें)
+                    </label>
+                  </div>
+                  <span class="text-[10px] font-semibold text-indigo-600 bg-white px-2.5 py-0.5 rounded-full border border-indigo-100">Hidden unless checked</span>
+                </div>
+
+                <div id="terms-editor-box" class="hidden space-y-2.5 pt-2 border-t border-indigo-200/60">
+                  <div class="flex flex-wrap items-center justify-between gap-2">
+                    <label class="text-[11px] font-bold text-slate-700">Select Terms Preset Category:</label>
+                    <select id="inv-terms-category" onchange="applyTermsPreset()" class="bg-white border border-indigo-300 rounded-lg px-3 py-1.5 text-xs font-bold text-indigo-900 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                      <option value="photography">📸 Photography & Videography Terms</option>
+                      <option value="printing">🖨️ Printing & Graphic Designing Terms</option>
+                      <option value="custom">✍️ Custom / Manual</option>
+                    </select>
+                  </div>
+                  <textarea id="inv-terms-text" rows="5" oninput="document.getElementById('inv-terms-category').value='custom'" placeholder="Enter custom terms & conditions..." class="w-full bg-white border border-indigo-200 rounded-xl p-3 text-xs text-slate-800 devanagari-safe focus:outline-none focus:ring-2 focus:ring-indigo-500"></textarea>
+                  <p class="text-[10px] text-slate-500">Selecting a preset auto-fills clean Hindi + English terms; edit freely as needed.</p>
+                </div>
+              </div>
+
+              <!-- DYNAMIC & FULLY EDITABLE COSTING (VAULT PRESERVED) -->
+              <div class="bg-amber-50/80 border border-amber-200 rounded-xl p-4 space-y-3">
+                <div class="flex flex-wrap items-center justify-between border-b border-amber-200 pb-2 gap-2">
+                  <span class="text-xs font-extrabold text-amber-950 flex items-center gap-1.5">
+                    🔒 Internal Job Costing & Hanuman Ji Ka Bank (Excluded from Print/PDF)
+                  </span>
+                  <button type="button" onclick="addCostRow('', '')" class="text-xs font-bold text-amber-900 bg-amber-200/80 hover:bg-amber-300 px-2.5 py-1 rounded-lg transition border border-amber-300">
+                    + Add Cost Row
+                  </button>
+                </div>
+
+                <div id="cost-rows-container" class="space-y-2"></div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-2 border-t border-amber-200/80 items-center">
+                  <div>
+                    <span class="text-[11px] text-slate-600 block">Total Incurred Cost:</span>
+                    <span id="draft-total-cost" class="text-sm font-extrabold text-slate-900 font-tabular">₹0.00</span>
+                  </div>
+                  <div>
+                    <span class="text-[11px] text-emerald-800 block">Calculated Net Profit:</span>
+                    <span id="draft-net-profit" class="text-base font-black text-emerald-700 font-tabular">₹0.00</span>
+                  </div>
+                  <div class="bg-amber-100/90 p-2 rounded-lg border border-amber-300">
+                    <span class="text-[10px] font-black uppercase text-amber-950 block">Hanuman Ji Ka Bank (10%):</span>
+                    <span id="draft-seva-fund" class="text-base font-black text-amber-800 font-tabular">₹0.00</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-5 bg-slate-50/80 p-4 sm:p-5 rounded-xl border border-slate-200">
+                <div class="space-y-3">
+                  <div class="bg-white p-3 rounded-lg border border-slate-200 space-y-1.5">
+                    <div class="flex items-center justify-between">
+                      <label class="text-xs font-bold text-indigo-900">Special Discount Granted (₹)</label>
+                      <span id="draft-discount-badge" class="text-[11px] font-extrabold text-indigo-600 bg-indigo-50 px-2 py-0.5 rounded border border-indigo-100">0% OFF</span>
+                    </div>
+                    <input type="number" id="inv-discount-amt" min="0" placeholder="0.00" oninput="calculateInvoiceDraftTotals()" class="w-full bg-slate-50 border border-slate-300 rounded-lg px-3 py-1.5 text-xs text-indigo-700 font-bold focus:outline-none focus:ring-2 focus:ring-indigo-500 font-tabular">
+                  </div>
+
+                  <div>
+                    <label class="block text-xs font-bold text-slate-700 mb-1">Spot Payment Cleared (₹)</label>
+                    <input type="number" id="inv-immediate-paid" min="0" placeholder="0.00" oninput="calculateInvoiceDraftTotals()" class="w-full bg-white border border-slate-300 rounded-lg px-3 py-1.5 text-xs text-emerald-700 font-bold focus:outline-none focus:ring-2 focus:ring-indigo-500 mb-2 font-tabular">
+                    <input type="text" id="inv-payment-note" placeholder="Payment Mode / Ref ID (e.g. UPI / Cash / Cheque)" class="w-full bg-white border border-slate-300 rounded-lg px-3 py-1.5 text-xs text-slate-600 focus:outline-none">
+                  </div>
+                </div>
+
+                <div class="flex flex-col justify-center items-end space-y-1 text-right font-tabular">
+                  <div class="text-xs text-slate-500">Gross Value: <span id="draft-subtotal" class="font-bold text-slate-800 text-sm">₹0.00</span></div>
+                  <div class="text-xs text-indigo-600 font-semibold">Discount: <span id="draft-discount-disp" class="text-sm">(-) ₹0.00</span></div>
+                  <div id="draft-gst-row" class="text-xs text-slate-600 hidden">GST (18%): <span id="draft-gst-disp" class="font-semibold text-sm">(+) ₹0.00</span></div>
+                  <div class="text-xs text-slate-900 font-bold pt-1 border-t border-slate-200 w-full">Net Invoiced: <span id="draft-net-invoiced" class="text-base text-slate-900">₹0.00</span></div>
+                  <div class="text-xs text-emerald-600 font-semibold">Immediate Cleared: <span id="draft-paid" class="text-sm">(-) ₹0.00</span></div>
+                  <div class="text-xs text-slate-800 pt-2 border-t-2 border-slate-300 w-full font-bold">
+                    Remaining Due on This Bill: <span id="draft-due" class="text-lg font-extrabold text-red-600 ml-1">₹0.00</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="flex justify-end gap-3 pt-2">
+                <button onclick="switchTab('dashboard')" class="px-5 py-2.5 rounded-xl border border-slate-300 text-slate-600 text-xs font-bold hover:bg-slate-100 transition">
+                  Cancel
+                </button>
+                <button onclick="commitInvoice()" id="btn-save-invoice" class="px-6 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-bold transition flex items-center gap-2">
+                  💾 Save & Commit Invoice
+                </button>
+              </div>
+            </div>
+          </section>
+
+          <!-- 4. OFFICIAL STATEMENT & INVOICE PREVIEW (SINGLE-PAGE A4 FIT) -->
+          <section id="tab-sec-invoice-preview" class="hidden space-y-4">
+            <div class="no-print max-w-4xl mx-auto bg-white p-3.5 rounded-2xl border border-slate-200 shadow-sm flex flex-wrap items-center justify-between gap-3">
+              <div class="flex flex-wrap items-center gap-2.5">
+                <div>
+                  <label class="text-[10px] font-bold uppercase tracking-wider text-slate-400 block">Client:</label>
+                  <select id="preview-client-select" onchange="renderInvoiceView()" class="border border-slate-300 rounded-xl px-2.5 py-1 text-xs font-bold bg-slate-50 text-slate-800 focus:outline-none"></select>
+                </div>
+
+                <div>
+                  <label class="text-[10px] font-bold uppercase tracking-wider text-slate-400 block">Statement View / Bill #:</label>
+                  <select id="preview-bill-select" onchange="renderInvoiceView()" class="border border-slate-300 rounded-xl px-2.5 py-1 text-xs font-bold bg-slate-50 text-slate-800 focus:outline-none font-tabular"></select>
+                </div>
+
+                <button onclick="editCurrentActiveInvoice()" id="btn-edit-active-inv" class="mt-3.5 inline-flex items-center gap-1 px-3 py-1.5 rounded-xl bg-amber-500 hover:bg-amber-600 text-white text-xs font-bold transition shadow-2xs" title="Edit line items, terms and costings">
+                  ✏️ Edit Invoice
+                </button>
+
+                <button onclick="deleteCurrentActiveInvoice()" id="btn-delete-active-inv" class="mt-3.5 inline-flex items-center gap-1 px-3 py-1.5 rounded-xl bg-rose-600 hover:bg-rose-700 text-white text-xs font-bold transition shadow-2xs" title="Delete this invoice and remove from Excel automatically">
+                  🗑️ Delete Invoice
+                </button>
+              </div>
+
+              <div class="flex flex-wrap items-center gap-2">
+                <button onclick="sendFriendlyWhatsAppReminder()" class="inline-flex items-center gap-1 px-3 py-2 rounded-xl bg-teal-600 hover:bg-teal-500 text-white text-xs font-bold transition shadow-2xs">
+                  💬 Reminder
+                </button>
+
+                <button onclick="sendDirectWhatsApp()" class="inline-flex items-center gap-1 px-3 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold transition shadow-2xs">
+                  📲 Send Bill
+                </button>
+
+                <button onclick="downloadCleanPDF()" class="inline-flex items-center gap-1 px-3.5 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-bold transition shadow-2xs" title="Download single-page A4 PDF">
+                  📥 A4 PDF
+                </button>
+
+                <button onclick="printInvoiceSheet()" class="inline-flex items-center gap-1 px-3.5 py-2 rounded-xl bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold transition shadow-md">
+                  🖨️ Print
+                </button>
+              </div>
+            </div>
+
+            <div id="invoice-sheet" class="max-w-4xl mx-auto bg-white border border-slate-200 rounded-2xl shadow-xl overflow-hidden text-slate-800">
+              <div class="invoice-contrast-header px-5 sm:px-6 py-3.5 flex flex-row justify-between items-center border-b border-slate-800">
+                <div class="flex items-center gap-3">
+                  <img src="cool art logo.png" alt="Cool Art" class="h-6 sm:h-7 w-auto object-contain" onerror="this.style.display='none'">
+                  <div class="border-l border-slate-700 pl-3">
+                    <span class="text-[9px] sm:text-[10px] uppercase font-bold tracking-widest text-slate-300 block">Commercial Accounts Division</span>
+                    <p class="text-[10px] text-slate-400">Branding • Signage • Large-Format Fabrication</p>
+                  </div>
+                </div>
+
+                <div class="text-right">
+                  <span class="inline-block bg-white/10 text-emerald-400 font-tabular uppercase text-[9px] tracking-wider px-2 py-0.5 rounded font-bold border border-white/15" id="doc-inv-type-badge">
+                    COMMERCIAL INVOICE
+                  </span>
+                  <h1 class="text-base font-black text-white font-tabular tracking-tight mt-0.5" id="doc-inv-number">INV-2026-001</h1>
+                  <p class="text-[10px] text-slate-400">Date: <span id="doc-inv-date" class="font-semibold text-slate-200"></span></p>
+                </div>
+              </div>
+
+              <div class="p-4 sm:p-5 space-y-3.5">
+
+                <!-- 4-STEP VISUAL ORDER TRACKER WITH ICONS -->
+                <div class="bg-slate-50 border border-slate-200 rounded-xl p-2.5">
+                  <div class="flex justify-between items-center mb-1.5">
+                    <span class="text-[10px] font-bold uppercase tracking-wider text-slate-500">Live Production Workflow</span>
+                    <span class="text-[10px] text-indigo-700 font-bold" id="doc-tracker-current-label">Status: Active</span>
+                  </div>
+
+                  <div class="grid grid-cols-4 gap-2 text-center relative">
+                    <div class="space-y-0.5" id="track-step-1">
+                      <div class="w-6 h-6 mx-auto rounded-full flex items-center justify-center text-xs font-bold bg-emerald-600 text-white shadow-2xs">📝</div>
+                      <span class="text-[10px] font-bold block text-slate-800">Order Booked</span>
+                      <span class="text-[9px] text-emerald-700 font-semibold block">Done</span>
+                    </div>
+
+                    <div class="space-y-0.5" id="track-step-2">
+                      <div class="w-6 h-6 mx-auto rounded-full flex items-center justify-center text-xs font-bold bg-slate-200 text-slate-600">🎨</div>
+                      <span class="text-[10px] font-bold block text-slate-800">Design Ready</span>
+                      <span class="text-[9px] text-slate-500 block" id="track-step-2-sub">Pending</span>
+                    </div>
+
+                    <div class="space-y-0.5" id="track-step-3">
+                      <div class="w-6 h-6 mx-auto rounded-full flex items-center justify-center text-xs font-bold bg-slate-200 text-slate-600">🖨️</div>
+                      <span class="text-[10px] font-bold block text-slate-800">Print / Craft</span>
+                      <span class="text-[9px] text-slate-500 block" id="track-step-3-sub">Pending</span>
+                    </div>
+
+                    <div class="space-y-0.5" id="track-step-4">
+                      <div class="w-6 h-6 mx-auto rounded-full flex items-center justify-center text-xs font-bold bg-slate-200 text-slate-600">🚚</div>
+                      <span class="text-[10px] font-bold block text-slate-800">Ready / Delivered</span>
+                      <span class="text-[9px] text-slate-500 block" id="track-step-4-sub">Pending</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                  <div class="bg-slate-50 p-3 rounded-xl border border-slate-200">
+                    <div class="flex justify-between items-center mb-0.5">
+                      <span class="text-[10px] font-bold uppercase tracking-wider text-slate-400 block">Billed To (Client / Entity)</span>
+                      <span id="doc-status-badge" class="text-[10px] font-extrabold px-2 py-0.5 rounded bg-emerald-100 text-emerald-800">Delivered / Completed</span>
+                    </div>
+                    <h3 id="doc-client-name" class="text-sm font-bold text-slate-900 devanagari-safe"></h3>
+                    <p id="doc-client-phone" class="text-xs text-slate-600 mt-0.5 font-tabular"></p>
+                    <p id="doc-client-address" class="text-[11px] text-slate-500 mt-0.5 leading-snug devanagari-safe"></p>
+                    <p id="doc-client-gstin" class="text-[11px] text-indigo-700 font-bold font-tabular mt-1 hidden"></p>
+                  </div>
+
+                  <div class="bg-slate-50 p-3 rounded-xl border border-slate-200 flex flex-col justify-between">
+                    <div class="flex justify-between items-start">
+                      <span class="text-[10px] font-bold uppercase tracking-wider text-slate-400">Ledger Balance Standing</span>
+                      <span class="text-[9px] bg-slate-200 text-slate-700 px-2 py-0.5 rounded font-bold uppercase">Verified Statement</span>
+                    </div>
+                    <div class="grid grid-cols-2 gap-2 mt-1.5">
+                      <div class="border-r border-slate-200 pr-2">
+                        <span class="text-[10px] text-slate-500 block">This Invoice Due:</span>
+                        <div class="text-base font-black text-rose-600 tracking-tight font-tabular" id="doc-inv-specific-due">
+                          ₹0.00
+                        </div>
+                      </div>
+                      <div class="pl-1">
+                        <span class="text-[10px] text-slate-500 block">Overall Account Due:</span>
+                        <div class="text-base font-black text-slate-900 tracking-tight font-tabular" id="doc-client-due-badge">
+                          ₹0.00
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- ITEMS TABLE -->
+                <div class="border border-slate-200 rounded-xl overflow-x-auto">
+                  <table class="w-full text-left text-xs border-collapse min-w-[500px]">
+                    <thead>
+                      <tr class="bg-slate-100 text-slate-700 text-[10px] uppercase tracking-wider font-bold border-b border-slate-200">
+                        <th class="py-1.5 px-3 w-10 text-center">#</th>
+                        <th class="py-1.5 px-3">Description of Work / Deliverables</th>
+                        <th class="py-1.5 px-3 w-24 text-center">Quantity (Qty)</th>
+                        <th class="py-1.5 px-3 w-28 text-right">Unit Rate (₹)</th>
+                        <th class="py-1.5 px-3 w-32 text-right">Amount (₹)</th>
+                      </tr>
+                    </thead>
+                    <tbody id="doc-items-table" class="divide-y divide-slate-100 font-tabular text-xs devanagari-safe"></tbody>
+                  </table>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-3.5 pt-0.5">
+                  <div class="space-y-1 bg-slate-50 p-3 rounded-xl border border-slate-200 font-tabular text-xs md:order-2">
+                    <div class="flex justify-between text-slate-600">
+                      <span id="doc-lbl-gross">Gross Value of Work:</span>
+                      <span id="doc-sum-gross" class="font-bold text-slate-900">₹0.00</span>
+                    </div>
+
+                    <div id="doc-discount-row" class="flex justify-between text-indigo-700 font-semibold bg-indigo-50/80 px-2 py-0.5 rounded border border-indigo-100">
+                      <span id="doc-discount-label">Special Discount:</span>
+                      <span id="doc-sum-discount">(-) ₹0.00</span>
+                    </div>
+
+                    <div id="doc-gst-row" class="flex justify-between text-slate-600 hidden">
+                      <span>Applied GST (18%):</span>
+                      <span id="doc-sum-gst" class="font-bold text-slate-900">(+) ₹0.00</span>
+                    </div>
+
+                    <div class="flex justify-between text-slate-800 font-bold border-t border-slate-200 pt-1">
+                      <span id="doc-lbl-net">Net Invoiced Value:</span>
+                      <span id="doc-sum-net">₹0.00</span>
+                    </div>
+
+                    <div class="flex justify-between text-emerald-700 font-semibold">
+                      <span id="doc-lbl-paid">Deposited on This Document:</span>
+                      <span id="doc-sum-paid">(-) ₹0.00</span>
+                    </div>
+
+                    <div class="border-t-2 border-slate-300 pt-1.5 flex justify-between text-sm font-extrabold text-red-600">
+                      <span id="doc-lbl-balance">NET BALANCE ON THIS BILL:</span>
+                      <span id="doc-sum-balance">₹0.00</span>
                     </div>
                   </div>
 
-                  <div class="text-right">
-                    <span class="inline-block bg-white/10 text-emerald-400 font-tabular uppercase text-[9px] sm:text-[10px] tracking-wider px-2 py-0.5 rounded font-bold border border-white/15" id="doc-inv-type-badge">
-                      COMMERCIAL INVOICE
+                  <div class="space-y-2 md:order-1">
+                    <div id="doc-upi-box" class="bg-slate-50 p-2.5 rounded-xl border border-slate-200 flex items-center gap-3">
+                      <img id="doc-upi-qr" src="" alt="Scan to Pay" class="w-14 h-14 bg-white p-1 rounded-lg border border-slate-300 object-contain flex-shrink-0" onerror="this.src='https://placehold.co/80x80/f8fafc/0f172a?text=UPI'">
+                      <div>
+                        <span class="text-[10px] font-extrabold uppercase tracking-wider text-slate-600 block">Instant Scan & Pay</span>
+                        <p class="text-xs text-slate-800 font-bold font-tabular">GPay / PhonePe / Paytm</p>
+                        <p class="text-[10px] text-slate-500 font-tabular">UPI ID: 9458614610-2@ybl</p>
+                      </div>
+                    </div>
+
+                    <div class="border-t border-slate-200 pt-1.5">
+                      <div class="flex items-center justify-between mb-1">
+                        <span class="text-[10px] font-bold text-slate-500 uppercase tracking-wider block">Cleared Receipts Log</span>
+                        <span class="text-[10px] text-slate-400 no-print">Click ✏️ to edit or 🗑️ to delete</span>
+                      </div>
+                      <div id="doc-payment-logs" class="space-y-1 text-xs"></div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- CONDITIONAL TERMS & CONDITIONS DISPLAY -->
+                <div id="doc-terms-section" class="hidden bg-slate-50/90 border border-slate-200 rounded-xl p-2.5 text-slate-700 space-y-1">
+                  <div class="flex items-center justify-between border-b border-slate-200 pb-0.5">
+                    <span class="text-[10px] font-extrabold uppercase tracking-wider text-slate-800">⚖️ Terms & Conditions</span>
+                    <span class="text-[9px] font-bold text-slate-400 uppercase">Agreed Service Policy</span>
+                  </div>
+                  <div id="doc-terms-content" class="text-[10px] text-slate-700 whitespace-pre-line font-medium devanagari-safe"></div>
+                </div>
+
+                <!-- Confidential Office Margin -->
+                <div id="doc-office-private-panel" class="office-private-note no-print mt-3 p-4 rounded-2xl bg-gradient-to-r from-amber-50/90 via-orange-50/80 to-amber-50/90 border border-amber-300 text-xs">
+                  <div class="flex items-center justify-between border-b border-amber-200/80 pb-2 mb-3">
+                    <span class="font-extrabold text-amber-950 flex items-center gap-1.5">
+                      🔒 Internal Office Margin (Strictly Confidential — Excluded from Customer PDF/Print)
                     </span>
-                    <h1 class="text-base sm:text-lg font-black text-white font-tabular tracking-tight mt-0.5" id="doc-inv-number">INV-2026-001</h1>
-                    <p class="text-[10px] text-slate-400">Date: <span id="doc-inv-date" class="font-semibold text-slate-200"></span></p>
+                    <span class="text-[10px] font-extrabold text-amber-900 bg-amber-200/70 px-2.5 py-0.5 rounded-full" id="doc-last-modified-tag">Last Modified: Fresh</span>
+                  </div>
+
+                  <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 items-center">
+                    <div class="bg-white/90 p-2.5 rounded-xl border border-amber-200 shadow-2xs">
+                      <span class="text-[10px] text-slate-500 font-bold block uppercase">Production Costing</span>
+                      <span class="text-sm font-extrabold text-slate-800 font-tabular" id="doc-private-cost">₹0.00</span>
+                      <span class="text-[9px] text-slate-400 block mt-0.5" id="doc-private-cost-detail">Dynamic Raw Costs</span>
+                    </div>
+
+                    <div class="bg-white/90 p-2.5 rounded-xl border border-amber-200 shadow-2xs">
+                      <span class="text-[10px] text-emerald-700 font-bold block uppercase">Calculated Net Profit</span>
+                      <span class="text-sm font-black text-emerald-700 font-tabular" id="doc-private-profit">₹0.00</span>
+                      <span class="text-[9px] text-emerald-600/80 block mt-0.5">Net Billed - Production Cost</span>
+                    </div>
+
+                    <div class="bg-gradient-to-br from-amber-100 to-orange-100 p-2.5 rounded-xl border border-amber-300 flex items-center gap-3 shadow-2xs">
+                      <div class="w-10 h-10 rounded-lg overflow-hidden flex-shrink-0 bg-amber-200 border border-amber-300 flex items-center justify-center">
+                        <img src="hanumanji.png" alt="Hanuman Ji" class="w-full h-full object-cover" onerror="this.onerror=null; this.src='hanuman ji.png'; this.onerror=function(){this.style.display='none'; this.nextElementSibling.style.display='block';};">
+                        <span style="display:none;" class="text-xl">🚩</span>
+                      </div>
+                      <div>
+                        <span class="text-[10px] font-black uppercase tracking-wider text-amber-950 block">
+                          Hanuman Ji Ka Bank (10%)
+                        </span>
+                        <span class="text-base font-black text-amber-800 font-tabular" id="doc-private-seva">₹0.00</span>
+                      </div>
+                    </div>
                   </div>
                 </div>
 
-                <div class="p-4 sm:p-6 space-y-4">
-
-                  <!-- 4-STEP VISUAL ORDER TRACKER WITH ICONS -->
-                  <div class="bg-slate-50 border border-slate-200 rounded-xl p-3">
-                    <div class="flex justify-between items-center mb-2">
-                      <span class="text-[10px] font-bold uppercase tracking-wider text-slate-500">Live Production Workflow</span>
-                      <span class="text-[10px] text-indigo-700 font-bold" id="doc-tracker-current-label">Status: Active</span>
-                    </div>
-
-                    <div class="grid grid-cols-4 gap-2 text-center relative">
-                      <div class="space-y-0.5" id="track-step-1">
-                        <div class="w-7 h-7 mx-auto rounded-full flex items-center justify-center text-xs font-bold bg-emerald-600 text-white shadow-2xs">📝</div>
-                        <span class="text-[10px] font-bold block text-slate-800">Order Booked</span>
-                        <span class="text-[9px] text-emerald-700 font-semibold block">Done</span>
-                      </div>
-
-                      <div class="space-y-0.5" id="track-step-2">
-                        <div class="w-7 h-7 mx-auto rounded-full flex items-center justify-center text-xs font-bold bg-slate-200 text-slate-600">🎨</div>
-                        <span class="text-[10px] font-bold block text-slate-800">Design Ready</span>
-                        <span class="text-[9px] text-slate-500 block" id="track-step-2-sub">Pending</span>
-                      </div>
-
-                      <div class="space-y-0.5" id="track-step-3">
-                        <div class="w-7 h-7 mx-auto rounded-full flex items-center justify-center text-xs font-bold bg-slate-200 text-slate-600">🖨️</div>
-                        <span class="text-[10px] font-bold block text-slate-800">Print / Craft</span>
-                        <span class="text-[9px] text-slate-500 block" id="track-step-3-sub">Pending</span>
-                      </div>
-
-                      <div class="space-y-0.5" id="track-step-4">
-                        <div class="w-7 h-7 mx-auto rounded-full flex items-center justify-center text-xs font-bold bg-slate-200 text-slate-600">🚚</div>
-                        <span class="text-[10px] font-bold block text-slate-800">Ready / Delivered</span>
-                        <span class="text-[9px] text-slate-500 block" id="track-step-4-sub">Pending</span>
-                      </div>
-                    </div>
+                <!-- Signatory Footer -->
+                <div class="border-t border-slate-200 pt-2.5 flex justify-between items-end text-xs text-slate-500">
+                  <div>
+                    <p class="font-bold text-slate-700 text-[11px]">Cool Art Advertising</p>
+                    <p class="text-[10px] text-slate-400">Official Computer Generated Tax Invoice & Client Ledger</p>
                   </div>
 
-                  <div class="grid grid-cols-1 md:grid-cols-2 gap-3.5">
-                    <div class="bg-slate-50 p-3.5 rounded-xl border border-slate-200">
-                      <div class="flex justify-between items-center mb-1">
-                        <span class="text-[10px] font-bold uppercase tracking-wider text-slate-400 block">Billed To (Client / Entity)</span>
-                        <span id="doc-status-badge" class="text-[10px] font-extrabold px-2 py-0.5 rounded bg-emerald-100 text-emerald-800">Delivered / Completed</span>
-                      </div>
-                      <h3 id="doc-client-name" class="text-sm font-bold text-slate-900 devanagari-safe"></h3>
-                      <p id="doc-client-phone" class="text-xs text-slate-600 mt-0.5 font-tabular"></p>
-                      <p id="doc-client-address" class="text-[11px] text-slate-500 mt-0.5 leading-snug devanagari-safe"></p>
-                      <p id="doc-client-gstin" class="text-[11px] text-indigo-700 font-bold font-tabular mt-1 hidden"></p>
+                  <div class="text-right flex flex-col items-end">
+                    <div class="h-9 w-28 flex items-end justify-end mb-0.5">
+                      <img src="kksignature.png" alt="Signature" class="max-h-full max-w-full object-contain filter contrast-125" onerror="this.onerror=null; this.src='kksignature.jpg'; this.onerror=function(){this.style.display='none';};">
                     </div>
-
-                    <div class="bg-slate-50 p-3.5 rounded-xl border border-slate-200 flex flex-col justify-between">
-                      <div class="flex justify-between items-start">
-                        <span class="text-[10px] font-bold uppercase tracking-wider text-slate-400">Ledger Balance Standing</span>
-                        <span class="text-[9px] bg-slate-200 text-slate-700 px-2 py-0.5 rounded font-bold uppercase">Verified Statement</span>
-                      </div>
-                      <div class="grid grid-cols-2 gap-2 mt-2">
-                        <div class="border-r border-slate-200 pr-2">
-                          <span class="text-[10px] text-slate-500 block">This Invoice Due:</span>
-                          <div class="text-base sm:text-lg font-black text-rose-600 tracking-tight font-tabular" id="doc-inv-specific-due">
-                            ₹0.00
-                          </div>
-                        </div>
-                        <div class="pl-1">
-                          <span class="text-[10px] text-slate-500 block">Overall Account Due:</span>
-                          <div class="text-base sm:text-lg font-black text-slate-900 tracking-tight font-tabular" id="doc-client-due-badge">
-                            ₹0.00
-                          </div>
-                        </div>
-                      </div>
-                    </div>
+                    <div class="w-28 border-b border-slate-400 mb-0.5"></div>
+                    <span class="text-[10px] font-bold text-slate-700 uppercase tracking-wider block">Authorized Signatory</span>
                   </div>
-
-                  <!-- ITEMS TABLE -->
-                  <div class="border border-slate-200 rounded-xl overflow-x-auto">
-                    <table class="w-full text-left text-xs border-collapse min-w-[500px]">
-                      <thead>
-                        <tr class="bg-slate-100 text-slate-700 text-[10px] uppercase tracking-wider font-bold border-b border-slate-200">
-                          <th class="py-2 px-3 w-10 text-center">#</th>
-                          <th class="py-2 px-3">Description of Work / Deliverables</th>
-                          <th class="py-2 px-3 w-24 text-center">Quantity (Qty)</th>
-                          <th class="py-2 px-3 w-28 text-right">Unit Rate (₹)</th>
-                          <th class="py-2 px-3 w-32 text-right">Amount (₹)</th>
-                        </tr>
-                      </thead>
-                      <tbody id="doc-items-table" class="divide-y divide-slate-100 font-tabular text-xs devanagari-safe"></tbody>
-                    </table>
-                  </div>
-
-                  <div class="grid grid-cols-1 md:grid-cols-2 gap-4 pt-1">
-                    <div class="space-y-1.5 bg-slate-50 p-3.5 rounded-xl border border-slate-200 font-tabular text-xs md:order-2">
-                      <div class="flex justify-between text-slate-600">
-                        <span id="doc-lbl-gross">Gross Value of Work:</span>
-                        <span id="doc-sum-gross" class="font-bold text-slate-900">₹0.00</span>
-                      </div>
-
-                      <div id="doc-discount-row" class="flex justify-between text-indigo-700 font-semibold bg-indigo-50/80 px-2 py-1 rounded border border-indigo-100">
-                        <span id="doc-discount-label">Special Discount:</span>
-                        <span id="doc-sum-discount">(-) ₹0.00</span>
-                      </div>
-
-                      <div id="doc-gst-row" class="flex justify-between text-slate-600 hidden">
-                        <span>Applied GST (18%):</span>
-                        <span id="doc-sum-gst" class="font-bold text-slate-900">(+) ₹0.00</span>
-                      </div>
-
-                      <div class="flex justify-between text-slate-800 font-bold border-t border-slate-200 pt-1">
-                        <span id="doc-lbl-net">Net Invoiced Value:</span>
-                        <span id="doc-sum-net">₹0.00</span>
-                      </div>
-
-                      <div class="flex justify-between text-emerald-700 font-semibold">
-                        <span id="doc-lbl-paid">Deposited on This Document:</span>
-                        <span id="doc-sum-paid">(-) ₹0.00</span>
-                      </div>
-
-                      <div class="border-t-2 border-slate-300 pt-1.5 flex justify-between text-sm font-extrabold text-red-600">
-                        <span id="doc-lbl-balance">NET BALANCE ON THIS BILL:</span>
-                        <span id="doc-sum-balance">₹0.00</span>
-                      </div>
-                    </div>
-
-                    <div class="space-y-2.5 md:order-1">
-                      <div id="doc-upi-box" class="bg-slate-50 p-3 rounded-xl border border-slate-200 flex items-center gap-3">
-                        <img id="doc-upi-qr" src="" alt="Scan to Pay" class="w-16 h-16 bg-white p-1 rounded-lg border border-slate-300 object-contain flex-shrink-0" onerror="this.src='https://placehold.co/80x80/f8fafc/0f172a?text=UPI'">
-                        <div>
-                          <span class="text-[10px] font-extrabold uppercase tracking-wider text-slate-600 block">Instant Scan & Pay</span>
-                          <p class="text-xs text-slate-800 font-bold font-tabular">GPay / PhonePe / Paytm</p>
-                          <p class="text-[10px] text-slate-500 font-tabular mt-0.5">UPI ID: 9458614610-2@ybl</p>
-                          <span class="inline-block mt-1 text-[9px] font-extrabold text-indigo-700 bg-indigo-50 px-1.5 py-0.5 rounded border border-indigo-200">Amount Pre-filled</span>
-                        </div>
-                      </div>
-
-                      <div class="border-t border-slate-200 pt-2">
-                        <div class="flex items-center justify-between mb-1">
-                          <span class="text-[10px] font-bold text-slate-500 uppercase tracking-wider block">Cleared Receipts Log</span>
-                          <span class="text-[10px] text-slate-400 no-print">Click ✏️ to edit or 🗑️ to delete</span>
-                        </div>
-                        <div id="doc-payment-logs" class="space-y-1 text-xs"></div>
-                      </div>
-                    </div>
-                  </div>
-
-                  <!-- CONDITIONAL TERMS & CONDITIONS DISPLAY (HIDDEN UNLESS ENABLED ON BILL) -->
-                  <div id="doc-terms-section" class="hidden bg-slate-50/90 border border-slate-200 rounded-xl p-3 text-slate-700 space-y-1">
-                    <div class="flex items-center justify-between border-b border-slate-200 pb-1">
-                      <span class="text-[10px] font-extrabold uppercase tracking-wider text-slate-800 flex items-center gap-1">
-                        ⚖️ Terms & Conditions
-                      </span>
-                      <span class="text-[9px] font-bold text-slate-400 uppercase">Agreed Service Policy</span>
-                    </div>
-                    <div id="doc-terms-content" class="text-[10px] sm:text-[11px] text-slate-700 whitespace-pre-line font-medium devanagari-safe"></div>
-                  </div>
-
-                  <!-- Confidential Office Margin -->
-                  <div id="doc-office-private-panel" class="office-private-note no-print mt-3 p-4 rounded-2xl bg-gradient-to-r from-amber-50/90 via-orange-50/80 to-amber-50/90 border border-amber-300 text-xs">
-                    <div class="flex items-center justify-between border-b border-amber-200/80 pb-2 mb-3">
-                      <span class="font-extrabold text-amber-950 flex items-center gap-1.5">
-                        🔒 Internal Office Margin (Strictly Confidential — Excluded from Customer PDF/Print)
-                      </span>
-                      <span class="text-[10px] font-extrabold text-amber-900 bg-amber-200/70 px-2.5 py-0.5 rounded-full" id="doc-last-modified-tag">Last Modified: Fresh</span>
-                    </div>
-
-                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 items-center">
-                      <div class="bg-white/90 p-2.5 rounded-xl border border-amber-200 shadow-2xs">
-                        <span class="text-[10px] text-slate-500 font-bold block uppercase">Production Costing</span>
-                        <span class="text-sm font-extrabold text-slate-800 font-tabular" id="doc-private-cost">₹0.00</span>
-                        <span class="text-[9px] text-slate-400 block mt-0.5" id="doc-private-cost-detail">Dynamic Raw Costs</span>
-                      </div>
-
-                      <div class="bg-white/90 p-2.5 rounded-xl border border-amber-200 shadow-2xs">
-                        <span class="text-[10px] text-emerald-700 font-bold block uppercase">Calculated Net Profit</span>
-                        <span class="text-sm font-black text-emerald-700 font-tabular" id="doc-private-profit">₹0.00</span>
-                        <span class="text-[9px] text-emerald-600/80 block mt-0.5">Net Billed - Production Cost</span>
-                      </div>
-
-                      <div class="bg-gradient-to-br from-amber-100 to-orange-100 p-2.5 rounded-xl border border-amber-300 flex items-center gap-3 shadow-2xs">
-                        <div class="w-10 h-10 rounded-lg overflow-hidden flex-shrink-0 bg-amber-200 border border-amber-300 flex items-center justify-center">
-                          <img src="hanumanji.png" alt="Hanuman Ji" class="w-full h-full object-cover" onerror="this.onerror=null; this.src='hanuman ji.png'; this.onerror=function(){this.style.display='none'; this.nextElementSibling.style.display='block';}">
-                          <span style="display:none;" class="text-xl">🚩</span>
-                        </div>
-                        <div>
-                          <span class="text-[10px] font-black uppercase tracking-wider text-amber-950 block">
-                            Hanuman Ji Ka Bank (10%)
-                          </span>
-                          <span class="text-base font-black text-amber-800 font-tabular" id="doc-private-seva">₹0.00</span>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
-                  <!-- Signatory Footer -->
-                  <div class="border-t border-slate-200 pt-3 mt-1 flex justify-between items-end text-xs text-slate-500">
-                    <div>
-                      <p class="font-bold text-slate-700 text-[11px]">Cool Art Advertising</p>
-                      <p class="text-[10px] text-slate-400">Official Computer Generated Tax Invoice & Client Ledger</p>
-                    </div>
-
-                    <div class="text-right flex flex-col items-end">
-                      <div class="h-11 w-32 flex items-end justify-end mb-0.5">
-                        <img src="kksignature.png" alt="Signature" class="max-h-full max-w-full object-contain filter contrast-125" onerror="this.onerror=null; this.src='kksignature.jpg'; this.onerror=function(){this.style.display='none';}">
-                      </div>
-                      <div class="w-32 border-b border-slate-400 mb-0.5"></div>
-                      <span class="text-[10px] font-bold text-slate-700 uppercase tracking-wider block">Authorized Signatory</span>
-                      <span class="text-[9px] text-slate-400">Commercial Billing</span>
-                    </div>
-                  </div>
-
-                  <!-- INVOICE BOTTOM CO-BRANDING -->
-                  <div class="border-t border-slate-200/80 pt-2.5 mt-1 flex flex-wrap items-center justify-center gap-2 text-[11px] text-slate-500">
-                    <span>Powered by</span>
-                    <img src="logo.png" alt="MunimJi by Cool Art" class="h-5 w-auto object-contain inline-block" onerror="this.style.display='none'">
-                    <span class="text-slate-300">•</span>
-                    <span>Developed by Team <strong class="text-slate-800 font-extrabold">CoolArt®</strong></span>
-                  </div>
-
                 </div>
+
+                <!-- INVOICE BOTTOM CO-BRANDING -->
+                <div class="border-t border-slate-200/80 pt-2 flex flex-wrap items-center justify-center gap-2 text-[11px] text-slate-500">
+                  <span>Powered by</span>
+                  <img src="logo.png" alt="MunimJi by Cool Art" class="h-5 w-auto object-contain inline-block" onerror="this.style.display='none'">
+                  <span class="text-slate-300">•</span>
+                  <span>Developed by Team <strong class="text-slate-800 font-extrabold">CoolArt®</strong></span>
+                </div>
+
               </div>
-            </section>
-          </main>
-        </div>
+            </div>
+          </section>
+        </main>
       </div>
     </div>
 
-    <!-- FIXED BOTTOM BRANDING BAR -->
-    <footer class="fixed bottom-0 inset-x-0 z-30 no-print bg-white/95 backdrop-blur-md border-t border-slate-200/90 shadow-lg px-3 py-2.5">
-      <div class="max-w-7xl mx-auto flex flex-wrap items-center justify-center gap-2 text-xs text-slate-600">
+    <!-- FIXED BOTTOM CO-BRANDING BAR -->
+    <footer class="h-12 flex-shrink-0 z-30 no-print bg-white border-t border-slate-200 px-3 flex items-center justify-center">
+      <div class="flex flex-wrap items-center justify-center gap-2 text-xs text-slate-600">
         <span>Powered by</span>
         <img src="logo.png" alt="MunimJi by Cool Art" class="h-5 sm:h-6 w-auto object-contain inline-block" onerror="this.style.display='none'">
         <span class="text-slate-300">•</span>
@@ -1355,7 +1341,7 @@
     </div>
   </div>
 
-  <!-- CUSTOM MESSAGE BOX MODAL -->
+  <!-- CUSTOM NOTICE / CONFIRM DIALOG -->
   <div id="custom-dialog-modal" class="hidden fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
     <div class="bg-white rounded-2xl shadow-2xl border border-slate-200 max-w-sm w-full p-5 space-y-4">
       <div class="flex items-center gap-2.5">
@@ -1367,14 +1353,15 @@
     </div>
   </div>
 
-  <!-- JAVASCRIPT APPLICATION ENGINE -->
+  <!-- APPLICATION LOGIC -->
   <script>
     const DEFAULT_WEBHOOK_URL = "https://script.google.com/macros/s/AKfycbwXlXsEhAqRUho6zZr-amBL8GJ9BPXHcUI9X54ZRlEj8_vpLxM7UaEHrp_L8cuLFy3BUA/exec";
     const MASTER_KEY = "CoolArt@2026";
-    const APP_VERSION = "v9.1";
+    const APP_VERSION = "v9.2";
     const APP_UPDATED_DATE = "24 Nov 2026";
     const REFERENCE_TODAY = "2026-11-24";
 
+    // Presets for Photography & Videography and Printing & Graphic Designing
     const TERMS_PRESETS = {
       photography: `• Booking Confirmation: बुकिंग की तारीख पर 75% एडवांस पेमेंट अनिवार्य है। 75% बुकिंग राशि जमा न होने की स्थिति में बुकिंग मान्य (Confirm) नहीं मानी जाएगी।\n• Final Payment Policy: शेष 25% (पूर्ण भुगतान) इवेंट/शूट की तारीख से एक दिन पहले क्लियर होना अनिवार्य है। यदि किसी कारणवश पहले भुगतान नहीं हो पाता है, तो कार्यक्रम समाप्त होते ही तत्काल मौके पर (On-the-spot) पूरा भुगतान करना होगा।\n• Data & Liability: समय पर पूर्ण भुगतान न होने की स्थिति में स्टूडियो/एजेंसी रॉ डेटा (Raw Data), फोटो या वीडियो सुरक्षित रखने के लिए बाध्य नहीं होगी, और डेटा की किसी भी प्रकार की जिम्मेदारी हमारी नहीं रहेगी। भुगतान शर्तों का उल्लंघन होने पर अन्य सभी सेवा शर्तें स्वतः निरस्त मानी जाएँगी।`,
       printing: `• Design Approval: प्रिंटिंग कार्य केवल ग्राहक द्वारा डिज़ाइन, स्पेलिंग और साइज़ के अंतिम अप्रूवल (Final Approval) के बाद ही शुरू किया जाएगा। अप्रूवल के बाद किसी भी त्रुटि या बदलाव की जिम्मेदारी ग्राहक की होगी।\n• Color & Material: स्क्रीन (मोबाइल/कंप्यूटर) पर दिखने वाले रंग और वास्तविक प्रिंटिंग रंगों में 5–10% का तकनीकी अंतर मान्य होगा।\n• Payment & Delivery: ऑर्डर कन्फर्म करने के लिए एडवांस आवश्यक है और डिलीवरी के समय शेष राशि का पूर्ण भुगतान अनिवार्य है।`
@@ -1396,10 +1383,9 @@
 
     let editingInvoiceId = null;
     let activeHistoryClientId = null;
-    let growthGranularity = 'daily';
-    let activeSidebarPopover = null;
+    let growthViewMode = 'month30'; // 'month30' | 'fy'
 
-    // MOBILE SIDEBAR DRAWER CONTROLS
+    // MOBILE DRAWER CONTROLS
     function toggleMobileSidebar() {
       const sb = document.getElementById('left-sidebar');
       const bd = document.getElementById('sidebar-backdrop');
@@ -1415,49 +1401,28 @@
     function closeMobileSidebar() {
       const sb = document.getElementById('left-sidebar');
       const bd = document.getElementById('sidebar-backdrop');
-      sb.classList.add('-translate-x-full');
-      bd.classList.add('hidden');
-      closeSidebarPopover();
+      if (sb) sb.classList.add('-translate-x-full');
+      if (bd) bd.classList.add('hidden');
     }
 
-    // COMPACT POPOVER INSIDE / BESIDE LEFT SIDEBAR
-    function openSidebarPopover(type) {
-      const panel = document.getElementById('sidebar-popover-panel');
-      const missionBody = document.getElementById('popover-mission-body');
-      const growthBody = document.getElementById('popover-growth-body');
-      const titleEl = document.getElementById('popover-title');
-      const iconEl = document.getElementById('popover-icon');
-
-      if (activeSidebarPopover === type && !panel.classList.contains('hidden')) {
-        closeSidebarPopover();
-        return;
-      }
-
-      activeSidebarPopover = type;
-      panel.classList.remove('hidden');
-
-      if (type === 'mission') {
-        iconEl.innerText = '🎯';
-        titleEl.innerText = 'Smart Mission Engine';
-        missionBody.classList.remove('hidden');
-        growthBody.classList.add('hidden');
-        renderMissionEngine();
+    // INLINE ACCORDION DROPDOWN INSIDE LEFT SIDEBAR
+    function toggleInlineAccordion(key) {
+      const panel = document.getElementById(`acc-${key}-panel`);
+      const arrow = document.getElementById(`arrow-acc-${key}`);
+      if (!panel) return;
+      const isOpen = !panel.classList.contains('hidden');
+      if (isOpen) {
+        panel.classList.add('hidden');
+        if (arrow) arrow.style.transform = 'rotate(0deg)';
       } else {
-        iconEl.innerText = '📈';
-        titleEl.innerText = 'Sales Growth & Graph';
-        growthBody.classList.remove('hidden');
-        missionBody.classList.add('hidden');
-        renderSalesGrowthAnalytics();
+        panel.classList.remove('hidden');
+        if (arrow) arrow.style.transform = 'rotate(180deg)';
+        if (key === 'mission') renderMissionEngine();
+        if (key === 'growth') renderSalesGrowthAnalytics();
       }
     }
 
-    function closeSidebarPopover() {
-      activeSidebarPopover = null;
-      const panel = document.getElementById('sidebar-popover-panel');
-      if (panel) panel.classList.add('hidden');
-    }
-
-    // NON-BLOCKING CUSTOM DIALOGS
+    // CUSTOM DIALOGS (NO alert() OR confirm())
     function showNotice(message, title = "Cool Art Ledger", icon = "ℹ️") {
       document.getElementById('dialog-title').innerText = title;
       document.getElementById('dialog-icon').innerText = icon;
@@ -1520,9 +1485,10 @@
       }
     }
 
-    // MULTI-VERSION VAULT SCANNER & RECOVERY (COSTS, REMARKS, TERMS)
+    // VAULT RECOVERY FOR COST BREAKDOWN, TERMS & REMARKS
     function loadData() {
-      let saved = localStorage.getItem('coolart_finance_master_v91') ||
+      let saved = localStorage.getItem('coolart_finance_master_v92') ||
+                  localStorage.getItem('coolart_finance_master_v91') ||
                   localStorage.getItem('coolart_finance_master_v95') ||
                   localStorage.getItem('coolart_finance_master_v90') ||
                   localStorage.getItem('coolart_finance_master_v85') ||
@@ -1611,7 +1577,7 @@
     }
 
     function persistData() {
-      localStorage.setItem('coolart_finance_master_v91', JSON.stringify(store));
+      localStorage.setItem('coolart_finance_master_v92', JSON.stringify(store));
     }
 
     function getNextInvoiceNumber() {
@@ -1670,7 +1636,7 @@
         const oldScript = document.getElementById(callbackName);
         if (oldScript) oldScript.remove();
 
-        if (text) text.innerText = 'Sync';
+        if (text) text.innerText = 'Sync Sheet';
 
         if (result && result.status === "success") {
           process5TabSheetData(result);
@@ -1686,7 +1652,7 @@
       script.onerror = function() {
         delete window[callbackName];
         script.remove();
-        if (text) text.innerText = 'Sync';
+        if (text) text.innerText = 'Sync Sheet';
         if (isManual) showNotice('Error connecting to Google Sheets.', 'Sync Error', '❌');
       };
       document.body.appendChild(script);
@@ -1961,103 +1927,80 @@
       populateClientSelects();
     }
 
-    // SALES GROWTH GRAPH & LIVE METER
-    function setGrowthGranularity(mode) {
-      growthGranularity = mode;
-      ['daily', 'monthly', 'yearly'].forEach(m => {
-        const btn = document.getElementById(`growth-tab-${m}`);
-        if (!btn) return;
-        btn.className = m === mode
-          ? "flex-1 py-1 rounded-md bg-indigo-600 text-white"
-          : "flex-1 py-1 rounded-md text-slate-300 hover:text-white";
-      });
+    // SALES GROWTH GRAPH: FULL 30 DAYS OF CURRENT MONTH & FINANCIAL YEAR
+    function setGrowthView(mode) {
+      growthViewMode = mode;
+      const btnM = document.getElementById('growth-btn-month30');
+      const btnY = document.getElementById('growth-btn-fy');
+      if (btnM) btnM.className = mode === 'month30' ? "py-1 rounded-md bg-indigo-600 text-white" : "py-1 rounded-md text-slate-300 hover:text-white";
+      if (btnY) btnY.className = mode === 'fy' ? "py-1 rounded-md bg-indigo-600 text-white" : "py-1 rounded-md text-slate-300 hover:text-white";
       renderSalesGrowthAnalytics();
     }
 
     function renderSalesGrowthAnalytics() {
-      const refDate = REFERENCE_TODAY;
-      const refMonth = refDate.substring(0, 7);
-      const refYear = refDate.substring(0, 4);
-
-      const daySales = store.invoices
-        .filter(i => (i.date || '').startsWith(refDate))
-        .reduce((s, i) => s + (Number(i.total) || 0), 0);
-
-      const monthSales = store.invoices
-        .filter(i => (i.date || '').startsWith(refMonth))
-        .reduce((s, i) => s + (Number(i.total) || 0), 0);
-
-      const yearSales = store.invoices
-        .filter(i => (i.date || '').startsWith(refYear))
-        .reduce((s, i) => s + (Number(i.total) || 0), 0);
-
-      const dayPct = Math.min(100, (daySales / 10000) * 100);
-      const monthPct = Math.min(100, (monthSales / 100000) * 100);
-      const yearPct = Math.min(100, (yearSales / 1000000) * 100);
-
-      const setEl = (id, val) => { const el = document.getElementById(id); if (el) el.innerText = val; };
-      const setBar = (id, pct) => { const el = document.getElementById(id); if (el) el.style.width = `${pct}%`; };
-
-      setEl('meter-day-val', `₹${daySales.toLocaleString('en-IN', { minimumFractionDigits: 2 })}`);
-      setBar('meter-day-bar', dayPct);
-
-      setEl('meter-month-val', `₹${monthSales.toLocaleString('en-IN', { minimumFractionDigits: 2 })}`);
-      setBar('meter-month-bar', monthPct);
-
-      setEl('meter-year-val', `₹${yearSales.toLocaleString('en-IN', { minimumFractionDigits: 2 })}`);
-      setBar('meter-year-bar', yearPct);
-
       const barsContainer = document.getElementById('sales-growth-bars');
-      const chartTitle = document.getElementById('growth-chart-title');
+      const captionEl = document.getElementById('growth-chart-caption');
+      const summaryLabel = document.getElementById('growth-summary-label');
+      const summaryVal = document.getElementById('growth-summary-val');
+      const meterBar = document.getElementById('growth-meter-bar');
       if (!barsContainer) return;
 
       let buckets = [];
-      if (growthGranularity === 'daily') {
-        if (chartTitle) chartTitle.innerText = "Last 7 Days Sales (18–24 Nov 2026)";
-        const base = new Date(2026, 10, 24);
-        for (let d = 6; d >= 0; d--) {
-          const dt = new Date(base);
-          dt.setDate(base.getDate() - d);
-          const iso = dt.toISOString().split('T')[0];
-          const label = dt.toLocaleDateString('en-IN', { day: '2-digit', month: 'short' });
+      let totalPeriodSales = 0;
+
+      if (growthViewMode === 'month30') {
+        const year = 2026;
+        const monthIndex = 10; // November 2026 (30 days: 01 to 30)
+        const daysInMonth = new Date(year, monthIndex + 1, 0).getDate();
+        if (captionEl) captionEl.innerText = "Full Month Daily Sales (01–30 Nov 2026)";
+        if (summaryLabel) summaryLabel.innerText = "Nov 2026 Sales:";
+
+        for (let day = 1; day <= daysInMonth; day++) {
+          const iso = `${year}-${String(monthIndex + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
           const val = store.invoices
             .filter(i => (i.date || '').startsWith(iso))
             .reduce((s, i) => s + (Number(i.total) || 0), 0);
-          buckets.push({ label, val });
+          totalPeriodSales += val;
+          buckets.push({ label: String(day), fullLabel: `${day} Nov 2026`, val });
         }
-      } else if (growthGranularity === 'monthly') {
-        if (chartTitle) chartTitle.innerText = "Month-Wise Sales (2026)";
-        for (let m = 6; m <= 11; m++) {
-          const ym = `2026-${String(m).padStart(2, '0')}`;
-          const label = new Date(2026, m - 1, 1).toLocaleDateString('en-IN', { month: 'short' });
-          const val = store.invoices
-            .filter(i => (i.date || '').startsWith(ym))
-            .reduce((s, i) => s + (Number(i.total) || 0), 0);
-          buckets.push({ label, val });
-        }
+
+        if (summaryVal) summaryVal.innerText = `₹${totalPeriodSales.toLocaleString('en-IN', { minimumFractionDigits: 2 })}`;
+        if (meterBar) meterBar.style.width = `${Math.min(100, (totalPeriodSales / 100000) * 100)}%`;
       } else {
-        if (chartTitle) chartTitle.innerText = "Year-Wise Sales";
-        const yearsSet = new Set(['2024', '2025', '2026']);
-        store.invoices.forEach(i => { if (i.date && i.date.length >= 4) yearsSet.add(i.date.substring(0, 4)); });
-        Array.from(yearsSet).sort().forEach(yr => {
+        // Financial Year FY 2026-27 (Apr 2026 – Mar 2027)
+        if (captionEl) captionEl.innerText = "Financial Year FY 2026–27 (Apr–Mar)";
+        if (summaryLabel) summaryLabel.innerText = "FY 2026–27 Sales:";
+
+        const fyMonths = [
+          { ym: '2026-04', lbl: 'Apr' }, { ym: '2026-05', lbl: 'May' }, { ym: '2026-06', lbl: 'Jun' },
+          { ym: '2026-07', lbl: 'Jul' }, { ym: '2026-08', lbl: 'Aug' }, { ym: '2026-09', lbl: 'Sep' },
+          { ym: '2026-10', lbl: 'Oct' }, { ym: '2026-11', lbl: 'Nov' }, { ym: '2026-12', lbl: 'Dec' },
+          { ym: '2027-01', lbl: 'Jan' }, { ym: '2027-02', lbl: 'Feb' }, { ym: '2027-03', lbl: 'Mar' }
+        ];
+
+        fyMonths.forEach(m => {
           const val = store.invoices
-            .filter(i => (i.date || '').startsWith(yr))
+            .filter(i => (i.date || '').startsWith(m.ym))
             .reduce((s, i) => s + (Number(i.total) || 0), 0);
-          buckets.push({ label: yr, val });
+          totalPeriodSales += val;
+          buckets.push({ label: m.lbl, fullLabel: `${m.lbl} (${m.ym})`, val });
         });
+
+        if (summaryVal) summaryVal.innerText = `₹${totalPeriodSales.toLocaleString('en-IN', { minimumFractionDigits: 2 })}`;
+        if (meterBar) meterBar.style.width = `${Math.min(100, (totalPeriodSales / 1000000) * 100)}%`;
       }
 
-      const maxVal = Math.max(1000, ...buckets.map(b => b.val));
+      const maxVal = Math.max(500, ...buckets.map(b => b.val));
       barsContainer.innerHTML = '';
 
-      buckets.forEach(b => {
-        const heightPct = Math.max(6, Math.round((b.val / maxVal) * 100));
+      buckets.forEach((b, idx) => {
+        const heightPct = Math.max(4, Math.round((b.val / maxVal) * 100));
+        const showAxisLabel = growthViewMode === 'fy' ? (idx % 2 === 0) : (idx === 0 || idx === 9 || idx === 19 || idx === 29);
         const col = document.createElement('div');
-        col.className = "flex-1 flex flex-col items-center justify-end h-full";
+        col.className = "flex-1 flex flex-col items-center justify-end h-full min-w-0";
         col.innerHTML = `
-          <span class="text-[8px] font-bold font-tabular text-slate-300 mb-0.5 whitespace-nowrap">${b.val >= 1000 ? (b.val / 1000).toFixed(1) + 'k' : b.val}</span>
-          <div class="w-full max-w-[20px] rounded-t bg-gradient-to-t from-indigo-500 to-emerald-400" style="height: ${heightPct}%" title="${b.label}: ₹${b.val.toLocaleString('en-IN')}"></div>
-          <span class="text-[8px] font-semibold text-slate-400 mt-1 whitespace-nowrap">${b.label.split(' ')[0]}</span>
+          <div class="w-full rounded-t bg-gradient-to-t from-indigo-500 to-emerald-400" style="height: ${heightPct}%" title="${b.fullLabel}: ₹${b.val.toLocaleString('en-IN')}"></div>
+          <span class="text-[7px] font-semibold text-slate-400 mt-0.5 leading-none truncate">${showAxisLabel ? b.label : ''}</span>
         `;
         barsContainer.appendChild(col);
       });
@@ -2127,7 +2070,7 @@
       }
     }
 
-    // UPDATE METRICS & PRODUCTION MARGIN %
+    // METRICS & WORK ORDERS VISUAL CHART
     function updateMetricBadges() {
       let grandBilled = 0, grandReceived = 0, grandBookedSeva = 0, grandRealizedSeva = 0, grandJobCost = 0;
 
@@ -2169,6 +2112,7 @@
         document.getElementById('metric-total-clients').innerText = store.clients.length;
       }
 
+      // Work Orders Status Visual Graph Bars
       let deliveredCount = 0, receivedCount = 0, inProcessCount = 0, readyCount = 0;
       store.invoices.forEach(inv => {
         const st = inv.status || 'Delivered / Completed';
@@ -2178,14 +2122,30 @@
         else if (st.includes('Ready')) readyCount++;
       });
 
-      const stagesContainer = document.getElementById('metric-project-stages');
-      if (stagesContainer) {
-        stagesContainer.innerHTML = `
-          <span class="px-2 py-0.5 rounded-md bg-emerald-100 text-emerald-800">Delivered: ${deliveredCount}</span>
-          <span class="px-2 py-0.5 rounded-md bg-amber-100 text-amber-800">Received: ${receivedCount}</span>
-          <span class="px-2 py-0.5 rounded-md bg-blue-100 text-blue-800">In Process: ${inProcessCount}</span>
-          ${readyCount > 0 ? `<span class="px-2 py-0.5 rounded-md bg-purple-100 text-purple-800">Ready: ${readyCount}</span>` : ''}
-        `;
+      const totalOrders = Math.max(1, store.invoices.length);
+      const totalPill = document.getElementById('work-order-total-pill');
+      if (totalPill) totalPill.innerText = `${store.invoices.length} Orders`;
+
+      const chartContainer = document.getElementById('work-orders-chart');
+      if (chartContainer) {
+        const rows = [
+          { label: 'Delivered', count: deliveredCount, barClass: 'bg-emerald-500' },
+          { label: 'Received', count: receivedCount, barClass: 'bg-amber-500' },
+          { label: 'In Process', count: inProcessCount, barClass: 'bg-blue-500' },
+          { label: 'Ready', count: readyCount, barClass: 'bg-purple-500' }
+        ];
+        chartContainer.innerHTML = rows.map(r => {
+          const pct = Math.round((r.count / totalOrders) * 100);
+          return `
+            <div class="flex items-center gap-2">
+              <span class="w-16 text-slate-600 font-semibold truncate">${r.label}</span>
+              <div class="flex-1 bg-slate-200/80 rounded-full h-2 overflow-hidden">
+                <div class="${r.barClass} h-full rounded-full transition-all duration-300" style="width: ${pct}%"></div>
+              </div>
+              <span class="w-6 text-right font-bold text-slate-800">${r.count}</span>
+            </div>
+          `;
+        }).join('');
       }
 
       if (document.getElementById('metric-total-billed'))
@@ -2930,7 +2890,7 @@
         store.invoices.push(invoiceObj);
       }
 
-      // Persist Cost Vault, Terms Vault, and Remarks Vault
+      // Save Cost Vault, Terms Vault & Remarks Vault
       const costVault = JSON.parse(localStorage.getItem('coolart_cost_vault') || '{}');
       if (calc.costRows && calc.costRows.length > 0) {
         costVault[invId] = calc.costRows;
@@ -3209,15 +3169,15 @@
           const tr = document.createElement('tr');
           tr.className = "hover:bg-slate-50";
           tr.innerHTML = `
-            <td class="py-2 px-3 text-center text-slate-400 font-tabular text-xs align-top">${index++}</td>
-            <td class="py-2 px-3">
+            <td class="py-1.5 px-3 text-center text-slate-400 font-tabular text-xs align-top">${index++}</td>
+            <td class="py-1.5 px-3">
               <span class="font-bold text-slate-900 block devanagari-safe">${it.desc}</span>
               ${it.remarks ? `<span class="text-[10px] text-slate-500 italic block mt-0.5 font-medium devanagari-safe">↳ Remarks: ${it.remarks}</span>` : ''}
-              <span class="text-[9px] text-slate-400 font-tabular block mt-0.5">Ref: ${inv.id} (${inv.date})</span>
+              <span class="text-[9px] text-slate-400 font-tabular block">Ref: ${inv.id} (${inv.date})</span>
             </td>
-            <td class="py-2 px-3 text-center text-slate-700 font-semibold font-tabular align-top">${it.qty}</td>
-            <td class="py-2 px-3 text-right font-tabular text-slate-700 align-top">₹${Number(it.rate).toLocaleString('en-IN', { minimumFractionDigits: 2 })}</td>
-            <td class="py-2 px-3 text-right font-tabular font-bold text-slate-900 align-top">₹${Number(it.total).toLocaleString('en-IN', { minimumFractionDigits: 2 })}</td>
+            <td class="py-1.5 px-3 text-center text-slate-700 font-semibold font-tabular align-top">${it.qty}</td>
+            <td class="py-1.5 px-3 text-right font-tabular text-slate-700 align-top">₹${Number(it.rate).toLocaleString('en-IN', { minimumFractionDigits: 2 })}</td>
+            <td class="py-1.5 px-3 text-right font-tabular font-bold text-slate-900 align-top">₹${Number(it.total).toLocaleString('en-IN', { minimumFractionDigits: 2 })}</td>
           `;
           tbody.appendChild(tr);
         });
@@ -3235,7 +3195,7 @@
       } else {
         relevantPayments.forEach(p => {
           const div = document.createElement('div');
-          div.className = "flex justify-between items-center bg-white p-2 rounded-lg border border-slate-200 shadow-2xs";
+          div.className = "flex justify-between items-center bg-white p-1.5 rounded-lg border border-slate-200 shadow-2xs";
           div.innerHTML = `
             <div class="flex-1 pr-2">
               <span class="font-bold text-slate-800 block text-[11px]">
@@ -3334,26 +3294,26 @@
       const s3Sub = document.getElementById('track-step-3-sub');
       const s4Sub = document.getElementById('track-step-4-sub');
 
-      [s2, s3, s4].forEach(el => el.querySelector('div').className = "w-7 h-7 mx-auto rounded-full flex items-center justify-center text-xs font-bold bg-slate-200 text-slate-600");
+      [s2, s3, s4].forEach(el => el.querySelector('div').className = "w-6 h-6 mx-auto rounded-full flex items-center justify-center text-xs font-bold bg-slate-200 text-slate-600");
       s2Sub.innerText = "Pending"; s3Sub.innerText = "Pending"; s4Sub.innerText = "Pending";
 
       if (status === 'Order Received') {
-        s2.querySelector('div').className = "w-7 h-7 mx-auto rounded-full flex items-center justify-center text-xs font-bold bg-amber-500 text-white animate-pulse";
+        s2.querySelector('div').className = "w-6 h-6 mx-auto rounded-full flex items-center justify-center text-xs font-bold bg-amber-500 text-white animate-pulse";
         s2Sub.innerText = "Designing...";
       } else if (status === 'In Process / Production') {
-        s2.querySelector('div').className = "w-7 h-7 mx-auto rounded-full flex items-center justify-center text-xs font-bold bg-emerald-600 text-white";
+        s2.querySelector('div').className = "w-6 h-6 mx-auto rounded-full flex items-center justify-center text-xs font-bold bg-emerald-600 text-white";
         s2Sub.innerText = "Done";
-        s3.querySelector('div').className = "w-7 h-7 mx-auto rounded-full flex items-center justify-center text-xs font-bold bg-blue-600 text-white animate-pulse";
+        s3.querySelector('div').className = "w-6 h-6 mx-auto rounded-full flex items-center justify-center text-xs font-bold bg-blue-600 text-white animate-pulse";
         s3Sub.innerText = "Printing...";
       } else if (status === 'Ready for Delivery') {
-        s2.querySelector('div').className = "w-7 h-7 mx-auto rounded-full flex items-center justify-center text-xs font-bold bg-emerald-600 text-white";
+        s2.querySelector('div').className = "w-6 h-6 mx-auto rounded-full flex items-center justify-center text-xs font-bold bg-emerald-600 text-white";
         s2Sub.innerText = "Done";
-        s3.querySelector('div').className = "w-7 h-7 mx-auto rounded-full flex items-center justify-center text-xs font-bold bg-emerald-600 text-white";
+        s3.querySelector('div').className = "w-6 h-6 mx-auto rounded-full flex items-center justify-center text-xs font-bold bg-emerald-600 text-white";
         s3Sub.innerText = "Done";
-        s4.querySelector('div').className = "w-7 h-7 mx-auto rounded-full flex items-center justify-center text-xs font-bold bg-purple-600 text-white animate-pulse";
+        s4.querySelector('div').className = "w-6 h-6 mx-auto rounded-full flex items-center justify-center text-xs font-bold bg-purple-600 text-white animate-pulse";
         s4Sub.innerText = "Ready to Pickup";
       } else {
-        [s2, s3, s4].forEach(el => el.querySelector('div').className = "w-7 h-7 mx-auto rounded-full flex items-center justify-center text-xs font-bold bg-emerald-600 text-white");
+        [s2, s3, s4].forEach(el => el.querySelector('div').className = "w-6 h-6 mx-auto rounded-full flex items-center justify-center text-xs font-bold bg-emerald-600 text-white");
         s2Sub.innerText = "Done"; s3Sub.innerText = "Done"; s4Sub.innerText = "Delivered";
       }
     }
@@ -3411,7 +3371,7 @@
       document.getElementById('h-exp-note').value = '';
     }
 
-    // SINGLE-PAGE A4 PDF DOWNLOAD WITH DEVANAGARI FONT SUPPORT
+    // SINGLE-PAGE A4 PDF EXPORT WITH HINDI/DEVANAGARI FONT SUPPORT
     async function downloadCleanPDF() {
       const element = document.getElementById('invoice-sheet');
       const invNum = document.getElementById('doc-inv-number').innerText.trim() || 'INVOICE';
@@ -3433,14 +3393,15 @@
         element.style.borderRadius = '0px';
         element.style.boxShadow = 'none';
 
+        // Fit proportionally onto a single A4 page (~1060px printable height budget)
         const rect = element.getBoundingClientRect();
-        const targetMaxHeight = 1080;
-        let autoScale = 1;
-        if (rect.height > targetMaxHeight) {
-          autoScale = Math.max(0.72, targetMaxHeight / rect.height);
+        const maxSinglePageHeight = 1060;
+        let fitScale = 1;
+        if (rect.height > maxSinglePageHeight) {
+          fitScale = Math.max(0.68, maxSinglePageHeight / rect.height);
           element.style.transformOrigin = 'top left';
-          element.style.transform = `scale(${autoScale})`;
-          element.style.width = `${(100 / autoScale).toFixed(2)}%`;
+          element.style.transform = `scale(${fitScale})`;
+          element.style.width = `${(100 / fitScale).toFixed(2)}%`;
         }
 
         const opt = {
