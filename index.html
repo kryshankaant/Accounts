@@ -6,8 +6,8 @@
   <title>Cool Art | Enterprise Billing & Financial Ledger</title>
 
   <!-- Brand Icons -->
-  <link rel="icon" type="image/png" href="fevicon.png?v=93">
-  <link rel="apple-touch-icon" href="fevicon.png?v=93">
+  <link rel="icon" type="image/png" href="fevicon.png?v=95">
+  <link rel="apple-touch-icon" href="fevicon.png?v=95">
 
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
@@ -116,10 +116,10 @@
       animation: celestialShimmer 6s infinite ease-in-out;
     }
 
-    .ivory-temple-card {
-      background: linear-gradient(145deg, #fdfbf7 0%, #f7f1e3 55%, #f3e7cf 100%);
+    .ivory-divine-card {
+      background: linear-gradient(145deg, #fdfbf7 0%, #f8f2e4 55%, #f4e8ce 100%);
       border: 1.5px solid #d4af37;
-      box-shadow: 0 6px 20px -4px rgba(180, 134, 28, 0.16), inset 0 0 18px rgba(212, 175, 55, 0.12);
+      box-shadow: 0 6px 20px -4px rgba(180, 134, 28, 0.14), inset 0 0 18px rgba(212, 175, 55, 0.10);
     }
 
     .oldest-overdue-row {
@@ -227,25 +227,27 @@
   <!-- MAIN APPLICATION SHELL (FIXED HEADER, FIXED SIDEBAR, FIXED FOOTER; ONLY WORKSPACE SCROLLS) -->
   <div id="app-root" class="hidden h-screen flex flex-col overflow-hidden">
 
-    <!-- FIXED TOP HEADER (#0b1329): LEFT cool art logo.png ALIGNED WITH WORKSPACE EDGE + SINGLE EDGE-STYLE LOCK -->
-    <header class="h-14 sm:h-16 flex-shrink-0 z-30 bg-[#0b1329] border-b border-white/10 text-white shadow-md no-print flex items-center justify-between pl-2.5 sm:pl-6 lg:pl-[284px] pr-3 sm:pr-6">
-      <div class="flex items-center gap-2.5 min-w-0">
-        <!-- Mobile 3-line menu trigger without rounded box -->
-        <button onclick="toggleMobileSidebar()" id="btn-mobile-sidebar" title="Toggle Menu" class="lg:hidden edge-trigger-btn p-1 text-white inline-flex items-center justify-center flex-shrink-0">
-          <svg class="w-5 h-5 text-indigo-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
-        </button>
+    <!-- FIXED TOP HEADER (#0b1329): INNER CONTAINER MATCHES WORKSPACE CARDS LEFT & RIGHT EDGES EXACTLY -->
+    <header class="h-14 sm:h-16 flex-shrink-0 z-30 bg-[#0b1329] border-b border-white/10 text-white shadow-md no-print lg:pl-[260px] flex items-center">
+      <div class="max-w-[1440px] w-full mx-auto px-4 md:px-8 flex items-center justify-between">
+        <div class="flex items-center gap-2.5 min-w-0">
+          <!-- Mobile 3-line menu trigger without rounded box -->
+          <button onclick="toggleMobileSidebar()" id="btn-mobile-sidebar" title="Toggle Menu" class="lg:hidden edge-trigger-btn p-1 text-white inline-flex items-center justify-center flex-shrink-0">
+            <svg class="w-5 h-5 text-indigo-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
+          </button>
 
-        <!-- Cool Art logo aligned precisely with the workspace left edge -->
-        <div onclick="switchTab('dashboard')" title="Go to Dashboard" class="flex items-center cursor-pointer flex-shrink-0">
-          <img src="cool art logo.png" alt="Cool Art" class="h-7 sm:h-8 w-auto object-contain" onerror="this.style.display='none'">
+          <!-- Cool Art logo aligned vertically with the left edge of the cards/table below -->
+          <div onclick="switchTab('dashboard')" title="Go to Dashboard" class="flex items-center cursor-pointer flex-shrink-0">
+            <img src="cool art logo.png" alt="Cool Art" class="h-7 sm:h-8 w-auto object-contain" onerror="this.style.display='none'">
+          </div>
         </div>
-      </div>
 
-      <!-- Single Edge-style Lock button without rounded corner box -->
-      <button onclick="lockGateway()" title="Lock Application" class="edge-trigger-btn px-1.5 py-1 text-slate-300 hover:text-red-400 inline-flex items-center gap-1.5 text-xs font-bold flex-shrink-0">
-        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
-        <span>Lock</span>
-      </button>
+        <!-- Single Edge-style Lock button aligned vertically with the right edge of the cards/table below -->
+        <button onclick="lockGateway()" title="Lock Application" class="edge-trigger-btn py-1 text-slate-300 hover:text-red-400 inline-flex items-center gap-1.5 text-xs font-bold flex-shrink-0">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
+          <span>Lock</span>
+        </button>
+      </div>
     </header>
 
     <!-- MIDDLE SHELL: FIXED LEFT SIDEBAR (260px) + SCROLLABLE RIGHT WORKSPACE -->
@@ -256,9 +258,9 @@
         <div class="p-3.5 space-y-3 overflow-y-auto flex-1">
 
           <!-- CENTERED TOP BRANDING BLOCK + THIN DIVIDER LINE -->
-          <div class="flex flex-col items-center text-center pb-3 border-b border-white/15 space-y-1">
+          <div class="flex flex-col items-center text-center pb-3 border-b border-slate-700/70 space-y-1">
             <div onclick="switchTab('dashboard')" title="Cool Art®" class="w-14 h-14 rounded-xl p-1.5 bg-white/10 border border-white/15 flex items-center justify-center overflow-hidden cursor-pointer hover:bg-white/15 transition">
-              <img src="fevicon.png?v=94" alt="Cool Art C" class="w-full h-full object-contain rounded-lg" onerror="this.src='https://placehold.co/56x56/0b1329/ffffff?text=C'">
+              <img src="fevicon.png?v=95" alt="Cool Art C" class="w-full h-full object-contain rounded-lg" onerror="this.src='https://placehold.co/56x56/0b1329/ffffff?text=C'">
             </div>
             <div class="text-sm font-extrabold tracking-tight text-white pt-0.5">Cool Art®</div>
             <div class="text-[11px] font-semibold text-emerald-400 leading-tight">Enterprise Commercial Billing</div>
@@ -266,6 +268,52 @@
             <button type="button" onclick="pullDataFromSheets(true)" class="mt-1.5 inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-500/15 hover:bg-emerald-500/25 border border-emerald-400/40 text-[10px] font-extrabold uppercase tracking-wider text-emerald-300 transition">
               <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
               LIVE LEDGER
+            </button>
+          </div>
+
+          <!-- Primary Navigation Tabs inside Left Sidebar -->
+          <div class="space-y-1">
+            <span class="text-[10px] font-bold uppercase tracking-widest text-slate-400 px-1 block">Navigation</span>
+
+            <button onclick="switchTab('dashboard'); closeMobileSidebar();" id="nav-dashboard" class="w-full flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-bold bg-indigo-600/90 text-white transition text-left">
+              <span>📋</span> Directory & Ledger
+            </button>
+
+            <button onclick="switchTab('expenses'); closeMobileSidebar();" id="nav-expenses" class="w-full flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-semibold text-slate-200 hover:bg-white/10 transition text-left">
+              <span>🏢</span> Office Expenses
+            </button>
+
+            <button onclick="openNewInvoiceForm(); closeMobileSidebar();" id="nav-create-bill" class="w-full flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-semibold text-slate-200 hover:bg-white/10 transition text-left">
+              <span>✍️</span> Invoice Studio
+            </button>
+
+            <button onclick="switchTab('invoice-preview'); closeMobileSidebar();" id="nav-invoice-preview" class="w-full flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-semibold text-slate-200 hover:bg-white/10 transition text-left">
+              <span>📄</span> Official Statement
+            </button>
+
+            <button onclick="closeMobileSidebar(); openModal('hanuman-bank-modal');" class="w-full flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-semibold text-amber-300 hover:bg-amber-500/10 transition text-left">
+              <span>🚩</span> Hanuman Ji Ka Bank
+            </button>
+          </div>
+
+          <!-- Sidebar Quick Actions -->
+          <div class="space-y-1 pt-2 border-t border-white/10">
+            <span class="text-[10px] font-bold uppercase tracking-widest text-slate-400 px-1 block">Actions</span>
+
+            <button onclick="switchTab('dashboard'); closeMobileSidebar();" class="w-full flex items-center gap-2.5 px-3 py-1.5 rounded-xl text-xs font-semibold text-slate-200 hover:bg-white/10 transition text-left">
+              <span>🏠</span> Home
+            </button>
+
+            <button onclick="pullDataFromSheets(true)" id="btn-pull-sync" class="w-full flex items-center justify-between px-3 py-1.5 rounded-xl text-xs font-semibold text-emerald-300 hover:bg-white/10 transition text-left">
+              <span class="flex items-center gap-2.5">
+                <svg id="sync-icon" class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg>
+                <span class="text-white" id="sync-text">Sync Sheet</span>
+              </span>
+              <span class="text-[9px] text-emerald-400 font-bold">LIVE</span>
+            </button>
+
+            <button onclick="openCreateExpenseModal(); closeMobileSidebar();" class="w-full flex items-center gap-2.5 px-3 py-1.5 rounded-xl text-xs font-semibold text-rose-300 hover:bg-white/10 transition text-left">
+              <span>💸</span> Add Expense
             </button>
           </div>
 
@@ -425,76 +473,60 @@
 
         <!-- SINGLE VERSION & UPDATE DATE BADGE FIXED AT BOTTOM OF LEFT SIDEBAR -->
         <div class="px-3 py-2 border-t border-white/10 bg-[#070d1e] text-[10px] text-slate-300 font-tabular text-center flex-shrink-0">
-          <span class="font-bold text-indigo-300">v9.4</span> • Updated <span class="text-emerald-400 font-semibold">25 Nov 2026</span>
+          <span class="font-bold text-indigo-300">v9.5</span> • Updated <span class="text-emerald-400 font-semibold">25 Nov 2026</span>
         </div>
       </aside>
 
       <!-- SCROLLABLE WORKSPACE AREA -->
       <div id="workspace-scroll-area" class="flex-1 min-w-0 lg:pl-[260px] overflow-y-auto">
-        <main class="max-w-7xl mx-auto px-2.5 sm:px-6 py-3.5 sm:py-5 w-full space-y-3.5 sm:space-y-5">
+        <main class="max-w-[1440px] mx-auto px-4 md:px-8 py-4 sm:py-5 w-full space-y-3.5 sm:space-y-4">
           <!-- 1. DASHBOARD TAB -->
-          <section id="tab-sec-dashboard" class="space-y-3.5 sm:space-y-5 no-print">
+          <section id="tab-sec-dashboard" class="space-y-3.5 sm:space-y-4 no-print">
 
-            <!-- TOP OVERVIEW BAR: OUR CLIENTS, WORK ORDERS STATUS CHART, QUICK BILLING + IVORY-GOLD DIVINE TEMPLE CARD -->
-            <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-12 gap-2.5 sm:gap-3.5 items-stretch">
-              <!-- Our Clients Card -->
-              <div class="xl:col-span-3 stat-card p-3 sm:p-3.5 flex items-center justify-between border-indigo-100 bg-indigo-50/40">
+            <!-- ROW 1: OUR CLIENTS, WORK ORDERS STATUS OVERVIEW, QUICK BILLING + IVORY-GOLD DIVINE CARD (NO TEMPLE ARCH) -->
+            <div class="grid grid-cols-2 lg:grid-cols-4 gap-2.5 sm:gap-4 items-stretch">
+              <!-- Card 1: Our Clients -->
+              <div class="stat-card p-3 sm:p-4 flex items-center justify-between border-indigo-100 bg-indigo-50/40">
                 <div>
-                  <span class="text-xs sm:text-sm font-extrabold uppercase tracking-wide text-indigo-950 block">Our Clients</span>
-                  <div class="flex items-baseline gap-2 mt-0.5 sm:mt-1">
+                  <span class="text-[11px] sm:text-xs font-extrabold uppercase tracking-wider text-indigo-950 block">Our Clients</span>
+                  <div class="flex items-baseline gap-2 mt-1">
                     <span id="metric-total-clients" class="text-xl sm:text-3xl font-black font-tabular text-indigo-700">0</span>
-                    <span class="text-[11px] text-slate-500 font-medium">Active Accounts</span>
+                    <span class="text-[10px] sm:text-[11px] text-slate-500 font-medium">Active Accounts</span>
                   </div>
                 </div>
                 <span class="text-2xl sm:text-3xl">👥</span>
               </div>
 
-              <!-- Work Orders Status Overview Visual Chart Card -->
-              <div class="xl:col-span-4 stat-card p-3 sm:p-3.5 border-emerald-100 bg-emerald-50/30 flex flex-col justify-between">
-                <div class="flex items-center justify-between gap-2 mb-1.5">
-                  <span class="text-[11px] font-extrabold uppercase tracking-wider text-emerald-950">Work Orders Status Overview</span>
-                  <span id="work-order-total-pill" class="text-[10px] font-bold font-tabular bg-white px-2 py-0.5 rounded-full border border-emerald-200 text-emerald-800">0 Orders</span>
+              <!-- Card 2: Work Orders Status Overview -->
+              <div class="stat-card p-3 sm:p-4 border-emerald-100 bg-emerald-50/30 flex flex-col justify-between">
+                <div class="flex items-center justify-between gap-1.5 mb-1.5">
+                  <span class="text-[10px] sm:text-[11px] font-extrabold uppercase tracking-wider text-emerald-950 truncate">Work Orders Status Overview</span>
+                  <span id="work-order-total-pill" class="text-[9px] sm:text-[10px] font-bold font-tabular bg-white px-2 py-0.5 rounded-full border border-emerald-200 text-emerald-800 flex-shrink-0">0 Orders</span>
                 </div>
-
-                <!-- Visual Horizontal Chart Bars -->
                 <div id="work-orders-chart" class="space-y-1 text-[10px] font-tabular"></div>
               </div>
 
-              <!-- + New Invoice Action Card -->
-              <div class="xl:col-span-2 stat-card p-3 sm:p-3.5 border-indigo-200 bg-gradient-to-br from-indigo-600 to-indigo-700 text-white flex flex-row xl:flex-col items-center xl:items-stretch justify-between gap-2">
+              <!-- Card 3: Quick Billing (+ New Invoice) -->
+              <div class="stat-card p-3 sm:p-4 border-indigo-200 bg-gradient-to-br from-indigo-600 to-indigo-700 text-white flex flex-col justify-between">
                 <div>
-                  <span class="text-[10px] font-bold uppercase tracking-wider text-indigo-200 block">Quick Billing</span>
-                  <p class="hidden xl:block text-[11px] text-white/90 mt-0.5 leading-snug">Create new client bill</p>
+                  <span class="text-[10px] sm:text-[11px] font-extrabold uppercase tracking-wider text-indigo-200 block">Quick Billing</span>
+                  <p class="text-[11px] text-white/90 mt-0.5 leading-snug">Create a new client bill</p>
                 </div>
-                <button onclick="openNewInvoiceForm()" class="xl:mt-2 py-2 px-3 rounded-xl bg-white hover:bg-indigo-50 text-indigo-950 text-xs font-extrabold shadow-2xs active:scale-95 transition inline-flex items-center justify-center gap-1 flex-shrink-0">
+                <button onclick="openNewInvoiceForm()" class="mt-2.5 w-full py-2 px-3 rounded-xl bg-white hover:bg-indigo-50 text-indigo-950 text-xs font-extrabold shadow-2xs active:scale-95 transition inline-flex items-center justify-center gap-1.5">
                   <svg class="w-3.5 h-3.5 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.4" d="M12 4v16m8-8H4"></path></svg>
                   <span>+ New Invoice</span>
                 </button>
               </div>
 
-              <!-- DIVINE TEMPLE CARD AT TOP RIGHT: IVORY & GOLD WITH SHRI VISHNU JI & MATA LAXMI JI + MANTRA -->
-              <div class="xl:col-span-3 ivory-temple-card rounded-[18px] p-2.5 sm:p-3 relative overflow-hidden flex items-center gap-2.5">
-                <!-- Subtle animated celestial/sky shimmer in background -->
-                <div class="celestial-shimmer absolute inset-0 pointer-events-none" style="background: radial-gradient(circle at 30% 25%, rgba(253, 224, 71, 0.35), transparent 55%), radial-gradient(circle at 85% 75%, rgba(186, 230, 253, 0.4), transparent 50%);"></div>
+              <!-- Card 4 (Top-Right Free Space): Serene Ivory & Gold Divine Card (No Temple Design) -->
+              <div class="ivory-divine-card rounded-[18px] p-3 sm:p-3.5 relative overflow-hidden flex items-center gap-3">
+                <!-- Subtle animated celestial/sky/galaxy ambient glow -->
+                <div class="celestial-shimmer absolute inset-0 pointer-events-none" style="background: radial-gradient(circle at 22% 20%, rgba(253, 224, 71, 0.35), transparent 55%), radial-gradient(circle at 82% 78%, rgba(186, 230, 253, 0.42), transparent 52%), radial-gradient(circle at 55% 45%, rgba(254, 243, 199, 0.5), transparent 60%);"></div>
 
-                <!-- Golden Temple Arch Frame -->
-                <div class="relative z-10 flex-shrink-0 flex flex-col items-center">
-                  <!-- Temple Shikhara SVG Crown -->
-                  <svg class="w-14 h-3.5 text-amber-600 -mb-0.5 drop-shadow-2xs" viewBox="0 0 80 20" fill="none">
-                    <path d="M40 1L44 7H36L40 1Z" fill="#d97706"/>
-                    <path d="M12 19C16 11 26 7 40 7C54 7 64 11 68 19H12Z" fill="url(#templeGold)" stroke="#b45309" stroke-width="1.2"/>
-                    <defs>
-                      <linearGradient id="templeGold" x1="12" y1="7" x2="68" y2="19" gradientUnits="userSpaceOnUse">
-                        <stop stop-color="#fde68a"/>
-                        <stop offset="0.5" stop-color="#f59e0b"/>
-                        <stop offset="1" stop-color="#b45309"/>
-                      </linearGradient>
-                    </defs>
-                  </svg>
-                  <div class="w-14 h-14 sm:w-15 sm:h-15 rounded-t-full rounded-b-lg p-0.5 bg-gradient-to-b from-amber-400 via-yellow-500 to-amber-700 shadow-sm">
-                    <div class="w-full h-full rounded-t-full rounded-b-md overflow-hidden bg-slate-950 flex items-center justify-center">
-                      <img src="lord shri vishnu ji mata laxmi ji.jpg" alt="Shri Vishnu Ji & Mata Laxmi Ji" class="w-full h-full object-contain" onerror="this.onerror=null; this.src='https://placehold.co/80x80/fdfbf7/b45309?text=ॐ';">
-                    </div>
+                <!-- Clean Golden Framed Portrait of Shri Vishnu Ji & Mata Laxmi Ji -->
+                <div class="relative z-10 flex-shrink-0 w-14 h-14 sm:w-16 sm:h-16 rounded-2xl p-0.5 bg-gradient-to-br from-amber-300 via-yellow-500 to-amber-700 shadow-sm">
+                  <div class="w-full h-full rounded-[14px] overflow-hidden bg-slate-950 flex items-center justify-center">
+                    <img src="lord shri vishnu ji mata laxmi ji.jpg" alt="Shri Vishnu Ji & Mata Laxmi Ji" class="w-full h-full object-contain" onerror="this.onerror=null; this.src='https://placehold.co/80x80/fdfbf7/b45309?text=ॐ';">
                   </div>
                 </div>
 
@@ -511,7 +543,46 @@
               </div>
             </div>
 
-            <!-- COMPACT 5-CARD BOTTOM FINANCIAL ROW (2-COL ON PHONE, 3-COL ON TABLET, 5-COL ON DESKTOP) -->
+            <!-- ROW 2: PRIMARY 4 LEDGER CARDS INCLUDING HANUMAN BANK -->
+            <div class="grid grid-cols-2 lg:grid-cols-4 gap-2.5 sm:gap-4">
+              <div class="stat-card p-3.5 sm:p-4 border-slate-200/90">
+                <span class="text-[10px] sm:text-xs font-bold uppercase tracking-wider text-slate-500 block">Total Invoiced</span>
+                <span id="metric-total-billed" class="text-base sm:text-2xl font-black text-slate-900 font-tabular mt-1 block break-all">₹0.00</span>
+                <span class="text-[10px] text-slate-400 mt-0.5 block">Cumulative sales volume</span>
+              </div>
+
+              <div class="stat-card p-3.5 sm:p-4 border-emerald-200/80 bg-emerald-50/35">
+                <span class="text-[10px] sm:text-xs font-bold uppercase tracking-wider text-emerald-800 block">Payments Cleared</span>
+                <span id="metric-total-received" class="text-base sm:text-2xl font-black text-emerald-600 font-tabular mt-1 block break-all">₹0.00</span>
+                <span class="text-[10px] text-emerald-700/80 mt-0.5 block">Total deposited receipts</span>
+              </div>
+
+              <div class="stat-card p-3.5 sm:p-4 bg-[#0f172a] border-slate-800 text-white">
+                <span class="text-[10px] sm:text-xs font-bold uppercase tracking-wider text-slate-300 block">Outstanding Due</span>
+                <span id="metric-total-due" class="text-base sm:text-2xl font-black text-white font-tabular mt-1 block break-all">₹0.00</span>
+                <span class="text-[10px] text-slate-400 mt-0.5 block">Total market receivables</span>
+              </div>
+
+              <!-- RESTORED HANUMAN BANK CARD -->
+              <div onclick="openModal('hanuman-bank-modal')" class="stat-card p-3.5 sm:p-4 border-amber-300 bg-gradient-to-br from-amber-50 via-orange-50/70 to-amber-100/60 cursor-pointer flex items-center gap-3">
+                <div class="w-11 h-11 sm:w-12 sm:h-12 rounded-xl overflow-hidden flex-shrink-0 bg-amber-200 border border-amber-300 flex items-center justify-center shadow-2xs">
+                  <img src="hanumanji.png" alt="Hanuman Ji" class="w-full h-full object-cover" onerror="this.onerror=null; this.src='hanuman ji.png'; this.onerror=function(){this.style.display='none'; this.nextElementSibling.style.display='block';};">
+                  <span style="display:none;" class="text-2xl">🚩</span>
+                </div>
+                <div class="flex-1 min-w-0">
+                  <span class="text-[10px] sm:text-[11px] font-black uppercase tracking-wider text-amber-900 flex items-center gap-1">
+                    <span class="text-rose-600">🚩</span> HANUMAN BANK
+                  </span>
+                  <span id="metric-hanuman-realized" class="text-base sm:text-xl font-black text-amber-950 font-tabular mt-0.5 block break-all">₹0.00</span>
+                  <div class="flex items-center justify-between gap-1 mt-0.5 text-[10px] font-tabular">
+                    <span class="text-amber-800/80 truncate">Booked: <strong id="metric-hanuman-accrued">₹0.00</strong></span>
+                    <span class="font-extrabold text-amber-900 underline flex-shrink-0">Ledger →</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- ROW 3: COMPACT 5-CARD PROFITABILITY & COST ROW -->
             <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-2 sm:gap-4">
               <div class="bg-white p-3 sm:p-4 rounded-2xl border border-amber-200 shadow-2xs">
                 <span class="text-[10px] sm:text-xs font-bold text-amber-900 uppercase tracking-wider block truncate">Job Cost (COGS)</span>
@@ -1360,7 +1431,7 @@
   <script>
     const DEFAULT_WEBHOOK_URL = "https://script.google.com/macros/s/AKfycbwXlXsEhAqRUho6zZr-amBL8GJ9BPXHcUI9X54ZRlEj8_vpLxM7UaEHrp_L8cuLFy3BUA/exec";
     const MASTER_KEY = "CoolArt@2026";
-    const APP_VERSION = "v9.4";
+    const APP_VERSION = "v9.5";
     const APP_UPDATED_DATE = "25 Nov 2026";
     const REFERENCE_TODAY = "2026-11-25";
 
@@ -1490,11 +1561,11 @@
 
     // VAULT RECOVERY FOR COST BREAKDOWN, TERMS & REMARKS
     function loadData() {
-      let saved = localStorage.getItem('coolart_finance_master_v94') ||
+      let saved = localStorage.getItem('coolart_finance_master_v95') ||
+                  localStorage.getItem('coolart_finance_master_v94') ||
                   localStorage.getItem('coolart_finance_master_v93') ||
                   localStorage.getItem('coolart_finance_master_v92') ||
                   localStorage.getItem('coolart_finance_master_v91') ||
-                  localStorage.getItem('coolart_finance_master_v95') ||
                   localStorage.getItem('coolart_finance_master_v90') ||
                   localStorage.getItem('coolart_finance_master_v85') ||
                   localStorage.getItem('coolart_finance_master_v80') ||
@@ -1582,7 +1653,7 @@
     }
 
     function persistData() {
-      localStorage.setItem('coolart_finance_master_v94', JSON.stringify(store));
+      localStorage.setItem('coolart_finance_master_v95', JSON.stringify(store));
     }
 
     function getNextInvoiceNumber() {
