@@ -5,21 +5,19 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>Cool Art | Enterprise Billing & Financial Ledger</title>
   
-  <link rel="icon" type="image/png" href="fevicon.png?v=90">
-  <link rel="apple-touch-icon" href="fevicon.png?v=90">
+  <link rel="icon" type="image/png" href="fevicon.png?v=95">
+  <link rel="apple-touch-icon" href="fevicon.png?v=95">
 
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
-  <!-- Chart.js for Live Financial Growth Engine -->
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com">
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
   <style>
     * {
-      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, sans-serif !important;
+      font-family: 'Plus Jakarta Sans', 'Noto Sans Devanagari', -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, sans-serif !important;
       box-sizing: border-box;
       letter-spacing: -0.015em;
     }
@@ -121,7 +119,7 @@
     <div class="stat-card max-w-sm w-full p-8 border-slate-800 bg-[#0b1329]/95 text-white shadow-2xl relative overflow-hidden text-center space-y-6">
       <div class="flex justify-center">
         <div class="w-20 h-20 rounded-2xl p-2 bg-slate-900/90 border border-slate-700/80 shadow-inner flex items-center justify-center">
-          <img src="fevicon.png?v=90" alt="Cool Art" class="w-full h-full object-contain rounded-xl">
+          <img src="fevicon.png?v=95" alt="Cool Art" class="w-full h-full object-contain rounded-xl" onerror="this.src='https://placehold.co/80x80/0b1329/ffffff?text=CA'">
         </div>
       </div>
 
@@ -157,10 +155,10 @@
           
           <!-- LOGO SECTION -->
           <div class="flex items-center gap-2.5 sm:gap-3 flex-shrink-0 cursor-pointer" onclick="switchTab('dashboard')" title="Go to Dashboard">
-            <img src="cool art logo.png" alt="Cool Art" class="h-7 sm:h-8 w-auto object-contain">
+            <img src="cool art logo.png" alt="Cool Art" class="h-7 sm:h-8 w-auto object-contain" onerror="this.style.display='none'">
             <span class="text-white/20 font-light text-base sm:text-xl">|</span>
             <div class="h-9 sm:h-11 w-9 sm:w-11 rounded-2xl p-1 bg-white/5 border border-white/10 shadow-inner flex items-center justify-center overflow-hidden flex-shrink-0">
-              <img src="fevicon.png?v=90" alt="CA Logo" class="h-full w-full object-contain rounded-xl">
+              <img src="fevicon.png?v=95" alt="CA Logo" class="h-full w-full object-contain rounded-xl" onerror="this.src='https://placehold.co/60x60/0b1329/ffffff?text=CA'">
             </div>
 
             <div class="hidden lg:block border-l border-white/10 pl-3">
@@ -265,7 +263,7 @@
               </div>
             </div>
 
-            <!-- Recommendations Engine -->
+            <!-- Recommendations -->
             <div class="mt-4 pt-3.5 border-t border-white/10 grid grid-cols-1 md:grid-cols-3 gap-3 text-xs">
               <div class="bg-white/5 p-3 rounded-xl border border-white/5">
                 <span class="text-[10px] uppercase font-bold text-indigo-400 block">🏆 Top Selling Segment</span>
@@ -284,60 +282,6 @@
                 <span class="text-slate-200 text-xs block mt-0.5" id="mission-plan-b">1,500 Sq.Ft Flex + 500 Cards + 50 Frames</span>
                 <span class="text-[10px] text-slate-400">Balanced retail + event revenue</span>
               </div>
-            </div>
-          </div>
-
-          <!-- LIVE FINANCIAL GROWTH TREND GRAPH (CHART.JS) -->
-          <div class="stat-card p-4 sm:p-6 bg-white border border-slate-200 shadow-sm rounded-2xl space-y-4">
-            <div class="flex flex-wrap items-center justify-between gap-3 border-b border-slate-100 pb-3">
-              <div>
-                <div class="flex items-center gap-2">
-                  <span class="text-xl">📈</span>
-                  <h3 class="text-sm sm:text-base font-extrabold uppercase tracking-wide text-slate-900">
-                    Live Financial Growth Trend
-                  </h3>
-                </div>
-                <p class="text-[11px] text-slate-500 mt-0.5">Real-time revenue, cleared cashflow, and profit acceleration curve</p>
-              </div>
-
-              <!-- 3 Interactive Timeline Filters -->
-              <div class="inline-flex p-1 rounded-xl bg-slate-100 border border-slate-200 text-xs font-bold">
-                <button type="button" onclick="setGrowthChartFilter('month')" id="btn-chart-month" class="px-3 py-1 rounded-lg transition bg-white text-indigo-700 shadow-sm">
-                  This Month
-                </button>
-                <button type="button" onclick="setGrowthChartFilter('fy')" id="btn-chart-fy" class="px-3 py-1 rounded-lg transition text-slate-600 hover:text-slate-900">
-                  Current FY
-                </button>
-                <button type="button" onclick="setGrowthChartFilter('all')" id="btn-chart-all" class="px-3 py-1 rounded-lg transition text-slate-600 hover:text-slate-900">
-                  All-Time
-                </button>
-              </div>
-            </div>
-
-            <!-- 3 Financial Intelligence Mini-Badges -->
-            <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
-              <div class="p-3 rounded-xl bg-slate-50 border border-slate-200 font-tabular">
-                <span class="text-[10px] font-bold uppercase text-slate-500 block">FY 2026–27 Turnover</span>
-                <strong class="text-sm sm:text-base text-slate-900 font-extrabold mt-0.5 block" id="badge-fy-turnover">₹0.00</strong>
-                <span class="text-[10px] text-slate-400">Total booked volume</span>
-              </div>
-
-              <div class="p-3 rounded-xl bg-emerald-50/70 border border-emerald-200 font-tabular">
-                <span class="text-[10px] font-bold uppercase text-emerald-900 block">Cash Realization Rate</span>
-                <strong class="text-sm sm:text-base text-emerald-700 font-extrabold mt-0.5 block" id="badge-cash-rate">0.0%</strong>
-                <span class="text-[10px] text-emerald-800">In-hand collection ratio</span>
-              </div>
-
-              <div class="p-3 rounded-xl bg-indigo-50/70 border border-indigo-200 font-tabular">
-                <span class="text-[10px] font-bold uppercase text-indigo-900 block">Monthly Growth Velocity</span>
-                <strong class="text-sm sm:text-base text-indigo-700 font-extrabold mt-0.5 block" id="badge-mom-growth">+0.0%</strong>
-                <span class="text-[10px] text-indigo-800">MoM bill momentum</span>
-              </div>
-            </div>
-
-            <!-- Chart Canvas Container -->
-            <div class="relative w-full h-64 sm:h-72">
-              <canvas id="growthCanvas"></canvas>
             </div>
           </div>
 
@@ -414,34 +358,41 @@
             </div>
           </div>
 
-          <!-- Bottom Row Financial Cards: 4 BALANCED CARDS (NO REDUNDANT PERCENTAGE CARD) -->
-          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
+          <!-- Bottom Row Financial Cards: 5-CARD VIEW (PROFIT + MARGIN %) -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3 sm:gap-4">
             <!-- 1. Total Job Cost (COGS) -->
-            <div class="bg-white p-4 sm:p-5 rounded-2xl border border-amber-200 shadow-xs">
+            <div class="bg-white p-4 rounded-2xl border border-amber-200 shadow-xs">
               <span class="text-xs font-bold text-amber-900 uppercase tracking-wider block">Total Job Cost (COGS)</span>
-              <span id="metric-total-cogs" class="text-xl sm:text-2xl font-extrabold text-amber-950 font-tabular mt-1 block">₹0.00</span>
+              <span id="metric-total-cogs" class="text-xl font-extrabold text-amber-950 font-tabular mt-1 block">₹0.00</span>
               <span class="text-[10px] text-slate-500">Raw Stock + Labor + Delivery Fuel</span>
             </div>
 
-            <!-- 2. Calculated Net Profit (Direct All Bills Total) -->
-            <div class="bg-emerald-50/80 p-4 sm:p-5 rounded-2xl border border-emerald-200 shadow-xs">
+            <!-- 2. Calculated Net Profit (Booked) -->
+            <div class="bg-emerald-50/70 p-4 rounded-2xl border border-emerald-200 shadow-xs">
               <span class="text-xs font-bold text-emerald-900 uppercase tracking-wider block">Calculated Net Profit</span>
-              <span id="metric-job-profit" class="text-xl sm:text-2xl font-black text-emerald-700 font-tabular mt-1 block">₹0.00</span>
+              <span id="metric-job-profit" class="text-xl font-extrabold text-emerald-700 font-tabular mt-1 block">₹0.00</span>
               <span class="text-[10px] text-emerald-800 font-medium">Net Billed - Production Cost</span>
             </div>
 
-            <!-- 3. Office / Shop Expenses -->
-            <div class="bg-white p-4 sm:p-5 rounded-2xl border border-slate-200 shadow-xs">
+            <!-- 3. Production Margin (%) -->
+            <div class="bg-indigo-50/70 p-4 rounded-2xl border border-indigo-200 shadow-xs">
+              <span class="text-xs font-bold text-indigo-900 uppercase tracking-wider block">Production Margin (%)</span>
+              <span id="metric-margin-pct" class="text-xl font-extrabold text-indigo-700 font-tabular mt-1 block">0.0%</span>
+              <span class="text-[10px] text-indigo-800 font-medium">(Net Profit ÷ Net Billed) × 100</span>
+            </div>
+
+            <!-- 4. Office / Shop Expenses -->
+            <div class="bg-white p-4 rounded-2xl border border-rose-200 shadow-xs">
               <span class="text-xs font-bold text-rose-600 uppercase tracking-wider block">Office / Shop Expenses</span>
-              <span id="metric-office-expenses" class="text-xl sm:text-2xl font-extrabold text-rose-600 font-tabular mt-1 block">₹0.00</span>
+              <span id="metric-office-expenses" class="text-xl font-extrabold text-rose-600 font-tabular mt-1 block">₹0.00</span>
               <span class="text-[10px] text-slate-400">Rent, Bills, Tea, Tools, Maintenance</span>
             </div>
 
-            <!-- 4. Real In-Hand Cash Profit -->
-            <div class="bg-white p-4 sm:p-5 rounded-2xl border border-slate-200 shadow-xs">
-              <span class="text-xs font-black text-slate-800 uppercase tracking-wider block">Real In-Hand Cash Profit</span>
-              <span id="metric-net-real-profit" class="text-xl sm:text-2xl font-black text-emerald-700 font-tabular mt-1 block">₹0.00</span>
-              <span class="text-[10px] text-slate-400 font-medium">Cleared Receipts - Costs - Overheads</span>
+            <!-- 5. Real In-Hand Cash Profit -->
+            <div class="bg-emerald-100/80 p-4 rounded-2xl border border-emerald-300 shadow-xs">
+              <span class="text-xs font-black text-emerald-950 uppercase tracking-wider block">Real In-Hand Cash Profit</span>
+              <span id="metric-net-real-profit" class="text-2xl font-black text-emerald-800 font-tabular mt-1 block">₹0.00</span>
+              <span class="text-[10px] text-emerald-900 font-semibold">Cleared Receipts - Costs - Overheads</span>
             </div>
           </div>
 
@@ -588,12 +539,39 @@
               <div id="line-items-container" class="space-y-3"></div>
             </div>
 
+            <!-- GST TOGGLE -->
             <div class="flex items-center justify-between bg-slate-50 p-3.5 rounded-xl border border-slate-200">
               <div class="flex items-center gap-2">
                 <input type="checkbox" id="inv-apply-gst" onchange="calculateInvoiceDraftTotals()" class="w-4 h-4 text-indigo-600 rounded border-slate-300 focus:ring-indigo-500 cursor-pointer">
                 <label for="inv-apply-gst" class="text-xs font-bold text-slate-800 cursor-pointer">Apply GST (18% — CGST 9% + SGST 9%)</label>
               </div>
               <span class="text-[11px] text-slate-500">Uncheck for regular non-tax invoice</span>
+            </div>
+
+            <!-- TERMS & CONDITIONS MANAGER (HIDDEN BY DEFAULT UNTIL CHECKED) -->
+            <div class="bg-indigo-50/60 border border-indigo-200/80 rounded-xl p-4 space-y-3">
+              <div class="flex flex-wrap items-center justify-between gap-2">
+                <div class="flex items-center gap-2">
+                  <input type="checkbox" id="inv-show-terms" onchange="toggleTermsEditor()" class="w-4 h-4 text-indigo-600 rounded border-slate-300 focus:ring-indigo-500 cursor-pointer">
+                  <label for="inv-show-terms" class="text-xs font-extrabold text-indigo-950 cursor-pointer flex items-center gap-1.5">
+                    ⚖️ Show Terms & Conditions on Bill (बिल में शर्तें जोड़ें)
+                  </label>
+                </div>
+                <span class="text-[10px] font-semibold text-indigo-600 bg-white px-2.5 py-0.5 rounded-full border border-indigo-100">Hidden unless checked</span>
+              </div>
+
+              <div id="terms-editor-box" class="hidden space-y-2.5 pt-2 border-t border-indigo-200/60">
+                <div class="flex flex-wrap items-center justify-between gap-2">
+                  <label class="text-[11px] font-bold text-slate-700">Select Terms Preset Category:</label>
+                  <select id="inv-terms-category" onchange="applyTermsPreset()" class="bg-white border border-indigo-300 rounded-lg px-3 py-1.5 text-xs font-bold text-indigo-900 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                    <option value="photography">📸 Photography & Videography Terms</option>
+                    <option value="printing">🖨️ Printing & Graphic Designing Terms</option>
+                    <option value="custom">✍️ Custom / Edit Manually</option>
+                  </select>
+                </div>
+                <textarea id="inv-terms-text" rows="5" oninput="document.getElementById('inv-terms-category').value='custom'" placeholder="Enter custom terms & conditions..." class="w-full bg-white border border-indigo-200 rounded-xl p-3 text-xs text-slate-800 leading-relaxed focus:outline-none focus:ring-2 focus:ring-indigo-500"></textarea>
+                <p class="text-[10px] text-slate-500">Tip: Selecting a preset auto-fills Hindi + English professional terms. You can freely edit any line above.</p>
+              </div>
             </div>
 
             <!-- DYNAMIC & FULLY EDITABLE COSTING (VAULT PRESERVED) -->
@@ -679,7 +657,7 @@
                 <select id="preview-bill-select" onchange="renderInvoiceView()" class="border border-slate-300 rounded-xl px-2.5 py-1 text-xs font-bold bg-slate-50 text-slate-800 focus:outline-none font-tabular"></select>
               </div>
 
-              <button onclick="editCurrentActiveInvoice()" id="btn-edit-active-inv" class="mt-3.5 inline-flex items-center gap-1 px-3 py-1.5 rounded-xl bg-amber-500 hover:bg-amber-600 text-white text-xs font-bold transition shadow-sm" title="Edit line items and costings">
+              <button onclick="editCurrentActiveInvoice()" id="btn-edit-active-inv" class="mt-3.5 inline-flex items-center gap-1 px-3 py-1.5 rounded-xl bg-amber-500 hover:bg-amber-600 text-white text-xs font-bold transition shadow-sm" title="Edit line items, terms and costings">
                 ✏️ Edit Invoice
               </button>
 
@@ -710,7 +688,7 @@
           <div id="invoice-sheet" class="max-w-4xl mx-auto bg-white border border-slate-200 rounded-2xl shadow-xl overflow-hidden text-slate-800">
             <div class="invoice-contrast-header px-6 sm:px-8 py-5 flex flex-row justify-between items-center border-b border-slate-800">
               <div class="flex items-center gap-3 sm:gap-4">
-                <img src="cool art logo.png" alt="Cool Art" class="h-8 sm:h-9 w-auto object-contain">
+                <img src="cool art logo.png" alt="Cool Art" class="h-8 sm:h-9 w-auto object-contain" onerror="this.style.display='none'">
                 <div class="border-l border-slate-700 pl-3">
                   <span class="text-[9px] sm:text-[10px] uppercase font-bold tracking-widest text-slate-300 block">Commercial Accounts Division</span>
                   <p class="text-[10px] sm:text-[11px] text-slate-400">Branding • Signage • Large-Format Fabrication</p>
@@ -866,6 +844,17 @@
                 </div>
               </div>
 
+              <!-- CONDITIONAL TERMS & CONDITIONS DISPLAY (PRINTS ONLY WHEN ENABLED ON BILL) -->
+              <div id="doc-terms-section" class="hidden bg-slate-50/90 border border-slate-200 rounded-xl p-3.5 text-slate-700 space-y-1.5">
+                <div class="flex items-center justify-between border-b border-slate-200 pb-1">
+                  <span class="text-[10px] font-extrabold uppercase tracking-wider text-slate-800 flex items-center gap-1">
+                    ⚖️ Terms & Conditions
+                  </span>
+                  <span class="text-[9px] font-bold text-slate-400 uppercase">Agreed Service Policy</span>
+                </div>
+                <div id="doc-terms-content" class="text-[10px] sm:text-[11px] leading-relaxed text-slate-700 whitespace-pre-line font-medium"></div>
+              </div>
+
               <!-- Confidential Office Margin -->
               <div id="doc-office-private-panel" class="office-private-note no-print mt-3 p-4 rounded-2xl bg-gradient-to-r from-amber-50/90 via-orange-50/80 to-amber-50/90 border border-amber-300 text-xs">
                 <div class="flex items-center justify-between border-b border-amber-200/80 pb-2 mb-3">
@@ -912,12 +901,20 @@
                 
                 <div class="text-right flex flex-col items-end">
                   <div class="h-14 w-36 flex items-end justify-end mb-1">
-                    <img src="kksignature.png" alt="Signature" class="max-h-full max-w-full object-contain filter contrast-125" onerror="this.onerror=null; this.src='kksignature.jpg';">
+                    <img src="kksignature.png" alt="Signature" class="max-h-full max-w-full object-contain filter contrast-125" onerror="this.onerror=null; this.src='kksignature.jpg'; this.onerror=function(){this.style.display='none';}">
                   </div>
                   <div class="w-36 border-b border-slate-400 mb-1"></div>
                   <span class="text-[10px] font-bold text-slate-700 uppercase tracking-wider block">Authorized Signatory</span>
                   <span class="text-[9px] text-slate-400">Commercial Billing</span>
                 </div>
+              </div>
+
+              <!-- INVOICE BOTTOM CO-BRANDING (PRINTS & SHOWS ON PDF) -->
+              <div class="border-t border-slate-200/80 pt-3 mt-2 flex items-center justify-center gap-2 text-[11px] text-slate-500">
+                <span>Powered by</span>
+                <img src="logo.png" alt="MunimJi by Cool Art" class="h-5 w-auto object-contain inline-block" onerror="this.style.display='none'">
+                <span class="text-slate-300">•</span>
+                <span>Developed by Team <strong class="text-slate-800 font-extrabold">CoolArt®</strong></span>
               </div>
 
             </div>
@@ -926,7 +923,7 @@
       </main>
     </div>
 
-    <!-- Studio Footer -->
+    <!-- Studio Footer with MunimJi Co-Branding -->
     <footer class="no-print mt-10 py-8 px-4 border-t border-slate-200/80 bg-white/70 backdrop-blur-sm">
       <div class="max-w-xl mx-auto text-center p-6 rounded-3xl bg-white shadow-xs border border-slate-200/90 space-y-2">
         <div class="text-sm font-extrabold text-slate-800">
@@ -938,10 +935,18 @@
         <div class="text-xs text-slate-400">
           Complete Graphic Design, Printing & Media Solutions
         </div>
-        <div class="pt-2">
+        <div class="pt-1 pb-2">
           <a href="tel:9458614610" class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold font-tabular transition">
             📞 Helpline: +91 9458614610
           </a>
+        </div>
+
+        <!-- Centered MunimJi Co-Branding Strip -->
+        <div class="pt-3 border-t border-slate-100 flex flex-wrap items-center justify-center gap-2 text-xs text-slate-500">
+          <span>Powered by</span>
+          <img src="logo.png" alt="MunimJi by Cool Art" class="h-6 w-auto object-contain inline-block" onerror="this.style.display='none'">
+          <span class="text-slate-300">•</span>
+          <span>Developed by Team <strong class="text-slate-900 font-extrabold">CoolArt®</strong></span>
         </div>
       </div>
     </footer>
@@ -1212,10 +1217,28 @@
     </div>
   </div>
 
-  <!-- JAVASCRIPT LOGIC (PERMANENT LOCAL COST VAULT & LIVE GROWTH ENGINE) -->
+  <!-- CUSTOM MESSAGE BOX MODAL (REPLACES BROWSER ALERT/CONFIRM) -->
+  <div id="custom-dialog-modal" class="hidden fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl shadow-2xl border border-slate-200 max-w-sm w-full p-5 space-y-4">
+      <div class="flex items-center gap-2.5">
+        <span id="dialog-icon" class="text-xl">ℹ️</span>
+        <h3 class="text-sm font-extrabold text-slate-900" id="dialog-title">Notice</h3>
+      </div>
+      <p class="text-xs text-slate-600 leading-relaxed whitespace-pre-line" id="dialog-message"></p>
+      <div class="flex justify-end gap-2 pt-2" id="dialog-actions"></div>
+    </div>
+  </div>
+
+  <!-- JAVASCRIPT LOGIC -->
   <script>
     const DEFAULT_WEBHOOK_URL = "https://script.google.com/macros/s/AKfycbwXlXsEhAqRUho6zZr-amBL8GJ9BPXHcUI9X54ZRlEj8_vpLxM7UaEHrp_L8cuLFy3BUA/exec";
     const MASTER_KEY = "CoolArt@2026";
+
+    // PRESET TERMS & CONDITIONS TEMPLATES
+    const TERMS_PRESETS = {
+      photography: `• Booking Confirmation: बुकिंग की तारीख पर 75% एडवांस पेमेंट अनिवार्य है। 75% बुकिंग राशि जमा न होने की स्थिति में बुकिंग मान्य (Confirm) नहीं मानी जाएगी।\n• Final Payment Policy: शेष 25% (पूर्ण भुगतान) इवेंट/शूट की तारीख से एक दिन पहले क्लियर होना अनिवार्य है। यदि किसी कारणवश पहले भुगतान नहीं हो पाता है, तो कार्यक्रम समाप्त होते ही तत्काल मौके पर (On-the-spot) पूरा भुगतान करना होगा।\n• Data & Liability: समय पर पूर्ण भुगतान न होने की स्थिति में स्टूडियो/एजेंसी रॉ डेटा (Raw Data), फोटो या वीडियो सुरक्षित रखने के लिए बाध्य नहीं होगी, और डेटा की किसी भी प्रकार की जिम्मेदारी हमारी नहीं रहेगी। भुगतान शर्तों का उल्लंघन होने पर अन्य सभी सेवा शर्तें स्वतः निरस्त मानी जाएँगी।`,
+      printing: `• Design Approval: प्रिंटिंग कार्य केवल ग्राहक द्वारा डिज़ाइन, स्पेलिंग और साइज़ के अंतिम अप्रूवल (Final Approval) के बाद ही शुरू किया जाएगा। अप्रूवल के बाद किसी भी त्रुटि या बदलाव की जिम्मेदारी ग्राहक की होगी।\n• Color & Material: स्क्रीन (मोबाइल/कंप्यूटर) पर दिखने वाले रंग और वास्तविक प्रिंटिंग रंगों में 5–10% का तकनीकी अंतर मान्य होगा।\n• Payment & Delivery: ऑर्डर कन्फर्म करने के लिए एडवांस आवश्यक है और डिलीवरी के समय शेष राशि का पूर्ण भुगतान अनिवार्य है।`
+    };
 
     let store = {
       clients: [],
@@ -1233,8 +1256,41 @@
 
     let editingInvoiceId = null;
     let activeHistoryClientId = null;
-    let growthChartInstance = null;
-    let currentChartFilter = 'month';
+
+    // CUSTOM NON-BLOCKING DIALOGS (NO alert() OR confirm())
+    function showNotice(message, title = "Cool Art Ledger", icon = "ℹ️") {
+      document.getElementById('dialog-title').innerText = title;
+      document.getElementById('dialog-icon').innerText = icon;
+      document.getElementById('dialog-message').innerText = message;
+      const actions = document.getElementById('dialog-actions');
+      actions.innerHTML = `<button onclick="closeModal('custom-dialog-modal')" class="px-4 py-1.5 text-xs font-bold text-white bg-indigo-600 hover:bg-indigo-500 rounded-xl">OK</button>`;
+      openModal('custom-dialog-modal');
+    }
+
+    function showConfirm(message, onConfirm, title = "Confirm Action", icon = "⚠️") {
+      document.getElementById('dialog-title').innerText = title;
+      document.getElementById('dialog-icon').innerText = icon;
+      document.getElementById('dialog-message').innerText = message;
+      const actions = document.getElementById('dialog-actions');
+      actions.innerHTML = '';
+
+      const cancelBtn = document.createElement('button');
+      cancelBtn.className = "px-4 py-1.5 text-xs font-bold text-slate-600 hover:bg-slate-100 rounded-xl";
+      cancelBtn.innerText = "Cancel";
+      cancelBtn.onclick = () => closeModal('custom-dialog-modal');
+
+      const okBtn = document.createElement('button');
+      okBtn.className = "px-4 py-1.5 text-xs font-bold text-white bg-indigo-600 hover:bg-indigo-500 rounded-xl";
+      okBtn.innerText = "Confirm";
+      okBtn.onclick = () => {
+        closeModal('custom-dialog-modal');
+        if (typeof onConfirm === 'function') onConfirm();
+      };
+
+      actions.appendChild(cancelBtn);
+      actions.appendChild(okBtn);
+      openModal('custom-dialog-modal');
+    }
 
     function unlockGateway() {
       const pass = document.getElementById('gw-pass').value.trim();
@@ -1264,15 +1320,18 @@
       }
     }
 
+    // MULTI-VERSION VAULT SCANNER & RECOVERY
     function loadData() {
-      let saved = localStorage.getItem('coolart_finance_master_v90') ||
+      let saved = localStorage.getItem('coolart_finance_master_v95') ||
                   localStorage.getItem('coolart_finance_master_v85') ||
                   localStorage.getItem('coolart_finance_master_v80') ||
                   localStorage.getItem('coolart_finance_master_v75') || 
                   localStorage.getItem('coolart_finance_master_v70') || 
+                  localStorage.getItem('coolart_finance_master_v60') || 
                   localStorage.getItem('coolart_finance_master');
 
       let costVault = JSON.parse(localStorage.getItem('coolart_cost_vault') || '{}');
+      let termsVault = JSON.parse(localStorage.getItem('coolart_terms_vault') || '{}');
 
       for (let i = 0; i < localStorage.length; i++) {
         let k = localStorage.key(i);
@@ -1281,9 +1340,18 @@
             let p = JSON.parse(localStorage.getItem(k));
             if (p && Array.isArray(p.invoices)) {
               p.invoices.forEach(inv => {
-                if (inv && inv.id && Array.isArray(inv.costRows) && inv.costRows.length > 0) {
-                  if (!costVault[inv.id] || costVault[inv.id].length <= 1) {
-                    costVault[inv.id] = inv.costRows;
+                if (inv && inv.id) {
+                  if (Array.isArray(inv.costRows) && inv.costRows.length > 0) {
+                    if (!costVault[inv.id] || costVault[inv.id].length <= 1) {
+                      costVault[inv.id] = inv.costRows;
+                    }
+                  }
+                  if (inv.showTerms && !termsVault[inv.id]) {
+                    termsVault[inv.id] = {
+                      showTerms: inv.showTerms,
+                      termsCategory: inv.termsCategory || 'custom',
+                      termsText: inv.termsText || ''
+                    };
                   }
                 }
               });
@@ -1292,6 +1360,7 @@
         }
       }
       localStorage.setItem('coolart_cost_vault', JSON.stringify(costVault));
+      localStorage.setItem('coolart_terms_vault', JSON.stringify(termsVault));
 
       if (saved) {
         try { 
@@ -1310,6 +1379,11 @@
           if (costVault[inv.id] && costVault[inv.id].length > 0) {
             inv.costRows = costVault[inv.id];
           }
+          if (termsVault[inv.id]) {
+            inv.showTerms = termsVault[inv.id].showTerms;
+            inv.termsCategory = termsVault[inv.id].termsCategory;
+            inv.termsText = termsVault[inv.id].termsText;
+          }
         });
       }
 
@@ -1323,7 +1397,7 @@
     }
 
     function persistData() {
-      localStorage.setItem('coolart_finance_master_v90', JSON.stringify(store));
+      localStorage.setItem('coolart_finance_master_v95', JSON.stringify(store));
     }
 
     function getNextInvoiceNumber() {
@@ -1386,9 +1460,9 @@
 
         if (result && result.status === "success") {
           process5TabSheetData(result);
-          if (isManual) alert('Google Sheet synchronized successfully!');
+          if (isManual) showNotice('Google Sheet synchronized successfully!', 'Cloud Sync', '✅');
         } else {
-          if (isManual) alert('No records found in sheets.');
+          if (isManual) showNotice('No records found in sheets.', 'Cloud Sync', 'ℹ️');
         }
       };
 
@@ -1399,7 +1473,7 @@
         delete window[callbackName];
         script.remove();
         if (text) text.innerText = 'Sync';
-        if (isManual) alert('Error connecting to Google Sheets.');
+        if (isManual) showNotice('Error connecting to Google Sheets.', 'Sync Error', '❌');
       };
       document.body.appendChild(script);
     }
@@ -1420,6 +1494,7 @@
       const rawInvoices = Array.isArray(payload.invoices) ? payload.invoices : [];
       const rawItems = Array.isArray(payload.items) ? payload.items : [];
       const costVault = JSON.parse(localStorage.getItem('coolart_cost_vault') || '{}');
+      const termsVault = JSON.parse(localStorage.getItem('coolart_terms_vault') || '{}');
 
       if (rawInvoices.length > 0) {
         store.invoices = rawInvoices.map(inv => {
@@ -1440,6 +1515,12 @@
           } else if (matchedExisting && Array.isArray(matchedExisting.costRows) && matchedExisting.costRows.length > 0) {
             preservedCosts = matchedExisting.costRows;
           }
+
+          let preservedTerms = termsVault[invId] || (matchedExisting && matchedExisting.showTerms ? {
+            showTerms: matchedExisting.showTerms,
+            termsCategory: matchedExisting.termsCategory,
+            termsText: matchedExisting.termsText
+          } : { showTerms: false, termsCategory: 'photography', termsText: '' });
 
           const jCost = Number(inv.Job_Cost) || 0;
           const netTot = Number(inv.Net_Total) || 0;
@@ -1462,6 +1543,9 @@
             totalCost: jCost,
             netProfit: (inv.Net_Profit !== undefined && inv.Net_Profit !== null && inv.Net_Profit !== '') ? Number(inv.Net_Profit) : calcProfit,
             sevaFund: Number(inv.Seva_Fund) || (calcProfit * 0.1),
+            showTerms: preservedTerms.showTerms,
+            termsCategory: preservedTerms.termsCategory,
+            termsText: preservedTerms.termsText,
             lastModified: String(inv.Date || '')
           };
         });
@@ -1523,8 +1607,6 @@
       } else if (tabId === 'expenses') {
         populateExpenseMonthsDropdown();
         renderExpensesTable();
-      } else if (tabId === 'dashboard') {
-        renderGrowthChart();
       }
     }
 
@@ -1533,6 +1615,29 @@
       if (id === 'hanuman-bank-modal') renderHanumanModal();
     }
     function closeModal(id) { document.getElementById(id).classList.add('hidden'); }
+
+    // TERMS & CONDITIONS UI HANDLERS
+    function toggleTermsEditor() {
+      const isChecked = document.getElementById('inv-show-terms').checked;
+      const box = document.getElementById('terms-editor-box');
+      if (isChecked) {
+        box.classList.remove('hidden');
+        const currentText = document.getElementById('inv-terms-text').value.trim();
+        if (!currentText) {
+          applyTermsPreset();
+        }
+      } else {
+        box.classList.add('hidden');
+      }
+    }
+
+    function applyTermsPreset() {
+      const cat = document.getElementById('inv-terms-category').value;
+      const textarea = document.getElementById('inv-terms-text');
+      if (TERMS_PRESETS[cat]) {
+        textarea.value = TERMS_PRESETS[cat];
+      }
+    }
 
     function getInvoiceSpecificDetails(invoiceId) {
       const inv = store.invoices.find(i => i.id === invoiceId);
@@ -1631,7 +1736,6 @@
       renderExpensesTable();
       updateMetricBadges();
       populateClientSelects();
-      renderGrowthChart();
     }
 
     // SMART MISSION ENGINE
@@ -1698,230 +1802,7 @@
       }
     }
 
-    // LIVE FINANCIAL GROWTH ENGINE (CHART.JS)
-    function setGrowthChartFilter(filterType) {
-      currentChartFilter = filterType;
-      ['month', 'fy', 'all'].forEach(t => {
-        const btn = document.getElementById(`btn-chart-${t}`);
-        if (t === filterType) {
-          btn.className = "px-3 py-1 rounded-lg transition bg-white text-indigo-700 shadow-sm font-bold";
-        } else {
-          btn.className = "px-3 py-1 rounded-lg transition text-slate-600 hover:text-slate-900";
-        }
-      });
-      renderGrowthChart();
-    }
-
-    function renderGrowthChart() {
-      const canvas = document.getElementById('growthCanvas');
-      if (!canvas) return;
-
-      const today = new Date();
-      const currentYear = today.getFullYear();
-      const currentMonth = today.getMonth(); // 0-indexed
-      const currentYM = today.toISOString().substring(0, 7);
-
-      // Financial Year boundaries (April to March)
-      const fyStartYear = currentMonth >= 3 ? currentYear : (currentYear - 1);
-      const fyEndYear = fyStartYear + 1;
-      const fyStartDate = `${fyStartYear}-04-01`;
-      const fyEndDate = `${fyEndYear}-03-31`;
-
-      // 1. Calculate FY turnover & recovery stats
-      const fyInvoices = store.invoices.filter(i => i.date >= fyStartDate && i.date <= fyEndDate);
-      const fyPayments = store.payments.filter(p => p.date >= fyStartDate && p.date <= fyEndDate);
-
-      const fyBilled = fyInvoices.reduce((s, i) => s + (Number(i.total) || 0), 0);
-      const fyCleared = fyPayments.reduce((s, p) => s + (Number(p.amount) || 0), 0);
-      const recoveryRate = fyBilled > 0 ? ((fyCleared / fyBilled) * 100).toFixed(1) : '0.0';
-
-      // 2. MoM Growth Velocity (Current Month vs Previous Month)
-      const prevMonthDate = new Date(currentYear, currentMonth - 1, 1);
-      const prevYM = prevMonthDate.toISOString().substring(0, 7);
-      const thisMonthBilled = store.invoices.filter(i => (i.date || '').startsWith(currentYM)).reduce((s, i) => s + (Number(i.total) || 0), 0);
-      const prevMonthBilled = store.invoices.filter(i => (i.date || '').startsWith(prevYM)).reduce((s, i) => s + (Number(i.total) || 0), 0);
-
-      let momRate = "+0.0%";
-      if (prevMonthBilled > 0) {
-        const diff = ((thisMonthBilled - prevMonthBilled) / prevMonthBilled) * 100;
-        momRate = (diff >= 0 ? "+" : "") + diff.toFixed(1) + "%";
-      } else if (thisMonthBilled > 0) {
-        momRate = "+100%";
-      }
-
-      if (document.getElementById('badge-fy-turnover'))
-        document.getElementById('badge-fy-turnover').innerText = `₹${fyBilled.toLocaleString('en-IN', {minimumFractionDigits: 2})}`;
-      if (document.getElementById('badge-cash-rate'))
-        document.getElementById('badge-cash-rate').innerText = `${recoveryRate}%`;
-      if (document.getElementById('badge-mom-growth'))
-        document.getElementById('badge-mom-growth').innerText = momRate;
-
-      // 3. Prepare Chart Datasets based on Filter
-      let labels = [];
-      let billedData = [];
-      let clearedData = [];
-      let profitData = [];
-
-      if (currentChartFilter === 'month') {
-        // Daily progression for active month
-        const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
-        for (let d = 1; d <= daysInMonth; d++) {
-          const dayStr = `${currentYM}-${String(d).padStart(2, '0')}`;
-          labels.push(`${d} ${today.toLocaleString('en-IN', { month: 'short' })}`);
-
-          const dayInvs = store.invoices.filter(i => i.date === dayStr);
-          const dayPays = store.payments.filter(p => p.date === dayStr);
-
-          const bAmt = dayInvs.reduce((s, i) => s + (Number(i.total) || 0), 0);
-          const cAmt = dayPays.reduce((s, p) => s + (Number(p.amount) || 0), 0);
-          const pAmt = dayInvs.reduce((s, i) => s + Math.max(0, (Number(i.total) || 0) - (Number(i.totalCost) || 0)), 0);
-
-          billedData.push(bAmt);
-          clearedData.push(cAmt);
-          profitData.push(pAmt);
-        }
-      } else if (currentChartFilter === 'fy') {
-        // 12 Months: April to March
-        const fyMonths = [
-          { ym: `${fyStartYear}-04`, label: `Apr '${String(fyStartYear).slice(-2)}` },
-          { ym: `${fyStartYear}-05`, label: `May '${String(fyStartYear).slice(-2)}` },
-          { ym: `${fyStartYear}-06`, label: `Jun '${String(fyStartYear).slice(-2)}` },
-          { ym: `${fyStartYear}-07`, label: `Jul '${String(fyStartYear).slice(-2)}` },
-          { ym: `${fyStartYear}-08`, label: `Aug '${String(fyStartYear).slice(-2)}` },
-          { ym: `${fyStartYear}-09`, label: `Sep '${String(fyStartYear).slice(-2)}` },
-          { ym: `${fyStartYear}-10`, label: `Oct '${String(fyStartYear).slice(-2)}` },
-          { ym: `${fyStartYear}-11`, label: `Nov '${String(fyStartYear).slice(-2)}` },
-          { ym: `${fyStartYear}-12`, label: `Dec '${String(fyStartYear).slice(-2)}` },
-          { ym: `${fyEndYear}-01`, label: `Jan '${String(fyEndYear).slice(-2)}` },
-          { ym: `${fyEndYear}-02`, label: `Feb '${String(fyEndYear).slice(-2)}` },
-          { ym: `${fyEndYear}-03`, label: `Mar '${String(fyEndYear).slice(-2)}` }
-        ];
-
-        fyMonths.forEach(m => {
-          labels.push(m.label);
-          const mInvs = store.invoices.filter(i => (i.date || '').startsWith(m.ym));
-          const mPays = store.payments.filter(p => (p.date || '').startsWith(m.ym));
-
-          billedData.push(mInvs.reduce((s, i) => s + (Number(i.total) || 0), 0));
-          clearedData.push(mPays.reduce((s, p) => s + (Number(p.amount) || 0), 0));
-          profitData.push(mInvs.reduce((s, i) => s + Math.max(0, (Number(i.total) || 0) - (Number(i.totalCost) || 0)), 0));
-        });
-      } else {
-        // All-Time chronological by registered months
-        const allMonths = new Set();
-        store.invoices.forEach(i => { if (i.date) allMonths.add(i.date.substring(0, 7)); });
-        store.payments.forEach(p => { if (p.date) allMonths.add(p.date.substring(0, 7)); });
-        allMonths.add(currentYM);
-
-        const sorted = Array.from(allMonths).sort();
-        sorted.forEach(ym => {
-          const [y, m] = ym.split('-');
-          labels.push(new Date(y, parseInt(m, 10) - 1, 1).toLocaleString('en-IN', { month: 'short', year: '2-digit' }));
-
-          const mInvs = store.invoices.filter(i => (i.date || '').startsWith(ym));
-          const mPays = store.payments.filter(p => (p.date || '').startsWith(ym));
-
-          billedData.push(mInvs.reduce((s, i) => s + (Number(i.total) || 0), 0));
-          clearedData.push(mPays.reduce((s, p) => s + (Number(p.amount) || 0), 0));
-          profitData.push(mInvs.reduce((s, i) => s + Math.max(0, (Number(i.total) || 0) - (Number(i.totalCost) || 0)), 0));
-        });
-      }
-
-      // 4. Destroy previous chart and render
-      if (growthChartInstance) {
-        growthChartInstance.destroy();
-      }
-
-      const ctx = canvas.getContext('2d');
-      growthChartInstance = new Chart(ctx, {
-        type: 'bar',
-        data: {
-          labels: labels,
-          datasets: [
-            {
-              label: 'Total Billed (₹)',
-              data: billedData,
-              backgroundColor: 'rgba(99, 102, 241, 0.75)',
-              borderColor: 'rgb(79, 70, 229)',
-              borderWidth: 1.5,
-              borderRadius: 6,
-              order: 2
-            },
-            {
-              label: 'Cash Cleared (₹)',
-              data: clearedData,
-              backgroundColor: 'rgba(16, 185, 129, 0.75)',
-              borderColor: 'rgb(5, 150, 105)',
-              borderWidth: 1.5,
-              borderRadius: 6,
-              order: 3
-            },
-            {
-              type: 'line',
-              label: 'Calculated Net Profit (₹)',
-              data: profitData,
-              borderColor: 'rgb(245, 158, 11)',
-              backgroundColor: 'rgba(245, 158, 11, 0.15)',
-              borderWidth: 3,
-              tension: 0.35,
-              fill: false,
-              pointRadius: 3.5,
-              pointBackgroundColor: '#f59e0b',
-              order: 1
-            }
-          ]
-        },
-        options: {
-          responsive: true,
-          maintainAspectRatio: false,
-          interaction: {
-            mode: 'index',
-            intersect: false
-          },
-          plugins: {
-            legend: {
-              position: 'top',
-              labels: {
-                boxWidth: 12,
-                font: { size: 11, weight: '700' },
-                color: '#334155'
-              }
-            },
-            tooltip: {
-              callbacks: {
-                label: function(context) {
-                  let label = context.dataset.label || '';
-                  if (label) label += ': ';
-                  if (context.parsed.y !== null) {
-                    label += '₹' + Number(context.parsed.y).toLocaleString('en-IN');
-                  }
-                  return label;
-                }
-              }
-            }
-          },
-          scales: {
-            x: {
-              grid: { display: false },
-              ticks: { font: { size: 10, weight: '600' }, color: '#64748b' }
-            },
-            y: {
-              beginAtZero: true,
-              grid: { color: 'rgba(226, 232, 240, 0.7)' },
-              ticks: {
-                font: { size: 10, weight: '600' },
-                color: '#64748b',
-                callback: function(value) {
-                  return '₹' + Number(value).toLocaleString('en-IN');
-                }
-              }
-            }
-          }
-        }
-      });
-    }
-
-    // UPDATE METRIC BADGES
+    // UPDATE METRICS & PRODUCTION MARGIN %
     function updateMetricBadges() {
       let grandBilled = 0, grandReceived = 0, grandBookedSeva = 0, grandRealizedSeva = 0, grandJobCost = 0;
 
@@ -1951,8 +1832,8 @@
       const collectionRatio = grandBilled > 0 ? Math.min(1, grandReceived / grandBilled) : 0;
       grandRealizedSeva = grandBookedSeva * collectionRatio;
 
-      // CALCULATED NET PROFIT = NET BILLED - PRODUCTION COST
       const grandJobProfit = Math.max(0, grandBilled - grandJobCost);
+      const marginPct = grandBilled > 0 ? ((grandJobProfit / grandBilled) * 100).toFixed(1) : '0.0';
 
       const totalOfficeExp = (store.officeExpenses || []).reduce((s, e) => s + (Number(e.amount) || 0), 0);
       const netRealInHandProfit = Math.max(0, grandReceived - grandJobCost - totalOfficeExp);
@@ -1991,21 +1872,20 @@
 
       if (document.getElementById('metric-total-cogs'))
         document.getElementById('metric-total-cogs').innerText = `₹${grandJobCost.toLocaleString('en-IN', {minimumFractionDigits: 2})}`;
-      
-      // Direct All Bills Net Profit
       if (document.getElementById('metric-job-profit'))
         document.getElementById('metric-job-profit').innerText = `₹${grandJobProfit.toLocaleString('en-IN', {minimumFractionDigits: 2})}`;
+      if (document.getElementById('metric-margin-pct'))
+        document.getElementById('metric-margin-pct').innerText = `${marginPct}%`;
 
       if (document.getElementById('metric-office-expenses'))
         document.getElementById('metric-office-expenses').innerText = `₹${totalOfficeExp.toLocaleString('en-IN', {minimumFractionDigits: 2})}`;
       if (document.getElementById('metric-net-real-profit'))
         document.getElementById('metric-net-real-profit').innerText = `₹${netRealInHandProfit.toLocaleString('en-IN', {minimumFractionDigits: 2})}`;
 
-      // Strictly 2 decimals
       if (document.getElementById('metric-hanuman-realized'))
-        document.getElementById('metric-hanuman-realized').innerText = `₹${netInHandSeva.toLocaleString('en-IN', {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
+        document.getElementById('metric-hanuman-realized').innerText = `₹${netInHandSeva.toLocaleString('en-IN', {minimumFractionDigits: 2})}`;
       if (document.getElementById('metric-hanuman-accrued'))
-        document.getElementById('metric-hanuman-accrued').innerText = `₹${grandBookedSeva.toLocaleString('en-IN', {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
+        document.getElementById('metric-hanuman-accrued').innerText = `₹${grandBookedSeva.toLocaleString('en-IN', {minimumFractionDigits: 2})}`;
     }
 
     // CLIENTS TABLE WITH FIXED PILL BADGES
@@ -2278,7 +2158,7 @@
 
     function editOfficeExpense(expId) {
       const exp = store.officeExpenses.find(e => e.id === expId);
-      if (!exp) return alert('Expense record not found.');
+      if (!exp) return showNotice('Expense record not found.');
 
       document.getElementById('expense-modal-title').innerText = `Edit Expense: ${exp.id}`;
       document.getElementById('exp-edit-id').value = exp.id;
@@ -2303,9 +2183,9 @@
       const amt = parseFloat(document.getElementById('exp-amt').value) || 0;
       const mode = document.getElementById('exp-mode').value;
 
-      if (!date) return alert('Please choose expense date.');
-      if (!desc) return alert('Please enter what was purchased.');
-      if (amt <= 0) return alert('Please enter valid expense amount.');
+      if (!date) return showNotice('Please choose expense date.');
+      if (!desc) return showNotice('Please enter what was purchased.');
+      if (amt <= 0) return showNotice('Please enter valid expense amount.');
 
       const voucherId = editId || getNextExpenseNumber();
       const expObj = { id: voucherId, date, vendor, phone, cat, desc, amount: amt, mode };
@@ -2328,14 +2208,15 @@
     }
 
     function deleteOfficeExpense(id) {
-      if (!confirm('Are you sure you want to remove this expense voucher?')) return;
-      store.officeExpenses = store.officeExpenses.filter(e => e.id !== id);
-      persistData();
-      refreshAllViews();
+      showConfirm('Are you sure you want to remove this expense voucher?', () => {
+        store.officeExpenses = store.officeExpenses.filter(e => e.id !== id);
+        persistData();
+        refreshAllViews();
 
-      pushOnlineSync({
-        action: "DELETE_EXPENSE",
-        expenseId: id
+        pushOnlineSync({
+          action: "DELETE_EXPENSE",
+          expenseId: id
+        });
       });
     }
 
@@ -2364,7 +2245,7 @@
       const address = document.getElementById('m-client-address').value.trim();
       const opening = parseFloat(document.getElementById('m-client-opening').value) || 0;
 
-      if (!name) return alert('Please enter client or company name.');
+      if (!name) return showNotice('Please enter client or company name.');
 
       const cleanClientId = 'CL_' + name.toLowerCase().replace(/[^a-z0-9]/g, '_');
       const newClient = { 
@@ -2412,6 +2293,12 @@
       addCostRow('Fabrication / Labor', '');
       addCostRow('Delivery / Bike Fuel', '');
 
+      // Reset Terms & Conditions to Hidden by default
+      document.getElementById('inv-show-terms').checked = false;
+      document.getElementById('inv-terms-category').value = 'photography';
+      document.getElementById('inv-terms-text').value = TERMS_PRESETS.photography;
+      document.getElementById('terms-editor-box').classList.add('hidden');
+
       document.getElementById('inv-discount-amt').value = '';
       document.getElementById('inv-immediate-paid').value = '';
       document.getElementById('inv-apply-gst').checked = false;
@@ -2428,11 +2315,11 @@
       const billSelect = document.getElementById('preview-bill-select');
       const invId = billSelect.value;
       if (!invId || invId === 'ALL') {
-        return alert('Please select a specific Invoice number from the dropdown to edit.');
+        return showNotice('Please select a specific Invoice number from the dropdown to edit.');
       }
 
       const invoice = store.invoices.find(i => i.id === invId);
-      if (!invoice) return alert('Invoice record not found.');
+      if (!invoice) return showNotice('Invoice record not found.');
 
       editingInvoiceId = invoice.id;
       document.getElementById('form-invoice-title').innerText = `Edit Invoice: ${invoice.id}`;
@@ -2472,6 +2359,23 @@
         addCostRow('Delivery / Bike Fuel', '');
       }
 
+      // Restore Terms & Conditions State
+      const termsVault = JSON.parse(localStorage.getItem('coolart_terms_vault') || '{}');
+      const savedTerms = termsVault[invoice.id] || {
+        showTerms: !!invoice.showTerms,
+        termsCategory: invoice.termsCategory || 'photography',
+        termsText: invoice.termsText || TERMS_PRESETS.photography
+      };
+
+      document.getElementById('inv-show-terms').checked = !!savedTerms.showTerms;
+      document.getElementById('inv-terms-category').value = savedTerms.termsCategory || 'photography';
+      document.getElementById('inv-terms-text').value = savedTerms.termsText || TERMS_PRESETS.photography;
+      if (savedTerms.showTerms) {
+        document.getElementById('terms-editor-box').classList.remove('hidden');
+      } else {
+        document.getElementById('terms-editor-box').classList.add('hidden');
+      }
+
       document.getElementById('inv-discount-amt').value = invoice.discount || '';
       document.getElementById('inv-immediate-paid').value = '';
 
@@ -2483,37 +2387,41 @@
       const billSelect = document.getElementById('preview-bill-select');
       const invId = billSelect.value;
       if (!invId || invId === 'ALL') {
-        return alert('Please select a specific Invoice number to delete.');
+        return showNotice('Please select a specific Invoice number to delete.');
       }
 
-      if (!confirm(`Are you sure you want to delete Invoice ${invId}? It will be removed from your ledger and also deleted from your Google Sheet automatically.`)) {
-        return;
-      }
+      showConfirm(`Are you sure you want to delete Invoice ${invId}? It will be removed from your ledger and also deleted from your Google Sheet automatically.`, () => {
+        const invoice = store.invoices.find(i => i.id === invId);
+        const clientId = invoice ? invoice.clientId : document.getElementById('preview-client-select').value;
 
-      const invoice = store.invoices.find(i => i.id === invId);
-      const clientId = invoice ? invoice.clientId : document.getElementById('preview-client-select').value;
+        store.invoices = store.invoices.filter(i => i.id !== invId);
+        store.payments.forEach(p => {
+          if (p.invoiceId === invId) p.invoiceId = '';
+        });
 
-      store.invoices = store.invoices.filter(i => i.id !== invId);
-      store.payments.forEach(p => {
-        if (p.invoiceId === invId) p.invoiceId = '';
+        const costVault = JSON.parse(localStorage.getItem('coolart_cost_vault') || '{}');
+        if (costVault[invId]) {
+          delete costVault[invId];
+          localStorage.setItem('coolart_cost_vault', JSON.stringify(costVault));
+        }
+
+        const termsVault = JSON.parse(localStorage.getItem('coolart_terms_vault') || '{}');
+        if (termsVault[invId]) {
+          delete termsVault[invId];
+          localStorage.setItem('coolart_terms_vault', JSON.stringify(termsVault));
+        }
+
+        persistData();
+        refreshAllViews();
+
+        pushOnlineSync({
+          action: "DELETE_INVOICE",
+          invoiceId: invId
+        });
+
+        showNotice(`Invoice ${invId} successfully deleted! Excel sheet has been updated.`, 'Deleted', '🗑️');
+        viewClientInvoice(clientId, 'ALL');
       });
-
-      const costVault = JSON.parse(localStorage.getItem('coolart_cost_vault') || '{}');
-      if (costVault[invId]) {
-        delete costVault[invId];
-        localStorage.setItem('coolart_cost_vault', JSON.stringify(costVault));
-      }
-
-      persistData();
-      refreshAllViews();
-
-      pushOnlineSync({
-        action: "DELETE_INVOICE",
-        invoiceId: invId
-      });
-
-      alert(`Invoice ${invId} successfully deleted! Excel sheet has been updated.`);
-      viewClientInvoice(clientId, 'ALL');
     }
 
     function addLineItem(desc = '', remarks = '', qty = 1, rate = '') {
@@ -2630,9 +2538,9 @@
       const date = document.getElementById('inv-date').value;
       const status = document.getElementById('inv-status').value;
 
-      if (!clientId) return alert('Please select a client.');
-      if (!invId) return alert('Please enter invoice reference number.');
-      if (!date) return alert('Please choose invoice date.');
+      if (!clientId) return showNotice('Please select a client.');
+      if (!invId) return showNotice('Please enter invoice reference number.');
+      if (!date) return showNotice('Please choose invoice date.');
 
       const client = store.clients.find(c => c.id === clientId);
       const cards = document.querySelectorAll('#line-items-container .item-entry-card');
@@ -2647,10 +2555,15 @@
         }
       });
 
-      if (items.length === 0) return alert('Please add at least one line item.');
+      if (items.length === 0) return showNotice('Please add at least one line item.');
 
       const calc = calculateInvoiceDraftTotals();
       const nowStr = new Date().toLocaleString('en-IN', { day: '2-digit', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' });
+
+      // Terms & Conditions values
+      const showTerms = document.getElementById('inv-show-terms').checked;
+      const termsCategory = document.getElementById('inv-terms-category').value;
+      const termsText = document.getElementById('inv-terms-text').value.trim();
 
       const existingIdx = editingInvoiceId 
         ? store.invoices.findIndex(i => i.id === editingInvoiceId)
@@ -2674,6 +2587,9 @@
         gstApplied: calc.applyGst,
         gstAmount: calc.gstAmt,
         total: calc.netInvoiced,
+        showTerms,
+        termsCategory,
+        termsText,
         lastModified: nowStr
       };
 
@@ -2684,11 +2600,17 @@
         store.invoices.push(invoiceObj);
       }
 
+      // Save Cost Vault
       const costVault = JSON.parse(localStorage.getItem('coolart_cost_vault') || '{}');
       if (calc.costRows && calc.costRows.length > 0) {
         costVault[invId] = calc.costRows;
         localStorage.setItem('coolart_cost_vault', JSON.stringify(costVault));
       }
+
+      // Save Terms Vault
+      const termsVault = JSON.parse(localStorage.getItem('coolart_terms_vault') || '{}');
+      termsVault[invId] = { showTerms, termsCategory, termsText };
+      localStorage.setItem('coolart_terms_vault', JSON.stringify(termsVault));
 
       if (calc.immediatePaid > 0) {
         const refNote = document.getElementById('inv-payment-note').value.trim() || 'Spot Payment at Invoice';
@@ -2751,7 +2673,7 @@
 
     function editPayment(paymentId) {
       const p = store.payments.find(pay => pay.id === paymentId);
-      if (!p) return alert('Payment record not found.');
+      if (!p) return showNotice('Payment record not found.');
 
       const client = store.clients.find(c => c.id === p.clientId || (c.name && p.clientName && c.name.trim().toLowerCase() === p.clientName.trim().toLowerCase()));
 
@@ -2777,15 +2699,16 @@
     }
 
     function deletePayment(paymentId) {
-      if (!confirm('Are you sure you want to delete this payment record? Balance will be adjusted accordingly.')) return;
-      store.payments = store.payments.filter(p => p.id !== paymentId);
-      persistData();
-      refreshAllViews();
-      renderInvoiceView();
+      showConfirm('Are you sure you want to delete this payment record? Balance will be adjusted accordingly.', () => {
+        store.payments = store.payments.filter(p => p.id !== paymentId);
+        persistData();
+        refreshAllViews();
+        renderInvoiceView();
 
-      pushOnlineSync({
-        action: "DELETE_PAYMENT",
-        paymentId: paymentId
+        pushOnlineSync({
+          action: "DELETE_PAYMENT",
+          paymentId: paymentId
+        });
       });
     }
 
@@ -2798,8 +2721,8 @@
       const mode = document.getElementById('p-mode').value;
       const ref = document.getElementById('p-ref').value.trim();
 
-      if (amount <= 0) return alert('Please enter valid cleared deposit amount.');
-      if (!date) return alert('Please select payment date.');
+      if (amount <= 0) return showNotice('Please enter valid cleared deposit amount.');
+      if (!date) return showNotice('Please select payment date.');
 
       const client = store.clients.find(c => c.id === clientId);
 
@@ -2830,16 +2753,16 @@
         payment: payObj
       });
 
-      if (confirm(`Payment of ₹${amount.toLocaleString('en-IN')} recorded successfully!\nWould you like to send WhatsApp Payment Receipt Slip to ${client ? client.name : 'Client'}?`)) {
-        sendPaymentReceiptWhatsApp(client, payObj);
-      }
-
       viewClientInvoice(clientId, targetInvId);
+
+      showConfirm(`Payment of ₹${amount.toLocaleString('en-IN')} recorded successfully!\nWould you like to send WhatsApp Payment Receipt Slip to ${client ? client.name : 'Client'}?`, () => {
+        sendPaymentReceiptWhatsApp(client, payObj);
+      }, 'Payment Recorded', '✅');
     }
 
     function sendPaymentReceiptWhatsApp(client, payment) {
       if (!client || !client.phone) {
-        return alert('Client phone number not available for WhatsApp receipt.');
+        return showNotice('Client phone number not available for WhatsApp receipt.');
       }
       const stats = getClientSummary(client.id);
       let msg = `*PAYMENT ACKNOWLEDGMENT RECEIPT — COOL ART®*\n`;
@@ -2983,7 +2906,7 @@
           div.innerHTML = `
             <div class="flex-1 pr-2">
               <span class="font-bold text-slate-800 block text-[11px]">
-                ${p.mode} <span class="text-[9px] font-extrabold text-indigo-600 bg-indigo-50 px-1.5 py-0.2 rounded border border-indigo-200">[${p.invoiceId}]</span>
+                ${p.mode} <span class="text-[9px] font-extrabold text-indigo-600 bg-indigo-50 px-1.5 py-0.2 rounded border border-indigo-200">[${p.invoiceId || 'General'}]</span>
               </span>
               <span class="text-[10px] text-slate-400 font-tabular">Date: ${p.date} • ${p.ref || 'Cleared'}</span>
             </div>
@@ -2995,6 +2918,20 @@
           `;
           logsContainer.appendChild(div);
         });
+      }
+
+      // RENDER CONDITIONAL TERMS & CONDITIONS ON STATEMENT
+      const termsSec = document.getElementById('doc-terms-section');
+      const termsCont = document.getElementById('doc-terms-content');
+      const termsVault = JSON.parse(localStorage.getItem('coolart_terms_vault') || '{}');
+      const activeTerms = activeInv ? (termsVault[activeInv.id] || { showTerms: activeInv.showTerms, termsText: activeInv.termsText }) : null;
+
+      if (isSpecificBill && activeTerms && activeTerms.showTerms && activeTerms.termsText) {
+        termsSec.classList.remove('hidden');
+        termsCont.innerText = activeTerms.termsText;
+      } else {
+        termsSec.classList.add('hidden');
+        termsCont.innerText = '';
       }
 
       const activeGross = isSpecificBill ? (activeInv?.grossTotal || activeInv?.total || 0) : overallStats.grossBilledTotal;
@@ -3037,7 +2974,7 @@
       }
 
       const curCost = isSpecificBill ? (activeInv?.totalCost || 0) : overallStats.totalJobCost;
-      const curProfit = isSpecificBill ? (activeInv?.netProfit || 0) : overallStats.totalProfit;
+      const curProfit = isSpecificBill ? Math.max(0, (activeInv?.total || 0) - (activeInv?.totalCost || 0)) : overallStats.totalProfit;
       const curSeva = isSpecificBill ? (activeInv?.sevaFund || 0) : overallStats.totalBookedSeva;
       const lastMod = activeInv?.lastModified || 'Fresh Record';
 
@@ -3057,7 +2994,6 @@
       const lbl = document.getElementById('doc-tracker-current-label');
       lbl.innerText = `Current Stage: ${status}`;
 
-      const s1 = document.getElementById('track-step-1');
       const s2 = document.getElementById('track-step-2');
       const s3 = document.getElementById('track-step-3');
       const s4 = document.getElementById('track-step-4');
@@ -3132,7 +3068,7 @@
       const amount = parseFloat(document.getElementById('h-exp-amt').value) || 0;
       const note = document.getElementById('h-exp-note').value.trim() || 'Prasad / Temple Seva';
 
-      if (amount <= 0) return alert('Please enter valid disbursement amount.');
+      if (amount <= 0) return showNotice('Please enter valid disbursement amount.');
 
       store.hanumanExpenses.push({ id: 'HEX_' + Date.now(), date, amount, note });
       persistData();
@@ -3177,13 +3113,13 @@
 
     function sendFriendlyWhatsAppReminder() {
       const clientId = document.getElementById('preview-client-select').value;
-      if (!clientId) return alert('Please select a client account.');
+      if (!clientId) return showNotice('Please select a client account.');
 
       const client = store.clients.find(c => c.id === clientId || c.name === clientId);
-      if (!client) return alert('Client record not found.');
+      if (!client) return showNotice('Client record not found.');
 
       if (!client.phone || client.phone.trim() === '') {
-        return alert('Client does not have a phone number registered.');
+        return showNotice('Client does not have a phone number registered.');
       }
 
       const stats = getClientSummary(clientId);
@@ -3203,13 +3139,13 @@
 
     function sendDirectWhatsApp() {
       const clientId = document.getElementById('preview-client-select').value;
-      if (!clientId) return alert('Please select a client account.');
+      if (!clientId) return showNotice('Please select a client account.');
 
       const client = store.clients.find(c => c.id === clientId || c.name === clientId);
-      if (!client) return alert('Client record not found.');
+      if (!client) return showNotice('Client record not found.');
 
       if (!client.phone || client.phone.trim() === '') {
-        return alert('Client does not have a phone number registered.');
+        return showNotice('Client does not have a phone number registered.');
       }
 
       const billSelect = document.getElementById('preview-bill-select');
