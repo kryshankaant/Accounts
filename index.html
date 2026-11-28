@@ -6,8 +6,8 @@
   <title>Cool Art | Enterprise Billing & Financial Ledger</title>
 
   <!-- Brand Icons -->
-  <link rel="icon" type="image/png" href="fevicon.png?v=96">
-  <link rel="apple-touch-icon" href="fevicon.png?v=96">
+  <link rel="icon" type="image/png" href="fevicon.png?v=97">
+  <link rel="apple-touch-icon" href="fevicon.png?v=97">
 
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
@@ -122,6 +122,70 @@
       box-shadow: 0 6px 20px -4px rgba(180, 134, 28, 0.14), inset 0 0 18px rgba(212, 175, 55, 0.12);
     }
 
+    /* iPhone-style Glassmorphic Digital Save Popup & Animated Checkmark */
+    @keyframes iosPopupIn {
+      0% {
+        opacity: 0;
+        transform: translate(-50%, -22px) scale(0.9);
+      }
+      70% {
+        opacity: 1;
+        transform: translate(-50%, 3px) scale(1.015);
+      }
+      100% {
+        opacity: 1;
+        transform: translate(-50%, 0) scale(1);
+      }
+    }
+
+    @keyframes iosPopupOut {
+      0% {
+        opacity: 1;
+        transform: translate(-50%, 0) scale(1);
+      }
+      100% {
+        opacity: 0;
+        transform: translate(-50%, -18px) scale(0.92);
+      }
+    }
+
+    @keyframes drawCircle {
+      to {
+        stroke-dashoffset: 0;
+      }
+    }
+
+    @keyframes drawCheck {
+      to {
+        stroke-dashoffset: 0;
+      }
+    }
+
+    .ios-save-toast {
+      animation: iosPopupIn 0.36s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+      background: rgba(15, 23, 42, 0.88);
+      backdrop-filter: blur(22px) saturate(180%);
+      -webkit-backdrop-filter: blur(22px) saturate(180%);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      box-shadow: 0 22px 45px -10px rgba(2, 6, 23, 0.45), 0 0 0 1px rgba(16, 185, 129, 0.25);
+    }
+
+    .ios-save-toast.hiding {
+      animation: iosPopupOut 0.28s cubic-bezier(0.4, 0, 1, 1) forwards;
+    }
+
+    .ios-check-circle {
+      stroke-dasharray: 151;
+      stroke-dashoffset: 151;
+      animation: drawCircle 0.48s cubic-bezier(0.65, 0, 0.45, 1) 0.08s forwards;
+    }
+
+    .ios-check-tick {
+      stroke-dasharray: 38;
+      stroke-dashoffset: 38;
+      animation: drawCheck 0.34s cubic-bezier(0.65, 0, 0.45, 1) 0.42s forwards;
+    }
+
     .oldest-overdue-row {
       animation: gentlePulse 2.5s infinite ease-in-out;
       border-left: 4px solid #ef4444 !important;
@@ -164,7 +228,8 @@
       #shell-body,
       #workspace-scroll-area,
       main,
-      #tab-sec-invoice-preview {
+      #tab-sec-invoice-preview,
+      #statement-right-pane {
         display: block !important;
         position: static !important;
         overflow: visible !important;
@@ -172,6 +237,9 @@
         margin: 0 !important;
         padding: 0 !important;
         width: 100% !important;
+      }
+      #statement-left-pane {
+        display: none !important;
       }
       #invoice-sheet {
         width: 100% !important;
@@ -318,6 +386,10 @@
             <span>💸</span> Add Expense
           </button>
 
+          <button onclick="switchTab('all-party'); closeMobileSidebar();" id="nav-all-party" class="w-full flex items-center gap-2.5 px-3 py-1.5 rounded-xl text-xs font-semibold text-sky-300 hover:bg-white/10 transition text-left">
+            <span>👥</span> All Party
+          </button>
+
           <button onclick="closeMobileSidebar(); openModal('hanuman-bank-modal');" class="w-full flex items-center gap-2.5 px-3 py-1.5 rounded-xl text-xs font-semibold text-amber-300 hover:bg-amber-500/10 transition text-left">
             <span>🚩</span> Hanuman Ji Ka Bank
           </button>
@@ -405,7 +477,7 @@
 
       <!-- VERSION & UPDATE DATE PINNED CLEANLY AT BOTTOM OF FULL-HEIGHT LEFT SIDEBAR -->
       <div class="px-3 py-2.5 border-t border-slate-800 bg-[#070d1e] text-[10px] text-slate-300 font-tabular text-center flex-shrink-0">
-        <span class="font-bold text-indigo-300">v9.6</span> • Updated <span class="text-emerald-400 font-semibold">25 Nov 2026</span>
+        <span class="font-bold text-indigo-300">v9.7</span> • Updated <span class="text-emerald-400 font-semibold">28 Nov 2026</span>
       </div>
     </aside>
 
@@ -562,7 +634,7 @@
                   <option value="ALL">Show All</option>
                 </select>
 
-                <button onclick="openModal('client-modal')" class="inline-flex items-center gap-1.5 text-xs font-bold px-3.5 py-2 rounded-xl bg-slate-900 hover:bg-slate-800 text-white transition shadow-sm">
+                <button onclick="openCreateClientModal()" class="inline-flex items-center gap-1.5 text-xs font-bold px-3.5 py-2 rounded-xl bg-slate-900 hover:bg-slate-800 text-white transition shadow-sm">
                   + Register Client
                 </button>
               </div>
@@ -586,6 +658,46 @@
             </div>
 
             <div id="clients-pagination-info" class="p-3 bg-slate-50/70 border-t border-slate-100 text-xs text-slate-500 font-medium flex justify-between items-center px-4"></div>
+          </div>
+        </section>
+
+        <!-- 1B. ALL PARTY DIRECTORY & EDITOR TAB -->
+        <section id="tab-sec-all-party" class="hidden no-print space-y-5">
+          <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
+            <div class="p-4 sm:p-5 border-b border-slate-100 flex flex-wrap items-center justify-between gap-3">
+              <div>
+                <div class="flex items-center gap-2">
+                  <h2 class="text-base sm:text-lg font-extrabold text-slate-900">All Party Directory (सभी पार्टियों की सूची)</h2>
+                  <span id="all-party-count-badge" class="text-[10px] font-extrabold px-2.5 py-0.5 rounded-full bg-indigo-50 text-indigo-700 border border-indigo-200 font-tabular">0 Parties</span>
+                </div>
+                <p class="text-xs text-slate-500 mt-0.5">पार्टी का नाम, मोबाइल नंबर, पता और जुड़ने की तारीख देखें व एडिट करके सेव करें</p>
+              </div>
+
+              <div class="flex flex-wrap items-center gap-2">
+                <input type="text" id="all-party-search-input" oninput="renderAllPartyTable()" placeholder="🔍 Search Party, Phone, Address..." class="bg-slate-50 border border-slate-300 rounded-xl px-3 py-1.5 text-xs text-slate-800 focus:outline-none focus:ring-2 focus:ring-indigo-500 w-52 sm:w-64">
+
+                <button onclick="openCreateClientModal()" class="inline-flex items-center gap-1.5 text-xs font-bold px-3.5 py-2 rounded-xl bg-slate-900 hover:bg-slate-800 text-white transition shadow-sm">
+                  + Add New Party
+                </button>
+              </div>
+            </div>
+
+            <div class="overflow-x-auto">
+              <table class="w-full text-left text-xs sm:text-sm min-w-[680px]">
+                <thead class="bg-slate-50 border-b border-slate-200 text-slate-500 uppercase tracking-wider text-[11px] font-bold">
+                  <tr>
+                    <th class="py-3.5 px-4 w-12 text-center">#</th>
+                    <th class="py-3.5 px-4">पार्टी (Party Name)</th>
+                    <th class="py-3.5 px-4">पार्टी का नंबर (Mobile)</th>
+                    <th class="py-3.5 px-4">पार्टी का एड्रेस (Address)</th>
+                    <th class="py-3.5 px-4">कब बनी थी (Created Date)</th>
+                    <th class="py-3.5 px-4 text-right">Net Billed / Due</th>
+                    <th class="py-3.5 px-4 text-center">Action</th>
+                  </tr>
+                </thead>
+                <tbody id="all-party-table-body" class="divide-y divide-slate-100 font-normal"></tbody>
+              </table>
+            </div>
           </div>
         </section>
 
@@ -770,297 +882,297 @@
 
               <div class="flex flex-col justify-center items-end space-y-1 text-right font-tabular">
                 <div class="text-xs text-slate-500">Gross Value: <span id="draft-subtotal" class="font-bold text-slate-800 text-sm">₹0.00</span></div>
-                <div class="text-xs text-indigo-600 font-semibold">Discount: <span id="draft-discount-disp" class="text-sm">(-) ₹0.00</span></div>
-                <div id="draft-gst-row" class="text-xs text-slate-600 hidden">GST (18%): <span id="draft-gst-disp" class="font-semibold text-sm">(+) ₹0.00</span></div>
-                <div class="text-xs text-slate-900 font-bold pt-1 border-t border-slate-200 w-full">Net Invoiced: <span id="draft-net-invoiced" class="text-base text-slate-900">₹0.00</span></div>
-                <div class="text-xs text-emerald-600 font-semibold">Immediate Cleared: <span id="draft-paid" class="text-sm">(-) ₹0.00</span></div>
-                <div class="text-xs text-slate-800 pt-2 border-t-2 border-slate-300 w-full font-bold">
-                  Remaining Due on This Bill: <span id="draft-due" class="text-lg font-extrabold text-red-600 ml-1">₹0.00</span>
-                </div>
-              </div>
-            </div>
-
-            <div class="flex justify-end gap-3 pt-2">
-              <button onclick="switchTab('dashboard')" class="px-5 py-2.5 rounded-xl border border-slate-300 text-slate-600 text-xs font-bold hover:bg-slate-100 transition">
-                Cancel
-              </button>
-              <button onclick="commitInvoice()" id="btn-save-invoice" class="px-6 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-bold transition flex items-center gap-2">
-                💾 Save & Commit Invoice
-              </button>
-            </div>
-          </div>
-        </section>
-
-        <!-- 4. OFFICIAL STATEMENT & INVOICE PREVIEW (SINGLE-PAGE A4 FIT) -->
+        <!-- 4. OFFICIAL STATEMENT & INVOICE PREVIEW (MASTER-DETAIL SPLIT VIEW + SINGLE-PAGE A4 FIT) -->
         <section id="tab-sec-invoice-preview" class="hidden space-y-4">
-          <div class="no-print max-w-4xl mx-auto bg-white p-3.5 rounded-2xl border border-slate-200 shadow-sm flex flex-wrap items-center justify-between gap-3">
-            <div class="flex flex-wrap items-center gap-2.5">
-              <div>
-                <label class="text-[10px] font-bold uppercase tracking-wider text-slate-400 block">Client:</label>
-                <select id="preview-client-select" onchange="renderInvoiceView()" class="border border-slate-300 rounded-xl px-2.5 py-1 text-xs font-bold bg-slate-50 text-slate-800 focus:outline-none"></select>
-              </div>
+          <div class="grid grid-cols-1 lg:grid-cols-12 gap-4 items-start">
 
-              <div>
-                <label class="text-[10px] font-bold uppercase tracking-wider text-slate-400 block">Statement View / Bill #:</label>
-                <select id="preview-bill-select" onchange="renderInvoiceView()" class="border border-slate-300 rounded-xl px-2.5 py-1 text-xs font-bold bg-slate-50 text-slate-800 focus:outline-none font-tabular"></select>
-              </div>
-
-              <button onclick="editCurrentActiveInvoice()" id="btn-edit-active-inv" class="mt-3.5 inline-flex items-center gap-1 px-3 py-1.5 rounded-xl bg-amber-500 hover:bg-amber-600 text-white text-xs font-bold transition shadow-2xs" title="Edit line items, terms and costings">
-                ✏️ Edit Invoice
-              </button>
-
-              <button onclick="deleteCurrentActiveInvoice()" id="btn-delete-active-inv" class="mt-3.5 inline-flex items-center gap-1 px-3 py-1.5 rounded-xl bg-rose-600 hover:bg-rose-700 text-white text-xs font-bold transition shadow-2xs" title="Delete this invoice and remove from Excel automatically">
-                🗑️ Delete Invoice
-              </button>
-            </div>
-
-            <div class="flex flex-wrap items-center gap-2">
-              <button onclick="sendFriendlyWhatsAppReminder()" class="inline-flex items-center gap-1 px-3 py-2 rounded-xl bg-teal-600 hover:bg-teal-500 text-white text-xs font-bold transition shadow-2xs">
-                💬 Reminder
-              </button>
-
-              <button onclick="sendDirectWhatsApp()" class="inline-flex items-center gap-1 px-3 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold transition shadow-2xs">
-                📲 Send Bill
-              </button>
-
-              <button onclick="downloadCleanPDF()" class="inline-flex items-center gap-1 px-3.5 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-bold transition shadow-2xs" title="Download single-page A4 PDF">
-                📥 A4 PDF
-              </button>
-
-              <button onclick="printInvoiceSheet()" class="inline-flex items-center gap-1 px-3.5 py-2 rounded-xl bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold transition shadow-md">
-                🖨️ Print
-              </button>
-            </div>
-          </div>
-
-          <div id="invoice-sheet" class="max-w-4xl mx-auto bg-white border border-slate-200 rounded-2xl shadow-xl overflow-hidden text-slate-800">
-            <div class="invoice-contrast-header px-5 sm:px-6 py-3.5 flex flex-row justify-between items-center border-b border-slate-800">
-              <div class="flex items-center gap-3">
-                <img src="cool art logo.png" alt="Cool Art" class="h-6 sm:h-7 w-auto object-contain" onerror="this.style.display='none'">
-                <div class="border-l border-slate-700 pl-3">
-                  <span class="text-[9px] sm:text-[10px] uppercase font-bold tracking-widest text-slate-300 block">Commercial Accounts Division</span>
-                  <p class="text-[10px] text-slate-400">Branding • Signage • Large-Format Fabrication</p>
-                </div>
-              </div>
-
-              <div class="text-right">
-                <span class="inline-block bg-white/10 text-emerald-400 font-tabular uppercase text-[9px] tracking-wider px-2 py-0.5 rounded font-bold border border-white/15" id="doc-inv-type-badge">
-                  COMMERCIAL INVOICE
-                </span>
-                <h1 class="text-base font-black text-white font-tabular tracking-tight mt-0.5" id="doc-inv-number">INV-2026-001</h1>
-                <p class="text-[10px] text-slate-400">Date: <span id="doc-inv-date" class="font-semibold text-slate-200"></span></p>
-              </div>
-            </div>
-
-            <div class="p-4 sm:p-5 space-y-3.5">
-
-              <!-- 4-STEP VISUAL ORDER TRACKER WITH ICONS -->
-              <div class="bg-slate-50 border border-slate-200 rounded-xl p-2.5">
-                <div class="flex justify-between items-center mb-1.5">
-                  <span class="text-[10px] font-bold uppercase tracking-wider text-slate-500">Live Production Workflow</span>
-                  <span class="text-[10px] text-indigo-700 font-bold" id="doc-tracker-current-label">Status: Active</span>
-                </div>
-
-                <div class="grid grid-cols-4 gap-2 text-center relative">
-                  <div class="space-y-0.5" id="track-step-1">
-                    <div class="w-6 h-6 mx-auto rounded-full flex items-center justify-center text-xs font-bold bg-emerald-600 text-white shadow-2xs">📝</div>
-                    <span class="text-[10px] font-bold block text-slate-800">Order Booked</span>
-                    <span class="text-[9px] text-emerald-700 font-semibold block">Done</span>
-                  </div>
-
-                  <div class="space-y-0.5" id="track-step-2">
-                    <div class="w-6 h-6 mx-auto rounded-full flex items-center justify-center text-xs font-bold bg-slate-200 text-slate-600">🎨</div>
-                    <span class="text-[10px] font-bold block text-slate-800">Design Ready</span>
-                    <span class="text-[9px] text-slate-500 block" id="track-step-2-sub">Pending</span>
-                  </div>
-
-                  <div class="space-y-0.5" id="track-step-3">
-                    <div class="w-6 h-6 mx-auto rounded-full flex items-center justify-center text-xs font-bold bg-slate-200 text-slate-600">🖨️</div>
-                    <span class="text-[10px] font-bold block text-slate-800">Print / Craft</span>
-                    <span class="text-[9px] text-slate-500 block" id="track-step-3-sub">Pending</span>
-                  </div>
-
-                  <div class="space-y-0.5" id="track-step-4">
-                    <div class="w-6 h-6 mx-auto rounded-full flex items-center justify-center text-xs font-bold bg-slate-200 text-slate-600">🚚</div>
-                    <span class="text-[10px] font-bold block text-slate-800">Ready / Delivered</span>
-                    <span class="text-[9px] text-slate-500 block" id="track-step-4-sub">Pending</span>
-                  </div>
-                </div>
-              </div>
-
-              <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-                <div class="bg-slate-50 p-3 rounded-xl border border-slate-200">
-                  <div class="flex justify-between items-center mb-0.5">
-                    <span class="text-[10px] font-bold uppercase tracking-wider text-slate-400 block">Billed To (Client / Entity)</span>
-                    <span id="doc-status-badge" class="text-[10px] font-extrabold px-2 py-0.5 rounded bg-emerald-100 text-emerald-800">Delivered / Completed</span>
-                  </div>
-                  <h3 id="doc-client-name" class="text-sm font-bold text-slate-900 devanagari-safe"></h3>
-                  <p id="doc-client-phone" class="text-xs text-slate-600 mt-0.5 font-tabular"></p>
-                  <p id="doc-client-address" class="text-[11px] text-slate-500 mt-0.5 leading-snug devanagari-safe"></p>
-                  <p id="doc-client-gstin" class="text-[11px] text-indigo-700 font-bold font-tabular mt-1 hidden"></p>
-                </div>
-
-                <div class="bg-slate-50 p-3 rounded-xl border border-slate-200 flex flex-col justify-between">
-                  <div class="flex justify-between items-start">
-                    <span class="text-[10px] font-bold uppercase tracking-wider text-slate-400">Ledger Balance Standing</span>
-                    <span class="text-[9px] bg-slate-200 text-slate-700 px-2 py-0.5 rounded font-bold uppercase">Verified Statement</span>
-                  </div>
-                  <div class="grid grid-cols-2 gap-2 mt-1.5">
-                    <div class="border-r border-slate-200 pr-2">
-                      <span class="text-[10px] text-slate-500 block">This Invoice Due:</span>
-                      <div class="text-base font-black text-rose-600 tracking-tight font-tabular" id="doc-inv-specific-due">
-                        ₹0.00
-                      </div>
-                    </div>
-                    <div class="pl-1">
-                      <span class="text-[10px] text-slate-500 block">Overall Account Due:</span>
-                      <div class="text-base font-black text-slate-900 tracking-tight font-tabular" id="doc-client-due-badge">
-                        ₹0.00
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <!-- ITEMS TABLE -->
-              <div class="border border-slate-200 rounded-xl overflow-x-auto">
-                <table class="w-full text-left text-xs border-collapse min-w-[500px]">
-                  <thead>
-                    <tr class="bg-slate-100 text-slate-700 text-[10px] uppercase tracking-wider font-bold border-b border-slate-200">
-                      <th class="py-1.5 px-3 w-10 text-center">#</th>
-                      <th class="py-1.5 px-3">Description of Work / Deliverables</th>
-                      <th class="py-1.5 px-3 w-24 text-center">Quantity (Qty)</th>
-                      <th class="py-1.5 px-3 w-28 text-right">Unit Rate (₹)</th>
-                      <th class="py-1.5 px-3 w-32 text-right">Amount (₹)</th>
-                    </tr>
-                  </thead>
-                  <tbody id="doc-items-table" class="divide-y divide-slate-100 font-tabular text-xs devanagari-safe"></tbody>
-                </table>
-              </div>
-
-              <div class="grid grid-cols-1 md:grid-cols-2 gap-3.5 pt-0.5">
-                <div class="space-y-1 bg-slate-50 p-3 rounded-xl border border-slate-200 font-tabular text-xs md:order-2">
-                  <div class="flex justify-between text-slate-600">
-                    <span id="doc-lbl-gross">Gross Value of Work:</span>
-                    <span id="doc-sum-gross" class="font-bold text-slate-900">₹0.00</span>
-                  </div>
-
-                  <div id="doc-discount-row" class="flex justify-between text-indigo-700 font-semibold bg-indigo-50/80 px-2 py-0.5 rounded border border-indigo-100">
-                    <span id="doc-discount-label">Special Discount:</span>
-                    <span id="doc-sum-discount">(-) ₹0.00</span>
-                  </div>
-
-                  <div id="doc-gst-row" class="flex justify-between text-slate-600 hidden">
-                    <span>Applied GST (18%):</span>
-                    <span id="doc-sum-gst" class="font-bold text-slate-900">(+) ₹0.00</span>
-                  </div>
-
-                  <div class="flex justify-between text-slate-800 font-bold border-t border-slate-200 pt-1">
-                    <span id="doc-lbl-net">Net Invoiced Value:</span>
-                    <span id="doc-sum-net">₹0.00</span>
-                  </div>
-
-                  <div class="flex justify-between text-emerald-700 font-semibold">
-                    <span id="doc-lbl-paid">Deposited on This Document:</span>
-                    <span id="doc-sum-paid">(-) ₹0.00</span>
-                  </div>
-
-                  <div class="border-t-2 border-slate-300 pt-1.5 flex justify-between text-sm font-extrabold text-red-600">
-                    <span id="doc-lbl-balance">NET BALANCE ON THIS BILL:</span>
-                    <span id="doc-sum-balance">₹0.00</span>
-                  </div>
-                </div>
-
-                <div class="space-y-2 md:order-1">
-                  <div id="doc-upi-box" class="bg-slate-50 p-2.5 rounded-xl border border-slate-200 flex items-center gap-3">
-                    <img id="doc-upi-qr" src="" alt="Scan to Pay" class="w-14 h-14 bg-white p-1 rounded-lg border border-slate-300 object-contain flex-shrink-0" onerror="this.src='https://placehold.co/80x80/f8fafc/0f172a?text=UPI'">
-                    <div>
-                      <span class="text-[10px] font-extrabold uppercase tracking-wider text-slate-600 block">Instant Scan & Pay</span>
-                      <p class="text-xs text-slate-800 font-bold font-tabular">GPay / PhonePe / Paytm</p>
-                      <p class="text-[10px] text-slate-500 font-tabular">UPI ID: 9458614610-2@ybl</p>
-                    </div>
-                  </div>
-
-                  <div class="border-t border-slate-200 pt-1.5">
-                    <div class="flex items-center justify-between mb-1">
-                      <span class="text-[10px] font-bold text-slate-500 uppercase tracking-wider block">Cleared Receipts Log</span>
-                      <span class="text-[10px] text-slate-400 no-print">Click ✏️ to edit or 🗑️ to delete</span>
-                    </div>
-                    <div id="doc-payment-logs" class="space-y-1 text-xs"></div>
-                  </div>
-                </div>
-              </div>
-
-              <!-- CONDITIONAL TERMS & CONDITIONS DISPLAY -->
-              <div id="doc-terms-section" class="hidden bg-slate-50/90 border border-slate-200 rounded-xl p-2.5 text-slate-700 space-y-1">
-                <div class="flex items-center justify-between border-b border-slate-200 pb-0.5">
-                  <span class="text-[10px] font-extrabold uppercase tracking-wider text-slate-800">⚖️ Terms & Conditions</span>
-                  <span class="text-[9px] font-bold text-slate-400 uppercase">Agreed Service Policy</span>
-                </div>
-                <div id="doc-terms-content" class="text-[10px] text-slate-700 whitespace-pre-line font-medium devanagari-safe"></div>
-              </div>
-
-              <!-- Confidential Office Margin -->
-              <div id="doc-office-private-panel" class="office-private-note no-print mt-3 p-4 rounded-2xl bg-gradient-to-r from-amber-50/90 via-orange-50/80 to-amber-50/90 border border-amber-300 text-xs">
-                <div class="flex items-center justify-between border-b border-amber-200/80 pb-2 mb-3">
-                  <span class="font-extrabold text-amber-950 flex items-center gap-1.5">
-                    🔒 Internal Office Margin (Strictly Confidential — Excluded from Customer PDF/Print)
+            <!-- LEFT PANEL: CLICKABLE PARTY LIST (PARTY A, PARTY B, PARTY C...) -->
+            <aside id="statement-left-pane" class="no-print lg:col-span-4 xl:col-span-3 bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden flex flex-col lg:sticky lg:top-2 lg:max-h-[calc(100vh-128px)]">
+              <div class="p-3.5 border-b border-slate-100 bg-slate-50/70 space-y-2.5">
+                <div class="flex items-center justify-between">
+                  <span class="text-xs font-extrabold uppercase tracking-wider text-slate-800 flex items-center gap-1.5">
+                    <span>👥</span> All Parties
                   </span>
-                  <span class="text-[10px] font-extrabold text-amber-900 bg-amber-200/70 px-2.5 py-0.5 rounded-full" id="doc-last-modified-tag">Last Modified: Fresh</span>
+                  <span id="statement-party-count" class="text-[10px] font-bold font-tabular bg-indigo-50 text-indigo-700 px-2 py-0.5 rounded-full border border-indigo-200">0</span>
+                </div>
+                <input type="text" id="statement-party-search" oninput="renderStatementPartySidebar()" placeholder="🔍 Search party or mobile..." class="w-full bg-white border border-slate-300 rounded-xl px-3 py-1.5 text-xs text-slate-800 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+              </div>
+
+              <div id="statement-party-list" class="divide-y divide-slate-100 overflow-y-auto max-h-60 lg:max-h-none flex-1"></div>
+            </aside>
+
+            <!-- RIGHT PANEL: LIVE OFFICIAL STATEMENT & BILL FOR SELECTED PARTY -->
+            <div id="statement-right-pane" class="lg:col-span-8 xl:col-span-9 space-y-3.5">
+              <div class="no-print bg-white p-3.5 rounded-2xl border border-slate-200 shadow-sm flex flex-wrap items-center justify-between gap-3">
+                <div class="flex flex-wrap items-center gap-2.5">
+                  <div>
+                    <label class="text-[10px] font-bold uppercase tracking-wider text-slate-400 block">Selected Party:</label>
+                    <select id="preview-client-select" onchange="onStatementClientDropdownChange()" class="border border-slate-300 rounded-xl px-2.5 py-1 text-xs font-bold bg-slate-50 text-slate-800 focus:outline-none"></select>
+                  </div>
+
+                  <div>
+                    <label class="text-[10px] font-bold uppercase tracking-wider text-slate-400 block">Statement View / Bill #:</label>
+                    <select id="preview-bill-select" onchange="renderInvoiceView()" class="border border-slate-300 rounded-xl px-2.5 py-1 text-xs font-bold bg-slate-50 text-slate-800 focus:outline-none font-tabular"></select>
+                  </div>
+
+                  <button onclick="editCurrentActiveInvoice()" id="btn-edit-active-inv" class="mt-3.5 inline-flex items-center gap-1 px-3 py-1.5 rounded-xl bg-amber-500 hover:bg-amber-600 text-white text-xs font-bold transition shadow-2xs" title="Edit line items, terms and costings">
+                    ✏️ Edit Invoice
+                  </button>
+
+                  <button onclick="deleteCurrentActiveInvoice()" id="btn-delete-active-inv" class="mt-3.5 inline-flex items-center gap-1 px-3 py-1.5 rounded-xl bg-rose-600 hover:bg-rose-700 text-white text-xs font-bold transition shadow-2xs" title="Delete this invoice and remove from Excel automatically">
+                    🗑️ Delete Invoice
+                  </button>
                 </div>
 
-                <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 items-center">
-                  <div class="bg-white/90 p-2.5 rounded-xl border border-amber-200 shadow-2xs">
-                    <span class="text-[10px] text-slate-500 font-bold block uppercase">Production Costing</span>
-                    <span class="text-sm font-extrabold text-slate-800 font-tabular" id="doc-private-cost">₹0.00</span>
-                    <span class="text-[9px] text-slate-400 block mt-0.5" id="doc-private-cost-detail">Dynamic Raw Costs</span>
-                  </div>
+                <div class="flex flex-wrap items-center gap-2">
+                  <button onclick="sendFriendlyWhatsAppReminder()" class="inline-flex items-center gap-1 px-3 py-2 rounded-xl bg-teal-600 hover:bg-teal-500 text-white text-xs font-bold transition shadow-2xs">
+                    💬 Reminder
+                  </button>
 
-                  <div class="bg-white/90 p-2.5 rounded-xl border border-amber-200 shadow-2xs">
-                    <span class="text-[10px] text-emerald-700 font-bold block uppercase">Calculated Net Profit</span>
-                    <span class="text-sm font-black text-emerald-700 font-tabular" id="doc-private-profit">₹0.00</span>
-                    <span class="text-[9px] text-emerald-600/80 block mt-0.5">Net Billed - Production Cost</span>
-                  </div>
+                  <button onclick="sendDirectWhatsApp()" class="inline-flex items-center gap-1 px-3 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold transition shadow-2xs">
+                    📲 Send Bill
+                  </button>
 
-                  <div class="bg-gradient-to-br from-amber-100 to-orange-100 p-2.5 rounded-xl border border-amber-300 flex items-center gap-3 shadow-2xs">
-                    <div class="w-10 h-10 rounded-lg overflow-hidden flex-shrink-0 bg-amber-200 border border-amber-300 flex items-center justify-center">
-                      <img src="hanuman.png" alt="Hanuman Ji" class="w-full h-full object-cover" onerror="this.onerror=null; this.src='hanumanji.png'; this.onerror=function(){this.src='hanuman ji.png'; this.onerror=function(){this.style.display='none'; this.nextElementSibling.style.display='block';};};">
-                      <span style="display:none;" class="text-xl">🚩</span>
+                  <button onclick="downloadCleanPDF()" class="inline-flex items-center gap-1 px-3.5 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-bold transition shadow-2xs" title="Download single-page A4 PDF">
+                    📥 A4 PDF
+                  </button>
+
+                  <button onclick="printInvoiceSheet()" class="inline-flex items-center gap-1 px-3.5 py-2 rounded-xl bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold transition shadow-md">
+                    🖨️ Print
+                  </button>
+                </div>
+              </div>
+
+              <div id="invoice-sheet" class="bg-white border border-slate-200 rounded-2xl shadow-xl overflow-hidden text-slate-800">
+                <div class="invoice-contrast-header px-5 sm:px-6 py-3.5 flex flex-row justify-between items-center border-b border-slate-800">
+                  <div class="flex items-center gap-3">
+                    <img src="cool art logo.png" alt="Cool Art" class="h-6 sm:h-7 w-auto object-contain" onerror="this.style.display='none'">
+                    <div class="border-l border-slate-700 pl-3">
+                      <span class="text-[9px] sm:text-[10px] uppercase font-bold tracking-widest text-slate-300 block">Commercial Accounts Division</span>
+                      <p class="text-[10px] text-slate-400">Branding • Signage • Large-Format Fabrication</p>
                     </div>
-                    <div>
-                      <span class="text-[10px] font-black uppercase tracking-wider text-amber-950 block">
-                        Hanuman Ji Ka Bank (10%)
+                  </div>
+
+                  <div class="text-right">
+                    <span class="inline-block bg-white/10 text-emerald-400 font-tabular uppercase text-[9px] tracking-wider px-2 py-0.5 rounded font-bold border border-white/15" id="doc-inv-type-badge">
+                      COMMERCIAL INVOICE
+                    </span>
+                    <h1 class="text-base font-black text-white font-tabular tracking-tight mt-0.5" id="doc-inv-number">INV-2026-001</h1>
+                    <p class="text-[10px] text-slate-400">Date: <span id="doc-inv-date" class="font-semibold text-slate-200"></span></p>
+                  </div>
+                </div>
+
+                <div class="p-4 sm:p-5 space-y-3.5">
+
+                  <!-- 4-STEP VISUAL ORDER TRACKER WITH ICONS -->
+                  <div class="bg-slate-50 border border-slate-200 rounded-xl p-2.5">
+                    <div class="flex justify-between items-center mb-1.5">
+                      <span class="text-[10px] font-bold uppercase tracking-wider text-slate-500">Live Production Workflow</span>
+                      <span class="text-[10px] text-indigo-700 font-bold" id="doc-tracker-current-label">Status: Active</span>
+                    </div>
+
+                    <div class="grid grid-cols-4 gap-2 text-center relative">
+                      <div class="space-y-0.5" id="track-step-1">
+                        <div class="w-6 h-6 mx-auto rounded-full flex items-center justify-center text-xs font-bold bg-emerald-600 text-white shadow-2xs">📝</div>
+                        <span class="text-[10px] font-bold block text-slate-800">Order Booked</span>
+                        <span class="text-[9px] text-emerald-700 font-semibold block">Done</span>
+                      </div>
+
+                      <div class="space-y-0.5" id="track-step-2">
+                        <div class="w-6 h-6 mx-auto rounded-full flex items-center justify-center text-xs font-bold bg-slate-200 text-slate-600">🎨</div>
+                        <span class="text-[10px] font-bold block text-slate-800">Design Ready</span>
+                        <span class="text-[9px] text-slate-500 block" id="track-step-2-sub">Pending</span>
+                      </div>
+
+                      <div class="space-y-0.5" id="track-step-3">
+                        <div class="w-6 h-6 mx-auto rounded-full flex items-center justify-center text-xs font-bold bg-slate-200 text-slate-600">🖨️</div>
+                        <span class="text-[10px] font-bold block text-slate-800">Print / Craft</span>
+                        <span class="text-[9px] text-slate-500 block" id="track-step-3-sub">Pending</span>
+                      </div>
+
+                      <div class="space-y-0.5" id="track-step-4">
+                        <div class="w-6 h-6 mx-auto rounded-full flex items-center justify-center text-xs font-bold bg-slate-200 text-slate-600">🚚</div>
+                        <span class="text-[10px] font-bold block text-slate-800">Ready / Delivered</span>
+                        <span class="text-[9px] text-slate-500 block" id="track-step-4-sub">Pending</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                    <div class="bg-slate-50 p-3 rounded-xl border border-slate-200">
+                      <div class="flex justify-between items-center mb-0.5">
+                        <span class="text-[10px] font-bold uppercase tracking-wider text-slate-400 block">Billed To (Client / Entity)</span>
+                        <span id="doc-status-badge" class="text-[10px] font-extrabold px-2 py-0.5 rounded bg-emerald-100 text-emerald-800">Delivered / Completed</span>
+                      </div>
+                      <h3 id="doc-client-name" class="text-sm font-bold text-slate-900 devanagari-safe"></h3>
+                      <p id="doc-client-phone" class="text-xs text-slate-600 mt-0.5 font-tabular"></p>
+                      <p id="doc-client-address" class="text-[11px] text-slate-500 mt-0.5 leading-snug devanagari-safe"></p>
+                      <p id="doc-client-gstin" class="text-[11px] text-indigo-700 font-bold font-tabular mt-1 hidden"></p>
+                    </div>
+
+                    <div class="bg-slate-50 p-3 rounded-xl border border-slate-200 flex flex-col justify-between">
+                      <div class="flex justify-between items-start">
+                        <span class="text-[10px] font-bold uppercase tracking-wider text-slate-400">Ledger Balance Standing</span>
+                        <span class="text-[9px] bg-slate-200 text-slate-700 px-2 py-0.5 rounded font-bold uppercase">Verified Statement</span>
+                      </div>
+                      <div class="grid grid-cols-2 gap-2 mt-1.5">
+                        <div class="border-r border-slate-200 pr-2">
+                          <span class="text-[10px] text-slate-500 block">This Invoice Due:</span>
+                          <div class="text-base font-black text-rose-600 tracking-tight font-tabular" id="doc-inv-specific-due">
+                            ₹0.00
+                          </div>
+                        </div>
+                        <div class="pl-1">
+                          <span class="text-[10px] text-slate-500 block">Overall Account Due:</span>
+                          <div class="text-base font-black text-slate-900 tracking-tight font-tabular" id="doc-client-due-badge">
+                            ₹0.00
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- ITEMS TABLE -->
+                  <div class="border border-slate-200 rounded-xl overflow-x-auto">
+                    <table class="w-full text-left text-xs border-collapse min-w-[500px]">
+                      <thead>
+                        <tr class="bg-slate-100 text-slate-700 text-[10px] uppercase tracking-wider font-bold border-b border-slate-200">
+                          <th class="py-1.5 px-3 w-10 text-center">#</th>
+                          <th class="py-1.5 px-3">Description of Work / Deliverables</th>
+                          <th class="py-1.5 px-3 w-24 text-center">Quantity (Qty)</th>
+                          <th class="py-1.5 px-3 w-28 text-right">Unit Rate (₹)</th>
+                          <th class="py-1.5 px-3 w-32 text-right">Amount (₹)</th>
+                        </tr>
+                      </thead>
+                      <tbody id="doc-items-table" class="divide-y divide-slate-100 font-tabular text-xs devanagari-safe"></tbody>
+                    </table>
+                  </div>
+
+                  <div class="grid grid-cols-1 md:grid-cols-2 gap-3.5 pt-0.5">
+                    <div class="space-y-1 bg-slate-50 p-3 rounded-xl border border-slate-200 font-tabular text-xs md:order-2">
+                      <div class="flex justify-between text-slate-600">
+                        <span id="doc-lbl-gross">Gross Value of Work:</span>
+                        <span id="doc-sum-gross" class="font-bold text-slate-900">₹0.00</span>
+                      </div>
+
+                      <div id="doc-discount-row" class="flex justify-between text-indigo-700 font-semibold bg-indigo-50/80 px-2 py-0.5 rounded border border-indigo-100">
+                        <span id="doc-discount-label">Special Discount:</span>
+                        <span id="doc-sum-discount">(-) ₹0.00</span>
+                      </div>
+
+                      <div id="doc-gst-row" class="flex justify-between text-slate-600 hidden">
+                        <span>Applied GST (18%):</span>
+                        <span id="doc-sum-gst" class="font-bold text-slate-900">(+) ₹0.00</span>
+                      </div>
+
+                      <div class="flex justify-between text-slate-800 font-bold border-t border-slate-200 pt-1">
+                        <span id="doc-lbl-net">Net Invoiced Value:</span>
+                        <span id="doc-sum-net">₹0.00</span>
+                      </div>
+
+                      <div class="flex justify-between text-emerald-700 font-semibold">
+                        <span id="doc-lbl-paid">Deposited on This Document:</span>
+                        <span id="doc-sum-paid">(-) ₹0.00</span>
+                      </div>
+
+                      <div class="border-t-2 border-slate-300 pt-1.5 flex justify-between text-sm font-extrabold text-red-600">
+                        <span id="doc-lbl-balance">NET BALANCE ON THIS BILL:</span>
+                        <span id="doc-sum-balance">₹0.00</span>
+                      </div>
+                    </div>
+
+                    <div class="space-y-2 md:order-1">
+                      <div id="doc-upi-box" class="bg-slate-50 p-2.5 rounded-xl border border-slate-200 flex items-center gap-3">
+                        <img id="doc-upi-qr" src="" alt="Scan to Pay" class="w-14 h-14 bg-white p-1 rounded-lg border border-slate-300 object-contain flex-shrink-0" onerror="this.src='https://placehold.co/80x80/f8fafc/0f172a?text=UPI'">
+                        <div>
+                          <span class="text-[10px] font-extrabold uppercase tracking-wider text-slate-600 block">Instant Scan & Pay</span>
+                          <p class="text-xs text-slate-800 font-bold font-tabular">GPay / PhonePe / Paytm</p>
+                          <p class="text-[10px] text-slate-500 font-tabular">UPI ID: 9458614610-2@ybl</p>
+                        </div>
+                      </div>
+
+                      <div class="border-t border-slate-200 pt-1.5">
+                        <div class="flex items-center justify-between mb-1">
+                          <span class="text-[10px] font-bold text-slate-500 uppercase tracking-wider block">Cleared Receipts Log</span>
+                          <span class="text-[10px] text-slate-400 no-print">Click ✏️ to edit or 🗑️ to delete</span>
+                        </div>
+                        <div id="doc-payment-logs" class="space-y-1 text-xs"></div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- CONDITIONAL TERMS & CONDITIONS DISPLAY -->
+                  <div id="doc-terms-section" class="hidden bg-slate-50/90 border border-slate-200 rounded-xl p-2.5 text-slate-700 space-y-1">
+                    <div class="flex items-center justify-between border-b border-slate-200 pb-0.5">
+                      <span class="text-[10px] font-extrabold uppercase tracking-wider text-slate-800">⚖️ Terms & Conditions</span>
+                      <span class="text-[9px] font-bold text-slate-400 uppercase">Agreed Service Policy</span>
+                    </div>
+                    <div id="doc-terms-content" class="text-[10px] text-slate-700 whitespace-pre-line font-medium devanagari-safe"></div>
+                  </div>
+
+                  <!-- Confidential Office Margin -->
+                  <div id="doc-office-private-panel" class="office-private-note no-print mt-3 p-4 rounded-2xl bg-gradient-to-r from-amber-50/90 via-orange-50/80 to-amber-50/90 border border-amber-300 text-xs">
+                    <div class="flex items-center justify-between border-b border-amber-200/80 pb-2 mb-3">
+                      <span class="font-extrabold text-amber-950 flex items-center gap-1.5">
+                        🔒 Internal Office Margin (Strictly Confidential — Excluded from Customer PDF/Print)
                       </span>
-                      <span class="text-base font-black text-amber-800 font-tabular" id="doc-private-seva">₹0.00</span>
+                      <span class="text-[10px] font-extrabold text-amber-900 bg-amber-200/70 px-2.5 py-0.5 rounded-full" id="doc-last-modified-tag">Last Modified: Fresh</span>
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 items-center">
+                      <div class="bg-white/90 p-2.5 rounded-xl border border-amber-200 shadow-2xs">
+                        <span class="text-[10px] text-slate-500 font-bold block uppercase">Production Costing</span>
+                        <span class="text-sm font-extrabold text-slate-800 font-tabular" id="doc-private-cost">₹0.00</span>
+                        <span class="text-[9px] text-slate-400 block mt-0.5" id="doc-private-cost-detail">Dynamic Raw Costs</span>
+                      </div>
+
+                      <div class="bg-white/90 p-2.5 rounded-xl border border-amber-200 shadow-2xs">
+                        <span class="text-[10px] text-emerald-700 font-bold block uppercase">Calculated Net Profit</span>
+                        <span class="text-sm font-black text-emerald-700 font-tabular" id="doc-private-profit">₹0.00</span>
+                        <span class="text-[9px] text-emerald-600/80 block mt-0.5">Net Billed - Production Cost</span>
+                      </div>
+
+                      <div class="bg-gradient-to-br from-amber-100 to-orange-100 p-2.5 rounded-xl border border-amber-300 flex items-center gap-3 shadow-2xs">
+                        <div class="w-10 h-10 rounded-lg overflow-hidden flex-shrink-0 bg-amber-200 border border-amber-300 flex items-center justify-center">
+                          <img src="hanuman.png" alt="Hanuman Ji" class="w-full h-full object-cover" onerror="this.onerror=null; this.src='hanumanji.png'; this.onerror=function(){this.src='hanuman ji.png'; this.onerror=function(){this.style.display='none'; this.nextElementSibling.style.display='block';};};">
+                          <span style="display:none;" class="text-xl">🚩</span>
+                        </div>
+                        <div>
+                          <span class="text-[10px] font-black uppercase tracking-wider text-amber-950 block">
+                            Hanuman Ji Ka Bank (10%)
+                          </span>
+                          <span class="text-base font-black text-amber-800 font-tabular" id="doc-private-seva">₹0.00</span>
+                        </div>
+                      </div>
                     </div>
                   </div>
-                </div>
-              </div>
 
-              <!-- Signatory Footer -->
-              <div class="border-t border-slate-200 pt-2.5 flex justify-between items-end text-xs text-slate-500">
-                <div>
-                  <p class="font-bold text-slate-700 text-[11px]">Cool Art Advertising</p>
-                  <p class="text-[10px] text-slate-400">Official Computer Generated Tax Invoice & Client Ledger</p>
-                </div>
+                  <!-- Signatory Footer -->
+                  <div class="border-t border-slate-200 pt-2.5 flex justify-between items-end text-xs text-slate-500">
+                    <div>
+                      <p class="font-bold text-slate-700 text-[11px]">Cool Art Advertising</p>
+                      <p class="text-[10px] text-slate-400">Official Computer Generated Tax Invoice & Client Ledger</p>
+                    </div>
 
-                <div class="text-right flex flex-col items-end">
-                  <div class="h-9 w-28 flex items-end justify-end mb-0.5">
-                    <img src="kksignature.png" alt="Signature" class="max-h-full max-w-full object-contain filter contrast-125" onerror="this.onerror=null; this.src='kksignature.jpg'; this.onerror=function(){this.style.display='none';};">
+                    <div class="text-right flex flex-col items-end">
+                      <div class="h-9 w-28 flex items-end justify-end mb-0.5">
+                        <img src="kksignature.png" alt="Signature" class="max-h-full max-w-full object-contain filter contrast-125" onerror="this.onerror=null; this.src='kksignature.jpg'; this.onerror=function(){this.style.display='none';};">
+                      </div>
+                      <div class="w-28 border-b border-slate-400 mb-0.5"></div>
+                      <span class="text-[10px] font-bold text-slate-700 uppercase tracking-wider block">Authorized Signatory</span>
+                    </div>
                   </div>
-                  <div class="w-28 border-b border-slate-400 mb-0.5"></div>
-                  <span class="text-[10px] font-bold text-slate-700 uppercase tracking-wider block">Authorized Signatory</span>
+
+                  <!-- INVOICE BOTTOM CO-BRANDING (~125% SCALE) -->
+                  <div class="border-t border-slate-200/80 pt-2.5 flex flex-wrap items-center justify-center gap-2 text-[13px] font-semibold text-slate-600">
+                    <span>Powered by</span>
+                    <img src="logo.png" alt="MunimJi by Cool Art" class="h-6 w-auto object-contain inline-block" onerror="this.style.display='none'">
+                    <span class="text-slate-300">•</span>
+                    <span>Developed by Team <strong class="text-slate-900 font-extrabold">CoolArt®</strong></span>
+                  </div>
+
                 </div>
               </div>
-
-              <!-- INVOICE BOTTOM CO-BRANDING (~125% SCALE) -->
-              <div class="border-t border-slate-200/80 pt-2.5 flex flex-wrap items-center justify-center gap-2 text-[13px] font-semibold text-slate-600">
-                <span>Powered by</span>
-                <img src="logo.png" alt="MunimJi by Cool Art" class="h-6 w-auto object-contain inline-block" onerror="this.style.display='none'">
-                <span class="text-slate-300">•</span>
-                <span>Developed by Team <strong class="text-slate-900 font-extrabold">CoolArt®</strong></span>
-              </div>
-
             </div>
           </div>
         </section>
@@ -1289,59 +1401,59 @@
         </div>
         <div class="flex justify-end">
           <button onclick="addHanumanExpense()" class="px-3.5 py-1.5 text-xs font-bold text-white bg-amber-600 hover:bg-amber-700 rounded-lg transition">
-            + Record Disbursement
-          </button>
-        </div>
-      </div>
-
-      <div class="space-y-1.5">
-        <span class="text-xs font-bold text-slate-700 block">Disbursements Log:</span>
-        <div class="max-h-36 overflow-y-auto border border-slate-200 rounded-xl divide-y divide-slate-100 text-xs" id="h-expenses-log"></div>
-      </div>
-
-      <div class="flex justify-end pt-1">
-        <button onclick="closeModal('hanuman-bank-modal')" class="px-4 py-1.5 text-xs font-bold text-slate-600 hover:bg-slate-100 rounded-lg">Close</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- MODAL: ADD CLIENT -->
+  <!-- MODAL: ADD / EDIT CLIENT (PARTY) -->
   <div id="client-modal" class="hidden fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
     <div class="bg-white rounded-2xl shadow-2xl border border-slate-200 max-w-md w-full p-6 space-y-4">
       <div class="flex justify-between items-center pb-2 border-b border-slate-100">
-        <h3 class="text-base font-bold text-slate-900">Register New Client Account</h3>
+        <div>
+          <h3 class="text-base font-bold text-slate-900" id="client-modal-title">Register New Client Account</h3>
+          <p class="text-[11px] text-slate-500" id="client-modal-subtitle">Add or update commercial party details</p>
+        </div>
         <button onclick="closeModal('client-modal')" class="text-slate-400 hover:text-slate-600 font-bold">✕</button>
       </div>
 
+      <input type="hidden" id="m-client-edit-id">
+
       <div class="space-y-3">
         <div>
-          <label class="block text-xs font-bold text-slate-700 mb-1">Company / Client Name *</label>
-          <input type="text" id="m-client-name" placeholder="Client Name" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-xs sm:text-sm text-slate-800 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+          <label class="block text-xs font-bold text-slate-700 mb-1">पार्टी / कंपनी का नाम (Party Name) *</label>
+          <input type="text" id="m-client-name" placeholder="Client / Party Name" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-xs sm:text-sm text-slate-800 devanagari-safe focus:outline-none focus:ring-2 focus:ring-indigo-500">
+        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1">पार्टी का नंबर (Phone) *</label>
+            <input type="tel" id="m-client-phone" placeholder="9876543210" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-xs sm:text-sm text-slate-800 font-tabular focus:outline-none focus:ring-2 focus:ring-indigo-500">
+          </div>
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1">कब बनी थी (Created Date)</label>
+            <input type="date" id="m-client-created-date" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-xs sm:text-sm text-slate-800 font-tabular focus:outline-none focus:ring-2 focus:ring-indigo-500">
+          </div>
         </div>
         <div>
-          <label class="block text-xs font-bold text-slate-700 mb-1">WhatsApp / Phone Number *</label>
-          <input type="tel" id="m-client-phone" placeholder="9876543210 (10 Digits)" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-xs sm:text-sm text-slate-800 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+          <label class="block text-xs font-bold text-slate-700 mb-1">पार्टी का एड्रेस (Billing Address)</label>
+          <input type="text" id="m-client-address" placeholder="Address, City, State" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-xs sm:text-sm text-slate-800 devanagari-safe focus:outline-none focus:ring-2 focus:ring-indigo-500">
         </div>
-        <div>
-          <label class="block text-xs font-bold text-slate-700 mb-1">GSTIN (Optional)</label>
-          <input type="text" id="m-client-gstin" placeholder="09AAAAA0000A1Z5" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-xs sm:text-sm text-slate-800 uppercase focus:outline-none focus:ring-2 focus:ring-indigo-500">
-        </div>
-        <div>
-          <label class="block text-xs font-bold text-slate-700 mb-1">Billing Address</label>
-          <input type="text" id="m-client-address" placeholder="Address, City, State" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-xs sm:text-sm text-slate-800 focus:outline-none focus:ring-2 focus:ring-indigo-500">
-        </div>
-        <div>
-          <label class="block text-xs font-bold text-slate-700 mb-1">Opening Due Balance (₹) [If any]</label>
-          <input type="number" id="m-client-opening" placeholder="0.00" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-xs sm:text-sm text-slate-800 focus:outline-none focus:ring-2 focus:ring-indigo-500 font-tabular">
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1">GSTIN (Optional)</label>
+            <input type="text" id="m-client-gstin" placeholder="09AAAAA0000A1Z5" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-xs sm:text-sm text-slate-800 uppercase focus:outline-none focus:ring-2 focus:ring-indigo-500">
+          </div>
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1">Opening Balance (₹)</label>
+            <input type="number" id="m-client-opening" placeholder="0.00" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-xs sm:text-sm text-slate-800 focus:outline-none focus:ring-2 focus:ring-indigo-500 font-tabular">
+          </div>
         </div>
       </div>
 
       <div class="flex justify-end gap-2 pt-3">
         <button onclick="closeModal('client-modal')" class="px-4 py-2 text-xs font-bold text-slate-600 hover:bg-slate-100 rounded-xl">Cancel</button>
-        <button onclick="saveClient()" class="px-5 py-2 text-xs font-bold text-white bg-slate-900 hover:bg-slate-800 rounded-xl">Save Client</button>
+        <button onclick="saveClient()" id="btn-save-client" class="px-5 py-2 text-xs font-bold text-white bg-slate-900 hover:bg-slate-800 rounded-xl">Save Party</button>
       </div>
     </div>
   </div>
+
+  <!-- IPHONE-STYLE GLASSMORPHIC DIGITAL SAVE TOAST POPUP -->
+  <div id="ios-save-popup-host" class="pointer-events-none fixed top-4 left-1/2 z-[100] no-print"></div>
 
   <!-- CUSTOM NOTICE / CONFIRM DIALOG -->
   <div id="custom-dialog-modal" class="hidden fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
@@ -1359,9 +1471,9 @@
   <script>
     const DEFAULT_WEBHOOK_URL = "https://script.google.com/macros/s/AKfycbwXlXsEhAqRUho6zZr-amBL8GJ9BPXHcUI9X54ZRlEj8_vpLxM7UaEHrp_L8cuLFy3BUA/exec";
     const MASTER_KEY = "CoolArt@2026";
-    const APP_VERSION = "v9.6";
-    const APP_UPDATED_DATE = "25 Nov 2026";
-    const REFERENCE_TODAY = "2026-11-25";
+    const APP_VERSION = "v9.7";
+    const APP_UPDATED_DATE = "28 Nov 2026";
+    const REFERENCE_TODAY = "2026-11-28";
 
     const TERMS_PRESETS = {
       photography: `• Booking Confirmation: बुकिंग की तारीख पर 75% एडवांस पेमेंट अनिवार्य है। 75% बुकिंग राशि जमा न होने की स्थिति में बुकिंग मान्य (Confirm) नहीं मानी जाएगी।\n• Final Payment Policy: शेष 25% (पूर्ण भुगतान) इवेंट/शूट की तारीख से एक दिन पहले क्लियर होना अनिवार्य है। यदि किसी कारणवश पहले भुगतान नहीं हो पाता है, तो कार्यक्रम समाप्त होते ही तत्काल मौके पर (On-the-spot) पूरा भुगतान करना होगा।\n• Data & Liability: समय पर पूर्ण भुगतान न होने की स्थिति में स्टूडियो/एजेंसी रॉ डेटा (Raw Data), फोटो या वीडियो सुरक्षित रखने के लिए बाध्य नहीं होगी, और डेटा की किसी भी प्रकार की जिम्मेदारी हमारी नहीं रहेगी। भुगतान शर्तों का उल्लंघन होने पर अन्य सभी सेवा शर्तें स्वतः निरस्त मानी जाएँगी।`,
@@ -1455,6 +1567,42 @@
       openModal('custom-dialog-modal');
     }
 
+    let iosPopupTimer = null;
+    function showDigitalSavePopup(title = "Saved Successfully", subtitle = "Synced with Cloud Ledger") {
+      const host = document.getElementById('ios-save-popup-host');
+      if (!host) return;
+
+      if (iosPopupTimer) {
+        clearTimeout(iosPopupTimer);
+        iosPopupTimer = null;
+      }
+
+      host.innerHTML = `
+        <div id="ios-save-toast-card" class="ios-save-toast flex items-center gap-3.5 px-4 py-3 rounded-[24px] text-white min-w-[265px] max-w-[92vw]">
+          <div class="w-10 h-10 rounded-full bg-emerald-500/20 border border-emerald-400/40 flex items-center justify-center flex-shrink-0">
+            <svg class="w-6 h-6" viewBox="0 0 52 52" fill="none">
+              <circle class="ios-check-circle" cx="26" cy="26" r="23" stroke="#34d399" stroke-width="3.5" stroke-linecap="round" />
+              <path class="ios-check-tick" d="M15 27.2L22.6 34.5L37.5 18.5" stroke="#34d399" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+          </div>
+          <div class="min-w-0 pr-1">
+            <div class="text-xs sm:text-sm font-extrabold tracking-tight text-white devanagari-safe">${title}</div>
+            <div class="text-[11px] font-medium text-emerald-300/95 truncate devanagari-safe">${subtitle}</div>
+          </div>
+        </div>
+      `;
+
+      iosPopupTimer = setTimeout(() => {
+        const card = document.getElementById('ios-save-toast-card');
+        if (card) {
+          card.classList.add('hiding');
+          setTimeout(() => {
+            if (host.contains(card)) host.innerHTML = '';
+          }, 290);
+        }
+      }, 2600);
+    }
+
     function unlockGateway() {
       const pass = document.getElementById('gw-pass').value.trim();
       const err = document.getElementById('gw-error');
@@ -1484,7 +1632,8 @@
     }
 
     function loadData() {
-      let saved = localStorage.getItem('coolart_finance_master_v96') ||
+      let saved = localStorage.getItem('coolart_finance_master_v97') ||
+                  localStorage.getItem('coolart_finance_master_v96') ||
                   localStorage.getItem('coolart_finance_master_v95') ||
                   localStorage.getItem('coolart_finance_master_v94') ||
                   localStorage.getItem('coolart_finance_master_v93') ||
@@ -1577,7 +1726,7 @@
     }
 
     function persistData() {
-      localStorage.setItem('coolart_finance_master_v96', JSON.stringify(store));
+      localStorage.setItem('coolart_finance_master_v97', JSON.stringify(store));
     }
 
     function getNextInvoiceNumber() {
@@ -1781,15 +1930,19 @@
     }
 
     function switchTab(tabId) {
-      ['dashboard', 'expenses', 'create-bill', 'invoice-preview'].forEach(t => {
-        document.getElementById(`tab-sec-${t}`).classList.add('hidden');
+      ['dashboard', 'all-party', 'expenses', 'create-bill', 'invoice-preview'].forEach(t => {
+        const sec = document.getElementById(`tab-sec-${t}`);
+        if (sec) sec.classList.add('hidden');
         const navBtn = document.getElementById(`nav-${t}`);
         if (navBtn) {
-          navBtn.className = "w-full flex items-center gap-2.5 px-3 py-1.5 rounded-xl text-xs font-semibold text-slate-200 hover:bg-white/10 transition text-left";
+          navBtn.className = t === 'all-party'
+            ? "w-full flex items-center gap-2.5 px-3 py-1.5 rounded-xl text-xs font-semibold text-sky-300 hover:bg-white/10 transition text-left"
+            : "w-full flex items-center gap-2.5 px-3 py-1.5 rounded-xl text-xs font-semibold text-slate-200 hover:bg-white/10 transition text-left";
         }
       });
 
-      document.getElementById(`tab-sec-${tabId}`).classList.remove('hidden');
+      const targetSec = document.getElementById(`tab-sec-${tabId}`);
+      if (targetSec) targetSec.classList.remove('hidden');
       const activeNavBtn = document.getElementById(`nav-${tabId}`);
       if (activeNavBtn) {
         activeNavBtn.className = "w-full flex items-center gap-2.5 px-3 py-1.5 rounded-xl text-xs font-bold bg-indigo-600/90 text-white transition text-left";
@@ -1798,7 +1951,10 @@
       if (tabId === 'create-bill' && !editingInvoiceId) {
         prepareInvoiceStudio();
       } else if (tabId === 'invoice-preview') {
+        renderStatementPartySidebar();
         renderInvoiceView();
+      } else if (tabId === 'all-party') {
+        renderAllPartyTable();
       } else if (tabId === 'expenses') {
         populateExpenseMonthsDropdown();
         renderExpensesTable();
@@ -1927,10 +2083,175 @@
       renderMissionEngine();
       renderSalesGrowthAnalytics();
       renderClientsTable();
+      renderAllPartyTable();
       populateExpenseMonthsDropdown();
       renderExpensesTable();
       updateMetricBadges();
       populateClientSelects();
+      renderStatementPartySidebar();
+    }
+
+    function renderAllPartyTable() {
+      const tbody = document.getElementById('all-party-table-body');
+      const countBadge = document.getElementById('all-party-count-badge');
+      if (!tbody) return;
+
+      const searchVal = (document.getElementById('all-party-search-input')?.value || '').trim().toLowerCase();
+      let list = [...store.clients];
+
+      if (searchVal) {
+        list = list.filter(c =>
+          (c.name || '').toLowerCase().includes(searchVal) ||
+          (c.phone || '').toLowerCase().includes(searchVal) ||
+          (c.address || '').toLowerCase().includes(searchVal)
+        );
+      }
+
+      if (countBadge) {
+        countBadge.innerText = `${list.length} ${list.length === 1 ? 'Party' : 'Parties'}`;
+      }
+
+      tbody.innerHTML = '';
+      if (list.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="7" class="p-8 text-center text-slate-400">कोई पार्टी नहीं मिली। "+ Add New Party" से जोड़ें।</td></tr>`;
+        return;
+      }
+
+      list.forEach((c, idx) => {
+        const stats = getClientSummary(c.id);
+        const createdText = c.createdDate && c.createdDate.trim() !== '' ? c.createdDate.split('T')[0] : '—';
+
+        const tr = document.createElement('tr');
+        tr.className = "hover:bg-slate-50/90 transition-colors";
+        tr.innerHTML = `
+          <td class="py-3.5 px-4 text-center text-slate-400 font-tabular text-xs font-bold">${idx + 1}</td>
+          <td class="py-3.5 px-4">
+            <span class="font-bold text-slate-900 block devanagari-safe">${c.name}</span>
+            ${c.gstin ? `<span class="text-[10px] font-bold text-indigo-600 font-tabular">GST: ${c.gstin}</span>` : ''}
+          </td>
+          <td class="py-3.5 px-4 font-tabular text-xs font-semibold text-slate-700">${c.phone || '—'}</td>
+          <td class="py-3.5 px-4 text-xs text-slate-600 devanagari-safe max-w-xs">${c.address || 'Registered Account'}</td>
+          <td class="py-3.5 px-4 font-tabular text-xs text-slate-500">
+            <span class="px-2 py-0.5 rounded-md bg-slate-100 border border-slate-200 text-slate-700 font-semibold">${createdText}</span>
+          </td>
+          <td class="py-3.5 px-4 text-right font-tabular text-xs">
+            <span class="font-bold text-slate-800 block">Billed: ₹${stats.billedTotal.toLocaleString('en-IN')}</span>
+            <span class="font-extrabold ${stats.balanceDue > 0 ? 'text-rose-600' : 'text-emerald-600'}">
+              ${stats.balanceDue > 0 ? `Due: ₹${stats.balanceDue.toLocaleString('en-IN')}` : 'Settled'}
+            </span>
+          </td>
+          <td class="py-3.5 px-4 text-center">
+            <div class="inline-flex items-center gap-1.5">
+              <button onclick="openEditClientModal('${c.id}')" class="inline-flex items-center gap-1 px-3 py-1.5 text-xs font-bold text-indigo-700 bg-indigo-50 hover:bg-indigo-100 rounded-xl transition border border-indigo-200 shadow-2xs">
+                <span>✏️</span>
+                <span>Edit</span>
+              </button>
+              <button onclick="viewClientInvoice('${c.id}')" class="px-2.5 py-1.5 text-xs font-bold text-slate-700 bg-slate-100 hover:bg-slate-200 rounded-xl transition" title="Open Official Statement">
+                📄
+              </button>
+            </div>
+          </td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    function openCreateClientModal() {
+      document.getElementById('client-modal-title').innerText = "Register New Party Account";
+      document.getElementById('client-modal-subtitle').innerText = "नया क्लाइंट / पार्टी विवरण जोड़ें";
+      document.getElementById('m-client-edit-id').value = '';
+      document.getElementById('m-client-name').value = '';
+      document.getElementById('m-client-phone').value = '';
+      document.getElementById('m-client-address').value = '';
+      document.getElementById('m-client-gstin').value = '';
+      document.getElementById('m-client-opening').value = '';
+      document.getElementById('m-client-created-date').value = REFERENCE_TODAY;
+      document.getElementById('btn-save-client').innerText = "Save Party";
+      openModal('client-modal');
+    }
+
+    function openEditClientModal(clientId) {
+      const client = store.clients.find(c => c.id === clientId);
+      if (!client) return showNotice('Party record not found.');
+
+      document.getElementById('client-modal-title').innerText = "Edit Party Details (पार्टी एडिट करें)";
+      document.getElementById('client-modal-subtitle').innerText = `Updating: ${client.name}`;
+      document.getElementById('m-client-edit-id').value = client.id;
+      document.getElementById('m-client-name').value = client.name || '';
+      document.getElementById('m-client-phone').value = client.phone || '';
+      document.getElementById('m-client-address').value = client.address || '';
+      document.getElementById('m-client-gstin').value = client.gstin || '';
+      document.getElementById('m-client-opening').value = client.openingBalance || '';
+      document.getElementById('m-client-created-date').value = (client.createdDate || REFERENCE_TODAY).split('T')[0];
+      document.getElementById('btn-save-client').innerText = "Save Changes";
+      openModal('client-modal');
+    }
+
+    function renderStatementPartySidebar() {
+      const listEl = document.getElementById('statement-party-list');
+      const countEl = document.getElementById('statement-party-count');
+      if (!listEl) return;
+
+      const activeClientId = document.getElementById('preview-client-select')?.value || '';
+      const q = (document.getElementById('statement-party-search')?.value || '').trim().toLowerCase();
+
+      let list = [...store.clients];
+      if (q) {
+        list = list.filter(c =>
+          (c.name || '').toLowerCase().includes(q) ||
+          (c.phone || '').toLowerCase().includes(q)
+        );
+      }
+
+      if (countEl) countEl.innerText = list.length;
+
+      listEl.innerHTML = '';
+      if (list.length === 0) {
+        listEl.innerHTML = `<div class="p-4 text-center text-xs text-slate-400">No parties found</div>`;
+        return;
+      }
+
+      list.forEach(c => {
+        const stats = getClientSummary(c.id);
+        const isSelected = c.id === activeClientId;
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.onclick = () => selectPartyInStatement(c.id);
+        btn.className = `w-full text-left px-3.5 py-2.5 transition flex items-center justify-between gap-2 ${
+          isSelected
+            ? 'bg-indigo-600 text-white shadow-inner'
+            : 'hover:bg-slate-50 text-slate-800'
+        }`;
+
+        btn.innerHTML = `
+          <div class="min-w-0 flex-1">
+            <div class="text-xs font-extrabold truncate devanagari-safe ${isSelected ? 'text-white' : 'text-slate-900'}">${c.name}</div>
+            <div class="text-[10px] font-tabular truncate ${isSelected ? 'text-indigo-100' : 'text-slate-400'}">${c.phone || 'No Phone'}</div>
+          </div>
+          <div class="flex-shrink-0 text-right font-tabular">
+            <span class="text-[10px] font-extrabold px-2 py-0.5 rounded-full ${
+              isSelected
+                ? 'bg-white/20 text-white'
+                : (stats.balanceDue > 0 ? 'bg-rose-50 text-rose-600 border border-rose-200' : 'bg-emerald-50 text-emerald-700 border border-emerald-200')
+            }">
+              ${stats.balanceDue > 0 ? `₹${stats.balanceDue.toLocaleString('en-IN')}` : 'Clear'}
+            </span>
+          </div>
+        `;
+        listEl.appendChild(btn);
+      });
+    }
+
+    function selectPartyInStatement(clientId) {
+      const sel = document.getElementById('preview-client-select');
+      if (sel) sel.value = clientId;
+      renderStatementPartySidebar();
+      renderInvoiceView();
+    }
+
+    function onStatementClientDropdownChange() {
+      renderStatementPartySidebar();
+      renderInvoiceView();
     }
 
     function setGrowthView(mode) {
@@ -2490,6 +2811,11 @@
         action: editId ? "UPDATE_EXPENSE" : "SAVE_EXPENSE",
         expense: expObj
       });
+
+      showDigitalSavePopup(
+        editId ? "Expense Updated" : "Expense Recorded",
+        `${voucherId} • ₹${amt.toLocaleString('en-IN')}`
+      );
     }
 
     function deleteOfficeExpense(id) {
@@ -2524,15 +2850,56 @@
     }
 
     function saveClient() {
+      const editId = document.getElementById('m-client-edit-id').value.trim();
       const name = document.getElementById('m-client-name').value.trim();
       const phone = document.getElementById('m-client-phone').value.trim();
       const gstin = document.getElementById('m-client-gstin').value.trim().toUpperCase();
       const address = document.getElementById('m-client-address').value.trim();
       const opening = parseFloat(document.getElementById('m-client-opening').value) || 0;
+      const createdDate = document.getElementById('m-client-created-date').value || REFERENCE_TODAY;
 
-      if (!name) return showNotice('Please enter client or company name.');
+      if (!name) return showNotice('Please enter party or company name.');
 
-      const cleanClientId = 'CL_' + name.toLowerCase().replace(/[^a-z0-9]/g, '_');
+      if (editId) {
+        const idx = store.clients.findIndex(c => c.id === editId);
+        if (idx >= 0) {
+          const oldName = store.clients[idx].name;
+          store.clients[idx] = {
+            ...store.clients[idx],
+            name,
+            phone,
+            gstin,
+            address,
+            openingBalance: opening,
+            createdDate
+          };
+
+          store.invoices.forEach(inv => {
+            if (inv.clientId === editId || inv.clientName === oldName) {
+              inv.clientName = name;
+            }
+          });
+          store.payments.forEach(pay => {
+            if (pay.clientId === editId || pay.clientName === oldName) {
+              pay.clientName = name;
+            }
+          });
+
+          persistData();
+          refreshAllViews();
+          closeModal('client-modal');
+
+          pushOnlineSync({
+            action: "SAVE_CLIENT",
+            client: store.clients[idx]
+          });
+
+          showDigitalSavePopup("Party Details Saved", `${name} updated successfully`);
+        }
+        return;
+      }
+
+      const cleanClientId = 'CL_' + name.toLowerCase().replace(/[^a-z0-9]/g, '_') + '_' + String(Date.now()).slice(-4);
       const newClient = {
         id: cleanClientId,
         name,
@@ -2540,7 +2907,7 @@
         gstin,
         address,
         openingBalance: opening,
-        createdDate: REFERENCE_TODAY
+        createdDate
       };
 
       store.clients.push(newClient);
@@ -2552,6 +2919,8 @@
         action: "SAVE_CLIENT",
         client: newClient
       });
+
+      showDigitalSavePopup("New Party Saved", `${name} added to ledger`);
     }
 
     function openNewInvoiceForm() {
@@ -2933,6 +3302,11 @@
       });
 
       viewClientInvoice(clientId, invId);
+
+      showDigitalSavePopup(
+        existingIdx >= 0 ? "Bill Updated Successfully" : "Bill Saved Successfully",
+        `${invId} • ${client ? client.name : 'Client'} (₹${calc.netInvoiced.toLocaleString('en-IN')})`
+      );
     }
 
     function promptPaymentModal(clientId, preselectInvoiceId = '') {
@@ -3047,6 +3421,11 @@
 
       viewClientInvoice(clientId, targetInvId);
 
+      showDigitalSavePopup(
+        "Payment Saved Successfully",
+        `₹${amount.toLocaleString('en-IN')} • ${client ? client.name : 'Client'}`
+      );
+
       showConfirm(`Payment of ₹${amount.toLocaleString('en-IN')} recorded successfully!\nWould you like to send WhatsApp Payment Receipt Slip to ${client ? client.name : 'Client'}?`, () => {
         sendPaymentReceiptWhatsApp(client, payObj);
       }, 'Payment Recorded', '✅');
@@ -3079,12 +3458,19 @@
     function viewClientInvoice(clientId, targetInvId = null) {
       document.getElementById('preview-client-select').value = clientId;
       switchTab('invoice-preview');
+      renderStatementPartySidebar();
       renderInvoiceView(targetInvId);
     }
 
     function renderInvoiceView(targetInvId = null) {
-      const clientId = document.getElementById('preview-client-select').value;
+      const clientSel = document.getElementById('preview-client-select');
+      if (!clientSel.value && store.clients.length > 0) {
+        clientSel.value = store.clients[0].id;
+      }
+      const clientId = clientSel.value;
       if (!clientId) return;
+
+      renderStatementPartySidebar();
 
       const client = store.clients.find(c => c.id === clientId || c.name === clientId);
       if (!client) return;
