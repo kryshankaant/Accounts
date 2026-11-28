@@ -168,28 +168,28 @@
     </div>
 
     <!-- Single Clean Navigation & Actions List -->
-    <div class="flex-1 px-3 py-2.5 flex flex-col justify-between overflow-hidden">
-      <div class="space-y-2.5">
+    <div class="flex-1 px-3 py-2 flex flex-col justify-between overflow-hidden">
+      <div class="space-y-2">
         <div>
-          <div class="px-2 mb-1 text-[9.5px] font-bold uppercase tracking-wider text-slate-500">Navigation</div>
+          <div class="px-2 mb-0.5 text-[9.5px] font-bold uppercase tracking-wider text-slate-500">Navigation</div>
           <nav class="space-y-0.5">
-            <button type="button" id="nav-btn-dashboard" onclick="switchView('dashboard')" class="nav-item w-full flex items-center gap-2.5 px-2.5 py-1.5 rounded-lg text-xs font-semibold bg-indigo-600 text-white transition text-left">
+            <button type="button" id="nav-btn-dashboard" onclick="switchView('dashboard')" class="nav-item w-full flex items-center gap-2 px-2.5 py-1 rounded-lg text-[11.5px] font-semibold bg-indigo-600 text-white transition text-left">
               <span>📊</span>
-              <span>Directory &amp; Ledger</span>
+              <span>Dashboard</span>
             </button>
-            <button type="button" id="nav-btn-studio" onclick="switchView('studio')" class="nav-item w-full flex items-center gap-2.5 px-2.5 py-1.5 rounded-lg text-xs font-semibold text-slate-300 hover:bg-slate-800/80 hover:text-white transition text-left">
+            <button type="button" id="nav-btn-studio" onclick="switchView('studio')" class="nav-item w-full flex items-center gap-2 px-2.5 py-1 rounded-lg text-[11.5px] font-semibold text-slate-300 hover:bg-slate-800/80 hover:text-white transition text-left">
               <span>🧾</span>
               <span>Invoice Studio</span>
             </button>
-            <button type="button" id="nav-btn-statement" onclick="switchView('statement')" class="nav-item w-full flex items-center gap-2.5 px-2.5 py-1.5 rounded-lg text-xs font-semibold text-slate-300 hover:bg-slate-800/80 hover:text-white transition text-left">
+            <button type="button" id="nav-btn-statement" onclick="switchView('statement')" class="nav-item w-full flex items-center gap-2 px-2.5 py-1 rounded-lg text-[11.5px] font-semibold text-slate-300 hover:bg-slate-800/80 hover:text-white transition text-left">
               <span>📄</span>
               <span>Official Statement</span>
             </button>
-            <button type="button" id="nav-btn-expenses" onclick="switchView('expenses')" class="nav-item w-full flex items-center gap-2.5 px-2.5 py-1.5 rounded-lg text-xs font-semibold text-slate-300 hover:bg-slate-800/80 hover:text-white transition text-left">
+            <button type="button" id="nav-btn-expenses" onclick="switchView('expenses')" class="nav-item w-full flex items-center gap-2 px-2.5 py-1 rounded-lg text-[11.5px] font-semibold text-slate-300 hover:bg-slate-800/80 hover:text-white transition text-left">
               <span>💼</span>
               <span>Office Expenses</span>
             </button>
-            <button type="button" id="nav-btn-hanuman" onclick="switchView('hanuman')" class="nav-item w-full flex items-center gap-2.5 px-2.5 py-1.5 rounded-lg text-xs font-semibold text-amber-300 hover:bg-slate-800/80 transition text-left">
+            <button type="button" id="nav-btn-hanuman" onclick="switchView('hanuman')" class="nav-item w-full flex items-center gap-2 px-2.5 py-1 rounded-lg text-[11.5px] font-semibold text-amber-300 hover:bg-slate-800/80 transition text-left">
               <span>🛕</span>
               <span>Hanuman Ji Ka Bank</span>
             </button>
@@ -197,21 +197,33 @@
         </div>
 
         <div>
-          <div class="px-2 mb-1 text-[9.5px] font-bold uppercase tracking-wider text-slate-500">Actions</div>
+          <div class="px-2 mb-0.5 text-[9.5px] font-bold uppercase tracking-wider text-slate-500">Actions</div>
           <div class="space-y-0.5">
-            <button type="button" onclick="openNewBillStudio()" class="w-full flex items-center gap-2.5 px-2.5 py-1.5 rounded-lg text-xs font-semibold text-emerald-300 hover:bg-slate-800/80 transition text-left">
+            <button type="button" onclick="openNewBillStudio()" class="w-full flex items-center gap-2 px-2.5 py-1 rounded-lg text-[11.5px] font-semibold text-emerald-300 hover:bg-slate-800/80 transition text-left">
               <span>➕</span>
-              <span>New Bill</span>
+              <span>+ New Invoice</span>
             </button>
-            <button type="button" onclick="openPartyModal()" class="w-full flex items-center gap-2.5 px-2.5 py-1.5 rounded-lg text-xs font-semibold text-sky-300 hover:bg-slate-800/80 transition text-left">
+            <button type="button" onclick="openPartyModal()" class="w-full flex items-center gap-2 px-2.5 py-1 rounded-lg text-[11.5px] font-semibold text-sky-300 hover:bg-slate-800/80 transition text-left">
               <span>👤</span>
               <span>Add Party</span>
             </button>
-            <button type="button" id="nav-btn-allparty" onclick="switchView('allparty')" class="nav-item w-full flex items-center gap-2.5 px-2.5 py-1.5 rounded-lg text-xs font-semibold text-slate-300 hover:bg-slate-800/80 hover:text-white transition text-left">
+            <button type="button" id="nav-btn-allparty" onclick="switchView('allparty')" class="nav-item w-full flex items-center gap-2 px-2.5 py-1 rounded-lg text-[11.5px] font-semibold text-slate-300 hover:bg-slate-800/80 hover:text-white transition text-left">
               <span>👥</span>
               <span>All Party</span>
             </button>
-            <button type="button" onclick="openWebhookModal()" class="w-full flex items-center gap-2.5 px-2.5 py-1.5 rounded-lg text-xs font-medium text-slate-400 hover:bg-slate-800/80 hover:text-slate-200 transition text-left">
+            <button type="button" onclick="openPaymentModal()" class="w-full flex items-center gap-2 px-2.5 py-1 rounded-lg text-[11.5px] font-semibold text-emerald-200 hover:bg-slate-800/80 transition text-left">
+              <span>💳</span>
+              <span>Record Payment</span>
+            </button>
+            <button type="button" onclick="openExpenseQuickView()" class="w-full flex items-center gap-2 px-2.5 py-1 rounded-lg text-[11.5px] font-semibold text-amber-200 hover:bg-slate-800/80 transition text-left">
+              <span>🧾</span>
+              <span>Add Expense</span>
+            </button>
+            <button type="button" onclick="syncWithGoogleSheets(true)" class="w-full flex items-center gap-2 px-2.5 py-1 rounded-lg text-[11.5px] font-medium text-indigo-300 hover:bg-slate-800/80 hover:text-white transition text-left">
+              <span>🔄</span>
+              <span>Sync Sheet</span>
+            </button>
+            <button type="button" onclick="openWebhookModal()" class="w-full flex items-center gap-2 px-2.5 py-1 rounded-lg text-[11px] font-medium text-slate-400 hover:bg-slate-800/80 hover:text-slate-200 transition text-left">
               <span>🔗</span>
               <span>Sheet Webhook</span>
             </button>
@@ -257,9 +269,9 @@
 
   <!-- Main Workspace Container -->
   <div id="app-workspace-shell">
-    <!-- Top Header (#0B1221) aligned directly with main workspace container edges -->
+    <!-- Top Header (#0B1221, 60px) aligned directly with main workspace container edges -->
     <header class="bg-[#0B1221] text-white border-b border-slate-800/80">
-      <div class="max-w-[1440px] mx-auto px-4 sm:px-6 h-16 flex items-center justify-between gap-4">
+      <div class="max-w-[1440px] mx-auto px-4 sm:px-6 h-[60px] flex items-center justify-between gap-4">
         <div class="flex items-center gap-3 min-w-0">
           <!-- Mobile 3-line drawer button (no rounded box) -->
           <button type="button" onclick="toggleMobileSidebar()" aria-label="Toggle Menu" class="lg:hidden text-slate-200 hover:text-white p-1 focus:outline-none">
@@ -444,17 +456,20 @@
         </div>
 
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-4 items-start">
-          <!-- Left 7 Cols: Parties Table with Party, Mobile, Address, Created Date, Edit -->
+          <!-- Left 7 Cols: Parties Table with Party Name, Mobile, Address, Created Date, Billed, Paid, Due, Edit -->
           <div class="lg:col-span-7 bg-white rounded-2xl border border-slate-200/80 shadow-sm overflow-hidden">
             <div class="overflow-x-auto">
               <table class="w-full text-left border-collapse">
                 <thead>
                   <tr class="bg-slate-50 border-b border-slate-200/80 text-[11px] font-bold uppercase tracking-wider text-slate-500">
-                    <th class="py-3 px-3.5">Party</th>
-                    <th class="py-3 px-3.5">Number</th>
-                    <th class="py-3 px-3.5">Address</th>
-                    <th class="py-3 px-3.5">Created</th>
-                    <th class="py-3 px-3.5 text-right">Edit</th>
+                    <th class="py-3 px-3">Party Name</th>
+                    <th class="py-3 px-2.5">Mobile</th>
+                    <th class="py-3 px-2.5">Address</th>
+                    <th class="py-3 px-2.5">Created Date</th>
+                    <th class="py-3 px-2.5 text-right">Billed</th>
+                    <th class="py-3 px-2.5 text-right">Paid</th>
+                    <th class="py-3 px-2.5 text-right">Due</th>
+                    <th class="py-3 px-3 text-right">Edit</th>
                   </tr>
                 </thead>
                 <tbody id="allparty-tbody" class="divide-y divide-slate-100 text-xs"></tbody>
@@ -659,7 +674,7 @@
 
   <!-- 125%-Scaled Fixed Bottom Co-Branding Bar -->
   <footer class="fixed bottom-0 left-0 right-0 h-11 bg-white/95 backdrop-blur border-t border-slate-200 z-40 flex items-center justify-center px-4 text-xs sm:text-sm font-semibold text-slate-700">
-    <div class="flex items-center gap-2 scale-[1.05] sm:scale-[1.12]">
+    <div class="flex items-center gap-2 scale-125">
       <span>Powered by</span>
       <img src="logo.png" alt="Munim Ji" onerror="this.style.display='none'; this.nextElementSibling.style.display='inline';" class="h-5 w-auto object-contain" />
       <span class="hidden font-bold text-slate-900">Munim Ji</span>
@@ -667,36 +682,47 @@
       <span>Developed by Team CoolArt<sup class="text-[10px]">®</sup></span>
     </div>
   </footer>
-
-  <!-- Add / Edit Party Modal -->
-  <div id="party-modal" class="fixed inset-0 z-50 hidden bg-slate-950/60 backdrop-blur-xs flex items-center justify-center p-4">
+  <!-- Record Payment Modal -->
+  <div id="payment-modal" class="fixed inset-0 z-50 hidden bg-slate-950/60 backdrop-blur-xs flex items-center justify-center p-4">
     <div class="bg-white rounded-2xl max-w-md w-full p-5 sm:p-6 border border-slate-200 shadow-2xl space-y-4">
       <div class="flex items-center justify-between">
-        <h3 id="party-modal-title" class="text-base font-bold text-slate-900">Add Party</h3>
-        <button type="button" onclick="closePartyModal()" class="text-slate-400 hover:text-slate-700 text-lg font-bold">✕</button>
+        <h3 class="text-base font-bold text-slate-900">Record Payment</h3>
+        <button type="button" onclick="closePaymentModal()" class="text-slate-400 hover:text-slate-700 text-lg font-bold">✕</button>
       </div>
-      <input type="hidden" id="party-edit-id" />
       <div class="space-y-3">
         <div>
-          <label class="block text-xs font-bold text-slate-700 mb-1">Party / Company Name</label>
-          <input type="text" id="party-name" class="w-full px-3.5 py-2 rounded-xl border border-slate-200 text-xs sm:text-sm" />
+          <label class="block text-xs font-bold text-slate-700 mb-1">Party / Client</label>
+          <select id="payment-party-select" class="w-full px-3.5 py-2 rounded-xl border border-slate-200 text-xs sm:text-sm bg-white"></select>
         </div>
-        <div>
-          <label class="block text-xs font-bold text-slate-700 mb-1">Mobile Number</label>
-          <input type="text" id="party-phone" class="w-full px-3.5 py-2 rounded-xl border border-slate-200 text-xs sm:text-sm" />
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1">Date</label>
+            <input type="date" id="payment-date" class="w-full px-3 py-2 rounded-xl border border-slate-200 text-xs sm:text-sm" />
+          </div>
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1">Amount (₹)</label>
+            <input type="number" step="0.01" id="payment-amount" placeholder="0.00" class="w-full px-3 py-2 rounded-xl border border-slate-200 text-xs sm:text-sm" />
+          </div>
         </div>
-        <div>
-          <label class="block text-xs font-bold text-slate-700 mb-1">Created Date</label>
-          <input type="date" id="party-created" class="w-full px-3.5 py-2 rounded-xl border border-slate-200 text-xs sm:text-sm" />
-        </div>
-        <div>
-          <label class="block text-xs font-bold text-slate-700 mb-1">Address</label>
-          <textarea id="party-address" rows="2" class="w-full px-3.5 py-2 rounded-xl border border-slate-200 text-xs sm:text-sm"></textarea>
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1">Mode</label>
+            <select id="payment-mode" class="w-full px-3 py-2 rounded-xl border border-slate-200 text-xs sm:text-sm bg-white">
+              <option value="Cash">Cash</option>
+              <option value="UPI">UPI</option>
+              <option value="Bank Transfer">Bank Transfer</option>
+              <option value="Cheque">Cheque</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1">Reference / Note</label>
+            <input type="text" id="payment-ref" placeholder="UTR / Receipt No." class="w-full px-3 py-2 rounded-xl border border-slate-200 text-xs sm:text-sm" />
+          </div>
         </div>
       </div>
       <div class="flex justify-end gap-2 pt-2">
-        <button type="button" onclick="closePartyModal()" class="px-4 py-2 rounded-xl text-xs font-bold bg-slate-100 hover:bg-slate-200 text-slate-700">Cancel</button>
-        <button type="button" onclick="savePartyModal()" class="px-4 py-2 rounded-xl text-xs font-bold bg-indigo-600 hover:bg-indigo-700 text-white">Save Party</button>
+        <button type="button" onclick="closePaymentModal()" class="px-4 py-2 rounded-xl text-xs font-bold bg-slate-100 hover:bg-slate-200 text-slate-700">Cancel</button>
+        <button type="button" onclick="savePaymentEntry()" class="px-4 py-2 rounded-xl text-xs font-bold bg-emerald-600 hover:bg-emerald-700 text-white">Save Payment</button>
       </div>
     </div>
   </div>
@@ -725,20 +751,21 @@
     let state = {
       parties: [],
       invoices: [],
-      payments: [],
-      expenses: []
-    };
+    function round2(n) {
+      return Math.round((Number(n) || 0) * 100) / 100;
+    }
 
-    const PERMANENT_WEBHOOK_URL = "https://script.google.com/macros/s/AKfycbwXlXsEhAqRUho6zZr-amBL8GJ9BPXHcUI9X54ZRlEj8_vpLxM7UaEHrp_L8cuLFy3BUA/exec";
-    const WEBHOOK_STORAGE_KEY = "coolart_webhook_url_v9_7";
+    function normalizeKey(val) {
+      return String(val || "").trim().toLowerCase();
+    }
 
-    function getActiveWebhookUrl() {
-      try {
-        const saved = localStorage.getItem(WEBHOOK_STORAGE_KEY);
-        return (saved && saved.trim()) ? saved.trim() : PERMANENT_WEBHOOK_URL;
-      } catch (err) {
-        return PERMANENT_WEBHOOK_URL;
-      }
+    function getTodayISO() {
+      return new Date().toISOString().split("T")[0];
+    }
+
+    function formatINR(num) {
+      return "₹" + round2(num).toLocaleString("en-IN", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    }
     }
 
     function getTodayISO() {
@@ -785,27 +812,28 @@
       const rawExpenses = Array.isArray(payload.expenses) ? payload.expenses : [];
 
       const payments = rawPayments.map((p, idx) => ({
-        id: String(pickField(p, ["id", "ID", "paymentId", "Payment_ID", "Receipt_No"], "PAY-" + (idx + 1))),
-        date: String(pickField(p, ["date", "Date", "paymentDate", "Payment_Date"], getTodayISO())),
-        clientId: String(pickField(p, ["clientId", "Client_ID", "partyId", "Party_ID"], "")),
-        clientName: String(pickField(p, ["clientName", "Client_Name", "partyName", "Party_Name", "client", "name"], "")),
-        invoiceId: String(pickField(p, ["invoiceId", "Invoice_ID", "invNo", "Bill_No"], "")),
-        amount: Number(pickField(p, ["amount", "Amount", "paid", "Paid", "cleared"], 0)) || 0,
-        mode: String(pickField(p, ["mode", "Mode", "paymentMode"], "Cash")),
-        ref: String(pickField(p, ["ref", "Ref", "reference", "remarks"], ""))
-      }));
+        id: String(pickField(p, ["id", "ID", "paymentId", "Payment_ID", "Receipt_No"], "PAY-" + (idx + 1))).trim(),
+        date: String(pickField(p, ["date", "Date", "paymentDate", "Payment_Date"], getTodayISO())).trim(),
+        clientId: String(pickField(p, ["clientId", "Client_ID", "partyId", "Party_ID"], "")).trim(),
+        clientName: String(pickField(p, ["clientName", "Client_Name", "partyName", "Party_Name", "client", "name"], "")).trim(),
+        invoiceId: String(pickField(p, ["invoiceId", "Invoice_ID", "invNo", "Bill_No"], "")).trim(),
+        amount: round2(pickField(p, ["amount", "Amount", "paid", "Paid", "cleared"], 0)),
+        mode: String(pickField(p, ["mode", "Mode", "paymentMode"], "Cash")).trim(),
+        ref: String(pickField(p, ["ref", "Ref", "reference", "remarks"], "")).trim()
+      })).filter(p => p.amount !== 0 || p.clientName || p.clientId);
 
       const itemsByInvoice = {};
       rawItems.forEach((it, idx) => {
-        const invId = String(pickField(it, ["invoiceId", "Invoice_ID", "invId", "invNo", "Bill_No", "id"], ""));
+        const invId = String(pickField(it, ["invoiceId", "Invoice_ID", "invId", "invNo", "Bill_No", "id"], "")).trim();
         if (!invId) return;
-        if (!itemsByInvoice[invId]) itemsByInvoice[invId] = [];
-        const qty = Number(pickField(it, ["qty", "Qty", "quantity"], 1)) || 1;
-        const rate = Number(pickField(it, ["rate", "Rate", "price"], 0)) || 0;
-        const lineTotal = Number(pickField(it, ["total", "Total", "amount", "Amount"], qty * rate)) || (qty * rate);
-        itemsByInvoice[invId].push({
-          desc: String(pickField(it, ["desc", "Desc", "description", "Description", "particulars", "item"], "Item " + (idx + 1))),
-          remark: String(pickField(it, ["remark", "Remark", "remarks", "Remarks", "dimension", "Dimension", "spec"], "")),
+        const invKey = normalizeKey(invId);
+        if (!itemsByInvoice[invKey]) itemsByInvoice[invKey] = [];
+        const qty = round2(pickField(it, ["qty", "Qty", "quantity"], 1)) || 1;
+        const rate = round2(pickField(it, ["rate", "Rate", "price"], 0));
+        const lineTotal = round2(pickField(it, ["total", "Total", "amount", "Amount"], round2(qty * rate)));
+        itemsByInvoice[invKey].push({
+          desc: String(pickField(it, ["desc", "Desc", "description", "Description", "particulars", "item"], "Item " + (idx + 1))).trim(),
+          remark: String(pickField(it, ["remark", "Remark", "remarks", "Remarks", "dimension", "Dimension", "spec"], "")).trim(),
           qty,
           rate,
           total: lineTotal
@@ -813,71 +841,67 @@
       });
 
       const invoices = rawInvoices.map((inv, idx) => {
-        const id = String(pickField(inv, ["id", "ID", "invoiceId", "Invoice_ID", "invNo", "Bill_No"], "INV-" + (idx + 1)));
-        const clientId = String(pickField(inv, ["clientId", "Client_ID", "partyId", "Party_ID"], ""));
-        const clientName = String(pickField(inv, ["clientName", "Client_Name", "partyName", "Party_Name", "client", "name"], ""));
-        const grossTotal = Number(pickField(inv, ["grossTotal", "Gross_Total", "subtotal", "Subtotal"], 0)) || 0;
-        const discount = Number(pickField(inv, ["discount", "Discount"], 0)) || 0;
-        const gstAmount = Number(pickField(inv, ["gstAmount", "GST_Amount", "tax"], 0)) || 0;
-        const computedNet = grossTotal > 0 ? Math.max(0, grossTotal - discount + gstAmount) : 0;
-        const total = Number(pickField(inv, ["total", "Total", "netTotal", "Net_Total", "amount", "Amount"], computedNet)) || computedNet;
-        const status = String(pickField(inv, ["status", "Status", "orderStatus"], "Delivered / Completed"));
-        const cost = Number(pickField(inv, ["totalCost", "Total_Cost", "cost", "Cost", "cogs"], 0)) || 0;
-        const sevaFund = Number(pickField(inv, ["sevaFund", "Seva_Fund", "hanumanFund", "Hanuman_Fund", "seva"], 0)) || 0;
+        const id = String(pickField(inv, ["id", "ID", "invoiceId", "Invoice_ID", "invNo", "Bill_No"], "INV-" + (idx + 1))).trim();
+        const clientId = String(pickField(inv, ["clientId", "Client_ID", "partyId", "Party_ID"], "")).trim();
+        const clientName = String(pickField(inv, ["clientName", "Client_Name", "partyName", "Party_Name", "client", "name"], "")).trim();
+        const grossTotal = round2(pickField(inv, ["grossTotal", "Gross_Total", "subtotal", "Subtotal"], 0));
+        const discount = round2(pickField(inv, ["discount", "Discount"], 0));
+        const gstAmount = round2(pickField(inv, ["gstAmount", "GST_Amount", "tax"], 0));
+        const computedNet = grossTotal > 0 ? round2(Math.max(0, grossTotal - discount + gstAmount)) : 0;
+        const total = round2(pickField(inv, ["total", "Total", "netTotal", "Net_Total", "amount", "Amount"], computedNet));
+        const status = String(pickField(inv, ["status", "Status", "orderStatus"], "Delivered / Completed")).trim();
+        const cost = round2(pickField(inv, ["totalCost", "Total_Cost", "cost", "Cost", "cogs"], 0));
+        const sevaFund = round2(pickField(inv, ["sevaFund", "Seva_Fund", "hanumanFund", "Hanuman_Fund", "seva"], 0));
 
-        const matchedPayments = payments.filter(p =>
-          (p.invoiceId && String(p.invoiceId) === id) ||
-          (!p.invoiceId && clientId && String(p.clientId) === clientId) ||
-          (!p.invoiceId && clientName && p.clientName.trim().toLowerCase() === clientName.trim().toLowerCase())
-        );
-        const clearedFromPayments = matchedPayments.reduce((s, p) => s + (Number(p.amount) || 0), 0);
-        const explicitCleared = Number(pickField(inv, ["cleared", "Cleared", "paid", "Paid", "received"], 0)) || 0;
+        const matchedPayments = payments.filter(p => p.invoiceId && normalizeKey(p.invoiceId) === normalizeKey(id));
+        const clearedFromInvoicePayments = round2(matchedPayments.reduce((s, p) => round2(s + p.amount), 0));
+        const explicitCleared = round2(pickField(inv, ["cleared", "Cleared", "paid", "Paid", "received"], 0));
 
         return {
           id,
-          date: String(pickField(inv, ["date", "Date", "invoiceDate", "Invoice_Date"], getTodayISO())),
+          date: String(pickField(inv, ["date", "Date", "invoiceDate", "Invoice_Date"], getTodayISO())).trim(),
           clientId,
           clientName,
           grossTotal: grossTotal || total,
           discount,
           gstAmount,
           total,
-          cleared: explicitCleared > 0 ? explicitCleared : clearedFromPayments,
+          cleared: explicitCleared > 0 ? explicitCleared : clearedFromInvoicePayments,
           status,
           cost,
           sevaFund,
           showTerms: false,
           termsText: "",
-          items: itemsByInvoice[id] || []
+          items: itemsByInvoice[normalizeKey(id)] || []
         };
       });
 
       const parties = rawClients.map((c, idx) => {
-        const id = String(pickField(c, ["id", "ID", "clientId", "Client_ID", "partyId", "Party_ID"], "C-" + (idx + 1)));
+        const id = String(pickField(c, ["id", "ID", "clientId", "Client_ID", "partyId", "Party_ID"], "C-" + (idx + 1))).trim();
         const name = String(pickField(c, ["name", "Name", "clientName", "Client_Name", "partyName", "Party_Name", "company"], "")).trim();
-        const phone = String(pickField(c, ["phone", "Phone", "mobile", "Mobile", "contact"], ""));
-        const address = String(pickField(c, ["address", "Address", "addr"], ""));
-        const createdDate = String(pickField(c, ["createdDate", "Created_Date", "createdAt", "Created_At", "date", "since"], ""));
-        const openingBalance = Number(pickField(c, ["openingBalance", "Opening_Balance", "opening", "Opening"], 0)) || 0;
+        const phone = String(pickField(c, ["phone", "Phone", "mobile", "Mobile", "contact"], "")).trim();
+        const address = String(pickField(c, ["address", "Address", "addr"], "")).trim();
+        const createdDate = String(pickField(c, ["createdDate", "Created_Date", "createdAt", "Created_At", "date", "since"], "")).trim();
+        const openingBalance = round2(pickField(c, ["openingBalance", "Opening_Balance", "opening", "Opening"], 0));
         return { id, name, phone, address, createdDate, openingBalance };
       }).filter(p => p.name);
 
       invoices.forEach(inv => {
         if (!inv.clientId && inv.clientName) {
-          const matchedParty = parties.find(p => p.name.trim().toLowerCase() === inv.clientName.trim().toLowerCase());
+          const matchedParty = parties.find(p => normalizeKey(p.name) === normalizeKey(inv.clientName));
           if (matchedParty) inv.clientId = matchedParty.id;
         }
       });
 
       const expenses = rawExpenses.map((e, idx) => ({
-        id: String(pickField(e, ["id", "ID", "expenseId", "Expense_ID"], "EXP-" + (idx + 1))),
-        date: String(pickField(e, ["date", "Date", "expenseDate"], getTodayISO())),
-        vendor: String(pickField(e, ["vendor", "Vendor", "payee"], "")),
-        phone: String(pickField(e, ["phone", "Phone"], "")),
-        cat: String(pickField(e, ["cat", "Cat", "category", "Category"], "General")),
-        desc: String(pickField(e, ["desc", "Desc", "description", "Description", "title", "particulars"], "Office Expense")),
-        amount: Number(pickField(e, ["amount", "Amount", "cost", "Cost"], 0)) || 0,
-        mode: String(pickField(e, ["mode", "Mode"], "Cash"))
+        id: String(pickField(e, ["id", "ID", "expenseId", "Expense_ID"], "EXP-" + (idx + 1))).trim(),
+        date: String(pickField(e, ["date", "Date", "expenseDate"], getTodayISO())).trim(),
+        vendor: String(pickField(e, ["vendor", "Vendor", "payee"], "")).trim(),
+        phone: String(pickField(e, ["phone", "Phone"], "")).trim(),
+        cat: String(pickField(e, ["cat", "Cat", "category", "Category"], "General")).trim(),
+        desc: String(pickField(e, ["desc", "Desc", "description", "Description", "title", "particulars"], "Office Expense")).trim(),
+        amount: round2(pickField(e, ["amount", "Amount", "cost", "Cost"], 0)),
+        mode: String(pickField(e, ["mode", "Mode"], "Cash")).trim()
       }));
 
       return { parties, invoices, payments, expenses };
@@ -931,27 +955,78 @@
       }
     }
 
-    let selectedStatementPartyId = "";
-    let growthMode = "30d";
-    let toastTimer = null;
-    let isLocked = false;
+    function openExpenseQuickView() {
+      switchView("expenses");
+      const titleInput = document.getElementById("exp-title");
+      if (titleInput) titleInput.focus();
+    }
 
-    function showDigitalSavePopup(title, sub = "Synced with Cool Art Cloud Ledger") {
-      const toast = document.getElementById("ios-save-toast");
-      const titleEl = document.getElementById("ios-toast-title");
-      const subEl = document.getElementById("ios-toast-sub");
-      if (!toast || !titleEl || !subEl) return;
-
-      titleEl.textContent = title;
-      subEl.textContent = sub;
-      toast.classList.remove("hidden");
-
-      const svgPath = toast.querySelector(".check-path");
-      if (svgPath) {
-        svgPath.style.animation = "none";
-        void svgPath.offsetWidth;
-        svgPath.style.animation = "drawCheck 0.45s ease-out forwards";
+    function openPaymentModal() {
+      const select = document.getElementById("payment-party-select");
+      if (select) {
+        select.innerHTML = `<option value="">-- Choose Party --</option>` +
+          state.parties.map(p => `<option value="${escapeHtml(p.id)}">${escapeHtml(p.name)}${p.phone ? " (" + escapeHtml(p.phone) + ")" : ""}</option>`).join("");
+        if (selectedStatementPartyId && state.parties.some(p => String(p.id) === String(selectedStatementPartyId))) {
+          select.value = selectedStatementPartyId;
+        } else if (state.parties.length) {
+          select.value = state.parties[0].id;
+        }
       }
+      document.getElementById("payment-date").value = getTodayISO();
+      document.getElementById("payment-amount").value = "";
+      document.getElementById("payment-ref").value = "";
+      document.getElementById("payment-modal").classList.remove("hidden");
+    }
+
+    function closePaymentModal() {
+      document.getElementById("payment-modal").classList.add("hidden");
+    }
+
+    function savePaymentEntry() {
+      const clientId = String(document.getElementById("payment-party-select").value || "").trim();
+      const party = state.parties.find(p => normalizeKey(p.id) === normalizeKey(clientId));
+      const clientName = party ? party.name : "";
+      const date = document.getElementById("payment-date").value || getTodayISO();
+      const amount = round2(document.getElementById("payment-amount").value);
+      const mode = document.getElementById("payment-mode").value || "Cash";
+      const ref = document.getElementById("payment-ref").value.trim();
+
+      if (!clientId && !clientName) return;
+      if (amount <= 0) return;
+
+      const paymentRecord = {
+        id: "PAY-" + Date.now(),
+        date,
+        clientId: party ? party.id : clientId,
+        clientName,
+        invoiceId: "",
+        amount,
+        mode,
+        ref
+      };
+      state.payments.unshift(paymentRecord);
+
+      postToGoogleSheet({
+        action: "SAVE_PAYMENT",
+        payment: {
+          id: paymentRecord.id,
+          date: paymentRecord.date,
+          clientId: paymentRecord.clientId,
+          clientName: paymentRecord.clientName,
+          invoiceId: paymentRecord.invoiceId,
+          amount: paymentRecord.amount,
+          mode: paymentRecord.mode,
+          ref: paymentRecord.ref
+        }
+      });
+
+      closePaymentModal();
+      renderDashboard();
+      renderAllPartyTable();
+      renderStatementPartySidebar();
+      renderOfficialStatementSheet();
+      showDigitalSavePopup("Payment Recorded", `${clientName || clientId} • ${formatINR(amount)}`);
+    }
 
       if (toastTimer) clearTimeout(toastTimer);
       toastTimer = setTimeout(() => {
@@ -1015,64 +1090,58 @@
       const activeBtn = document.getElementById("nav-btn-" + viewName);
       if (activeBtn && viewName !== "hanuman") {
         activeBtn.classList.remove("text-slate-300");
-        activeBtn.classList.add("bg-indigo-600", "text-white");
-      }
+    function getPartyPayments(party) {
+      if (!party) return [];
+      const targetId = normalizeKey(party.id);
+      const targetName = normalizeKey(party.name);
 
-      if (viewName === "dashboard") {
-        renderDashboard();
-      } else if (viewName === "allparty") {
-        renderAllPartyTable();
-      } else if (viewName === "studio") {
-        populateStudioPartyDropdown();
-        if (!document.getElementById("studio-inv-date").value) {
-          document.getElementById("studio-inv-date").value = getTodayISO();
-        }
-        recalcStudioTotal();
-      } else if (viewName === "statement") {
-        if (!selectedStatementPartyId && state.parties.length) {
-          selectedStatementPartyId = state.parties[0].id;
-        }
-        renderStatementPartySidebar();
-        renderOfficialStatementSheet();
-      } else if (viewName === "expenses") {
-        if (!document.getElementById("exp-date").value) {
-          document.getElementById("exp-date").value = getTodayISO();
-        }
-        renderExpensesView();
-      } else if (viewName === "hanuman") {
-        if (!document.getElementById("seva-date").value) {
-          document.getElementById("seva-date").value = getTodayISO();
-        }
-        renderHanumanBankView();
-      }
+      const byId = targetId
+        ? state.payments.filter(p => normalizeKey(p.clientId) === targetId)
+        : [];
+      if (byId.length > 0) return byId;
 
-      toggleMobileSidebar(false);
+      if (targetName) {
+        return state.payments.filter(p => normalizeKey(p.clientName) === targetName);
+      }
+      return [];
     }
 
     function getPartyTotals(partyId) {
-      const party = state.parties.find(p => String(p.id) === String(partyId));
-      const partyNameNorm = party && party.name ? party.name.trim().toLowerCase() : "";
-      const bills = state.invoices.filter(b =>
-        String(b.clientId) === String(partyId) ||
-        (partyNameNorm && b.clientName && b.clientName.trim().toLowerCase() === partyNameNorm)
-      );
-      const opening = Number(party?.openingBalance) || 0;
-      const billed = opening + bills.reduce((s, b) => s + (Number(b.total) || 0), 0);
-      const cleared = bills.reduce((s, b) => s + (Number(b.cleared) || 0), 0);
-      return { bills, billed, cleared, due: Math.max(0, billed - cleared) };
+      const party = state.parties.find(p => normalizeKey(p.id) === normalizeKey(partyId));
+      const targetId = normalizeKey(party ? party.id : partyId);
+      const targetName = normalizeKey(party ? party.name : "");
+
+      const billsById = targetId
+        ? state.invoices.filter(b => normalizeKey(b.clientId) === targetId)
+        : [];
+      const bills = billsById.length > 0
+        ? billsById
+        : (targetName ? state.invoices.filter(b => normalizeKey(b.clientName) === targetName) : []);
+
+      const matchedPayments = getPartyPayments(party || { id: partyId, name: "" });
+      const paymentsSum = round2(matchedPayments.reduce((s, p) => round2(s + (Number(p.amount) || 0)), 0));
+      const invoiceClearedSum = round2(bills.reduce((s, b) => round2(s + (Number(b.cleared) || 0)), 0));
+      const cleared = round2(Math.max(paymentsSum, invoiceClearedSum));
+
+      const opening = round2(party?.openingBalance || 0);
+      const billsSum = round2(bills.reduce((s, b) => round2(s + (Number(b.total) || 0)), 0));
+      const billed = round2(opening + billsSum);
+      const due = round2(Math.max(0, round2(billed - cleared)));
+
+      return { bills, payments: matchedPayments, billed, cleared, due };
     }
 
     function getHanumanBankBalance() {
-      const fundFromInvoices = state.invoices.reduce((s, b) => s + (Number(b.sevaFund) || 0), 0);
-      const sevaDisbursed = state.expenses
-        .filter(e => String(e.cat || "").toLowerCase() === "hanuman_seva")
-        .reduce((s, e) => s + (Number(e.amount) || 0), 0);
-      return Math.max(0, fundFromInvoices - sevaDisbursed);
+      const fundFromInvoices = round2(state.invoices.reduce((s, b) => round2(s + (Number(b.sevaFund) || 0)), 0));
+      const sevaDisbursed = round2(state.expenses
+        .filter(e => normalizeKey(e.cat) === "hanuman_seva")
+        .reduce((s, e) => round2(s + (Number(e.amount) || 0)), 0));
+      return round2(Math.max(0, round2(fundFromInvoices - sevaDisbursed)));
     }
 
     function renderSidebarMetrics() {
-      const totalInvoiced = state.invoices.reduce((s, b) => s + (Number(b.total) || 0), 0);
-      const totalCleared = state.invoices.reduce((s, b) => s + (Number(b.cleared) || 0), 0);
+      const totalInvoiced = round2(state.invoices.reduce((s, b) => round2(s + (Number(b.total) || 0)), 0));
+      const totalCleared = getTotalClearedAllParties();
       const rate = totalInvoiced > 0 ? Math.round((totalCleared / totalInvoiced) * 100) : 0;
 
       const partyCountEl = document.getElementById("mission-party-count");
@@ -1086,9 +1155,9 @@
         if (growthMode === "30d") {
           const cutoff = new Date();
           cutoff.setDate(cutoff.getDate() - 30);
-          const recentSum = state.invoices
+          const recentSum = round2(state.invoices
             .filter(b => new Date(b.date) >= cutoff)
-            .reduce((s, b) => s + (Number(b.total) || 0), 0);
+            .reduce((s, b) => round2(s + (Number(b.total) || 0)), 0));
           growthValEl.textContent = formatINR(recentSum || totalInvoiced);
         } else {
           growthValEl.textContent = formatINR(totalInvoiced);
@@ -1096,16 +1165,22 @@
       }
     }
 
+    function getTotalClearedAllParties() {
+      const allPaymentsSum = round2(state.payments.reduce((s, p) => round2(s + (Number(p.amount) || 0)), 0));
+      const partyClearedSum = round2(state.parties.reduce((s, p) => round2(s + getPartyTotals(p.id).cleared), 0));
+      return round2(Math.max(allPaymentsSum, partyClearedSum));
+    }
+
     function renderDashboard() {
-      const totalInvoiced = state.invoices.reduce((s, b) => s + (Number(b.total) || 0), 0);
-      const totalCleared = state.invoices.reduce((s, b) => s + (Number(b.cleared) || 0), 0);
-      const totalOpening = state.parties.reduce((s, p) => s + (Number(p.openingBalance) || 0), 0);
-      const outstandingDue = Math.max(0, (totalInvoiced + totalOpening) - totalCleared);
-      const totalCost = state.invoices.reduce((s, b) => s + (Number(b.cost) || 0), 0);
-      const regularExpenses = state.expenses
-        .filter(e => String(e.cat || "").toLowerCase() !== "hanuman_seva")
-        .reduce((s, e) => s + (Number(e.amount) || 0), 0);
-      const netProfit = totalInvoiced - totalCost - regularExpenses;
+      const totalInvoiced = round2(state.invoices.reduce((s, b) => round2(s + (Number(b.total) || 0)), 0));
+      const totalCleared = getTotalClearedAllParties();
+      const totalOpening = round2(state.parties.reduce((s, p) => round2(s + (Number(p.openingBalance) || 0)), 0));
+      const outstandingDue = round2(Math.max(0, round2(round2(totalInvoiced + totalOpening) - totalCleared)));
+      const totalCost = round2(state.invoices.reduce((s, b) => round2(s + (Number(b.cost) || 0)), 0));
+      const regularExpenses = round2(state.expenses
+        .filter(e => normalizeKey(e.cat) !== "hanuman_seva")
+        .reduce((s, e) => round2(s + (Number(e.amount) || 0)), 0));
+      const netProfit = round2(round2(round2(totalInvoiced - totalCost) - regularExpenses));
       const hanumanBal = getHanumanBankBalance();
 
       document.getElementById("kpi-client-count").textContent = String(state.parties.length);
@@ -1173,24 +1248,28 @@
       );
 
       if (!filtered.length) {
-        tbody.innerHTML = `<tr><td colspan="5" class="py-8 px-4 text-center text-slate-400">No parties found.</td></tr>`;
+        tbody.innerHTML = `<tr><td colspan="8" class="py-8 px-4 text-center text-slate-400">No parties found.</td></tr>`;
         renderAllPartyBillsPanel(null);
         return;
       }
 
-      if (!selectedStatementPartyId || !filtered.some(p => String(p.id) === String(selectedStatementPartyId))) {
+      if (!selectedStatementPartyId || !filtered.some(p => normalizeKey(p.id) === normalizeKey(selectedStatementPartyId))) {
         selectedStatementPartyId = filtered[0].id;
       }
 
       tbody.innerHTML = filtered.map(p => {
-        const isSelected = String(p.id) === String(selectedStatementPartyId);
+        const isSelected = normalizeKey(p.id) === normalizeKey(selectedStatementPartyId);
+        const t = getPartyTotals(p.id);
         return `
           <tr onclick="selectPartyForBills('${escapeHtml(p.id)}')" class="cursor-pointer transition ${isSelected ? "bg-indigo-50/80" : "hover:bg-slate-50"}">
-            <td class="py-3 px-3.5 font-bold text-slate-900">${escapeHtml(p.name)}</td>
-            <td class="py-3 px-3.5 text-slate-600">${escapeHtml(p.phone || "—")}</td>
-            <td class="py-3 px-3.5 text-slate-600 max-w-[180px] truncate">${escapeHtml(p.address || "—")}</td>
-            <td class="py-3 px-3.5 text-slate-500 whitespace-nowrap">${escapeHtml(p.createdDate || "—")}</td>
-            <td class="py-3 px-3.5 text-right" onclick="event.stopPropagation();">
+            <td class="py-3 px-3 font-bold text-slate-900">${escapeHtml(p.name)}</td>
+            <td class="py-3 px-2.5 text-slate-600 whitespace-nowrap">${escapeHtml(p.phone || "—")}</td>
+            <td class="py-3 px-2.5 text-slate-600 max-w-[150px] truncate">${escapeHtml(p.address || "—")}</td>
+            <td class="py-3 px-2.5 text-slate-500 whitespace-nowrap">${escapeHtml(p.createdDate || "—")}</td>
+            <td class="py-3 px-2.5 text-right font-semibold text-slate-800 whitespace-nowrap">${formatINR(t.billed)}</td>
+            <td class="py-3 px-2.5 text-right font-semibold text-emerald-700 whitespace-nowrap">${formatINR(t.cleared)}</td>
+            <td class="py-3 px-2.5 text-right font-bold whitespace-nowrap ${t.due > 0 ? "text-rose-600" : "text-slate-600"}">${formatINR(t.due)}</td>
+            <td class="py-3 px-3 text-right" onclick="event.stopPropagation();">
               <button type="button" onclick="openPartyModal('${escapeHtml(p.id)}')" class="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg text-[11px] font-bold bg-slate-100 hover:bg-indigo-600 hover:text-white text-slate-700 transition">
                 <span>✏️</span>
                 <span>Edit</span>
@@ -1389,9 +1468,9 @@
     function recalcStudioTotal() {
       let total = 0;
       document.querySelectorAll(".studio-item-row").forEach(row => {
-        const qty = parseFloat(row.querySelector(".item-qty")?.value) || 0;
-        const rate = parseFloat(row.querySelector(".item-rate")?.value) || 0;
-        total += qty * rate;
+        const qty = round2(row.querySelector(".item-qty")?.value) || 0;
+        const rate = round2(row.querySelector(".item-rate")?.value) || 0;
+        total = round2(total + round2(qty * rate));
       });
       const el = document.getElementById("studio-grand-total");
       if (el) el.textContent = formatINR(total);
@@ -1426,11 +1505,11 @@
       document.querySelectorAll(".studio-item-row").forEach(row => {
         const desc = row.querySelector(".item-desc").value.trim();
         const remark = row.querySelector(".item-remark").value.trim();
-        const qty = parseFloat(row.querySelector(".item-qty").value) || 0;
-        const rate = parseFloat(row.querySelector(".item-rate").value) || 0;
-        const amt = qty * rate;
+        const qty = round2(row.querySelector(".item-qty").value) || 0;
+        const rate = round2(row.querySelector(".item-rate").value) || 0;
+        const amt = round2(qty * rate);
         if (desc) {
-          total += amt;
+          total = round2(total + amt);
           items.push({ desc, remark, qty, rate, total: amt });
         }
       });
@@ -1438,7 +1517,7 @@
       if (!clientId || !items.length) return;
 
       const finalInvId = invNo || ("INV-" + Date.now());
-      const sevaFund = Number((total * 0.01).toFixed(2));
+      const sevaFund = round2(total * 0.01);
       const invoiceRecord = {
         id: finalInvId,
         clientId,
@@ -1472,7 +1551,7 @@
           total: invoiceRecord.total,
           status: invoiceRecord.status,
           totalCost: invoiceRecord.cost,
-          netProfit: invoiceRecord.total - invoiceRecord.cost,
+          netProfit: round2(invoiceRecord.total - invoiceRecord.cost),
           sevaFund: invoiceRecord.sevaFund
         },
         items: items.map(it => ({
@@ -1619,7 +1698,7 @@
     function addOfficeExpense() {
       const date = document.getElementById("exp-date").value || getTodayISO();
       const desc = document.getElementById("exp-title").value.trim();
-      const amount = parseFloat(document.getElementById("exp-amount").value) || 0;
+      const amount = round2(document.getElementById("exp-amount").value);
       if (!desc || amount <= 0) return;
 
       const expenseRecord = { id: "E-" + Date.now(), date, desc, amount, vendor: "", phone: "", cat: "General", mode: "Cash" };
@@ -1666,7 +1745,7 @@
     function recordSevaDisbursement() {
       const date = document.getElementById("seva-date").value || getTodayISO();
       const note = document.getElementById("seva-note").value.trim() || "Temple / Prasad Seva";
-      const amount = parseFloat(document.getElementById("seva-amount").value) || 0;
+      const amount = round2(document.getElementById("seva-amount").value);
       if (amount <= 0) return;
 
       const record = {
