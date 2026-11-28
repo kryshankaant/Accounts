@@ -32,12 +32,12 @@
       if (!imgEl) return;
       if (!imgEl.dataset.fallbackStage) {
         imgEl.dataset.fallbackStage = "1";
-        imgEl.src = "lakshmi narayan.png";
+        imgEl.src = "lakshmi-narayan.png";
         return;
       }
       if (imgEl.dataset.fallbackStage === "1") {
         imgEl.dataset.fallbackStage = "2";
-        imgEl.src = "laxmi-narayan.png";
+        imgEl.src = "lakshmi narayan.png";
         return;
       }
       imgEl.onerror = null;
@@ -125,24 +125,35 @@
   </div>
 
   <!-- ==================== MOBILE TOP BAR ==================== -->
-  <header class="lg:hidden sticky top-0 z-30 bg-[#0b1221] text-white px-4 py-3 flex items-center justify-between border-b border-slate-800 no-print">
+  <header class="lg:hidden sticky top-0 z-30 bg-[#0b1221] text-white px-4 py-2.5 flex items-center justify-between border-b border-slate-800 no-print">
     <div class="flex items-center gap-2.5">
-      <div class="w-8 h-8 rounded-xl bg-slate-900 border border-slate-700/80 flex items-center justify-center p-1 overflow-hidden">
-        <img src="fevicon.png" alt="Cool Art" class="w-full h-full object-contain rounded-lg" />
-      </div>
-      <div>
-        <div class="font-display font-bold text-sm leading-tight">Cool Art®</div>
-        <div class="text-[10px] text-slate-400">Enterprise Commercial Billing</div>
-      </div>
+      <button type="button" onclick="toggleMobileSidebar()" aria-label="Open Navigation" class="p-2 rounded-xl bg-slate-800/90 hover:bg-slate-700 border border-slate-700 text-white transition">
+        <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round">
+          <line x1="3" y1="6" x2="21" y2="6" />
+          <line x1="3" y1="12" x2="21" y2="12" />
+          <line x1="3" y1="18" x2="21" y2="18" />
+        </svg>
+      </button>
+      <img
+        src="cool-art-logo.png"
+        onerror="this.onerror=null;this.src='cool art logo.png';"
+        alt="CoolArt®"
+        class="h-5 w-auto object-contain"
+      />
     </div>
-    <div class="flex items-center gap-2">
-      <button type="button" onclick="lockWorkspace()" class="px-2.5 py-1.5 rounded-lg bg-slate-800 text-xs font-semibold border border-slate-700">Lock</button>
-      <button type="button" onclick="toggleMobileSidebar()" class="px-3 py-1.5 rounded-lg bg-indigo-600 text-xs font-semibold">Menu</button>
-    </div>
+    <button type="button" onclick="lockWorkspace()" aria-label="Lock Workspace" class="p-2 rounded-xl bg-slate-800/90 hover:bg-slate-700 border border-slate-700 text-white transition">
+      <svg class="w-4 h-4 text-slate-200" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
+        <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+      </svg>
+    </button>
   </header>
 
+  <!-- Mobile Sidebar Backdrop -->
+  <div id="mobileSidebarBackdrop" onclick="closeMobileSidebar()" class="hidden fixed inset-0 z-30 bg-slate-950/60 backdrop-blur-[1px] lg:hidden no-print"></div>
+
   <!-- ==================== SIDEBAR NAVIGATION ==================== -->
-  <aside id="appSidebar" class="hidden lg:flex lg:flex-col lg:w-[260px] lg:fixed lg:inset-y-0 bg-[#0b1221] text-slate-200 border-r border-slate-800/90 z-40 no-print">
+  <aside id="appSidebar" class="fixed inset-y-0 left-0 w-[260px] flex flex-col bg-[#0b1221] text-slate-200 border-r border-slate-800/90 z-40 transform -translate-x-full lg:translate-x-0 transition-transform duration-300 ease-in-out no-print">
     <div class="px-5 pt-5 pb-4 border-b border-slate-800/80 flex flex-col items-center text-center">
       <div class="w-20 h-20 rounded-2xl bg-[#111a2e] border border-slate-700/80 flex items-center justify-center shadow-md mb-3 overflow-hidden p-2">
         <img src="fevicon.png" alt="Cool Art" class="w-full h-full object-contain rounded-xl" />
@@ -339,7 +350,7 @@
           <div class="rounded-2xl p-4 bg-gradient-to-br from-amber-50/90 via-orange-50/60 to-yellow-50/90 border border-amber-200/80 shadow-sm flex items-center gap-3.5">
             <div class="w-16 h-16 rounded-2xl overflow-hidden bg-white border border-amber-300/80 shadow-sm shrink-0 flex items-center justify-center">
               <img
-                src="lakshmi-narayan.png"
+                src="lord shri vishnu ji mata laxmi ji.jpg"
                 onerror="handleLaxmiNarayanFallback(this)"
                 alt="Shri Vishnu Ji & Mata Laxmi Ji"
                 class="w-full h-full object-cover"
@@ -1221,14 +1232,14 @@
 
     <!-- Single Clean Fixed Official Footer -->
     <footer class="fixed bottom-0 left-0 lg:left-[260px] right-0 z-20 bg-white/95 backdrop-blur border-t border-slate-200/90 no-print">
-      <div class="w-full max-w-[1260px] mx-auto px-4 sm:px-6 py-2 flex flex-col sm:flex-row items-center justify-between gap-2 text-[11.5px] text-slate-600">
-        <div class="flex flex-wrap items-center justify-center sm:justify-start gap-2.5">
-          <img src="cool art logo.png" onerror="this.onerror=null;this.src='cool-art-logo.png';" alt="CoolArt®" class="h-4 w-auto object-contain" />
+      <div class="w-full max-w-[1260px] mx-auto px-3 sm:px-6 py-1.5 sm:py-2 flex flex-col sm:flex-row items-center justify-between gap-1 sm:gap-2 text-[9.5px] sm:text-[11.5px] text-slate-600">
+        <div class="flex flex-wrap items-center justify-center sm:justify-start gap-1.5 sm:gap-2.5">
+          <img src="cool art logo_2.png" onerror="this.onerror=null;this.src='cool art logo.png';" alt="CoolArt®" class="h-3 sm:h-4 w-auto object-contain" />
           <span>© 2026 <strong class="font-semibold text-slate-900">Cool Art®</strong>. All Rights Reserved.</span>
         </div>
-        <div class="flex items-center gap-2 text-slate-500">
+        <div class="flex items-center gap-1.5 sm:gap-2 text-slate-500">
           <span>Powered by</span>
-          <img src="logo.png" alt="MunimJi by Cool Art®" class="h-5 w-auto object-contain" />
+          <img src="logo.png" alt="MunimJi by Cool Art®" class="h-4 sm:h-5 w-auto object-contain" />
           <span>• Developed by <strong class="font-semibold text-slate-900">Cool Art®</strong></span>
         </div>
       </div>
@@ -1429,12 +1440,25 @@
 
     function toggleMobileSidebar() {
       const sb = document.getElementById("appSidebar");
+      const bd = document.getElementById("mobileSidebarBackdrop");
       if (!sb) return;
-      sb.classList.toggle("hidden");
-      sb.classList.toggle("fixed");
-      sb.classList.toggle("inset-y-0");
-      sb.classList.toggle("left-0");
-      sb.classList.toggle("w-[260px]");
+      const isClosed = sb.classList.contains("-translate-x-full");
+      if (isClosed) {
+        sb.classList.remove("-translate-x-full");
+        sb.classList.add("translate-x-0");
+        bd?.classList.remove("hidden");
+      } else {
+        closeMobileSidebar();
+      }
+    }
+
+    function closeMobileSidebar() {
+      const sb = document.getElementById("appSidebar");
+      const bd = document.getElementById("mobileSidebarBackdrop");
+      if (!sb) return;
+      sb.classList.add("-translate-x-full");
+      sb.classList.remove("translate-x-0");
+      bd?.classList.add("hidden");
     }
 
     function toggleQuickCreateMenu() {
@@ -1477,7 +1501,7 @@
       });
 
       if (window.innerWidth < 1024) {
-        document.getElementById("appSidebar")?.classList.add("hidden");
+        closeMobileSidebar();
       }
 
       if (viewName === "dashboard") renderAllViews();
@@ -2633,7 +2657,7 @@
           <!-- Branded Footer Inside Invoice (Matching App Footer) -->
           <div class="pt-4 border-t border-slate-200 flex flex-col sm:flex-row items-center justify-between gap-2 text-[10.5px] text-slate-500">
             <div class="flex items-center gap-2">
-              <img src="cool art logo.png" onerror="this.onerror=null;this.src='cool-art-logo.png';" alt="CoolArt®" class="h-3.5 w-auto object-contain" />
+              <img src="cool art logo_2.png" onerror="this.onerror=null;this.src='cool art logo.png';" alt="CoolArt®" class="h-3.5 w-auto object-contain" />
               <span>© 2026 <strong class="text-slate-800">Cool Art®</strong>. All Rights Reserved.</span>
             </div>
             <div class="flex items-center gap-1.5">
