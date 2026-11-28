@@ -13,6 +13,16 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+Devanagari:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet" />
 
+  <script>
+    // Define Hanuman Ji image fallback early in <head> so inline onerror handlers never throw ReferenceError during HTML parsing
+    function handleHanumanImgFallback(imgEl) {
+      if (!imgEl || imgEl.dataset.fallbackApplied) return;
+      imgEl.dataset.fallbackApplied = "1";
+      const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#f59e0b"/><stop offset="100%" stop-color="#b45309"/></linearGradient></defs><rect width="100" height="100" rx="18" fill="url(#g)"/><text x="50" y="56" font-size="38" font-weight="bold" fill="#fffbeb" text-anchor="middle" font-family="Noto Sans Devanagari, sans-serif">ॐ</text><text x="50" y="80" font-size="11" font-weight="bold" fill="#fef3c7" text-anchor="middle" font-family="Noto Sans Devanagari, sans-serif">श्री हनुमते नमः</text></svg>`;
+      imgEl.src = "data:image/svg+xml;charset=utf-8," + encodeURIComponent(svg);
+    }
+  </script>
+
   <style>
     /* Base typography supporting Latin + Hindi Devanagari cleanly */
     :root {
@@ -640,18 +650,18 @@
                     </button>
                   </div>
                 </div>
-                <textarea id="invTermsInput" rows="3" placeholder="Optional: click Photography Terms or Printing Terms to attach..." class="w-full px-3 py-2 rounded-xl border border-slate-300 text-xs bg-white"></textarea>
+                <textarea id="invTermsInput" rows="3" oninput="renderStudioLivePreview()" placeholder="Optional: click Photography Terms or Printing Terms to attach..." class="w-full px-3 py-2 rounded-xl border border-slate-300 text-xs bg-white"></textarea>
               </div>
 
               <!-- Optional Spot Payment on Invoice Creation -->
               <div class="p-3.5 rounded-xl bg-emerald-50/60 border border-emerald-200 grid grid-cols-1 sm:grid-cols-3 gap-2.5">
                 <div>
                   <label class="block font-semibold text-emerald-900 mb-1">Spot Payment Received (₹)</label>
-                  <input type="number" step="0.01" id="invSpotPaidInput" value="0" class="w-full px-2.5 py-1.5 rounded-lg border border-emerald-300 bg-white font-bold" />
+                  <input type="number" step="0.01" id="invSpotPaidInput" value="0" oninput="recalcStudioTotals()" class="w-full px-2.5 py-1.5 rounded-lg border border-emerald-300 bg-white font-bold" />
                 </div>
                 <div>
                   <label class="block font-semibold text-emerald-900 mb-1">Payment Mode</label>
-                  <select id="invSpotModeInput" class="w-full px-2.5 py-1.5 rounded-lg border border-emerald-300 bg-white">
+                  <select id="invSpotModeInput" onchange="renderStudioLivePreview()" class="w-full px-2.5 py-1.5 rounded-lg border border-emerald-300 bg-white">
                     <option value="Spot Payment">Spot Payment</option>
                     <option value="UPI / PhonePe / GPay">UPI / PhonePe / GPay</option>
                     <option value="Cash">Cash</option>
@@ -660,7 +670,7 @@
                 </div>
                 <div>
                   <label class="block font-semibold text-emerald-900 mb-1">Reference Note</label>
-                  <input type="text" id="invSpotRefInput" placeholder="Spot Payment at Invoice" class="w-full px-2.5 py-1.5 rounded-lg border border-emerald-300 bg-white" />
+                  <input type="text" id="invSpotRefInput" oninput="renderStudioLivePreview()" placeholder="Spot Payment at Invoice" class="w-full px-2.5 py-1.5 rounded-lg border border-emerald-300 bg-white" />
                 </div>
               </div>
             </div>
@@ -690,6 +700,19 @@
               </div>
             </div>
           </div>
+        </div>
+
+        <!-- Live Cool Art Commercial Invoice Preview & Internal Office Margin Card -->
+        <div class="bg-white rounded-2xl border border-slate-200/90 shadow-sm overflow-hidden">
+          <div class="px-5 py-3 bg-slate-50 border-b border-slate-200 flex flex-wrap items-center justify-between gap-2 no-print">
+            <div class="text-xs font-extrabold text-slate-800">
+              Live Cool Art® Commercial Invoice Preview (Same Layout on Fill &amp; A4 Print/PDF)
+            </div>
+            <button type="button" onclick="printStudioInvoiceA4()" class="px-3.5 py-1.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white text-xs font-semibold">
+              Print / Save PDF (A4)
+            </button>
+          </div>
+          <div id="studioLiveInvoiceCard" class="p-5 sm:p-7"></div>
         </div>
       </section>
 
@@ -1442,14 +1465,6 @@
       };
     }
 
-    // Inline crisp SVG fallback if 'hanumanji.png' file is missing in folder
-    function handleHanumanImgFallback(imgEl) {
-      if (!imgEl || imgEl.dataset.fallbackApplied) return;
-      imgEl.dataset.fallbackApplied = "1";
-      const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#f59e0b"/><stop offset="100%" stop-color="#b45309"/></linearGradient></defs><rect width="100" height="100" rx="18" fill="url(#g)"/><text x="50" y="56" font-size="38" font-weight="bold" fill="#fffbeb" text-anchor="middle" font-family="Noto Sans Devanagari, sans-serif">ॐ</text><text x="50" y="80" font-size="11" font-weight="bold" fill="#fef3c7" text-anchor="middle" font-family="Noto Sans Devanagari, sans-serif">श्री हनुमते नमः</text></svg>`;
-      imgEl.src = "data:image/svg+xml;charset=utf-8," + encodeURIComponent(svg);
-    }
-
     // iPhone-style glassmorphic digital save popup
     let popupTimeout = null;
     function showDigitalSavePopup(title, subtitle = "Synced with Google Cloud Ledger") {
@@ -1798,7 +1813,7 @@
                         <button type="button" onclick="editExistingInvoice('${escapeHtml(inv.id)}')" class="px-2.5 py-1 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-800 font-semibold text-[11px]">
                           Edit Bill
                         </button>
-                        <button type="button" onclick="selectPartyForStatement('${escapeHtml(selected.id)}')" class="px-2.5 py-1 rounded-lg bg-blue-50 hover:bg-blue-100 text-blue-700 font-semibold text-[11px]">
+                        <button type="button" onclick="openSingleInvoicePreview('${escapeHtml(inv.id)}')" class="px-2.5 py-1 rounded-lg bg-blue-50 hover:bg-blue-100 text-blue-700 font-semibold text-[11px]">
                           Open A4
                         </button>
                       </div>
@@ -1815,6 +1830,330 @@
     function selectAllPartyItem(partyId) {
       state.selectedAllPartyId = partyId;
       renderAllPartyView();
+    }
+
+    // Build authentic Cool Art Commercial Invoice HTML (used in Studio live preview & A4 Print)
+    function buildCoolArtInvoiceHTML(invData, itemsList, partyObj, receiptsList, overallDue) {
+      const stages = [
+        { key: "Order Received", label: "Order Booked" },
+        { key: "Design Ready", label: "Design Ready" },
+        { key: "In Process / Production", label: "Print / Craft" },
+        { key: "Delivered / Completed", label: "Ready / Delivered" }
+      ];
+      const stNorm = normalizeKey(invData.status);
+      let activeStageIdx = 3;
+      if (stNorm.includes("received")) activeStageIdx = 0;
+      else if (stNorm.includes("design")) activeStageIdx = 1;
+      else if (stNorm.includes("process") || stNorm.includes("production")) activeStageIdx = 2;
+      else if (stNorm.includes("ready for delivery")) activeStageIdx = 3;
+
+      const gross = round2(invData.grossTotal);
+      const discount = round2(invData.discount);
+      const net = round2(invData.total);
+      const deposited = round2(receiptsList.reduce((s, r) => round2(s + (Number(r.amount) || 0)), 0));
+      const thisBillDue = round2(Math.max(0, round2(net - deposited)));
+      const discountPct = gross > 0 && discount > 0 ? round2((discount / gross) * 100) : 0;
+
+      const jobCost = round2(invData.totalCost || 0);
+      const netProfit = round2(net - jobCost);
+      const sevaFund = round2(Math.max(0, netProfit) * 0.10);
+
+      const upiUri = `upi://pay?pa=9458614610-2@ybl&pn=Cool%20Art%20Advertising&am=${thisBillDue.toFixed(2)}&cu=INR&tn=${encodeURIComponent(invData.id || "Invoice")}`;
+      const qrApiUrl = `https://api.qrserver.com/v1/create-qr-code/?size=140x140&data=${encodeURIComponent(upiUri)}`;
+
+      return `
+        <div class="coolart-invoice-sheet text-slate-900 space-y-5 text-xs">
+          <!-- Top Brand Banner -->
+          <div class="flex flex-col sm:flex-row sm:items-start justify-between gap-4 pb-4 border-b border-slate-200">
+            <div class="flex items-center gap-3.5">
+              <img src="cool art logo.png" onerror="this.onerror=null;this.src='fevicon.png';" alt="Cool Art" class="h-12 w-auto object-contain" />
+              <div>
+                <div class="font-display text-xl font-extrabold tracking-tight text-slate-900">coolart.</div>
+                <div class="text-[10px] font-bold uppercase tracking-widest text-blue-700">COMMERCIAL ACCOUNTS DIVISION</div>
+                <div class="text-[11px] text-slate-500">Branding • Signage • Large-Format Fabrication</div>
+              </div>
+            </div>
+            <div class="text-left sm:text-right">
+              <div class="inline-block px-3 py-1 rounded-lg bg-[#0B1221] text-white text-[10px] font-extrabold tracking-widest uppercase">
+                COMMERCIAL INVOICE
+              </div>
+              <div class="font-display text-base font-extrabold text-slate-900 mt-1">${escapeHtml(invData.id)}</div>
+              <div class="text-[11px] text-slate-600">Date: <strong>${escapeHtml(invData.date)}</strong></div>
+              <div class="text-[11px] text-slate-500">Current Stage: <strong class="text-blue-700">${escapeHtml(invData.status)}</strong></div>
+            </div>
+          </div>
+
+          <!-- 4-Step Live Production Workflow Bar -->
+          <div class="rounded-2xl bg-slate-50 border border-slate-200/90 p-3">
+            <div class="text-[10px] font-bold uppercase tracking-wider text-slate-400 mb-2">LIVE PRODUCTION WORKFLOW</div>
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-2">
+              ${stages.map((st, idx) => {
+                const done = idx <= activeStageIdx;
+                const current = idx === activeStageIdx;
+                return `
+                  <div class="px-3 py-2 rounded-xl border text-center ${current ? "bg-blue-600 text-white border-blue-600 shadow-sm" : done ? "bg-emerald-50 text-emerald-800 border-emerald-200" : "bg-white text-slate-400 border-slate-200"}">
+                    <div class="text-[11px] font-bold">${st.label}</div>
+                    <div class="text-[10px] opacity-85 mt-0.5">${current ? "Active" : done ? "Done" : "Pending"}</div>
+                  </div>
+                `;
+              }).join("")}
+            </div>
+          </div>
+
+          <!-- Billed To & Ledger Balance Standing -->
+          <div class="grid grid-cols-1 md:grid-cols-12 gap-4 items-stretch">
+            <div class="md:col-span-6 rounded-2xl border border-slate-200 p-4 bg-white flex flex-col justify-between">
+              <div class="flex items-center justify-between gap-2 mb-1.5">
+                <span class="text-[10px] font-bold uppercase tracking-wider text-slate-400">BILLED TO (CLIENT / ENTITY)</span>
+                <span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-emerald-50 text-emerald-700 border border-emerald-200">
+                  ${escapeHtml(invData.status)}
+                </span>
+              </div>
+              <div>
+                <div class="text-base font-extrabold text-slate-900">${escapeHtml(partyObj?.name || invData.clientName || "Select Client")}</div>
+                <div class="text-xs text-slate-600 mt-1">Phone / WhatsApp: <strong>${escapeHtml(partyObj?.phone || "—")}</strong></div>
+                <div class="text-xs text-slate-500 mt-0.5">${escapeHtml(partyObj?.address || "")}</div>
+              </div>
+            </div>
+
+            <div class="md:col-span-6 rounded-2xl border border-slate-200 p-4 bg-white flex flex-col justify-between">
+              <div class="flex items-center justify-between gap-2 mb-2">
+                <span class="text-[10px] font-bold uppercase tracking-wider text-slate-400">LEDGER BALANCE STANDING</span>
+                <span class="px-2 py-0.5 rounded bg-slate-100 text-slate-600 text-[10px] font-bold uppercase">VERIFIED STATEMENT</span>
+              </div>
+              <div class="grid grid-cols-2 gap-3 pt-1">
+                <div>
+                  <div class="text-[11px] text-slate-500">This Invoice Due:</div>
+                  <div class="font-display text-xl font-extrabold text-rose-600 mt-0.5">${formatINR(thisBillDue)}</div>
+                </div>
+                <div class="border-l border-slate-200 pl-3">
+                  <div class="text-[11px] text-slate-500">Overall Account Due:</div>
+                  <div class="font-display text-xl font-extrabold text-slate-900 mt-0.5">${formatINR(overallDue)}</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 4-Column Work Deliverables Table -->
+          <div class="border border-slate-200 rounded-2xl overflow-hidden">
+            <table class="w-full text-left border-collapse text-xs">
+              <thead>
+                <tr class="bg-slate-50 text-slate-500 uppercase text-[10px] tracking-wider border-b border-slate-200">
+                  <th class="py-2.5 px-4 w-12">#</th>
+                  <th class="py-2.5 px-3">DESCRIPTION OF WORK / DELIVERABLES</th>
+                  <th class="py-2.5 px-3 text-center w-28">QTY / SQ.FT</th>
+                  <th class="py-2.5 px-3 text-right w-28">UNIT RATE (₹)</th>
+                  <th class="py-2.5 px-4 text-right w-32">AMOUNT (₹)</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-slate-100">
+                ${itemsList.length === 0 ? `
+                  <tr><td colspan="5" class="py-6 text-center text-slate-400">Add line items above to preview deliverables...</td></tr>
+                ` : itemsList.map((it, idx) => `
+                  <tr>
+                    <td class="py-3 px-4 text-slate-400 font-semibold align-top">${idx + 1}</td>
+                    <td class="py-3 px-3 align-top">
+                      <div class="font-bold text-slate-900">${escapeHtml(it.desc || "Work Item")}${it.dimension ? ` <span class="text-slate-500 font-medium">(${escapeHtml(it.dimension)})</span>` : ""}</div>
+                      <div class="text-[10px] text-slate-400 mt-0.5">Ref: ${escapeHtml(invData.id)} (${escapeHtml(invData.date)})</div>
+                    </td>
+                    <td class="py-3 px-3 text-center font-semibold text-slate-800 align-top">${it.qty}</td>
+                    <td class="py-3 px-3 text-right text-slate-700 align-top">${formatINR(it.rate)}</td>
+                    <td class="py-3 px-4 text-right font-extrabold text-slate-900 align-top">${formatINR(round2((Number(it.qty) || 0) * (Number(it.rate) || 0)))}</td>
+                  </tr>
+                `).join("")}
+              </tbody>
+            </table>
+          </div>
+
+          <!-- Scan & Pay + Cleared Receipts Log (Left) AND Financial Summary (Right) -->
+          <div class="grid grid-cols-1 md:grid-cols-12 gap-4 items-start">
+            <div class="md:col-span-6 space-y-3">
+              <!-- Instant Scan & Pay -->
+              <div class="rounded-2xl border border-slate-200 p-3.5 bg-white flex items-center gap-3.5">
+                <img src="${qrApiUrl}" alt="UPI QR" onerror="this.style.display='none'" class="w-20 h-20 rounded-xl border border-slate-200 p-1 shrink-0" />
+                <div>
+                  <div class="text-[10px] font-bold uppercase tracking-wider text-slate-400">INSTANT SCAN &amp; PAY</div>
+                  <div class="text-xs font-extrabold text-slate-900 mt-0.5">GPay / PhonePe / Paytm</div>
+                  <div class="text-[11px] text-slate-600 mt-0.5">UPI ID: <strong>9458614610-2@ybl</strong></div>
+                  <span class="mt-1.5 inline-block px-2 py-0.5 rounded bg-indigo-50 text-indigo-700 text-[10px] font-bold border border-indigo-200">
+                    Amount Pre-filled: ${formatINR(thisBillDue)}
+                  </span>
+                </div>
+              </div>
+
+              <!-- Cleared Receipts Log -->
+              <div>
+                <div class="flex items-center justify-between mb-1.5">
+                  <span class="text-[10px] font-bold uppercase tracking-wider text-slate-500">CLEARED RECEIPTS LOG</span>
+                  <span class="text-[10px] text-slate-400 no-print">Verified payment entries</span>
+                </div>
+                ${receiptsList.length === 0 ? `
+                  <div class="rounded-xl border border-slate-200 bg-slate-50 px-3.5 py-2.5 text-[11px] text-slate-500">
+                    No deposits allocated to this document yet.
+                  </div>
+                ` : `
+                  <div class="space-y-1.5">
+                    ${receiptsList.map(r => `
+                      <div class="rounded-xl border border-slate-200 bg-white px-3.5 py-2.5 flex items-center justify-between gap-2">
+                        <div>
+                          <div class="font-bold text-slate-900">
+                            ${escapeHtml(r.mode || "Cash")}
+                            <span class="ml-1 px-1.5 py-0.5 rounded bg-indigo-50 text-indigo-700 text-[10px] font-bold">[${escapeHtml(invData.id)}]</span>
+                          </div>
+                          <div class="text-[10px] text-slate-500 mt-0.5">Date: ${escapeHtml(r.date)}${r.ref ? " • " + escapeHtml(r.ref) : ""}</div>
+                        </div>
+                        <div class="font-display text-sm font-extrabold text-emerald-600 shrink-0">${formatINR(r.amount)}</div>
+                      </div>
+                    `).join("")}
+                  </div>
+                `}
+              </div>
+            </div>
+
+            <!-- Right Summary Box -->
+            <div class="md:col-span-6 rounded-2xl border border-slate-200 p-4 bg-white space-y-2.5">
+              <div class="flex justify-between items-center text-xs">
+                <span class="text-slate-600">Gross Value of Work:</span>
+                <span class="font-bold text-slate-900">${formatINR(gross)}</span>
+              </div>
+              ${discount > 0 ? `
+                <div class="flex justify-between items-center text-xs text-amber-800">
+                  <span>Special Discount (${discountPct}% OFF):</span>
+                  <span class="font-bold">(-) ${formatINR(discount)}</span>
+                </div>
+              ` : ""}
+              <div class="flex justify-between items-center text-xs pt-1 border-t border-slate-100">
+                <span class="font-bold text-slate-900">Net Invoiced Value:</span>
+                <span class="font-extrabold text-slate-900">${formatINR(net)}</span>
+              </div>
+              <div class="flex justify-between items-center text-xs text-emerald-700">
+                <span>Deposited on This Bill:</span>
+                <span class="font-bold">(-) ${formatINR(deposited)}</span>
+              </div>
+              <div class="flex justify-between items-center pt-2.5 border-t border-slate-200">
+                <span class="font-extrabold text-rose-600 text-xs uppercase tracking-wide">NET BALANCE ON THIS BILL:</span>
+                <span class="font-display text-lg font-extrabold text-rose-600">${formatINR(thisBillDue)}</span>
+              </div>
+            </div>
+          </div>
+
+          ${invData.terms ? `
+            <div class="rounded-xl bg-slate-50 border border-slate-200 p-3 text-[10px] text-slate-600 whitespace-pre-line">
+              <strong class="text-slate-800 uppercase block mb-1">Terms &amp; Conditions:</strong>
+              ${escapeHtml(invData.terms)}
+            </div>
+          ` : ""}
+
+          <!-- Internal Office Margin (Strictly Confidential — Excluded from Customer PDF/Print) -->
+          <div class="rounded-2xl border border-amber-300/90 p-4 space-y-3 no-print" style="background: linear-gradient(135deg, #fffbeb 0%, #fef9c3 100%);">
+            <div class="flex flex-wrap items-center justify-between gap-2">
+              <div class="text-xs font-extrabold text-amber-950 flex items-center gap-1.5">
+                <span>🔒 Internal Office Margin (Strictly Confidential — Excluded from Customer PDF/Print)</span>
+              </div>
+              <span class="px-2.5 py-0.5 rounded-full bg-amber-200/80 text-amber-950 text-[10px] font-bold">
+                Invoice Date: ${escapeHtml(invData.date)}
+              </span>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+              <div class="bg-white rounded-xl p-3 border border-amber-200/80">
+                <div class="text-[10px] font-bold uppercase tracking-wider text-slate-400">PRODUCTION COSTING</div>
+                <div class="font-display text-lg font-extrabold text-slate-900 mt-0.5">${formatINR(jobCost)}</div>
+                <div class="text-[10px] text-slate-400">Dynamic Raw Costs</div>
+              </div>
+              <div class="bg-white rounded-xl p-3 border border-amber-200/80">
+                <div class="text-[10px] font-bold uppercase tracking-wider text-emerald-700">CALCULATED NET PROFIT</div>
+                <div class="font-display text-lg font-extrabold text-emerald-600 mt-0.5">${formatINR(netProfit)}</div>
+                <div class="text-[10px] text-slate-400">Net Billed − Production Cost</div>
+              </div>
+              <div class="rounded-xl p-3 border border-amber-300 flex items-center gap-2.5" style="background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);">
+                <img src="hanumanji.png" onerror="handleHanumanImgFallback(this)" alt="Hanuman Ji" class="w-11 h-11 rounded-lg object-cover border border-amber-400 shrink-0" />
+                <div>
+                  <div class="text-[10px] font-bold uppercase tracking-wider text-amber-900">HANUMAN JI KA BANK (10%)</div>
+                  <div class="font-display text-lg font-extrabold text-amber-950 mt-0.5">${formatINR(sevaFund)}</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Authorized Signatory & Co-Branding Footer -->
+          <div class="pt-4 border-t border-slate-200 flex items-end justify-between gap-4">
+            <div>
+              <div class="font-bold text-slate-900 text-xs">Cool Art Advertising</div>
+              <div class="text-[10px] text-slate-500">Official Computer Generated Commercial Invoice &amp; Client Ledger</div>
+              <div class="text-[10px] text-slate-400 mt-1">Powered by <strong>MunimJi</strong> by Cool Art • Developed by <strong>Team CoolArt®</strong></div>
+            </div>
+            <div class="text-right">
+              <div class="w-36 border-b border-slate-400 mb-1 ml-auto"></div>
+              <div class="text-[10px] font-extrabold uppercase tracking-wider text-slate-800">AUTHORIZED SIGNATORY</div>
+              <div class="text-[10px] text-slate-400">Commercial Billing</div>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    function renderStudioLivePreview() {
+      const target = document.getElementById("studioLiveInvoiceCard");
+      if (!target) return;
+
+      const invId = String(document.getElementById("invIdInput")?.value || generateNextInvoiceId()).trim();
+      const date = String(document.getElementById("invDateInput")?.value || getTodayISO()).trim();
+      const clientId = String(document.getElementById("invClientSelect")?.value || "").trim();
+      const party = state.parties.find(p => normalizeKey(p.id) === normalizeKey(clientId)) || state.parties[0] || null;
+      const status = document.getElementById("invStatusSelect")?.value || "Delivered / Completed";
+      const grossTotal = round2(state.studioItems.reduce((s, it) => round2(s + round2((Number(it.qty) || 0) * (Number(it.rate) || 0))), 0));
+      const discount = round2(document.getElementById("invDiscountInput")?.value || 0);
+      const total = round2(Math.max(0, round2(grossTotal - discount)));
+      const totalCost = round2(document.getElementById("invJobCostInput")?.value || 0);
+      const terms = String(document.getElementById("invTermsInput")?.value || "").trim();
+
+      const existingReceipts = state.payments.filter(p => normalizeKey(p.invoiceId) === normalizeKey(invId));
+      const spotAmt = round2(document.getElementById("invSpotPaidInput")?.value || 0);
+      const combinedReceipts = [...existingReceipts];
+      if (spotAmt > 0) {
+        combinedReceipts.push({
+          date,
+          mode: document.getElementById("invSpotModeInput")?.value || "Spot Payment",
+          amount: spotAmt,
+          ref: String(document.getElementById("invSpotRefInput")?.value || "Spot Payment at Invoice").trim()
+        });
+      }
+
+      const partyTotals = party ? getPartyTotals(party.id) : { due: round2(Math.max(0, total - spotAmt)) };
+      const isExisting = state.invoices.some(b => normalizeKey(b.id) === normalizeKey(invId));
+      const overallDue = isExisting
+        ? partyTotals.due
+        : round2(partyTotals.due + Math.max(0, round2(total - spotAmt)));
+
+      target.innerHTML = buildCoolArtInvoiceHTML(
+        { id: invId, date, status, grossTotal, discount, total, totalCost, terms },
+        state.studioItems,
+        party,
+        combinedReceipts,
+        overallDue
+      );
+    }
+
+    function openSingleInvoicePreview(invoiceId) {
+      editExistingInvoice(invoiceId);
+      setTimeout(() => {
+        const card = document.getElementById("studioLiveInvoiceCard");
+        if (card) card.scrollIntoView({ behavior: "smooth", block: "start" });
+      }, 80);
+    }
+
+    function printStudioInvoiceA4() {
+      const card = document.getElementById("studioLiveInvoiceCard");
+      const stmtBody = document.getElementById("statementRenderBody");
+      if (!card || !stmtBody) return;
+      const prevHtml = stmtBody.innerHTML;
+      stmtBody.innerHTML = card.innerHTML;
+      const prevView = state.activeView;
+      document.getElementById("view-invoiceStudio")?.classList.add("hidden");
+      document.getElementById("view-officialStatement")?.classList.remove("hidden");
+      window.print();
+      stmtBody.innerHTML = prevHtml;
+      switchView(prevView);
     }
 
     // ==================== RENDER OFFICIAL STATEMENT (SPLIT VIEW + A4) ====================
@@ -2052,6 +2391,7 @@
       state.studioItems = [{ desc: "", dimension: "", qty: 1, rate: 0, total: 0 }];
       populateClientDropdowns();
       renderStudioItems();
+      renderStudioLivePreview();
     }
 
     function editExistingInvoice(invoiceId) {
@@ -2080,11 +2420,13 @@
           }))
         : [{ desc: "", dimension: "", qty: 1, rate: 0, total: 0 }];
       renderStudioItems();
+      renderStudioLivePreview();
     }
 
     function addStudioItemRow() {
       state.studioItems.push({ desc: "", dimension: "", qty: 1, rate: 0, total: 0 });
       renderStudioItems();
+      renderStudioLivePreview();
     }
 
     function removeStudioItemRow(idx) {
@@ -2094,6 +2436,7 @@
         state.studioItems.splice(idx, 1);
       }
       renderStudioItems();
+      renderStudioLivePreview();
     }
 
     function updateStudioItemField(idx, field, val) {
@@ -2152,6 +2495,7 @@
       document.getElementById("studioNetDisplay").textContent = formatINR(net);
       document.getElementById("studioProfitDisplay").textContent = formatINR(profit);
       document.getElementById("studioSevaDisplay").textContent = formatINR(seva);
+      renderStudioLivePreview();
     }
 
     function applyTermsPreset(type) {
@@ -2162,11 +2506,13 @@
       } else {
         box.value = "1. Printing starts only after final design & spelling approval by client.\n2. Minor color variation (5–8%) between screen preview and CMYK/Screen print is standard.\n3. Goods once printed cannot be returned or cancelled.";
       }
+      renderStudioLivePreview();
     }
 
     function clearTermsPreset() {
       const box = document.getElementById("invTermsInput");
       if (box) box.value = "";
+      renderStudioLivePreview();
     }
 
     async function saveInvoiceFromStudio() {
@@ -2551,10 +2897,18 @@
       renderStatementPartyList();
       renderExpensesView();
       renderHanumanBankView();
+      renderStudioLivePreview();
     }
 
     // Boot application on window load
     window.onload = function() {
+      ["invIdInput", "invDateInput", "invClientSelect", "invStatusSelect"].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) {
+          el.addEventListener("input", renderStudioLivePreview);
+          el.addEventListener("change", renderStudioLivePreview);
+        }
+      });
       document.getElementById("sevaDateInput").value = getTodayISO();
       resetInvoiceStudio();
       switchView("dashboard");
