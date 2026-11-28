@@ -326,147 +326,132 @@
     <main id="workspaceContainer" class="max-w-[1440px] w-full mx-auto px-4 sm:px-6 py-5 flex-1">
 
       <!-- ==================== VIEW 1: DASHBOARD ==================== -->
-      <section id="view-dashboard" class="space-y-5">
+      <section id="view-dashboard" class="space-y-4">
 
-        <!-- Top Hero Row: Title on Left + Ivory & Gold Shri Vishnu Ji & Mata Laxmi Ji Card on Right -->
-        <div class="grid grid-cols-1 lg:grid-cols-12 gap-4 items-stretch">
-          <div class="lg:col-span-7 bg-white rounded-2xl p-5 border border-slate-200/90 shadow-sm flex flex-col justify-between">
-            <div>
-              <div class="inline-flex items-center gap-2 px-2.5 py-1 rounded-full bg-blue-50 text-blue-700 text-[11px] font-bold">
-                <span>CLOUD LEDGER & COMMERCIAL INVOICING</span>
-              </div>
-              <h1 class="text-xl sm:text-2xl font-extrabold text-slate-900 mt-2 tracking-tight">
-                Cool Art® Financial Command Center
-              </h1>
-              <p class="text-xs sm:text-sm text-slate-500 mt-1">
-                Real-time commercial billing, client collections, job costing, and temple seva ledger synced directly with Google Sheets.
-              </p>
-            </div>
-            <div class="mt-4 pt-3 border-t border-slate-100 flex flex-wrap items-center gap-2 text-xs">
-              <button type="button" onclick="openNewBillStudio()" class="px-3.5 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-semibold transition">
+        <!-- Top Row: Quick Actions + Separate Laxmi-Narayan Card + Separate Hanuman Bank Card -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-3.5 items-stretch">
+          <!-- Compact Quick Action Buttons Strip -->
+          <div class="lg:col-span-4 bg-white rounded-2xl p-3.5 sm:p-4 border border-slate-200/90 shadow-sm flex flex-col justify-between gap-3">
+            <div class="flex flex-wrap items-center gap-2">
+              <button type="button" onclick="openNewBillStudio()" class="px-3 py-1.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold transition">
                 + Create Invoice
               </button>
-              <button type="button" onclick="openPaymentModal()" class="px-3.5 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-semibold transition">
+              <button type="button" onclick="openPaymentModal()" class="px-3 py-1.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-semibold transition">
                 + Record Payment
               </button>
-              <button type="button" onclick="openAddPartyModal()" class="px-3.5 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-800 font-semibold transition">
+              <button type="button" onclick="openAddPartyModal()" class="px-3 py-1.5 rounded-xl bg-indigo-50 hover:bg-indigo-100 text-indigo-700 border border-indigo-200 text-xs font-semibold transition">
                 + Add Party
               </button>
-              <span id="lastSyncedLabel" class="ml-auto text-[11px] text-slate-400">Syncing live sheet...</span>
+              <button type="button" onclick="switchView('allParty')" class="px-3 py-1.5 rounded-xl bg-amber-50 hover:bg-amber-100 text-amber-800 border border-amber-200 text-xs font-semibold transition">
+                Total Clients: <strong id="dashTotalClientsBtnCount">0</strong>
+              </button>
+            </div>
+            <div class="flex items-center justify-between text-[11px] text-slate-400 pt-1 border-t border-slate-100">
+              <span>Quick Actions</span>
+              <span id="lastSyncedLabel">Syncing live sheet...</span>
             </div>
           </div>
 
-          <!-- Top-Right Ivory & Gold Shri Vishnu Ji & Mata Laxmi Ji Card -->
-          <div class="lg:col-span-5 rounded-2xl p-4 sm:p-5 border border-amber-300/80 shadow-sm flex items-center gap-4" style="background: linear-gradient(135deg, #FFFDF7 0%, #FDF6E3 55%, #FAECD0 100%);">
+          <!-- Standalone Ivory & Gold Shri Vishnu Ji & Mata Laxmi Ji Card -->
+          <div class="lg:col-span-4 rounded-2xl p-3.5 sm:p-4 border border-amber-300/80 shadow-sm flex items-center gap-3.5" style="background: linear-gradient(135deg, #FFFDF7 0%, #FDF6E3 55%, #FAECD0 100%);">
             <img
               src="lord shri vishnu ji mata laxmi ji.png"
               alt="Shri Vishnu Ji & Mata Laxmi Ji"
               onerror="this.style.display='none'"
-              class="h-20 sm:h-24 w-auto object-contain shrink-0"
+              class="h-16 sm:h-20 w-auto object-contain shrink-0"
             />
             <div class="min-w-0">
               <div class="text-[10px] font-bold uppercase tracking-widest text-amber-800">शुभ व्यापार • समृद्धि एवं मंगल</div>
-              <div class="hindi-text text-base sm:text-lg font-bold text-amber-950 mt-1">
+              <div class="hindi-text text-sm sm:text-base font-bold text-amber-950 mt-0.5">
                 ॐ नमो नारायणाय लक्ष्म्यै च नमो नमः
               </div>
-              <div class="text-[11px] text-amber-900/80 mt-1">
-                May Shri Hari Vishnu &amp; Mata Laxmi bless every enterprise endeavor with prosperity and integrity.
+            </div>
+          </div>
+
+          <!-- Standalone Hanuman Bank Card -->
+          <div onclick="switchView('hanumanBank')" class="lg:col-span-4 cursor-pointer rounded-2xl p-3.5 sm:p-4 border border-amber-400/80 shadow-sm hover:bg-amber-100/70 transition flex items-center justify-between gap-2.5" style="background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%);">
+            <div class="flex items-center gap-3 min-w-0">
+              <img
+                id="dashHanumanImg"
+                src="hanumanji.png"
+                alt="Hanuman Ji"
+                onerror="handleHanumanImgFallback(this)"
+                class="w-14 h-14 rounded-xl object-cover border border-amber-300 shrink-0 bg-amber-100"
+              />
+              <div class="min-w-0">
+                <div class="text-[10px] font-extrabold uppercase tracking-wider text-amber-900">HANUMAN BANK</div>
+                <div id="dashHanumanBalance" class="font-display text-lg sm:text-xl font-extrabold text-slate-900 leading-tight">₹0.00</div>
+                <div id="dashHanumanBooked" class="text-[10px] text-amber-900/90 font-medium truncate">Ready (10% Recd): ₹0.00</div>
+                <div id="dashHanumanPending" class="text-[10px] text-amber-800/85 truncate">Pending on Dues: ₹0.00</div>
               </div>
             </div>
+            <span class="text-[11px] font-extrabold text-amber-900 shrink-0">Ledger</span>
           </div>
         </div>
 
-        <!-- Primary 4 Financial Metric Cards -->
-        <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4">
-          <div class="bg-white rounded-2xl p-4 border border-slate-200/90 shadow-sm">
-            <div class="text-[11px] font-bold uppercase tracking-wider text-slate-400">Net Revenue Billed</div>
-            <div id="dashTotalBilled" class="font-display text-2xl font-extrabold text-slate-900 mt-1">₹0.00</div>
-            <div id="dashTotalInvoicesSub" class="text-xs text-slate-500 mt-1">0 commercial invoices</div>
+        <!-- Paired Soft-Toned Financial Cards (2-Up on Mobile, 4-Up on Desktop) -->
+        <div class="grid grid-cols-2 xl:grid-cols-4 gap-3 sm:gap-4">
+          <div class="rounded-2xl p-3.5 sm:p-4 border border-sky-200/80 shadow-sm" style="background: linear-gradient(145deg, #f0f9ff 0%, #e0f2fe 100%);">
+            <div class="text-[10px] sm:text-[11px] font-bold uppercase tracking-wider text-sky-700">Net Revenue Billed</div>
+            <div id="dashTotalBilled" class="font-display text-lg sm:text-2xl font-extrabold text-slate-900 mt-1 break-words">₹0.00</div>
+            <div id="dashTotalInvoicesSub" class="text-[11px] text-sky-900/75 mt-1">0 commercial invoices</div>
           </div>
 
-          <div class="bg-white rounded-2xl p-4 border border-slate-200/90 shadow-sm">
-            <div class="text-[11px] font-bold uppercase tracking-wider text-emerald-600">Payments Cleared</div>
-            <div id="dashTotalCleared" class="font-display text-2xl font-extrabold text-emerald-700 mt-1">₹0.00</div>
-            <div id="dashCollectionRateSub" class="text-xs text-slate-500 mt-1">0% realization rate</div>
+          <div class="rounded-2xl p-3.5 sm:p-4 border border-emerald-200/80 shadow-sm" style="background: linear-gradient(145deg, #ecfdf5 0%, #d1fae5 100%);">
+            <div class="text-[10px] sm:text-[11px] font-bold uppercase tracking-wider text-emerald-700">Payments Cleared</div>
+            <div id="dashTotalCleared" class="font-display text-lg sm:text-2xl font-extrabold text-emerald-800 mt-1 break-words">₹0.00</div>
+            <div id="dashCollectionRateSub" class="text-[11px] text-emerald-900/75 mt-1">0% realization rate</div>
           </div>
 
-          <div class="bg-white rounded-2xl p-4 border border-slate-200/90 shadow-sm">
-            <div class="text-[11px] font-bold uppercase tracking-wider text-rose-600">Outstanding Due</div>
-            <div id="dashTotalDue" class="font-display text-2xl font-extrabold text-rose-600 mt-1">₹0.00</div>
-            <div id="dashDueClientsSub" class="text-xs text-slate-500 mt-1">Across 0 active accounts</div>
+          <div class="rounded-2xl p-3.5 sm:p-4 border border-rose-200/80 shadow-sm" style="background: linear-gradient(145deg, #fff1f2 0%, #ffe4e6 100%);">
+            <div class="text-[10px] sm:text-[11px] font-bold uppercase tracking-wider text-rose-700">Outstanding Due</div>
+            <div id="dashTotalDue" class="font-display text-lg sm:text-2xl font-extrabold text-rose-700 mt-1 break-words">₹0.00</div>
+            <div id="dashDueClientsSub" class="text-[11px] text-rose-900/75 mt-1">Across 0 active accounts</div>
           </div>
 
-          <div class="bg-white rounded-2xl p-4 border border-slate-200/90 shadow-sm">
-            <div class="text-[11px] font-bold uppercase tracking-wider text-indigo-600">Net Profit (Accrual)</div>
-            <div id="dashNetProfit" class="font-display text-2xl font-extrabold text-indigo-700 mt-1">₹0.00</div>
-            <div id="dashMarginSub" class="text-xs text-slate-500 mt-1">0% profit margin</div>
+          <div class="rounded-2xl p-3.5 sm:p-4 border border-violet-200/80 shadow-sm" style="background: linear-gradient(145deg, #f5f3ff 0%, #ede9fe 100%);">
+            <div class="text-[10px] sm:text-[11px] font-bold uppercase tracking-wider text-violet-700">Net Profit (Accrual)</div>
+            <div id="dashNetProfit" class="font-display text-lg sm:text-2xl font-extrabold text-violet-900 mt-1 break-words">₹0.00</div>
+            <div id="dashMarginSub" class="text-[11px] text-violet-900/75 mt-1">0% profit margin</div>
           </div>
         </div>
 
-        <!-- Secondary Financial & Production Status Cards + HANUMAN BANK Card -->
-        <div class="grid grid-cols-1 lg:grid-cols-12 gap-4">
-          <!-- Production & Costing Strip (7 cols) -->
-          <div class="lg:col-span-7 grid grid-cols-2 sm:grid-cols-3 gap-3">
-            <div class="bg-white rounded-2xl p-3.5 border border-slate-200/90 shadow-sm">
-              <div class="text-[10px] font-bold uppercase tracking-wider text-slate-400">Production / Job Cost</div>
-              <div id="dashJobCost" class="font-display text-lg font-extrabold text-slate-800 mt-1">₹0.00</div>
-              <div class="text-[11px] text-slate-500 mt-0.5">Direct material &amp; print</div>
-            </div>
-
-            <div class="bg-white rounded-2xl p-3.5 border border-slate-200/90 shadow-sm">
-              <div class="text-[10px] font-bold uppercase tracking-wider text-slate-400">Office Expenses</div>
-              <div id="dashOfficeExpenses" class="font-display text-lg font-extrabold text-amber-700 mt-1">₹0.00</div>
-              <div class="text-[11px] text-slate-500 mt-0.5">Operational overhead</div>
-            </div>
-
-            <div class="bg-white rounded-2xl p-3.5 border border-slate-200/90 shadow-sm">
-              <div class="text-[10px] font-bold uppercase tracking-wider text-slate-400">Cash Surplus</div>
-              <div id="dashCashProfit" class="font-display text-lg font-extrabold text-teal-700 mt-1">₹0.00</div>
-              <div class="text-[11px] text-slate-500 mt-0.5">Cleared − Cost − Exp</div>
-            </div>
-
-            <div class="bg-white rounded-2xl p-3.5 border border-slate-200/90 shadow-sm">
-              <div class="text-[10px] font-bold uppercase tracking-wider text-emerald-600">Delivered / Completed</div>
-              <div id="dashCountDelivered" class="font-display text-lg font-extrabold text-slate-900 mt-1">0</div>
-              <div class="text-[11px] text-slate-500 mt-0.5">Completed orders</div>
-            </div>
-
-            <div class="bg-white rounded-2xl p-3.5 border border-slate-200/90 shadow-sm">
-              <div class="text-[10px] font-bold uppercase tracking-wider text-amber-600">In Process / Production</div>
-              <div id="dashCountProcess" class="font-display text-lg font-extrabold text-slate-900 mt-1">0</div>
-              <div class="text-[11px] text-slate-500 mt-0.5">Active studio jobs</div>
-            </div>
-
-            <div class="bg-white rounded-2xl p-3.5 border border-slate-200/90 shadow-sm">
-              <div class="text-[10px] font-bold uppercase tracking-wider text-blue-600">Order Received / Ready</div>
-              <div id="dashCountQueued" class="font-display text-lg font-extrabold text-slate-900 mt-1">0</div>
-              <div class="text-[11px] text-slate-500 mt-0.5">Queued for dispatch</div>
-            </div>
+        <!-- Soft-Toned Production & Costing Strip (2 per row on mobile, 6 across on desktop) -->
+        <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2.5 sm:gap-3">
+          <div class="rounded-2xl p-3 border border-amber-200/80 shadow-sm bg-amber-50/75">
+            <div class="text-[10px] font-bold uppercase tracking-wider text-amber-800">Job Cost</div>
+            <div id="dashJobCost" class="font-display text-sm sm:text-base font-extrabold text-slate-900 mt-1">₹0.00</div>
+            <div class="text-[10px] text-amber-900/70 mt-0.5">Direct material &amp; print</div>
           </div>
 
-          <!-- HANUMAN BANK Card (Realized 10% on Received Payments vs Pending 10% on Unpaid Dues) -->
-          <div class="lg:col-span-5 flex flex-col justify-between gap-3">
-            <div onclick="switchView('hanumanBank')" class="cursor-pointer rounded-2xl p-4 border border-amber-400/70 shadow-sm hover:border-amber-500 transition flex items-center justify-between gap-3 flex-1" style="background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%);">
-              <div class="flex items-center gap-3 min-w-0">
-                <img
-                  id="dashHanumanImg"
-                  src="hanumanji.png"
-                  alt="Hanuman Ji"
-                  onerror="handleHanumanImgFallback(this)"
-                  class="w-16 h-16 sm:w-[72px] sm:h-[72px] rounded-xl object-cover border border-amber-300 shrink-0 bg-amber-100"
-                />
-                <div class="min-w-0">
-                  <div class="text-[11px] font-bold uppercase tracking-wider text-amber-800 flex items-center gap-1">
-                    <svg class="w-3 h-3 text-amber-700" fill="currentColor" viewBox="0 0 20 20"><path d="M6.3 2.841A1.5 1.5 0 004 4.11V15.89a1.5 1.5 0 002.3 1.269l9.344-5.89a1.5 1.5 0 000-2.538L6.3 2.84z"/></svg>
-                    <span>HANUMAN BANK</span>
-                  </div>
-                  <div id="dashHanumanBalance" class="font-display text-xl sm:text-2xl font-extrabold text-slate-900 mt-0.5">₹0.00</div>
-                  <div id="dashHanumanBooked" class="text-[11px] text-amber-900/90 font-medium truncate">Ready (10% Recd): ₹0.00</div>
-                  <div id="dashHanumanPending" class="text-[10px] text-amber-800/80 font-medium truncate">Pending on Dues: ₹0.00</div>
-                </div>
-              </div>
-              <span class="text-xs font-bold text-amber-900 shrink-0">Ledger →</span>
-            </div>
+          <div class="rounded-2xl p-3 border border-orange-200/80 shadow-sm bg-orange-50/75">
+            <div class="text-[10px] font-bold uppercase tracking-wider text-orange-800">Office Expenses</div>
+            <div id="dashOfficeExpenses" class="font-display text-sm sm:text-base font-extrabold text-orange-800 mt-1">₹0.00</div>
+            <div class="text-[10px] text-orange-900/70 mt-0.5">Operational overhead</div>
+          </div>
+
+          <div class="rounded-2xl p-3 border border-teal-200/80 shadow-sm bg-teal-50/75">
+            <div class="text-[10px] font-bold uppercase tracking-wider text-teal-800">Cash Surplus</div>
+            <div id="dashCashProfit" class="font-display text-sm sm:text-base font-extrabold text-teal-800 mt-1">₹0.00</div>
+            <div class="text-[10px] text-teal-900/70 mt-0.5">Cleared − Cost − Exp</div>
+          </div>
+
+          <div class="rounded-2xl p-3 border border-emerald-200/80 shadow-sm bg-emerald-50/75">
+            <div class="text-[10px] font-bold uppercase tracking-wider text-emerald-700">Delivered</div>
+            <div id="dashCountDelivered" class="font-display text-sm sm:text-base font-extrabold text-slate-900 mt-1">0</div>
+            <div class="text-[10px] text-emerald-900/70 mt-0.5">Completed orders</div>
+          </div>
+
+          <div class="rounded-2xl p-3 border border-yellow-200/80 shadow-sm bg-yellow-50/80">
+            <div class="text-[10px] font-bold uppercase tracking-wider text-yellow-800">In Process</div>
+            <div id="dashCountProcess" class="font-display text-sm sm:text-base font-extrabold text-slate-900 mt-1">0</div>
+            <div class="text-[10px] text-yellow-900/70 mt-0.5">Active studio jobs</div>
+          </div>
+
+          <div class="rounded-2xl p-3 border border-indigo-200/80 shadow-sm bg-indigo-50/75">
+            <div class="text-[10px] font-bold uppercase tracking-wider text-indigo-700">Queued / Ready</div>
+            <div id="dashCountQueued" class="font-display text-sm sm:text-base font-extrabold text-slate-900 mt-1">0</div>
+            <div class="text-[10px] text-indigo-900/70 mt-0.5">Order / Dispatch</div>
           </div>
         </div>
 
@@ -645,7 +630,7 @@
                     <button type="button" onclick="applyTermsPreset('printing')" class="px-2.5 py-1 rounded-lg bg-white border border-slate-300 hover:bg-slate-100 text-[11px] font-semibold">
                       Printing Terms
                     </button>
-                    <button type="button" onclick="clearTermsPreset()" class="px-2 py-1 rounded-lg text-rose-600 hover:bg-rose-50 text-[11px] font-semibold">
+                    <button type="button" onclick="clearTermsPreset()" class="px-2.5 py-1 rounded-lg text-rose-600 hover:bg-rose-50 text-[11px] font-semibold">
                       Hide
                     </button>
                   </div>
@@ -1475,7 +1460,6 @@
       if (tEl) tEl.textContent = title;
       if (sEl) sEl.textContent = subtitle;
       box.classList.remove("hidden");
-      // Restart checkmark animation
       const path = box.querySelector(".ios-check-path");
       if (path) {
         path.style.animation = "none";
@@ -1582,7 +1566,6 @@
       const pendEl = document.getElementById("dashHanumanPending");
       if (pendEl) pendEl.textContent = `Pending on Dues: ${formatINR(hb.pendingSeva)}`;
 
-      // Status counts
       let delivered = 0, inProcess = 0, queued = 0;
       state.invoices.forEach(inv => {
         const st = normalizeKey(inv.status);
@@ -1594,7 +1577,8 @@
       document.getElementById("dashCountProcess").textContent = inProcess;
       document.getElementById("dashCountQueued").textContent = queued;
 
-      // Sidebar mini widgets
+      const totalClientsBtnEl = document.getElementById("dashTotalClientsBtnCount");
+      if (totalClientsBtnEl) totalClientsBtnEl.textContent = state.parties.length;
       document.getElementById("missionCollectionPct").textContent = `${collectionPct}%`;
       document.getElementById("missionPartyCount").textContent = state.parties.length;
       renderGrowthMiniWidget();
@@ -1661,7 +1645,6 @@
         if (sortBy === "az") {
           return String(a.party.name).localeCompare(String(b.party.name));
         }
-        // Default: "recent" — latest payment or invoice date first
         return String(b.totals.latestDate || "").localeCompare(String(a.totals.latestDate || "")) ||
                String(a.party.name).localeCompare(String(b.party.name));
       });
@@ -2216,7 +2199,6 @@
 
       const t = getPartyTotals(party.id);
 
-      // Build chronological ledger entries (Opening + Invoices Debit + Payments Credit)
       const entries = [];
       if (round2(party.openingBalance) !== 0) {
         entries.push({
@@ -2466,7 +2448,7 @@
             <input type="text" value="${escapeHtml(it.desc)}" oninput="updateStudioItemField(${idx}, 'desc', this.value)" placeholder="Enter work item & remark..." class="w-full px-2.5 py-1.5 rounded-lg border border-slate-300" />
           </td>
           <td class="py-2 px-3">
-            <input type="text" value="${escapeHtml(it.dimension)}" oninput="updateStudioItemField(${idx}, 'dimension', this.value)" placeholder="e.g. 6X4" class="w-full px-2 py-1.5 rounded-lg border border-slate-300" />
+            <input type="text" value="${escapeHtml(it.dimension)}" oninput="updateStudioItemField(${idx}, 'dimension', this.value)" placeholder="e.g. 6X4" class="w-full px-2.5 py-1.5 rounded-lg border border-slate-300" />
           </td>
           <td class="py-2 px-3">
             <input type="number" step="0.01" value="${it.qty}" oninput="updateStudioItemField(${idx}, 'qty', this.value)" class="w-full text-right px-2 py-1.5 rounded-lg border border-slate-300" />
@@ -2565,7 +2547,6 @@
         sevaFund
       };
 
-      // Update local state immediately
       const idx = state.invoices.findIndex(b => normalizeKey(b.id) === normalizeKey(invId));
       if (idx >= 0) state.invoices[idx] = invoiceObj;
       else state.invoices.push(invoiceObj);
@@ -2578,7 +2559,6 @@
         items: validItems
       });
 
-      // Handle optional spot payment
       const spotAmt = round2(document.getElementById("invSpotPaidInput").value || 0);
       if (spotAmt > 0) {
         const payObj = {
@@ -2644,7 +2624,7 @@
       const pendEl = document.getElementById("hbPendingSummary");
       if (balEl) balEl.textContent = formatINR(hb.availableNet);
       if (metaEl) metaEl.textContent = `Available (10% of Cleared): ${formatINR(hb.realizedSeva)} • Disbursed: ${formatINR(hb.disbursed)}`;
-      if (pendEl) pendEl.textContent = `Pending Seva (On Unpaid Dues): ${formatINR(hb.pendingSeva)} • Total Booked Seva: ${formatINR(hb.totalBookedSeva)}`;
+      if (pendEl) pendEl.textContent = `Pending Seva (10% on Unpaid Dues): ${formatINR(hb.pendingSeva)} • Total Booked Seva: ${formatINR(hb.totalBookedSeva)}`;
 
       const cReady = document.getElementById("hbCardReady");
       const cPend = document.getElementById("hbCardPending");
